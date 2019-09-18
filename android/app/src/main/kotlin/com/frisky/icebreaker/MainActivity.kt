@@ -1,4 +1,4 @@
-package com.frisky.friskyflutter
+package com.frisky.icebreaker
 
 import android.os.Bundle
 

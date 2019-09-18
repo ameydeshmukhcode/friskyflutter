@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/Login/UserLogin.dart';
-
+import 'package:friskyflutter/FriskyColors.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,9 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FriSky Flutter',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor:  FriskyColor().colorCustom
       ),
       home: UserLogin(),
     );
