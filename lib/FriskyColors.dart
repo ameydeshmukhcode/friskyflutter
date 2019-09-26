@@ -4,6 +4,7 @@ class FriskyColor
 {
 
   Color white = Colors.white;
+  Color tfColorbg = Color(0xFFF0F0F0);
 
   MaterialColor colorCustom = MaterialColor(0xFFff5c5c, color);
 
