@@ -13,15 +13,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FriSky Flutter',
-      theme: ThemeData(
-        primaryColor:  FriskyColor().colorCustom
-      ),
+      theme: ThemeData(primaryColor: FriskyColor().colorCustom),
       home: HomeScreen(),
-      routes: <String,WidgetBuilder>{
-        "/homepage":(BuildContext context) => HomeScreen(),
-        "/esingin":(BuildContext context) => EmailSignIn(),
-        "/esingup":(BuildContext context) => EmailSignUp(),
-        "/login":(BuildContext context) => UserLogin(),
+      routes: <String, WidgetBuilder>{
+        "/homepage": (BuildContext context) => HomeScreen(),
+        "/esingin": (BuildContext context) => EmailSignIn(),
+        "/esingup": (BuildContext context) => EmailSignUp(),
+        "/login": (BuildContext context) => UserLogin(),
       },
     );
   }

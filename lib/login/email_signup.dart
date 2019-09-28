@@ -13,16 +13,16 @@ class _EmailSignUpState extends State<EmailSignUp> {
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
   TextEditingController _cpasswordController = new TextEditingController();
-  String  _errorMessage = " ";
+  String _errorMessage = " ";
 
-  customError(String customMsg){
+  customError(String customMsg) {
     setState(() {
       _errorMessage = customMsg;
     });
   }
+
   showError(var e) {
-    switch(e.code)
-    {
+    switch (e.code) {
       case "ERROR_INVALID_EMAIL":
         {
           customError("Invalid email entered. Enter a valid email.");
@@ -35,7 +35,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
         break;
       case "ERROR_USER_NOT_FOUND":
         {
-          customError("Account with this email doesn\'t exist.\nSign up first.");
+          customError(
+              "Account with this email doesn\'t exist.\nSign up first.");
         }
         break;
       case "ERROR_USER_DISABLED":
@@ -55,17 +56,17 @@ class _EmailSignUpState extends State<EmailSignUp> {
         break;
       case "ERROR_EMAIL_ALREADY_IN_USE":
         {
-          customError("Account with this email already exists.\nTry Signing In.");
+          customError(
+              "Account with this email already exists.\nTry Signing In.");
         }
         break;
       case "ERROR_WEAK_PASSWORD":
         {
-          customError("Weak password.\nPassword length should be more than 6 characters.");
+          customError(
+              "Weak password.\nPassword length should be more than 6 characters.");
         }
         break;
-
     }
-
   }
 
 //  checkAuthentication() async {
@@ -101,7 +102,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
     super.initState();
     // this.checkAuthentication();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -123,7 +124,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     height: 5,
                   ),
                   TextField(
-                    style: TextStyle(fontSize: SizeConfig.safeBlockVertical * 2),
+                    style:
+                        TextStyle(fontSize: SizeConfig.safeBlockVertical * 2),
                     decoration: InputDecoration(
                       labelText: 'Email',
                       focusColor: Colors.black,
@@ -140,11 +142,10 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         errorText: validatePassword(_passwordController.text),
                         labelText: 'Password',
                         focusColor: Colors.black,
-                      border: OutlineInputBorder()),
+                        border: OutlineInputBorder()),
                     obscureText: true,
                     controller: _passwordController,
                     cursorColor: FriskyColor().colorCustom,
-
                   ),
                   SizedBox(height: SizeConfig.safeBlockVertical * 2),
                   TextField(
@@ -153,8 +154,9 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     decoration: InputDecoration(
                       errorText: validatePassword(_passwordController.text),
                       labelText: 'Confirm Password',
-                        focusColor: Colors.black,
-                      border: OutlineInputBorder(),),
+                      focusColor: Colors.black,
+                      border: OutlineInputBorder(),
+                    ),
                     obscureText: true,
                     controller: _cpasswordController,
                     cursorColor: FriskyColor().colorCustom,
@@ -164,12 +166,13 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     height: SizeConfig.safeBlockVertical * 6,
                     child: RaisedButton(
                       onPressed: () {
-                       if(_cpasswordController.text==_passwordController.text) {
-                           signUp();
-                         }
-                       else {
-                           customError("Password did not match Please try again lol");
-                         }
+                        if (_cpasswordController.text ==
+                            _passwordController.text) {
+                          signUp();
+                        } else {
+                          customError(
+                              "Password did not match Please try again lol");
+                        }
                       },
                       shape: StadiumBorder(),
                       child: Row(

@@ -25,35 +25,33 @@ class _EmailSignInState extends State<EmailSignIn> {
   navigateToSignUp() {
     Navigator.pushReplacementNamed(context, "/esingup");
   }
+
   signIn() async {
     try {
       AuthResult user = await _auth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       print("ye hai user " + user.user.email);
-      if (user.user.isEmailVerified)
-      {
-
+      if (user.user.isEmailVerified) {
         Navigator.pop(context);
         Navigator.pushReplacementNamed(context, "/homepage");
+      } else {
+        customError(
+            "You need to verify your email.\nClick here to send verification link.");
       }
-      else
-        {
-          customError("You need to verify your email.\nClick here to send verification link.");
-        }
-
     } catch (e) {
       print(e.toString());
       showError(e);
     }
   }
-  customError(String customMsg){
+
+  customError(String customMsg) {
     setState(() {
       _errorMessage = customMsg;
     });
   }
+
   showError(var e) {
-    switch(e.code)
-    {
+    switch (e.code) {
       case "ERROR_INVALID_EMAIL":
         {
           customError("Invalid email entered. Enter a valid email.");
@@ -66,7 +64,8 @@ class _EmailSignInState extends State<EmailSignIn> {
         break;
       case "ERROR_USER_NOT_FOUND":
         {
-          customError("Account with this email doesn\'t exist.\nSign up first.");
+          customError(
+              "Account with this email doesn\'t exist.\nSign up first.");
         }
         break;
       case "ERROR_USER_DISABLED":
@@ -85,28 +84,25 @@ class _EmailSignInState extends State<EmailSignIn> {
         }
         break;
     }
-
   }
-  resetPassword()async {
-    try{
+
+  resetPassword() async {
+    try {
       await _auth.sendPasswordResetEmail(email: _emailController.text);
       customError("Password reset link sent to your email.");
-    }
-    catch(e){
+    } catch (e) {
       showError(e);
     }
   }
 
-
   String validatePassword(String value) {
-
-      if (!(value.length > 6) && value.isNotEmpty) {
-        return "Password should contains more then 6 character";
-      }
+    if (!(value.length > 6) && value.isNotEmpty) {
+      return "Password should contains more then 6 character";
+    }
 
     return null;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -127,24 +123,26 @@ class _EmailSignInState extends State<EmailSignIn> {
                   SizedBox(
                     height: 5,
                   ),
-
                   TextField(
                     controller: _emailController,
-                    style:
-                        TextStyle(fontSize: SizeConfig.safeBlockVertical * 2,),
+                    style: TextStyle(
+                      fontSize: SizeConfig.safeBlockVertical * 2,
+                    ),
                     decoration: InputDecoration(
                         //errorText: validateEmail(_emailController.text),
-                        labelText: 'Email', border: OutlineInputBorder()),
+                        labelText: 'Email',
+                        border: OutlineInputBorder()),
                     cursorColor: FriskyColor().colorCustom,
-
                   ),
-                  SizedBox(height: SizeConfig.safeBlockVertical * 2,),
+                  SizedBox(
+                    height: SizeConfig.safeBlockVertical * 2,
+                  ),
                   TextField(
                     controller: _passwordController,
                     style:
                         TextStyle(fontSize: SizeConfig.safeBlockVertical * 2),
                     decoration: InputDecoration(
-                      errorText: validatePassword(_passwordController.text),
+                        errorText: validatePassword(_passwordController.text),
                         labelText: 'Password',
                         focusColor: Colors.black,
                         border: OutlineInputBorder()),
@@ -196,7 +194,6 @@ class _EmailSignInState extends State<EmailSignIn> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: InkWell(
-
                       child: Text(
                         _errorMessage,
                         textAlign: TextAlign.center,
@@ -211,39 +208,42 @@ class _EmailSignInState extends State<EmailSignIn> {
               ),
             ),
             Container(
-                height: SizeConfig.safeBlockVertical * 10,
-                decoration: new BoxDecoration(color: Color(0xff707070)),
-                child: Center(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      RichText(
-                          text: new TextSpan(children: [
-                        new TextSpan(
-                            text: "Don't have an account? ",
-                            style: TextStyle(
-                              fontFamily: 'MuseoSans',
-                              color: Color(0xffffffff),
-                              fontSize: SizeConfig.safeBlockHorizontal * 4.5,
-                              fontWeight: FontWeight.w300,
-                              fontStyle: FontStyle.normal,
-                            )),
-                      ])),
-                      FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: navigateToSignUp,
-                        child: Text("Sign up",style: TextStyle(
+              height: SizeConfig.safeBlockVertical * 10,
+              decoration: new BoxDecoration(color: Color(0xff707070)),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RichText(
+                        text: new TextSpan(children: [
+                      new TextSpan(
+                          text: "Don't have an account? ",
+                          style: TextStyle(
+                            fontFamily: 'MuseoSans',
+                            color: Color(0xffffffff),
+                            fontSize: SizeConfig.safeBlockHorizontal * 4.5,
+                            fontWeight: FontWeight.w300,
+                            fontStyle: FontStyle.normal,
+                          )),
+                    ])),
+                    FlatButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: navigateToSignUp,
+                      child: Text(
+                        "Sign up",
+                        style: TextStyle(
                           fontFamily: 'MuseoSans',
                           color: Color(0xffffffff),
                           fontSize: SizeConfig.safeBlockHorizontal * 5.5,
                           fontWeight: FontWeight.w900,
                           fontStyle: FontStyle.normal,
                         ),
-                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
+            ),
           ],
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
