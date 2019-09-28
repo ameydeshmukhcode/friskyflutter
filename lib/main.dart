@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/Login/UserLogin.dart';
-import 'package:friskyflutter/FriskyColors.dart';
-import 'package:friskyflutter/Login/Email_SignIn.dart';
-import 'HomeScreen.dart';
-import 'package:friskyflutter/Login/Email_SignUp.dart';
+import 'package:friskyflutter/Login/user_login.dart';
+import 'package:friskyflutter/frisky_colors.dart';
+import 'package:friskyflutter/Login/email_signin.dart';
+import 'home_screen.dart';
+import 'package:friskyflutter/Login/email_signup.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,14 +18,10 @@ class MyApp extends StatelessWidget {
       ),
       home: HomeScreen(),
       routes: <String,WidgetBuilder>{
-
         "/homepage":(BuildContext context) => HomeScreen(),
         "/esingin":(BuildContext context) => EmailSignIn(),
         "/esingup":(BuildContext context) => EmailSignUp(),
         "/login":(BuildContext context) => UserLogin(),
-
-
-
       },
     );
   }

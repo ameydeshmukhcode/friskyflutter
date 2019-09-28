@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/size_config.dart';
-import 'package:friskyflutter/FriskyColors.dart';
+import 'package:friskyflutter/frisky_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:friskyflutter/Login/Email_SignIn.dart';
+import 'package:friskyflutter/Login/email_signin.dart';
 
 
 
@@ -20,8 +20,6 @@ class _UserLoginState extends State<UserLogin> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-
 
   googleSignIn() async {
     try {
