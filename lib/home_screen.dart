@@ -39,10 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getUser() async {
     FirebaseUser firebaseUser = await _auth.currentUser();
-    if (firebaseUser != null) {
+    if (firebaseUser != null && firebaseUser.isEmailVerified==true){
       setState(() {
         this.isSignedIn = true;
       });
+    }
+    else{
+      Navigator.pushReplacementNamed(context, "/login");
     }
   }
 

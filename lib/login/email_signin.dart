@@ -24,7 +24,7 @@ class _EmailSignInState extends State<EmailSignIn> {
 //  }
 
   navigateToSignUp() {
-    Navigator.pushReplacementNamed(context, "/esingup");
+    Navigator.pushNamed(context, "/esingup");
   }
 
   signIn() async {
@@ -108,7 +108,6 @@ class _EmailSignInState extends State<EmailSignIn> {
       print("An error occured while trying to send email verification");
       customError(e.message);
     }
-
   }
 
   String validatePassword(String value) {
