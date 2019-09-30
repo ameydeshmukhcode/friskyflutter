@@ -79,7 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
               icon: Icon(Icons.settings),
               color: FriskyColor().colorCustom,
-              onPressed: () {})
+              onPressed: () {
+                signOut();
+              })
         ],
         elevation: 0.0,
       ),

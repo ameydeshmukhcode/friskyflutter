@@ -9,6 +9,7 @@ class EmailSignIn extends StatefulWidget {
 }
 
 class _EmailSignInState extends State<EmailSignIn> {
+  AuthResult user;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,7 +29,7 @@ class _EmailSignInState extends State<EmailSignIn> {
 
   signIn() async {
     try {
-      AuthResult user = await _auth.signInWithEmailAndPassword(
+     user = await _auth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       print("ye hai user " + user.user.email);
       if (user.user.isEmailVerified) {
@@ -95,8 +96,23 @@ class _EmailSignInState extends State<EmailSignIn> {
     }
   }
 
+
+  sendVerifactionLink ()async
+  {
+
+    try {
+      await user.user.sendEmailVerification();
+      customError("Link Sent To Your Email ");
+      return user.user.uid;
+    } catch (e) {
+      print("An error occured while trying to send email verification");
+      customError(e.message);
+    }
+
+  }
+
   String validatePassword(String value) {
-    if (!(value.length > 6) && value.isNotEmpty) {
+    if (!(value.length >= 6) && value.isNotEmpty) {
       return "Password should contains more then 6 character";
     }
 
@@ -194,6 +210,17 @@ class _EmailSignInState extends State<EmailSignIn> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: (){
+                        if(_errorMessage=="You need to verify your email.\nClick here to send verification link.")
+                          {
+
+                            sendVerifactionLink();
+                            print(" inside if of link");
+                            
+                          }
+                      },
                       child: Text(
                         _errorMessage,
                         textAlign: TextAlign.center,
