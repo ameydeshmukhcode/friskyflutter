@@ -16,8 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
   bool isSignedIn = false;
-
-
+  Future _resturantdata;
 
   checkAuthentication() async {
     _auth.onAuthStateChanged.listen((user) async {
@@ -27,10 +26,13 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  navigateToDetails(DocumentSnapshot restaurant)
-  {
-     Navigator.push(context,MaterialPageRoute(builder: (context)=>DetailsPage(resturant: restaurant,)));
-
+  navigateToDetails(DocumentSnapshot restaurant) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailsPage(
+                  resturant: restaurant,
+                )));
   }
 
   signOut() async {
@@ -51,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     this.checkAuthentication();
     this.getUser();
-
+   _resturantdata = this.getRestaurants();
   }
 
   Future getRestaurants() async {
@@ -60,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
         .collection("restaurants")
         .where('status_listing', isEqualTo: 'complete')
         .getDocuments();
-    print(querySnapshot.documents.length.toString());
     return querySnapshot.documents;
   }
 
@@ -85,17 +86,22 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       backgroundColor: FriskyColor().white,
       body: !isSignedIn
-          ? Center(
-              child: CircularProgressIndicator(),
+          ? Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                ],
+              ),
             )
           : Container(
               color: FriskyColor().white,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Center(child: beta_msg_card()),
-                  resturants_list_view(),
+                  Container(child: _restaurantsList()),
                 ],
               ),
             ),
@@ -106,44 +112,29 @@ class _HomeScreenState extends State<HomeScreen> {
         label: Text("Scan QR Code"),
         backgroundColor: FriskyColor().colorCustom,
       ),
-      bottomNavigationBar: bottomnavbar(),
+      bottomNavigationBar:_bottomNavBar(),
     );
   }
 
-  Widget beta_msg_card() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 18, 0),
-      child: Card(
-        elevation: 5,
-        child: Container(
-          height: SizeConfig.safeBlockVertical * 8.5,
-          width: SizeConfig.safeBlockHorizontal * 100,
-          child: Center(
-            child: Text(
-              "Welcome to frisky Beta!\nHelp us get better",
-              style: TextStyle(
-                fontSize: SizeConfig.safeBlockVertical * 2.5,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-
-
-  Widget resturants_list_view() {
+  Widget _restaurantsList() {
     return FutureBuilder(
-        future: getRestaurants(),
+        future: _resturantdata,
         builder: (context, snapshot) {
           // ignore: missing_return
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // ignore: missing_return
-            return Center(
-              child: CircularProgressIndicator(),
+            return Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: <Widget>[
+                  Center(
+                    child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                        FriskyColor().colorCustom,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           } else {
             return ListView.builder(
@@ -151,17 +142,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  print(snapshot.data[index].data['status_listing'].toString());
-                  // if(snapshot.data[index].data['status_listing'] == 'debug') {
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                     child: Card(
                         margin: EdgeInsets.all(0),
                         elevation: 2,
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             navigateToDetails(snapshot.data[index]);
-
                           },
                           child: Container(
                             height: SizeConfig.safeBlockVertical * 12,
@@ -172,14 +160,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Image.network(
                                   snapshot.data[index].data['image'],
                                   fit: BoxFit.cover,
-                                  width: SizeConfig.safeBlockHorizontal * 50 - 8,
+                                  width:
+                                      SizeConfig.safeBlockHorizontal * 50 - 8,
                                 ),
                                 Container(
-                                  width: SizeConfig.safeBlockHorizontal * 50 - 8,
+                                  width:
+                                      SizeConfig.safeBlockHorizontal * 50 - 8,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
@@ -199,8 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           snapshot.data[index].data['address'],
                                           maxLines: 1,
                                         ),
-                                        Text(snapshot.data[index].data['cuisine']
-                                                [0] +
+                                        Text(snapshot.data[index]
+                                                .data['cuisine'][0] +
                                             ", " +
                                             snapshot.data[index].data['cuisine']
                                                 [1]),
@@ -219,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget bottomnavbar() {
+Widget _bottomNavBar() {
   return BottomNavigationBar(
     items: <BottomNavigationBarItem>[
       BottomNavigationBarItem(

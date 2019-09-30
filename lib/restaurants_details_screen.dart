@@ -21,11 +21,7 @@ class _DetailsPageState extends State<DetailsPage> {
     //StorageFileDownloadTask downloadTask = storageReference.getData(10000).then()
 
   }
-    @override
-    void initState() {
-    // TODO: implement initState
-      print("ye hai ID "+toString());
-  }
+
 
   
   
