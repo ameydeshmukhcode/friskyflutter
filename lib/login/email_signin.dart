@@ -29,7 +29,7 @@ class _EmailSignInState extends State<EmailSignIn> {
 
   signIn() async {
     try {
-     user = await _auth.signInWithEmailAndPassword(
+      user = await _auth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       print("ye hai user " + user.user.email);
       if (user.user.isEmailVerified) {
@@ -96,10 +96,7 @@ class _EmailSignInState extends State<EmailSignIn> {
     }
   }
 
-
-  sendVerifactionLink ()async
-  {
-
+  sendVerifactionLink() async {
     try {
       await user.user.sendEmailVerification();
       customError("Link Sent To Your Email ");
@@ -211,14 +208,12 @@ class _EmailSignInState extends State<EmailSignIn> {
                     child: InkWell(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
-                      onTap: (){
-                        if(_errorMessage=="You need to verify your email.\nClick here to send verification link.")
-                          {
-
-                            sendVerifactionLink();
-                            print(" inside if of link");
-                            
-                          }
+                      onTap: () {
+                        if (_errorMessage ==
+                            "You need to verify your email.\nClick here to send verification link.") {
+                          sendVerifactionLink();
+                          print(" inside if of link");
+                        }
                       },
                       child: Text(
                         _errorMessage,

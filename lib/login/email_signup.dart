@@ -174,7 +174,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                           signUp();
                         } else {
                           customError(
-                              "Password did not match Please try again lol");
+                              "Passwords do not match.\n Please try again.");
                         }
                       },
                       shape: StadiumBorder(),
