@@ -85,12 +85,10 @@ class _EmailSignUpState extends State<EmailSignUp> {
 
   signUp() async {
     try {
-
       print("inside catch of signup");
       // ignore: unused_local_variable
       AuthResult user = await _auth.createUserWithEmailAndPassword(
-          email: _emailController.text,
-          password: _cpasswordController.text);
+          email: _emailController.text, password: _cpasswordController.text);
       navigateToSignIn();
     } catch (e) {
       showError(e);

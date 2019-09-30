@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     this.checkAuthentication();
     this.getUser();
-   _resturantdata = this.getRestaurants();
+    _resturantdata = this.getRestaurants();
   }
 
   Future getRestaurants() async {
@@ -98,8 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
           : Container(
               color: FriskyColor().white,
               child: Column(
-               mainAxisAlignment: MainAxisAlignment.start,
-               crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(child: _restaurantsList()),
                 ],
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
         label: Text("Scan QR Code"),
         backgroundColor: FriskyColor().colorCustom,
       ),
-      bottomNavigationBar:_bottomNavBar(),
+      bottomNavigationBar: _bottomNavBar(),
     );
   }
 
