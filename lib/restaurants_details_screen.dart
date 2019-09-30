@@ -101,7 +101,7 @@ class _DetailsPageState extends State<DetailsPage> {
             children: <Widget>[
               Container(
                 child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Menu",
                       style: TextStyle(
