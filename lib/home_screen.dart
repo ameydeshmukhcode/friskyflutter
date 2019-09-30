@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
   bool isSignedIn = false;
-  Future _resturantdata;
+  Future _restaurantList;
 
   checkAuthentication() async {
     _auth.onAuthStateChanged.listen((user) async {
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     this.checkAuthentication();
     this.getUser();
-    _resturantdata = this.getRestaurants();
+    _restaurantList = this.getRestaurants();
   }
 
   Future getRestaurants() async {
@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _restaurantsList() {
     return FutureBuilder(
-        future: _resturantdata,
+        future: _restaurantList,
         builder: (context, snapshot) {
           // ignore: missing_return
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -180,21 +180,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                           overflow: TextOverflow.ellipsis,
                                           softWrap: true,
                                           style: TextStyle(
-                                            fontSize:
-                                                SizeConfig.safeBlockVertical *
-                                                    2.2,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
                                           snapshot.data[index].data['address'],
                                           maxLines: 1,
+                                          style: TextStyle(fontSize: 12),
                                         ),
-                                        Text(snapshot.data[index]
-                                                .data['cuisine'][0] +
-                                            ", " +
-                                            snapshot.data[index].data['cuisine']
-                                                [1]),
+                                        Text(
+                                          snapshot.data[index].data['cuisine']
+                                                  [0] +
+                                              ", " +
+                                              snapshot.data[index]
+                                                  .data['cuisine'][1],
+                                          style: TextStyle(fontSize: 12),
+                                        ),
                                       ],
                                     ),
                                   ),
