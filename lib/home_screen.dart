@@ -216,13 +216,13 @@ Widget _bottomNavBar() {
       BottomNavigationBarItem(
         icon: Icon(Icons.home),
         title: Text(
-          "HOME",
+          "Home",
         ),
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.restaurant),
         title: Text(
-          "restaurants",
+          "Restaurants",
         ),
       ),
       BottomNavigationBarItem(
@@ -230,7 +230,7 @@ Widget _bottomNavBar() {
           Icons.receipt,
         ),
         title: Text(
-          "Bills",
+          "Visits",
         ),
       ),
     ],
