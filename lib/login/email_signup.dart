@@ -77,7 +77,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
 //    });
 //  }
   String validatePassword(String value) {
-    if (!(value.length > 6) && value.isNotEmpty) {
+    if (!(value.length >= 6) && value.isNotEmpty) {
       return "Password should contains more then 6 character";
     }
     return null;
@@ -85,15 +85,19 @@ class _EmailSignUpState extends State<EmailSignUp> {
 
   signUp() async {
     try {
-      // ignore: unused_local_variable
       print("inside catch of signup");
-      FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
-          email: _emailController.text,
-          password: _cpasswordController.text)) as FirebaseUser;
-      customError("Singup");
+      // ignore: unused_local_variable
+      AuthResult user = await _auth.createUserWithEmailAndPassword(
+          email: _emailController.text, password: _cpasswordController.text);
+      navigateToSignIn();
     } catch (e) {
       showError(e);
     }
+  }
+
+  navigateToSignIn() {
+    _auth.signOut();
+    Navigator.pop(context);
   }
 
   @override
