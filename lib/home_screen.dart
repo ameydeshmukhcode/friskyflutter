@@ -212,6 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Widget _bottomNavBar() {
   return BottomNavigationBar(
+    showUnselectedLabels: false,
     items: <BottomNavigationBarItem>[
       BottomNavigationBarItem(
         icon: Icon(Icons.home),
