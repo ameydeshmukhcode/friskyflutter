@@ -41,7 +41,6 @@ class _DetailsPageState extends State<DetailsPage> {
             expandedHeight: 150,
           ),
           SliverFillRemaining(
-            fillOverscroll: true,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -79,7 +78,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                   ),
                 ),
-                MenuImages()
+                _menuImages()
               ],
             ),
           )
@@ -88,7 +87,7 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  Widget MenuImages() {
+  Widget _menuImages() {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Card(
@@ -100,13 +99,16 @@ class _DetailsPageState extends State<DetailsPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "menu",
-                style: TextStyle(
-                  fontSize: SizeConfig.safeBlockVertical * 2.5,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+              Container(
+                child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      "Menu",
+                      style: TextStyle(
+                        fontSize: SizeConfig.safeBlockVertical * 2.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    )),
               ),
             ],
           ),
