@@ -41,10 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getUser() async {
     FirebaseUser firebaseUser = await _auth.currentUser();
-    if (firebaseUser != null) {
+    if (firebaseUser != null && firebaseUser.isEmailVerified == true) {
       setState(() {
         this.isSignedIn = true;
       });
+    } else {
+      Navigator.pushReplacementNamed(context, "/login");
     }
   }
 
@@ -80,7 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
               icon: Icon(Icons.settings),
               color: FriskyColor().colorCustom,
-              onPressed: () {})
+              onPressed: () {
+                signOut();
+              })
         ],
         elevation: 0.0,
       ),

@@ -86,7 +86,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
   signUp() async {
     try {
       print("inside catch of signup");
-      // ignore: unused_local_variable
       AuthResult user = await _auth.createUserWithEmailAndPassword(
           email: _emailController.text, password: _cpasswordController.text);
       navigateToSignIn();
@@ -175,7 +174,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                           signUp();
                         } else {
                           customError(
-                              "Password did not match Please try again lol");
+                              "Passwords do not match.\n Please try again.");
                         }
                       },
                       shape: StadiumBorder(),
