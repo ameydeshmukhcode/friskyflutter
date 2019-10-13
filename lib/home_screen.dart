@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/screens/Home.dart';
-import 'package:friskyflutter/screens/Restaurants.dart';
+import 'package:friskyflutter/screens/home.dart';
+import 'package:friskyflutter/screens/restaurants.dart';
 import 'package:friskyflutter/screens/visits.dart';
 import 'commonwidgets/fab.dart';
 import 'frisky_colors.dart';
