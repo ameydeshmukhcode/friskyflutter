@@ -26,10 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _pageController.dispose();
   }
 
-
   void navigationTapped(int page) {
     _pageController.animateToPage(page,
-        duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.fastOutSlowIn);
   }
 
   void onPageChanged(int page) {
@@ -38,11 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
   Widget _bottomNavBar() {
     return BottomNavigationBar(
-        onTap: navigationTapped,
-        currentIndex: _page,
+      onTap: navigationTapped,
+      currentIndex: _page,
       showUnselectedLabels: false,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -74,22 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        children: <Widget>[
-          HomeTab(),
-          RestautantsTab(),
-          VisitTab(),
-        ],
-          onPageChanged: onPageChanged,
-          controller: _pageController
-      ),
+      body: PageView(children: <Widget>[
+        HomeTab(),
+        RestautantsTab(),
+        VisitTab(),
+      ], onPageChanged: onPageChanged, controller: _pageController),
       floatingActionButton: FriskyFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: _bottomNavBar(),
     );
   }
-
-
-
 }
-

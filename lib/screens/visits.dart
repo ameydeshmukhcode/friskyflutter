@@ -32,7 +32,8 @@ class _VisitTabState extends State<VisitTab> {
     var querySnapshot = await firestore
         .collectionGroup("sessions")
         .where("created_by", isEqualTo: firebaseUser.uid)
-        .orderBy("end_time", descending: true).getDocuments();
+        .orderBy("end_time", descending: true)
+        .getDocuments();
     return querySnapshot.documents;
   }
 
@@ -97,7 +98,9 @@ class _VisitTabState extends State<VisitTab> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          "created_by"+snapshot.data[index]["created_by"],
+                                          "created_by" +
+                                              snapshot.data[index]
+                                                  ["created_by"],
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           softWrap: true,
