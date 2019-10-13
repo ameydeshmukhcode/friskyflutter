@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/screens/home.dart';
-import 'package:friskyflutter/screens/restaurants.dart';
+import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/visits.dart';
 import 'commonwidgets/fab.dart';
 import 'frisky_colors.dart';
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: PageView(children: <Widget>[
         HomeTab(),
-        RestautantsTab(),
+        DineTab(),
         VisitTab(),
       ], onPageChanged: onPageChanged, controller: _pageController),
       floatingActionButton: FriskyFab(),

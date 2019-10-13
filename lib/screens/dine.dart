@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 
-class RestautantsTab extends StatefulWidget {
+class DineTab extends StatefulWidget {
   @override
-  _RestautantsTabState createState() => _RestautantsTabState();
+  _DineTabState createState() => _DineTabState();
 }
 
-class _RestautantsTabState extends State<RestautantsTab>
-    with AutomaticKeepAliveClientMixin<RestautantsTab> {
+class _DineTabState extends State<DineTab>
+    with AutomaticKeepAliveClientMixin<DineTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
