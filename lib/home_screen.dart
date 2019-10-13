@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         BottomNavigationBarItem(
           icon: Icon(Icons.restaurant),
           title: Text(
-            "Restaurants",
+            "Dine",
           ),
         ),
         BottomNavigationBarItem(
