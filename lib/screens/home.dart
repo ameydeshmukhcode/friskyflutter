@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/size_config.dart';
-import 'package:friskyflutter/commonwidgets/fab.dart';
 import '../frisky_colors.dart';
 import '../restaurants_details_screen.dart';
 

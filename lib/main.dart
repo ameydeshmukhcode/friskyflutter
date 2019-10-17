@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:friskyflutter/Login/user_login.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/Login/email_signin.dart';
-import 'package:friskyflutter/screens/visits.dart';
 import 'home_screen.dart';
 import 'package:friskyflutter/Login/email_signup.dart';
 
