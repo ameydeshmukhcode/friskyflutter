@@ -59,71 +59,83 @@ class _UserLoginState extends State<UserLogin> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: FriskyColor().white,
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Container(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: SizeConfig.safeBlockVertical * 40),
-                svg,
-                SizedBox(height: SizeConfig.safeBlockVertical * 30),
-                RaisedButton(
-                  onPressed: googleSignIn,
-                  shape: StadiumBorder(),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        MdiIcons.google,
-                        color: FriskyColor().colorCustom,
-                      ),
-                      SizedBox(
-                        width: SizeConfig.safeBlockHorizontal * 3,
-                      ),
-                      Text("Use Google Account",
-                          style: TextStyle(
-                              fontSize: SizeConfig.safeBlockVertical * 2.5,
-                              color: FriskyColor().colorCustom)),
-                    ],
-                  ),
-                  elevation: 8,
-                  color: FriskyColor().white,
+      body: Container(
+        padding: EdgeInsets.fromLTRB(24, 0, 24, 8),
+        height: SizeConfig.screenHeight,
+        width: SizeConfig.screenWidth,
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: svg,
+              ),
+              RaisedButton(
+                padding: EdgeInsets.all(10),
+                onPressed: googleSignIn,
+                shape: StadiumBorder(),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      MdiIcons.google,
+                      color: FriskyColor().colorCustom,
+                    ),
+                    SizedBox(
+                      width: SizeConfig.safeBlockHorizontal * 3,
+                    ),
+                    Text("Use Google Account",
+                        style: TextStyle(
+                            fontSize: 20, color: FriskyColor().colorCustom)),
+                  ],
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return EmailSignIn();
-                        },
-                      ),
-                    );
-                  },
-                  shape: StadiumBorder(),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.mail,
-                        color: FriskyColor().white,
-                      ),
-                      SizedBox(
-                        width: SizeConfig.safeBlockHorizontal * 3,
-                      ),
-                      Text("Use Email Address",
-                          style: TextStyle(
-                              fontSize: SizeConfig.safeBlockVertical * 2.5,
-                              color: FriskyColor().white)),
-                    ],
+                elevation: 8,
+                color: FriskyColor().white,
+              ),
+              SizedBox(height: 8),
+              RaisedButton(
+                padding: EdgeInsets.all(10),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return EmailSignIn();
+                      },
+                    ),
+                  );
+                },
+                shape: StadiumBorder(),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.mail,
+                      color: FriskyColor().white,
+                    ),
+                    SizedBox(
+                      width: SizeConfig.safeBlockHorizontal * 3,
+                    ),
+                    Text("Use Email Address",
+                        style: TextStyle(
+                            fontSize: 20, color: FriskyColor().white)),
+                  ],
+                ),
+                elevation: 8,
+                color: FriskyColor().colorCustom,
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(32, 8, 32, 0),
+                child: Text(
+                  "By signing in, you\'re agreeing to our Terms and Privacy Policy",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: FriskyColor().colorTextDark,
                   ),
-                  elevation: 8,
-                  color: FriskyColor().colorCustom,
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
