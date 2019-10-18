@@ -4,7 +4,7 @@ import 'package:friskyflutter/frisky_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:friskyflutter/Login/email_signin.dart';
+import 'package:friskyflutter/login/email_signin.dart';
 
 class UserLogin extends StatefulWidget {
   @override

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/Login/user_login.dart';
+import 'package:friskyflutter/login/user_login.dart';
 import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/Login/email_signin.dart';
+import 'package:friskyflutter/login/email_signin.dart';
 import 'home_screen.dart';
-import 'package:friskyflutter/Login/email_signup.dart';
+import 'package:friskyflutter/login/email_signup.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primaryColor: FriskyColor().colorPrimary,
         accentColor: FriskyColor().colorPrimary,
       ),
-      home: HomeScreen(),
+      home: UserLogin(),
       routes: <String, WidgetBuilder>{
         "/homepage": (BuildContext context) => HomeScreen(),
         "/esingin": (BuildContext context) => EmailSignIn(),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/frisky_colors.dart';
 
 class DineTab extends StatefulWidget {
   @override
