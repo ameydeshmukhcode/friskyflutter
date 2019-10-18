@@ -7,6 +7,6 @@ Widget FriskyFab() {
     onPressed: () {},
     icon: Icon(MdiIcons.qrcode),
     label: Text("Scan QR Code"),
-    backgroundColor: FriskyColor().colorCustom,
+    backgroundColor: FriskyColor().colorPrimary,
   );
 }

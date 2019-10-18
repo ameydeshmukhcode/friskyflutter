@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FriskyColor {
-  MaterialColor colorCustom = MaterialColor(0xFFff5c5c, color);
+  MaterialColor colorPrimary = MaterialColor(0xFFff5c5c, color);
   MaterialColor colorTextDark = MaterialColor(0xFF707070, color);
 }
 

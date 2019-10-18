@@ -85,7 +85,7 @@ class _HomeTabState extends State<HomeTab>
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.settings),
-              color: FriskyColor().colorCustom,
+              color: FriskyColor().colorPrimary,
               onPressed: () {
                 signOut();
               })
@@ -129,7 +129,7 @@ class _HomeTabState extends State<HomeTab>
                   Center(
                     child: CircularProgressIndicator(
                       valueColor: new AlwaysStoppedAnimation<Color>(
-                        FriskyColor().colorCustom,
+                        FriskyColor().colorPrimary,
                       ),
                     ),
                   ),

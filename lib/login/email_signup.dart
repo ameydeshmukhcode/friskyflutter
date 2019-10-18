@@ -135,7 +135,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                       border: OutlineInputBorder(),
                     ),
                     controller: _emailController,
-                    cursorColor: FriskyColor().colorCustom,
+                    cursorColor: FriskyColor().colorPrimary,
                   ),
                   SizedBox(height: SizeConfig.safeBlockVertical * 2),
                   TextField(
@@ -148,7 +148,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         border: OutlineInputBorder()),
                     obscureText: true,
                     controller: _passwordController,
-                    cursorColor: FriskyColor().colorCustom,
+                    cursorColor: FriskyColor().colorPrimary,
                   ),
                   SizedBox(height: SizeConfig.safeBlockVertical * 2),
                   TextField(
@@ -162,7 +162,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     ),
                     obscureText: true,
                     controller: _cpasswordController,
-                    cursorColor: FriskyColor().colorCustom,
+                    cursorColor: FriskyColor().colorPrimary,
                   ),
                   SizedBox(height: SizeConfig.safeBlockVertical * 2),
                   SizedBox(
@@ -194,7 +194,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                           ),
                         ],
                       ),
-                      color: FriskyColor().colorCustom,
+                      color: FriskyColor().colorPrimary,
                     ),
                   ),
                   Padding(

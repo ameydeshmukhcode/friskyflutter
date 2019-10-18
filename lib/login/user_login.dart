@@ -90,7 +90,9 @@ class _UserLoginState extends State<UserLogin> {
                       ),
                       Text("Use Google Account",
                           style: TextStyle(
-                              fontSize: 20, color: FriskyColor().colorCustom)),
+                            fontSize: 20,
+                            color: FriskyColor().colorPrimary,
+                          )),
                     ],
                   ),
                   onPressed: googleSignIn,
@@ -128,7 +130,7 @@ class _UserLoginState extends State<UserLogin> {
                     );
                   },
                   elevation: 2,
-                  color: FriskyColor().colorCustom,
+                  color: FriskyColor().colorPrimary,
                 ),
               ),
               Container(

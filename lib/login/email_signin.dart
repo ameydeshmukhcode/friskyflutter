@@ -144,7 +144,7 @@ class _EmailSignInState extends State<EmailSignIn> {
                         //errorText: validateEmail(_emailController.text),
                         labelText: 'Email',
                         border: OutlineInputBorder()),
-                    cursorColor: FriskyColor().colorCustom,
+                    cursorColor: FriskyColor().colorPrimary,
                   ),
                   SizedBox(
                     height: SizeConfig.safeBlockVertical * 2,
@@ -159,7 +159,7 @@ class _EmailSignInState extends State<EmailSignIn> {
                         focusColor: Colors.black,
                         border: OutlineInputBorder()),
                     obscureText: true,
-                    cursorColor: FriskyColor().colorCustom,
+                    cursorColor: FriskyColor().colorPrimary,
                   ),
                   SizedBox(height: SizeConfig.safeBlockVertical * 0.5),
                   Container(
@@ -202,7 +202,7 @@ class _EmailSignInState extends State<EmailSignIn> {
                           ),
                         ],
                       ),
-                      color: FriskyColor().colorCustom,
+                      color: FriskyColor().colorPrimary,
                     ),
                   ),
                   Padding(

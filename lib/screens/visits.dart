@@ -59,7 +59,7 @@ class _VisitTabState extends State<VisitTab> {
                   Center(
                     child: CircularProgressIndicator(
                       valueColor: new AlwaysStoppedAnimation<Color>(
-                        FriskyColor().colorCustom,
+                        FriskyColor().colorPrimary,
                       ),
                     ),
                   ),

@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FriSky Flutter',
       theme: ThemeData(
-        primaryColor: FriskyColor().colorCustom,
-        accentColor: FriskyColor().colorCustom,
+        primaryColor: FriskyColor().colorPrimary,
+        accentColor: FriskyColor().colorPrimary,
       ),
       home: HomeScreen(),
       routes: <String, WidgetBuilder>{
