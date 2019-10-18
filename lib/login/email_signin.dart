@@ -222,7 +222,7 @@ class _EmailSignInState extends State<EmailSignIn> {
                       "Don't have an account?",
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    Padding (
+                    Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
                     FlatButton(
