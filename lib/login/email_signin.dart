@@ -129,30 +129,22 @@ class _EmailSignInState extends State<EmailSignIn> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 22, right: 22),
+              padding: const EdgeInsets.only(left: 24, top: 8, right: 24),
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: 5,
-                  ),
                   TextField(
                     controller: _emailController,
-                    style: TextStyle(
-                      fontSize: SizeConfig.safeBlockVertical * 2,
-                    ),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                         //errorText: validateEmail(_emailController.text),
                         labelText: 'Email',
                         border: OutlineInputBorder()),
                     cursorColor: FriskyColor().colorPrimary,
                   ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 2,
-                  ),
+                  Padding(padding: EdgeInsets.only(top: 16)),
                   TextField(
                     controller: _passwordController,
-                    style:
-                        TextStyle(fontSize: SizeConfig.safeBlockVertical * 2),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                         errorText: validatePassword(_passwordController.text),
                         labelText: 'Password',
@@ -161,7 +153,6 @@ class _EmailSignInState extends State<EmailSignIn> {
                     obscureText: true,
                     cursorColor: FriskyColor().colorPrimary,
                   ),
-                  SizedBox(height: SizeConfig.safeBlockVertical * 0.5),
                   Container(
                     child: Align(
                       alignment: Alignment.centerRight,
@@ -171,42 +162,32 @@ class _EmailSignInState extends State<EmailSignIn> {
                             textAlign: TextAlign.end,
                             style: TextStyle(
                               fontFamily: 'MuseoSans',
-                              color: Color(0xff707070),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w300,
-                              fontStyle: FontStyle.normal,
+                              color: Colors.black,
+                              fontSize: 14,
                             )),
                       ),
                     ),
                   ),
-                  SizedBox(height: SizeConfig.safeBlockVertical * 1),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 6,
-                    child: RaisedButton(
-                      onPressed: () {
-                        signIn();
-                      },
-                      shape: StadiumBorder(),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            width: SizeConfig.safeBlockHorizontal * 3,
-                          ),
-                          Text(
-                            "Sign In",
-                            style: TextStyle(
-                                fontSize: SizeConfig.safeBlockVertical * 2.5,
-                                color: Colors.white),
-                          ),
-                        ],
-                      ),
-                      color: FriskyColor().colorPrimary,
+                  RaisedButton(
+                    padding: EdgeInsets.all(10),
+                    shape: StadiumBorder(),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Sign In",
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
+                      ],
                     ),
+                    onPressed: () {
+                      signIn();
+                    },
+                    elevation: 2,
+                    color: FriskyColor().colorPrimary,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(left: 16, top: 8, right: 16),
                     child: InkWell(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
@@ -221,7 +202,7 @@ class _EmailSignInState extends State<EmailSignIn> {
                         _errorMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: SizeConfig.safeBlockVertical * 2.5,
+                          fontSize: 14,
                           color: Colors.red,
                         ),
                       ),
@@ -231,24 +212,19 @@ class _EmailSignInState extends State<EmailSignIn> {
               ),
             ),
             Container(
-              height: SizeConfig.safeBlockVertical * 10,
+              padding: EdgeInsets.only(top: 4, bottom: 4),
               decoration: new BoxDecoration(color: Color(0xff707070)),
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    RichText(
-                        text: new TextSpan(children: [
-                      new TextSpan(
-                          text: "Don't have an account? ",
-                          style: TextStyle(
-                            fontFamily: 'MuseoSans',
-                            color: Color(0xffffffff),
-                            fontSize: SizeConfig.safeBlockHorizontal * 4.5,
-                            fontWeight: FontWeight.w300,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ])),
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                    Padding (
+                      padding: EdgeInsets.only(left: 4),
+                    ),
                     FlatButton(
                       padding: EdgeInsets.all(0),
                       onPressed: navigateToSignUp,
@@ -257,9 +233,7 @@ class _EmailSignInState extends State<EmailSignIn> {
                         style: TextStyle(
                           fontFamily: 'MuseoSans',
                           color: Color(0xffffffff),
-                          fontSize: SizeConfig.safeBlockHorizontal * 5.5,
-                          fontWeight: FontWeight.w900,
-                          fontStyle: FontStyle.normal,
+                          fontSize: 16,
                         ),
                       ),
                     ),
