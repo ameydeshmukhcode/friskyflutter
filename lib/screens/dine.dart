@@ -11,7 +11,7 @@ class _DineTabState extends State<DineTab>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
     );
   }
 

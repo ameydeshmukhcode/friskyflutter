@@ -81,7 +81,7 @@ class _HomeTabState extends State<HomeTab>
           padding: const EdgeInsets.all(5.0),
           child: SvgPicture.asset('img/logo1.svg'),
         ),
-        backgroundColor: FriskyColor().white,
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.settings),
@@ -92,7 +92,7 @@ class _HomeTabState extends State<HomeTab>
         ],
         elevation: 0.0,
       ),
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       body: !isSignedIn
           ? Container(
               child: Column(
@@ -104,7 +104,7 @@ class _HomeTabState extends State<HomeTab>
               ),
             )
           : Container(
-              color: FriskyColor().white,
+              color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,

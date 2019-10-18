@@ -57,7 +57,7 @@ class _UserLoginState extends State<UserLogin> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       body: Container(
         height: SizeConfig.screenHeight,
         width: SizeConfig.screenWidth,
@@ -109,14 +109,13 @@ class _UserLoginState extends State<UserLogin> {
                     children: <Widget>[
                       Icon(
                         Icons.mail,
-                        color: FriskyColor().white,
+                        color: Colors.white,
                       ),
                       Padding(
                         padding: EdgeInsets.all(8),
                       ),
                       Text("Use Email Address",
-                          style: TextStyle(
-                              fontSize: 20, color: FriskyColor().white)),
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
                     ],
                   ),
                   onPressed: () {

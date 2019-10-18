@@ -3,7 +3,6 @@ import 'package:friskyflutter/screens/home.dart';
 import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/visits.dart';
 import 'commonwidgets/fab.dart';
-import 'frisky_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -65,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       elevation: 0,
     );
   }

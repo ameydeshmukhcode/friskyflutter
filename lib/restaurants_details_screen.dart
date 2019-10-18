@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'frisky_colors.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:friskyflutter/size_config.dart';
 
@@ -25,7 +24,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(

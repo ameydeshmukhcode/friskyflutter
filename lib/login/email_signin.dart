@@ -194,10 +194,12 @@ class _EmailSignInState extends State<EmailSignIn> {
                           SizedBox(
                             width: SizeConfig.safeBlockHorizontal * 3,
                           ),
-                          Text("Sign In",
-                              style: TextStyle(
-                                  fontSize: SizeConfig.safeBlockVertical * 2.5,
-                                  color: FriskyColor().white)),
+                          Text(
+                            "Sign In",
+                            style: TextStyle(
+                                fontSize: SizeConfig.safeBlockVertical * 2.5,
+                                color: Colors.white),
+                          ),
                         ],
                       ),
                       color: FriskyColor().colorCustom,

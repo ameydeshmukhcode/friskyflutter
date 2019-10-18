@@ -41,7 +41,7 @@ class _VisitTabState extends State<VisitTab> {
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       body: _visitsList(),
     );
   }

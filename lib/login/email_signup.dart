@@ -185,10 +185,13 @@ class _EmailSignUpState extends State<EmailSignUp> {
                           SizedBox(
                             width: SizeConfig.safeBlockHorizontal * 3,
                           ),
-                          Text("Sign Up",
-                              style: TextStyle(
-                                  fontSize: SizeConfig.safeBlockVertical * 2.5,
-                                  color: FriskyColor().white)),
+                          Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              fontSize: SizeConfig.safeBlockVertical * 2.5,
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                       color: FriskyColor().colorCustom,
