@@ -18,8 +18,6 @@
 		9DAC6A782353487000B9BDC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		9DAC6A792353487000B9BDC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		9DAC6A7A2353487000B9BDC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		9DAC6A7B2353487000B9BDC5 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 97C147021CF9000F007C117D /* Info.plist */; };
-		9DAC6A7C2353487000B9BDC5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DD13633234BDE350031AA84 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -221,8 +219,6 @@
 				9DAC6A782353487000B9BDC5 /* Main.storyboard in Resources */,
 				9DAC6A792353487000B9BDC5 /* Assets.xcassets in Resources */,
 				9DAC6A7A2353487000B9BDC5 /* LaunchScreen.storyboard in Resources */,
-				9DAC6A7B2353487000B9BDC5 /* Info.plist in Resources */,
-				9DAC6A7C2353487000B9BDC5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
