@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'frisky_colors.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:friskyflutter/size_config.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -14,18 +12,18 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  getImages() {
-    StorageReference storageReference = FirebaseStorage.instance
-        .ref()
-        .child("restaurants/" + widget.resturant.documentID + "/menu");
-    //StorageFileDownloadTask downloadTask = storageReference.getData(10000).then()
-  }
+//  getImages() {
+//    StorageReference storageReference = FirebaseStorage.instance
+//        .ref()
+//        .child("restaurants/" + widget.resturant.documentID + "/menu");
+//    StorageFileDownloadTask downloadTask = storageReference.getData(10000).then()
+//  }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(

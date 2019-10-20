@@ -3,15 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/size_config.dart';
-import 'package:friskyflutter/commonwidgets/fab.dart';
 import '../frisky_colors.dart';
 import '../restaurants_details_screen.dart';
+
 class HomeTab extends StatefulWidget {
   @override
   _HomeTabState createState() => _HomeTabState();
 }
 
-class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<HomeTab> {
+class _HomeTabState extends State<HomeTab>
+    with AutomaticKeepAliveClientMixin<HomeTab> {
   @override
   bool get wantKeepAlive => true;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,8 +33,8 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<Ho
         context,
         MaterialPageRoute(
             builder: (context) => DetailsPage(
-              resturant: restaurant,
-            )));
+                  resturant: restaurant,
+                )));
   }
 
   signOut() async {
@@ -43,7 +44,7 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<Ho
   getUser() async {
     FirebaseUser firebaseUser = await _auth.currentUser();
     if (firebaseUser != null && firebaseUser.isEmailVerified == true) {
-      print("ye hai USer Id "+ firebaseUser.uid);
+      print("ye hai USer Id " + firebaseUser.uid);
       setState(() {
         this.isSignedIn = true;
       });
@@ -72,7 +73,6 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<Ho
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
-    
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -81,41 +81,41 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<Ho
           padding: const EdgeInsets.all(5.0),
           child: SvgPicture.asset('img/logo1.svg'),
         ),
-        backgroundColor: FriskyColor().white,
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.settings),
-              color: FriskyColor().colorCustom,
+              color: FriskyColor().colorPrimary,
               onPressed: () {
                 signOut();
               })
         ],
         elevation: 0.0,
       ),
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       body: !isSignedIn
           ? Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            CircularProgressIndicator(),
-          ],
-        ),
-      )
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                ],
+              ),
+            )
           : Container(
-        color: FriskyColor().white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(child: _restaurantsList()),
-          ],
-        ),
-      ),
-
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(child: _restaurantsList()),
+                ],
+              ),
+            ),
     );
   }
+
   Widget _restaurantsList() {
     return FutureBuilder(
         future: _restaurantList,
@@ -129,7 +129,7 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<Ho
                   Center(
                     child: CircularProgressIndicator(
                       valueColor: new AlwaysStoppedAnimation<Color>(
-                        FriskyColor().colorCustom,
+                        FriskyColor().colorPrimary,
                       ),
                     ),
                   ),
@@ -161,18 +161,18 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<Ho
                                   snapshot.data[index].data['image'],
                                   fit: BoxFit.cover,
                                   width:
-                                  SizeConfig.safeBlockHorizontal * 50 - 8,
+                                      SizeConfig.safeBlockHorizontal * 50 - 8,
                                 ),
                                 Container(
                                   width:
-                                  SizeConfig.safeBlockHorizontal * 50 - 8,
+                                      SizeConfig.safeBlockHorizontal * 50 - 8,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           snapshot.data[index].data['name'],
@@ -191,7 +191,7 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<Ho
                                         ),
                                         Text(
                                           snapshot.data[index].data['cuisine']
-                                          [0] +
+                                                  [0] +
                                               ", " +
                                               snapshot.data[index]
                                                   .data['cuisine'][1],
@@ -211,4 +211,3 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin<Ho
         });
   }
 }
-

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/screens/Home.dart';
-import 'package:friskyflutter/screens/Restaurants.dart';
+import 'package:friskyflutter/screens/home.dart';
+import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/visits.dart';
-import 'commonwidgets/fab.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'frisky_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,10 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _pageController.dispose();
   }
 
-
   void navigationTapped(int page) {
     _pageController.animateToPage(page,
-        duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.fastOutSlowIn);
   }
 
   void onPageChanged(int page) {
@@ -38,11 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
   Widget _bottomNavBar() {
     return BottomNavigationBar(
-        onTap: navigationTapped,
-        currentIndex: _page,
+      onTap: navigationTapped,
+      currentIndex: _page,
       showUnselectedLabels: false,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -54,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         BottomNavigationBarItem(
           icon: Icon(Icons.restaurant),
           title: Text(
-            "Restaurants",
+            "Dine",
           ),
         ),
         BottomNavigationBarItem(
@@ -66,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       elevation: 0,
     );
   }
@@ -74,22 +73,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        children: <Widget>[
-          HomeTab(),
-          RestautantsTab(),
-          VisitTab(),
-        ],
-          onPageChanged: onPageChanged,
-          controller: _pageController
+      body: PageView(children: <Widget>[
+        HomeTab(),
+        DineTab(),
+        VisitTab(),
+      ], onPageChanged: onPageChanged, controller: _pageController),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        icon: Icon(MdiIcons.qrcode),
+        label: Text("Scan QR Code"),
+        backgroundColor: FriskyColor().colorPrimary,
       ),
-      floatingActionButton: FriskyFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: _bottomNavBar(),
     );
   }
-
-
-
 }
-

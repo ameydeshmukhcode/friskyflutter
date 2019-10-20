@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FriskyColor {
-  Color white = Colors.white;
-  Color tfColorbg = Color(0xFFF0F0F0);
-
-  MaterialColor colorCustom = MaterialColor(0xFFff5c5c, color);
+  MaterialColor colorPrimary = MaterialColor(0xFFff5c5c, color);
+  MaterialColor colorTextDark = MaterialColor(0xFF707070, color);
 }
 
 Map<int, Color> color = {

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:friskyflutter/size_config.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:friskyflutter/Login/email_signin.dart';
+import 'package:friskyflutter/login/email_signin.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -58,40 +57,69 @@ class _UserLoginState extends State<UserLogin> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: FriskyColor().white,
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Container(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: SizeConfig.safeBlockVertical * 40),
-                svg,
-                SizedBox(height: SizeConfig.safeBlockVertical * 30),
-                RaisedButton(
+      backgroundColor: Colors.white,
+      body: Container(
+        height: SizeConfig.screenHeight,
+        width: SizeConfig.screenWidth,
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: SvgPicture.asset(
+                  'img/logo1.svg',
+                  height: SizeConfig.safeBlockVertical * 14,
+                  width: SizeConfig.safeBlockHorizontal * 56,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+                child: RaisedButton(
+                  padding: EdgeInsets.all(10),
+                  shape: StadiumBorder(),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'img/google.svg',
+                        height: 20,
+                        width: 20,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                      ),
+                      Text("Use Google Account",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: FriskyColor().colorPrimary,
+                          )),
+                    ],
+                  ),
                   onPressed: googleSignIn,
+                  elevation: 2,
+                  color: Colors.white,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+                child: RaisedButton(
+                  padding: EdgeInsets.all(10),
                   shape: StadiumBorder(),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Icon(
-                        MdiIcons.google,
-                        color: FriskyColor().colorCustom,
+                        Icons.mail,
+                        color: Colors.white,
                       ),
-                      SizedBox(
-                        width: SizeConfig.safeBlockHorizontal * 3,
+                      Padding(
+                        padding: EdgeInsets.all(8),
                       ),
-                      Text("Use Google Account",
-                          style: TextStyle(
-                              fontSize: SizeConfig.safeBlockVertical * 2.5,
-                              color: FriskyColor().colorCustom)),
+                      Text("Use Email Address",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
                     ],
                   ),
-                  elevation: 8,
-                  color: FriskyColor().white,
-                ),
-                RaisedButton(
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -101,39 +129,25 @@ class _UserLoginState extends State<UserLogin> {
                       ),
                     );
                   },
-                  shape: StadiumBorder(),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.mail,
-                        color: FriskyColor().white,
-                      ),
-                      SizedBox(
-                        width: SizeConfig.safeBlockHorizontal * 3,
-                      ),
-                      Text("Use Email Address",
-                          style: TextStyle(
-                              fontSize: SizeConfig.safeBlockVertical * 2.5,
-                              color: FriskyColor().white)),
-                    ],
+                  elevation: 2,
+                  color: FriskyColor().colorPrimary,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(56, 8, 56, 8),
+                child: Text(
+                  "By signing in, you\'re agreeing to our Terms and Privacy Policy",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: FriskyColor().colorTextDark,
                   ),
-                  elevation: 8,
-                  color: FriskyColor().colorCustom,
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-final String assetName = 'img/logo1.svg';
-final Widget svg = new SvgPicture.asset(
-  assetName,
-  height: SizeConfig.safeBlockVertical * 14,
-  width: SizeConfig.safeBlockHorizontal * 56,
-);

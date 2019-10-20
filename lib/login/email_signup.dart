@@ -86,7 +86,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
   signUp() async {
     try {
       print("inside catch of signup");
-      AuthResult user = await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: _emailController.text, password: _cpasswordController.text);
       navigateToSignIn();
     } catch (e) {
@@ -120,27 +120,22 @@ class _EmailSignUpState extends State<EmailSignUp> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 22, right: 22),
+              padding: const EdgeInsets.only(left: 24, top: 8, right: 24),
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: 5,
-                  ),
                   TextField(
-                    style:
-                        TextStyle(fontSize: SizeConfig.safeBlockVertical * 2),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Email',
                       focusColor: Colors.black,
                       border: OutlineInputBorder(),
                     ),
                     controller: _emailController,
-                    cursorColor: FriskyColor().colorCustom,
+                    cursorColor: FriskyColor().colorPrimary,
                   ),
-                  SizedBox(height: SizeConfig.safeBlockVertical * 2),
+                  Padding(padding: EdgeInsets.only(top: 16)),
                   TextField(
-                    style:
-                        TextStyle(fontSize: SizeConfig.safeBlockVertical * 2),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                         errorText: validatePassword(_passwordController.text),
                         labelText: 'Password',
@@ -148,12 +143,11 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         border: OutlineInputBorder()),
                     obscureText: true,
                     controller: _passwordController,
-                    cursorColor: FriskyColor().colorCustom,
+                    cursorColor: FriskyColor().colorPrimary,
                   ),
-                  SizedBox(height: SizeConfig.safeBlockVertical * 2),
+                  Padding(padding: EdgeInsets.only(top: 16)),
                   TextField(
-                    style:
-                        TextStyle(fontSize: SizeConfig.safeBlockVertical * 2),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       errorText: validatePassword(_passwordController.text),
                       labelText: 'Confirm Password',
@@ -162,37 +156,26 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     ),
                     obscureText: true,
                     controller: _cpasswordController,
-                    cursorColor: FriskyColor().colorCustom,
+                    cursorColor: FriskyColor().colorPrimary,
                   ),
-                  SizedBox(height: SizeConfig.safeBlockVertical * 2),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 6,
-                    child: RaisedButton(
-                      onPressed: () {
-                        if (_cpasswordController.text ==
-                            _passwordController.text) {
-                          signUp();
-                        } else {
-                          customError(
-                              "Passwords do not match.\n Please try again.");
-                        }
-                      },
-                      shape: StadiumBorder(),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            width: SizeConfig.safeBlockHorizontal * 3,
-                          ),
-                          Text("Sign Up",
-                              style: TextStyle(
-                                  fontSize: SizeConfig.safeBlockVertical * 2.5,
-                                  color: FriskyColor().white)),
-                        ],
-                      ),
-                      color: FriskyColor().colorCustom,
+                  Padding(padding: EdgeInsets.only(top: 16)),
+                  RaisedButton(
+                    padding: EdgeInsets.all(10),
+                    shape: StadiumBorder(),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Sign Up",
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
+                      ],
                     ),
+                    onPressed: () {
+                      signUp();
+                    },
+                    elevation: 2,
+                    color: FriskyColor().colorPrimary,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),

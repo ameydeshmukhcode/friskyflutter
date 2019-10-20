@@ -10,9 +10,8 @@ class VisitTab extends StatefulWidget {
 }
 
 class _VisitTabState extends State<VisitTab> {
-  @override
   // bool get wantKeepAlive => true;
-  Future _visitsListData;
+  //Future _visitsListData;
   FirebaseUser firebaseUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
   getUser() async {
@@ -32,7 +31,8 @@ class _VisitTabState extends State<VisitTab> {
     var querySnapshot = await firestore
         .collectionGroup("sessions")
         .where("created_by", isEqualTo: firebaseUser.uid)
-        .orderBy("end_time", descending: true).getDocuments();
+        .orderBy("end_time", descending: true)
+        .getDocuments();
     return querySnapshot.documents;
   }
 
@@ -40,7 +40,7 @@ class _VisitTabState extends State<VisitTab> {
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FriskyColor().white,
+      backgroundColor: Colors.white,
       body: _visitsList(),
     );
   }
@@ -58,7 +58,7 @@ class _VisitTabState extends State<VisitTab> {
                   Center(
                     child: CircularProgressIndicator(
                       valueColor: new AlwaysStoppedAnimation<Color>(
-                        FriskyColor().colorCustom,
+                        FriskyColor().colorPrimary,
                       ),
                     ),
                   ),
@@ -97,7 +97,9 @@ class _VisitTabState extends State<VisitTab> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          "created_by"+snapshot.data[index]["created_by"],
+                                          "created_by" +
+                                              snapshot.data[index]
+                                                  ["created_by"],
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           softWrap: true,
