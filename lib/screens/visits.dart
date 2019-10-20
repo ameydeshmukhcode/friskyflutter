@@ -10,9 +10,8 @@ class VisitTab extends StatefulWidget {
 }
 
 class _VisitTabState extends State<VisitTab> {
-  @override
   // bool get wantKeepAlive => true;
-  Future _visitsListData;
+  //Future _visitsListData;
   FirebaseUser firebaseUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
   getUser() async {

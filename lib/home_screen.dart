@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:friskyflutter/screens/home.dart';
 import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/visits.dart';
-import 'commonwidgets/fab.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'frisky_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -77,7 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
         DineTab(),
         VisitTab(),
       ], onPageChanged: onPageChanged, controller: _pageController),
-      floatingActionButton: FriskyFab(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        icon: Icon(MdiIcons.qrcode),
+        label: Text("Scan QR Code"),
+        backgroundColor: FriskyColor().colorPrimary,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: _bottomNavBar(),
     );
