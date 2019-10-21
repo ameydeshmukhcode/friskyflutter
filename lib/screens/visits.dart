@@ -4,6 +4,39 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../frisky_colors.dart';
 import '../size_config.dart';
 
+var resname;
+var endtime;
+var totalamount;
+var imgurl;
+
+class Visits {
+  String restaurantImage;
+  String restaurantName;
+  Timestamp endTime;
+  String totalAmount;
+  Visits(
+      [String restaurantImage,
+      String restaurantName,
+      Timestamp endTime,
+      String totalAmount]) {
+    this.restaurantImage = restaurantImage;
+
+    this.restaurantName = restaurantName;
+    this.endTime = endTime;
+    this.totalAmount = totalAmount;
+  }
+}
+
+class v {
+  String cb;
+  v(String cb) {
+    this.cb = cb;
+  }
+}
+
+List<Visits> VisitsList = List<Visits>();
+List<v> vList = List<v>();
+
 class VisitTab extends StatefulWidget {
   @override
   _VisitTabState createState() => _VisitTabState();
@@ -26,14 +59,67 @@ class _VisitTabState extends State<VisitTab> {
     // getVisits();
   }
 
-  Future getVisits() async {
+ Future getVisits() async {
     var firestore = Firestore.instance;
     var querySnapshot = await firestore
         .collectionGroup("sessions")
-        .where("created_by", isEqualTo: firebaseUser.uid)
+        .where("created_by", isEqualTo: "PIST5V1fPxeGpFEcCNPX88qJhUR2")
         .orderBy("end_time", descending: true)
-        .getDocuments();
-    return querySnapshot.documents;
+        .getDocuments()
+        .then((data) {
+      print("data length = " + data.documents.length.toString());
+      int i;
+      vList.clear();
+      VisitsList.clear();
+      print(data.documents.contains("amount_payable").toString());
+
+      for (i = 0; i < data.documents.length; i++) {
+        if (data.documents[i].data.containsKey("amount_payable")) {
+              endtime = data.documents[i]["end_time"];
+              totalamount = data.documents[i]["amount_payable"];
+          var img = data.documents[i].reference.parent().parent();
+          print("parent ke baad ka print");
+          print(img.toString());
+          img.get().then((f) {
+            imgurl = f.data["image"];
+            resname = f.data["name"];
+//            print("yeh hai img ka url " + imgurl);
+//            print("yeh hai img ka name " + resname);
+          }).then((Null){
+
+            VisitsList.add(Visits(imgurl,resname,endtime,totalamount));
+                    print("add kiya for number "+ i.toString());
+            VisitsList.forEach((f) {
+              print(f.restaurantImage.toLowerCase()+" yeahhh ");
+            });
+          });
+          //          VisitsList.add(new Visits(
+//            data.documents[i]["imgurl"],
+//            data.documents[i]["resname"],
+//            data.documents[i]["end_time"],
+//            data.documents[i]["amount_payable"],
+//          ));
+        }
+
+        print(i.toString() + "  time in for loop");
+
+      }
+//
+//          print("data length = "+data.documents.length.toString());
+//          data.documents.forEach((f){
+//            print(f.data.toString());
+//            print(f.data["amount_payable"]);
+//              vList.add(new v(f.data["amount_payable"]));
+//          }
+//          );
+//      print("after loop");
+//      print("LIST KA SIZE " + VisitsList.length.toString());
+//
+//      print("after loop msg ");
+//          print(VisitsList.length.toString());
+//          print(VisitsList);
+    });
+    return VisitsList;
   }
 
   @override
@@ -41,7 +127,14 @@ class _VisitTabState extends State<VisitTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _visitsList(),
+      // body: //_visitsList(),
+      body: Center(
+          child: Column(
+            children: <Widget>[
+              MaterialButton(onPressed: getVisits, child: Text("get data")),
+              _visitsList()
+            ],
+          )),
     );
   }
 
@@ -96,10 +189,7 @@ class _VisitTabState extends State<VisitTab> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          "created_by" +
-                                              snapshot.data[index]
-                                                  ["created_by"],
+                                        Text( VisitsList[index].restaurantImage,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           softWrap: true,
