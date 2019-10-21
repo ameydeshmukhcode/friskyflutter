@@ -28,7 +28,7 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.9+4"
+    version: "0.12.9+5"
   collection:
     dependency: transitive
     description:
@@ -115,7 +115,7 @@ packages:
       name: material_design_icons_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.4096"
+    version: "3.2.4595"
   meta:
     dependency: transitive
     description:
