@@ -1,9 +1,10 @@
-import'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../frisky_colors.dart';
 import 'package:date_format/date_format.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../frisky_colors.dart';
 import '../size_config.dart';
 
 class Visits {
@@ -25,6 +26,7 @@ class Visits {
 
 // ignore: non_constant_identifier_names
 List<Visits> VisitsList = List<Visits>();
+
 class VisitTab extends StatefulWidget {
   @override
   _VisitTabState createState() => _VisitTabState();
@@ -41,6 +43,7 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
   Future _visitslist;
   bool isLoading = true;
   bool isEmpty = false;
+
   Future getUser()  async{
     firebaseUser = await _auth.currentUser();
     print(firebaseUser.uid.toString());
@@ -163,91 +166,85 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                        return Container(
+                          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
                           child: Card(
                               margin: EdgeInsets.all(0),
                               elevation: 1,
                               child: InkWell(
+                                //TODO: show visit summary
                                 onTap: () {
                                        },
-                                child: Container(
-                                  height: SizeConfig.safeBlockVertical * 14.5,
-                                  width: SizeConfig.safeBlockHorizontal * 100,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Image.network(
-                                        VisitsList[index].restaurantImage,
-                                        fit: BoxFit.cover,
-                                        width:
-                                        SizeConfig.safeBlockHorizontal * 50 - 8,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Image.network(
+                                          VisitsList[index].restaurantImage,
+                                          fit: BoxFit.cover,
                                       ),
-                                      Container(
-                                        width:
-                                        SizeConfig.safeBlockHorizontal * 50 - 8,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                VisitsList[index].restaurantName,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: true,
-                                                style: TextStyle(
-                                                  color: FriskyColor().colorTextLight,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
+                                    ),
+                                    Expanded (
+                                        child: Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  VisitsList[index].restaurantName,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  softWrap: true,
+                                                  style: TextStyle(
+                                                    color: FriskyColor().colorTextLight,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
-                                              ),
-                                              Divider(),
-                                              Text("Visited On ",
-                                                maxLines: 1,
-
-                                                style: TextStyle(
-                                                    color: FriskyColor().colorTextLight,
-                                                    fontWeight: FontWeight.w300,
-                                                    fontSize: 15),
-                                              ),
-                                              Text(formatDate(VisitsList[index].endTime.toDate(), [dd, ' ', M, ' ', yyyy,' ', hh,':', nn, '', am]),
-                                                maxLines: 1,
-                                                style: TextStyle(fontSize: 15,
-                                                    color: FriskyColor().colorTextLight,
-
-                                                    fontWeight: FontWeight.bold
+                                                Divider(),
+                                                Text("Visited On ",
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      color: FriskyColor().colorTextLight,
+                                                      fontWeight: FontWeight.w300,
+                                                      fontSize: 14),
                                                 ),
-                                              ),
+                                                Text(formatDate(VisitsList[index].endTime.toDate(), [dd, ' ', M, ' ', yyyy,' ', hh,':', nn, '', am]),
+                                                  maxLines: 1,
+                                                  style: TextStyle(fontSize: 14,
+                                                      color: FriskyColor().colorTextLight,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                                Padding(padding: EdgeInsets.only(top: 4),),
+                                                Text("Total Amount",
 
-                                              SizedBox(height: SizeConfig.blockSizeVertical * 0.5,),
-                                              Text("Total Amount",
+                                                  maxLines: 1,
+                                                  style: TextStyle(fontSize: 14,
+                                                      color: FriskyColor().colorTextLight,
+                                                      fontWeight: FontWeight.w300),
 
-                                                maxLines: 1,
-                                                style: TextStyle(fontSize: 15,
-                                                    color: FriskyColor().colorTextLight,
-
-                                                    fontWeight: FontWeight.w300),
-
-                                              ),
-                                              Text(
-                                                   "\u20B9 "+VisitsList[index].totalAmount,
-                                                style: TextStyle(fontSize: 15,
-                                                    color: FriskyColor().colorTextLight,
-
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                            ],
+                                                ),
+                                                Text(
+                                                  "\u20B9 "+VisitsList[index].totalAmount,
+                                                  style: TextStyle(fontSize: 14,
+                                                      color: FriskyColor().colorTextLight,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                        )
+                                    )
+                                  ],
                                 ),
-                              )),
+                              ),
+                            )
                         );
                       }),
                 ],
