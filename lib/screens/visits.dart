@@ -98,7 +98,7 @@ class _VisitTabState extends State<VisitTab> {
 //            print("yeh hai img ka url " + imgurl);
 //            print("yeh hai img ka name " + resname);
           }).then((f) async {
-            await VisitsList.add(Visits(imgurl, resname, endtime, totalamount));
+            VisitsList.add(Visits(imgurl, resname, endtime, totalamount));
             print("add kiya for number " + i.toString());
           });
           //          VisitsList.add(new Visits(
