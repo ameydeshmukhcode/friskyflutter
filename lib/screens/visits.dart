@@ -6,9 +6,6 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../size_config.dart';
 
-
-
-
 class Visits {
   String restaurantImage;
   String restaurantName;
