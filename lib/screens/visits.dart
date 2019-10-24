@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../frisky_colors.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../size_config.dart';
 
 
@@ -76,7 +77,7 @@ class _VisitTabState extends State<VisitTab> {
     var firestore = Firestore.instance;
     await firestore
         .collectionGroup("sessions")
-        .where("created_by", isEqualTo: "PIST5V1fPxeGpFEcCNPX88qJhUR2")
+        .where("created_by", isEqualTo: firebaseUser.uid)
         .orderBy("end_time", descending: true)
         .getDocuments()
         .then((data) async {
@@ -121,9 +122,8 @@ class _VisitTabState extends State<VisitTab> {
       backgroundColor: Colors.white,
       // body: //_visitsList(),
       body: Center(
-          child: Column(
-        children: <Widget>[_visitsList()],
-      )),
+          child: _visitsList(),
+      )
     );
   }
 
@@ -149,7 +149,25 @@ class _VisitTabState extends State<VisitTab> {
             );
           } else {
             if (isLoading == false && isEmpty == true) {
-              return Text("NULL hai bhai sorted ");
+              return Container(child:
+              Center(
+                child: Column( mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("You Do Not Have Any Visits Yet!",style: TextStyle(
+                      fontSize: 20,
+                        color: FriskyColor().colorTextLight),),
+                    SizedBox(height: 30,),
+                   Container(
+                      child: SvgPicture.asset(
+                        'img/no_visits.svg',
+                        height: SizeConfig.safeBlockVertical * 30,
+                        width: SizeConfig.safeBlockHorizontal * 56,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              );
             } else {
               return ListView.builder(
                   itemCount: VisitsList.length,
