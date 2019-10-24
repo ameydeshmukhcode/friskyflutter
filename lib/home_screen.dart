@@ -79,7 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
         VisitTab(),
       ], onPageChanged: onPageChanged, controller: _pageController),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, "/scan");
+        },
         icon: Icon(MdiIcons.qrcode),
         label: Text("Scan QR Code"),
         backgroundColor: FriskyColor().colorPrimary,
