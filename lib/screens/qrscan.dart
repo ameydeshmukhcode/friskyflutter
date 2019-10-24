@@ -12,7 +12,7 @@ class Scan extends StatefulWidget {
 class _ScanState extends State<Scan> {
   FirebaseUser firebaseUser;
   var firestore = Firestore.instance;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+ // FirebaseAuth _auth = FirebaseAuth.instance;
   QRCaptureController _captureController = QRCaptureController();
   bool _isTorchOn = false;
   var restaurantID;
@@ -134,7 +134,7 @@ class _ScanState extends State<Scan> {
       popexit();
       Fluttertoast.showToast(
           msg: "Valid QR CODE", toastLength: Toast.LENGTH_LONG);
-      var restaurantRef = await firestore
+     await firestore
           .collection("restaurants")
           .document(restaurantID)
           .get()
