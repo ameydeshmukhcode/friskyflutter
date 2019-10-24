@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../frisky_colors.dart';
@@ -20,7 +20,6 @@ class Visits {
       Timestamp endTime,
       String totalAmount]) {
     this.restaurantImage = restaurantImage;
-
     this.restaurantName = restaurantName;
     this.endTime = endTime;
     this.totalAmount = totalAmount;
@@ -29,7 +28,6 @@ class Visits {
 
 // ignore: non_constant_identifier_names
 List<Visits> VisitsList = List<Visits>();
-
 class VisitTab extends StatefulWidget {
   @override
   _VisitTabState createState() => _VisitTabState();
@@ -37,7 +35,7 @@ class VisitTab extends StatefulWidget {
 
 class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<VisitTab>{
   bool get wantKeepAlive => true;
-  FirebaseUser _firebaseUser;
+  FirebaseUser firebaseUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
   var resname;
   var endtime;
@@ -46,31 +44,42 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
   Future _visitslist;
   bool isLoading = true;
   bool isEmpty = false;
-  getUser() async {
-    _firebaseUser = await _auth.currentUser();
+  Future getUser()  async{
+    firebaseUser = await _auth.currentUser();
+    print(firebaseUser.uid.toString());
   }
 
   @override
   void initState() {
-    super.initState();
-    getUser();
-    _visitslist = this.getVisits().whenComplete(() {
-      setState(() {
-        if (VisitsList.isNotEmpty) {
-          isLoading = false;
-        } else {
-          isLoading = false;
-          isEmpty = true;
-        }
+    this.getUser().whenComplete((){
+
+      _visitslist = this.getVisits().whenComplete(() {
+        setState(() {
+          print("inside set state");
+          if (VisitsList.isNotEmpty) {
+            print("inside set state if");
+            isLoading = false;
+          } else {
+            print("inside set state else");
+            isLoading = false;
+            isEmpty = true;
+            print("length  = "+ VisitsList.length.toString());
+
+          }
+        });
       });
+
     });
+
+    super.initState();
+
   }
 
   Future getVisits() async {
     var firestore = Firestore.instance;
     await firestore
         .collectionGroup("sessions")
-        .where("created_by", isEqualTo: _firebaseUser.uid)
+        .where("created_by", isEqualTo: firebaseUser.uid)
         .orderBy("end_time", descending: true)
         .getDocuments()
         .then((data) async {
@@ -115,6 +124,7 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
             return Align(
               alignment: Alignment.center,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Center(
                     child: CircularProgressIndicator(
@@ -126,8 +136,9 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
                 ],
               ),
             );
-          } else {
-            if (isLoading == false && isEmpty == true) {
+          }
+          else {
+            if (isEmpty == true) {
               return Container(child:
               Center(
                 child: Column( mainAxisAlignment: MainAxisAlignment.center,
@@ -148,98 +159,102 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
               ),
               );
             } else {
-              return ListView.builder(
-                  itemCount: VisitsList.length,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                      child: Card(
-                          margin: EdgeInsets.all(0),
-                          elevation: 1,
-                          child: InkWell(
-                            onTap: () {
-                                   },
-                            child: Container(
-                              height: SizeConfig.safeBlockVertical * 14.5,
-                              width: SizeConfig.safeBlockHorizontal * 100,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Image.network(
-                                    VisitsList[index].restaurantImage,
-                                    fit: BoxFit.cover,
-                                    width:
-                                    SizeConfig.safeBlockHorizontal * 50 - 8,
-                                  ),
-                                  Container(
-                                    width:
-                                    SizeConfig.safeBlockHorizontal * 50 - 8,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            VisitsList[index].restaurantName,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: true,
-                                            style: TextStyle(
-                                              color: FriskyColor().colorTextLight,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Divider(),
-                                          Text("Visited On ",
-                                            maxLines: 1,
-
-                                            style: TextStyle(
-                                                color: FriskyColor().colorTextLight,
-                                                fontWeight: FontWeight.w300,
-                                                fontSize: 15),
-                                          ),
-                                          Text(formatDate(VisitsList[index].endTime.toDate(), [dd, ' ', M, ' ', yyyy,' ', hh,':', nn, '', am]),
-                                            maxLines: 1,
-                                            style: TextStyle(fontSize: 15,
-                                                color: FriskyColor().colorTextLight,
-
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-
-                                          SizedBox(height: SizeConfig.blockSizeVertical * 0.5,),
-                                          Text("Total Amount",
-
-                                            maxLines: 1,
-                                            style: TextStyle(fontSize: 15,
-                                                color: FriskyColor().colorTextLight,
-
-                                                fontWeight: FontWeight.w300),
-
-                                          ),
-                                          Text(
-                                               "\u20B9 "+VisitsList[index].totalAmount,
-                                            style: TextStyle(fontSize: 15,
-                                                color: FriskyColor().colorTextLight,
-
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
+              return Column(
+                children: <Widget>[
+                  ListView.builder(
+                      itemCount: VisitsList.length,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                          child: Card(
+                              margin: EdgeInsets.all(0),
+                              elevation: 1,
+                              child: InkWell(
+                                onTap: () {
+                                       },
+                                child: Container(
+                                  height: SizeConfig.safeBlockVertical * 14.5,
+                                  width: SizeConfig.safeBlockHorizontal * 100,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Image.network(
+                                        VisitsList[index].restaurantImage,
+                                        fit: BoxFit.cover,
+                                        width:
+                                        SizeConfig.safeBlockHorizontal * 50 - 8,
                                       ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )),
-                    );
-                  });
+                                      Container(
+                                        width:
+                                        SizeConfig.safeBlockHorizontal * 50 - 8,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                VisitsList[index].restaurantName,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                  color: FriskyColor().colorTextLight,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Divider(),
+                                              Text("Visited On ",
+                                                maxLines: 1,
+
+                                                style: TextStyle(
+                                                    color: FriskyColor().colorTextLight,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 15),
+                                              ),
+                                              Text(formatDate(VisitsList[index].endTime.toDate(), [dd, ' ', M, ' ', yyyy,' ', hh,':', nn, '', am]),
+                                                maxLines: 1,
+                                                style: TextStyle(fontSize: 15,
+                                                    color: FriskyColor().colorTextLight,
+
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+
+                                              SizedBox(height: SizeConfig.blockSizeVertical * 0.5,),
+                                              Text("Total Amount",
+
+                                                maxLines: 1,
+                                                style: TextStyle(fontSize: 15,
+                                                    color: FriskyColor().colorTextLight,
+
+                                                    fontWeight: FontWeight.w300),
+
+                                              ),
+                                              Text(
+                                                   "\u20B9 "+VisitsList[index].totalAmount,
+                                                style: TextStyle(fontSize: 15,
+                                                    color: FriskyColor().colorTextLight,
+
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        );
+                      }),
+                ],
+              );
             }
           }
         });
