@@ -7,13 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../size_config.dart';
 
 
-var resname;
-var endtime;
-var totalamount;
-var imgurl;
-Future _visitslist;
-bool isLoading = true;
-bool isEmpty = false;
+
 
 class Visits {
   String restaurantImage;
@@ -41,14 +35,19 @@ class VisitTab extends StatefulWidget {
   _VisitTabState createState() => _VisitTabState();
 }
 
-class _VisitTabState extends State<VisitTab> {
-  // bool get wantKeepAlive => true;
-  //Future _visitsListData;
-  FirebaseUser firebaseUser;
+class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<VisitTab>{
+  bool get wantKeepAlive => true;
+  FirebaseUser _firebaseUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
+  var resname;
+  var endtime;
+  var totalamount;
+  var imgurl;
+  Future _visitslist;
+  bool isLoading = true;
+  bool isEmpty = false;
   getUser() async {
-    firebaseUser = await _auth.currentUser();
-    print("ye hai USer Id " + firebaseUser.uid);
+    _firebaseUser = await _auth.currentUser();
   }
 
   @override
@@ -56,59 +55,39 @@ class _VisitTabState extends State<VisitTab> {
     super.initState();
     getUser();
     _visitslist = this.getVisits().whenComplete(() {
-      print("data size = = = " + VisitsList.length.toString());
-      print("Empty hai kya " + VisitsList.isEmpty.toString());
       setState(() {
         if (VisitsList.isNotEmpty) {
           isLoading = false;
-          print("set state kiya");
         } else {
-          print("set empty state kiya");
           isLoading = false;
           isEmpty = true;
         }
       });
     });
-    print("initi state huwa");
   }
 
   Future getVisits() async {
-    print("inside get visit");
     var firestore = Firestore.instance;
     await firestore
         .collectionGroup("sessions")
-        .where("created_by", isEqualTo: firebaseUser.uid)
+        .where("created_by", isEqualTo: _firebaseUser.uid)
         .orderBy("end_time", descending: true)
         .getDocuments()
         .then((data) async {
-      print("data length = " + data.documents.length.toString());
       int i;
       VisitsList.clear();
-      print(data.documents.contains("amount_payable").toString());
       for (i = 0; i < data.documents.length; i++) {
         if (data.documents[i].data.containsKey("amount_payable")) {
           endtime = await data.documents[i]["end_time"];
           totalamount = await data.documents[i]["amount_payable"];
           var img = data.documents[i].reference.parent().parent();
-          print("parent ke baad ka print");
-          print(img.toString());
           await img.get().then((f) async {
             imgurl = await f.data["image"];
             resname = await f.data["name"];
-//            print("yeh hai img ka url " + imgurl);
-//            print("yeh hai img ka name " + resname);
           }).then((f) async {
             VisitsList.add(Visits(imgurl, resname, endtime, totalamount));
-            print("add kiya for number " + i.toString());
           });
-          //          VisitsList.add(new Visits(
-//            data.documents[i]["imgurl"],
-//            data.documents[i]["resname"],
-//            data.documents[i]["end_time"],
-//            data.documents[i]["amount_payable"],
-//          ));
         }
-        print(i.toString() + "  time in for loop");
       }
     });
 
@@ -181,8 +160,7 @@ class _VisitTabState extends State<VisitTab> {
                           elevation: 1,
                           child: InkWell(
                             onTap: () {
-                             // navigateToDetails(snapshot.data[index]);
-                            },
+                                   },
                             child: Container(
                               height: SizeConfig.safeBlockVertical * 14.5,
                               width: SizeConfig.safeBlockHorizontal * 100,
