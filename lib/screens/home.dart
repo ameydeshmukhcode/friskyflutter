@@ -136,7 +136,8 @@ class _HomeTabState extends State<HomeTab>
                 ],
               ),
             );
-          } else {
+          }
+          else {
             return ListView.builder(
                 itemCount: snapshot.data.length,
                 scrollDirection: Axis.vertical,

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primaryColor: FriskyColor().colorPrimary,
         accentColor: FriskyColor().colorPrimary,
       ),
-      home: UserLogin(),
+      home: HomeScreen(),
       routes: <String, WidgetBuilder>{
         "/homepage": (BuildContext context) => HomeScreen(),
         "/esingin": (BuildContext context) => EmailSignIn(),

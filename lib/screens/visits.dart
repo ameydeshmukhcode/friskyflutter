@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../frisky_colors.dart';
+import 'package:date_format/date_format.dart';
 import '../size_config.dart';
+
 
 var resname;
 var endtime;
 var totalamount;
 var imgurl;
+Future _visitslist;
+bool isLoading = true;
+bool isEmpty = false;
 
 class Visits {
   String restaurantImage;
@@ -27,15 +32,8 @@ class Visits {
   }
 }
 
-class v {
-  String cb;
-  v(String cb) {
-    this.cb = cb;
-  }
-}
-
+// ignore: non_constant_identifier_names
 List<Visits> VisitsList = List<Visits>();
-List<v> vList = List<v>();
 
 class VisitTab extends StatefulWidget {
   @override
@@ -56,42 +54,51 @@ class _VisitTabState extends State<VisitTab> {
   void initState() {
     super.initState();
     getUser();
-    // getVisits();
+    _visitslist = this.getVisits().whenComplete(() {
+      print("data size = = = " + VisitsList.length.toString());
+      print("Empty hai kya " + VisitsList.isEmpty.toString());
+      setState(() {
+        if (VisitsList.isNotEmpty) {
+          isLoading = false;
+          print("set state kiya");
+        } else {
+          print("set empty state kiya");
+          isLoading = false;
+          isEmpty = true;
+        }
+      });
+    });
+    print("initi state huwa");
   }
 
- Future getVisits() async {
+  Future getVisits() async {
+    print("inside get visit");
     var firestore = Firestore.instance;
-    var querySnapshot = await firestore
+    await firestore
         .collectionGroup("sessions")
         .where("created_by", isEqualTo: "PIST5V1fPxeGpFEcCNPX88qJhUR2")
         .orderBy("end_time", descending: true)
         .getDocuments()
-        .then((data) {
+        .then((data) async {
       print("data length = " + data.documents.length.toString());
       int i;
-      vList.clear();
       VisitsList.clear();
       print(data.documents.contains("amount_payable").toString());
-
       for (i = 0; i < data.documents.length; i++) {
         if (data.documents[i].data.containsKey("amount_payable")) {
-              endtime = data.documents[i]["end_time"];
-              totalamount = data.documents[i]["amount_payable"];
+          endtime = await data.documents[i]["end_time"];
+          totalamount = await data.documents[i]["amount_payable"];
           var img = data.documents[i].reference.parent().parent();
           print("parent ke baad ka print");
           print(img.toString());
-          img.get().then((f) {
-            imgurl = f.data["image"];
-            resname = f.data["name"];
+          await img.get().then((f) async {
+            imgurl = await f.data["image"];
+            resname = await f.data["name"];
 //            print("yeh hai img ka url " + imgurl);
 //            print("yeh hai img ka name " + resname);
-          }).then((Null){
-
-            VisitsList.add(Visits(imgurl,resname,endtime,totalamount));
-                    print("add kiya for number "+ i.toString());
-            VisitsList.forEach((f) {
-              print(f.restaurantImage.toLowerCase()+" yeahhh ");
-            });
+          }).then((f) async {
+            await VisitsList.add(Visits(imgurl, resname, endtime, totalamount));
+            print("add kiya for number " + i.toString());
           });
           //          VisitsList.add(new Visits(
 //            data.documents[i]["imgurl"],
@@ -100,25 +107,10 @@ class _VisitTabState extends State<VisitTab> {
 //            data.documents[i]["amount_payable"],
 //          ));
         }
-
         print(i.toString() + "  time in for loop");
-
       }
-//
-//          print("data length = "+data.documents.length.toString());
-//          data.documents.forEach((f){
-//            print(f.data.toString());
-//            print(f.data["amount_payable"]);
-//              vList.add(new v(f.data["amount_payable"]));
-//          }
-//          );
-//      print("after loop");
-//      print("LIST KA SIZE " + VisitsList.length.toString());
-//
-//      print("after loop msg ");
-//          print(VisitsList.length.toString());
-//          print(VisitsList);
     });
+
     return VisitsList;
   }
 
@@ -130,20 +122,17 @@ class _VisitTabState extends State<VisitTab> {
       // body: //_visitsList(),
       body: Center(
           child: Column(
-            children: <Widget>[
-              MaterialButton(onPressed: getVisits, child: Text("get data")),
-              _visitsList()
-            ],
-          )),
+        children: <Widget>[_visitsList()],
+      )),
     );
   }
 
   Widget _visitsList() {
     return FutureBuilder(
-        future: getVisits(),
+        future: _visitslist,
         builder: (context, snapshot) {
           // ignore: missing_return
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (isLoading == true) {
             return Align(
               alignment: Alignment.center,
               child: Column(
@@ -159,55 +148,103 @@ class _VisitTabState extends State<VisitTab> {
               ),
             );
           } else {
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-                    child: Card(
-                        margin: EdgeInsets.all(0),
-                        elevation: 2,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                            height: SizeConfig.safeBlockVertical * 12,
-                            width: SizeConfig.safeBlockHorizontal * 100,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                // Image.network();
-                                Container(
-                                  width:
-                                      SizeConfig.safeBlockHorizontal * 50 - 8,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text( VisitsList[index].restaurantImage,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+            if (isLoading == false && isEmpty == true) {
+              return Text("NULL hai bhai sorted ");
+            } else {
+              return ListView.builder(
+                  itemCount: VisitsList.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                      child: Card(
+                          margin: EdgeInsets.all(0),
+                          elevation: 1,
+                          child: InkWell(
+                            onTap: () {
+                             // navigateToDetails(snapshot.data[index]);
+                            },
+                            child: Container(
+                              height: SizeConfig.safeBlockVertical * 14.5,
+                              width: SizeConfig.safeBlockHorizontal * 100,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Image.network(
+                                    VisitsList[index].restaurantImage,
+                                    fit: BoxFit.cover,
+                                    width:
+                                    SizeConfig.safeBlockHorizontal * 50 - 8,
                                   ),
-                                )
-                              ],
+                                  Container(
+                                    width:
+                                    SizeConfig.safeBlockHorizontal * 50 - 8,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            VisitsList[index].restaurantName,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                              color: FriskyColor().colorTextLight,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Text("Visited On ",
+                                            maxLines: 1,
+
+                                            style: TextStyle(
+                                                color: FriskyColor().colorTextLight,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 15),
+                                          ),
+                                          Text(formatDate(VisitsList[index].endTime.toDate(), [dd, ' ', M, ' ', yyyy,' ', hh,':', nn, '', am]),
+                                            maxLines: 1,
+                                            style: TextStyle(fontSize: 15,
+                                                color: FriskyColor().colorTextLight,
+
+                                                fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+
+                                          SizedBox(height: SizeConfig.blockSizeVertical * 0.5,),
+                                          Text("Total Amount",
+
+                                            maxLines: 1,
+                                            style: TextStyle(fontSize: 15,
+                                                color: FriskyColor().colorTextLight,
+
+                                                fontWeight: FontWeight.w300),
+
+                                          ),
+                                          Text(
+                                               "\u20B9 "+VisitsList[index].totalAmount,
+                                            style: TextStyle(fontSize: 15,
+                                                color: FriskyColor().colorTextLight,
+
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        )),
-                  );
-                });
+                          )),
+                    );
+                  });
+            }
           }
         });
   }
