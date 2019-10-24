@@ -1,13 +1,11 @@
-import'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../frisky_colors.dart';
 import 'package:date_format/date_format.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../frisky_colors.dart';
 import '../size_config.dart';
-
-
-
 
 class Visits {
   String restaurantImage;
