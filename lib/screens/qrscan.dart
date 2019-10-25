@@ -21,6 +21,7 @@ class _ScanState extends State<Scan> {
   QRCaptureController _captureController = QRCaptureController();
   bool _isTorchOn = false;
   var restaurantID;
+  var flashicon = Icons.flash_on;
   var tableID;
   var isOccupied = false;
   CloudFunctions cloudFunctions = CloudFunctions.instance;
@@ -71,7 +72,7 @@ class _ScanState extends State<Scan> {
                 // color: Colors.orange.withOpacity(0.2),
                 ),
             Align(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.topCenter,
               child: _buildToolBar(),
             )
           ],
@@ -81,32 +82,39 @@ class _ScanState extends State<Scan> {
   }
 
   Widget _buildToolBar() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+
       children: <Widget>[
-        FlatButton(
-          onPressed: () {
-            _captureController.pause();
-          },
-          child: Text('pause'),
-        ),
-        FlatButton(
-          onPressed: () {
-            if (_isTorchOn) {
-              _captureController.torchMode = CaptureTorchMode.off;
-            } else {
-              _captureController.torchMode = CaptureTorchMode.on;
-            }
-            _isTorchOn = !_isTorchOn;
-          },
-          child: Text('torch'),
-        ),
-        FlatButton(
-          onPressed: () {
-            _captureController.resume();
-          },
-          child: Text('resume'),
+        SizedBox(height: 30,),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(color: Colors.white,
+              onPressed: () {
+
+              },
+              icon: Icon(Icons.center_focus_strong),
+            ),
+           Text("Scan QR Code",style: TextStyle(color: Colors.white,fontSize: 24),),
+            IconButton(color: Colors.white,
+    onPressed: () {
+    if (_isTorchOn) {
+    _captureController.torchMode = CaptureTorchMode.off;
+    setState(() {
+      flashicon = Icons.flash_on;
+    });
+    } else {
+    _captureController.torchMode = CaptureTorchMode.on;
+    setState(() {
+      flashicon = Icons.flash_off;
+    });
+    }
+    _isTorchOn = !_isTorchOn;
+    },
+              icon: Icon(flashicon),
+            ),
+          ],
         ),
       ],
     );
@@ -312,13 +320,13 @@ class _ScanState extends State<Scan> {
     });
   }
 
-  _createUserSession() {
+  _createUserSession() async {
     Map<String, Object> userdata = new HashMap<String, Object>();
 
     userdata["restaurant"] = restaurantID;
     userdata["table"] = tableID;
     print("inside create USER SESSION");
-    cloudFunctions
+    await cloudFunctions
         .getHttpsCallable(functionName: "createUserSession")
         .call(userdata)
         .then((getData) {
@@ -331,7 +339,6 @@ class _ScanState extends State<Scan> {
              String sessionID = resultData["session_id"];
               showMenu(restaurantName: restaurantName,tableName:tableName,sessionID: sessionID);
     },onError: popexit());
-
   }
 
   showMenu({restaurantName, tableName, sessionID}) {
