@@ -25,8 +25,8 @@ class _DineTabState extends State<DineTab>
         SizedBox(height: 30,),
         Container(
           child: SvgPicture.asset(
-            'img/no_visits.svg',
-            height: SizeConfig.safeBlockVertical * 30,
+            'img/scanstateempty.svg',
+            height: SizeConfig.safeBlockVertical * 35,
             width: SizeConfig.safeBlockHorizontal * 56,
           ),
         ),
