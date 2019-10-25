@@ -66,7 +66,7 @@ class _ScanState extends State<Scan> {
         body: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            Container(child: QRCaptureView(controller: _captureController)),
+            Container(child: QRCaptureView(controller: _captureController,)),
             Container(
                 // color: Colors.orange.withOpacity(0.2),
                 ),
@@ -336,11 +336,9 @@ class _ScanState extends State<Scan> {
 
   showMenu({restaurantName, tableName, sessionID}) {
     popexit();
-    popexit();
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => MenuScreen(restaurantName,tableName,sessionID)));
   }
-
   updateOnSessionStartFail() {
     popexit();
     _captureController.resume();
