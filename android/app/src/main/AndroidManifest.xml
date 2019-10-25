@@ -9,7 +9,8 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Frisky"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/icon_first"
+        android:roundIcon="@mipmap/icon_first_round">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
