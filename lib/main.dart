@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         "/esingup": (BuildContext context) => EmailSignUp(),
         "/login": (BuildContext context) => UserLogin(),
         "/scan": (BuildContext context) => Scan(),
-        "/menu": (BuildContext context) => MenuScreen(),
+     //   "/menu": (BuildContext context) => MenuScreen(restaurantName, tableName,sessionID),
       },
     );
   }

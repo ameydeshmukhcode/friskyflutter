@@ -1,10 +1,13 @@
 import 'dart:collection';
+import 'package:friskyflutter/frisky_colors.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:friskyflutter/screens/menuscreen.dart';
 import 'package:qrcode/qrcode.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -20,7 +23,7 @@ class _ScanState extends State<Scan> {
   var restaurantID;
   var tableID;
   var isOccupied = false;
-
+  CloudFunctions cloudFunctions = CloudFunctions.instance;
   @override
   void initState() {
     super.initState();
@@ -43,10 +46,11 @@ class _ScanState extends State<Scan> {
                 child: Text("cancel"),
               ),
               FlatButton(
+                color: FriskyColor().colorPrimary,
                   onPressed: () {
                     continueSessionStart(data);
                   },
-                  child: Text("cancel"))
+                  child: Text("Start",style: TextStyle(color: Colors.white),))
             ],
           );
         },
@@ -146,6 +150,8 @@ class _ScanState extends State<Scan> {
 
         if (f == null) {
           print("inside if  fro data is null");
+          _captureController.resume();
+          popexit();
           showInvalidToast();
           return null;
         }
@@ -155,6 +161,8 @@ class _ScanState extends State<Scan> {
               msg: "Valid QR CODE before CTQ", toastLength: Toast.LENGTH_LONG);
           checkForTableOccupied();
         } else {
+          popexit();
+          _captureController.resume();
           showInvalidToast();
         }
         print("after if  data null hai ");
@@ -187,9 +195,10 @@ class _ScanState extends State<Scan> {
             _captureController.resume();
           } else {
             print("get res call");
-            await getRestaurantAndTableDetails(restaurantID, tableID);
+            //await getRestaurantAndTableDetails(restaurantID, tableID);
+            _createUserSession();
             print("init user call");
-            await initUserSession(restaurantID, tableID);
+            //await initUserSession(restaurantID, tableID);
           }
         } else {
           showInvalidToast();
@@ -292,9 +301,9 @@ class _ScanState extends State<Scan> {
             .document(tableID)
             .setData(tableSessionDetails, merge: true)
             .then((table) {
-              popexit();
-              popexit();
-              showMenu();
+          popexit();
+          popexit();
+          showMenu();
         }, onError: (e) {
           e.toString();
           print(e.toString());
@@ -303,8 +312,33 @@ class _ScanState extends State<Scan> {
     });
   }
 
-  showMenu() {
-    Navigator.pushNamed(context, "/menu");
+  _createUserSession() {
+    Map<String, Object> userdata = new HashMap<String, Object>();
+
+    userdata["restaurant"] = restaurantID;
+    userdata["table"] = tableID;
+    print("inside create USER SESSION");
+    cloudFunctions
+        .getHttpsCallable(functionName: "createUserSession")
+        .call(userdata)
+        .then((getData) {
+             Map<String, dynamic> resultData = Map<String, dynamic>.from (getData.data);
+              print("data in cloude Function" + getData.data.toString());
+              print("datatype in cloude Function" + getData.data.runtimeType.toString());
+            print("data in cloude Function" + resultData.toString());
+             String restaurantName = resultData["restaurant_name"];
+             String tableName = resultData["table_name"];
+             String sessionID = resultData["session_id"];
+              showMenu(restaurantName: restaurantName,tableName:tableName,sessionID: sessionID);
+    },onError: popexit());
+
+  }
+
+  showMenu({restaurantName, tableName, sessionID}) {
+    popexit();
+    popexit();
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MenuScreen(restaurantName,tableName,sessionID)));
   }
 
   updateOnSessionStartFail() {
