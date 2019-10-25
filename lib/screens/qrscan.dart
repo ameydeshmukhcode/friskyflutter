@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrcode/qrcode.dart';
@@ -12,7 +14,7 @@ class Scan extends StatefulWidget {
 class _ScanState extends State<Scan> {
   FirebaseUser firebaseUser;
   var firestore = Firestore.instance;
- // FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
   QRCaptureController _captureController = QRCaptureController();
   bool _isTorchOn = false;
   var restaurantID;
@@ -126,32 +128,31 @@ class _ScanState extends State<Scan> {
       showInvalidToast();
     } else {
       print("inside else");
+      print("QR CODE DATA IS = " + data.toString());
       restaurantID = data.split("+")[1];
       tableID = data.split("+")[2];
       print("resturant ka id " + restaurantID);
       print("table ID " + tableID);
-      popexit();
-      popexit();
-      Fluttertoast.showToast(
-          msg: "Valid QR CODE", toastLength: Toast.LENGTH_LONG);
-     await firestore
+      await firestore
           .collection("restaurants")
           .document(restaurantID)
           .get()
           .then((f) {
-        print(f.data["address"].toString());
+        //print(f.data["address"].toString());
         print(f.toString());
         print("before if  data null hai ");
         print("f null hai kya " + (f == null).toString());
         print("f null hai kya " + (f.exists).toString());
 
         if (f == null) {
+          print("inside if  fro data is null");
           showInvalidToast();
-
           return null;
         }
         if (f.exists) {
-          print("inside if  data null hai ");
+          print("inside if  data exist hai ");
+          Fluttertoast.showToast(
+              msg: "Valid QR CODE before CTQ", toastLength: Toast.LENGTH_LONG);
           checkForTableOccupied();
         } else {
           showInvalidToast();
@@ -169,7 +170,7 @@ class _ScanState extends State<Scan> {
         .document(tableID)
         .get()
         .then(
-      (f) {
+      (f) async {
         if (f == null) {
           showInvalidToast();
           return null;
@@ -183,8 +184,12 @@ class _ScanState extends State<Scan> {
             Fluttertoast.showToast(
                 msg: "Table is occupied", toastLength: Toast.LENGTH_LONG);
             popexit();
+            _captureController.resume();
           } else {
-            getRestaurantAndTableDetails(restaurantID, tableID);
+            print("get res call");
+            await getRestaurantAndTableDetails(restaurantID, tableID);
+            print("init user call");
+            await initUserSession(restaurantID, tableID);
           }
         } else {
           showInvalidToast();
@@ -194,10 +199,112 @@ class _ScanState extends State<Scan> {
     );
   }
 
-  getRestaurantAndTableDetails(restaurantID, tableID) {
-
+  // ignore: missing_return
+  Future getRestaurantAndTableDetails(restaurantID, tableID) async {
     Fluttertoast.showToast(
-        msg: "getresandtable implementation baki hai", toastLength: Toast.LENGTH_LONG);
+        msg: "implementation baki hai but qr is 100% valid",
+        toastLength: Toast.LENGTH_LONG);
+
+    await firestore.collection("restaurants").document(restaurantID).get().then(
+      (resDoc) async {
+        if (resDoc == null) {
+          return;
+        }
+        if (resDoc.exists) {
+          var resname = await resDoc.data["name"];
+          print("RES NAME IS = " + resname.toString());
+        } else {
+          print("NO Such Doc Exit");
+        }
+      },
+      onError: (e) {
+        print(e.toString());
+        throw e;
+      },
+    ).whenComplete(() async {
+      await firestore
+          .collection("restaurants")
+          .document(restaurantID)
+          .collection("tables")
+          .document(tableID)
+          .get()
+          .then(
+        (resTableDoc) async {
+          if (resTableDoc == null) {
+            return;
+          }
+          if (resTableDoc.exists) {
+            var tableSerial = "Table " + await resTableDoc.data["number"];
+            print("Table Serial IS = " + tableSerial.toString());
+          } else {
+            print("NO Such Doc Exit");
+          }
+        },
+        onError: (e) {
+          print(e.toString());
+
+          throw e;
+        },
+      );
+    });
+  }
+
+  Future getUser() async {
+    firebaseUser = await _auth.currentUser();
+    // print(firebaseUser.uid.toString());
+  }
+
+  initUserSession(restaurantID, tableID) async {
+    Map<String, Object> sessionDetails = new HashMap<String, Object>();
+    sessionDetails.clear();
+    print("inside init user session");
+    sessionDetails["table_id"] = tableID;
+    await getUser();
+    if (firebaseUser != null) sessionDetails["created_by"] = firebaseUser.uid;
+    sessionDetails["start_time"] =
+        DateTime.now().toUtc().millisecondsSinceEpoch;
+    sessionDetails["is_active"] = true;
+    print("last me sab print \n " + sessionDetails.toString());
+    await firestore
+        .collection("restaurants")
+        .document(restaurantID)
+        .collection("sessions")
+        .add(sessionDetails)
+        .then((data) async {
+      final String sessionID = data.documentID;
+      Map<String, Object> userSessionDetails = new HashMap<String, Object>();
+      userSessionDetails["session_active"] = true;
+      userSessionDetails["current_session"] = sessionID;
+      userSessionDetails["restaurant"] = restaurantID;
+      print("last me sab print \n " + userSessionDetails.toString());
+      await firestore
+          .collection("users")
+          .document(firebaseUser.uid)
+          .setData(userSessionDetails, merge: true)
+          .then((userdata) async {
+        Map<String, Object> tableSessionDetails = new HashMap<String, Object>();
+        tableSessionDetails["occupied"] = true;
+        tableSessionDetails["session_id"] = sessionID;
+        await firestore
+            .collection("restaurants")
+            .document(restaurantID)
+            .collection("tables")
+            .document(tableID)
+            .setData(tableSessionDetails, merge: true)
+            .then((table) {
+              popexit();
+              popexit();
+              showMenu();
+        }, onError: (e) {
+          e.toString();
+          print(e.toString());
+        });
+      });
+    });
+  }
+
+  showMenu() {
+    Navigator.pushNamed(context, "/menu");
   }
 
   updateOnSessionStartFail() {
