@@ -114,6 +114,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                 endIndent: 8,
               ),
               ListView.builder(
+                  padding: EdgeInsets.only(bottom: 0),
                   itemCount: _orderItems.length,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
