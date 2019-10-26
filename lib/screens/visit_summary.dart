@@ -118,8 +118,11 @@ class _VisitSummaryState extends State<VisitSummary> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return OrderItemWidget(_orderItems[index].name,
-                        _orderItems[index].count, _orderItems[index].total);
+                    return OrderItemWidget(
+                        _orderItems[index].name,
+                        _orderItems[index].count,
+                        _orderItems[index].total,
+                        _orderItems[index].orderStatus);
                   }),
               Divider(
                 indent: 8,
