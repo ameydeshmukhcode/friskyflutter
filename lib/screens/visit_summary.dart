@@ -123,9 +123,20 @@ class _VisitSummaryState extends State<VisitSummary> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(_orderItems[index].name),
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.trip_origin,
+                                    size: 10,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4),
+                                  ),
+                                  Text(_orderItems[index].name)
+                                ],
+                              ),
                               Row(
                                 children: <Widget>[
                                   Text("x" +
@@ -142,11 +153,17 @@ class _VisitSummaryState extends State<VisitSummary> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text("Padding"),
+                              Icon(
+                                Icons.done,
+                                color: Colors.green,
+                              ),
                               Padding(
                                 padding: EdgeInsets.only(left: 4),
                               ),
-                              Text("Whatevs")
+                              Text(
+                                "Accepted",
+                                style: TextStyle(color: Colors.green),
+                              )
                             ],
                           )
                         ],
