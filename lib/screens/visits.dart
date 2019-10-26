@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../frisky_colors.dart';
 import '../size_config.dart';
+import 'visit_summary.dart';
 
 class Visits {
   String restaurantImage;
@@ -172,9 +173,12 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
                               margin: EdgeInsets.all(0),
                               elevation: 1,
                               child: InkWell(
-                                //TODO: show visit summary
                                 onTap: () {
-                                       },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => VisitSummary()),
+                                  );
+                                },
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
