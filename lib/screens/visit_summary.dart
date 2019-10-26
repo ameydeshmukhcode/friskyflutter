@@ -34,6 +34,7 @@ class _VisitSummaryState extends State<VisitSummary> {
 
   @override
   void initState() {
+    super.initState();
     _getVisitSummary().whenComplete(() {
       _orderItemsList = _getOrders().whenComplete(() {
         setState(() {
@@ -41,7 +42,6 @@ class _VisitSummaryState extends State<VisitSummary> {
         });
       });
     });
-    super.initState();
   }
 
   @override
@@ -68,7 +68,7 @@ class _VisitSummaryState extends State<VisitSummary> {
     return FutureBuilder(
       future: _orderItemsList,
       builder: (context, snapshot) {
-        if (isLoading == true) {
+        if (isLoading) {
           return Align(
             alignment: Alignment.center,
             child: Column(
@@ -213,6 +213,6 @@ class _VisitSummaryState extends State<VisitSummary> {
       }
     });
 
-    return _orderItemsList;
+    return _orderItems;
   }
 }
