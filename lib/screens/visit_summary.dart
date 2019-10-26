@@ -112,7 +112,47 @@ class _VisitSummaryState extends State<VisitSummary> {
                 indent: 8,
                 endIndent: 8,
               ),
-              //TODO Add order list here
+              ListView.builder(
+                  itemCount: _orderItems.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text(_orderItems[index].name),
+                              Row(
+                                children: <Widget>[
+                                  Text("x" +
+                                      _orderItems[index].count.toString()),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4),
+                                  ),
+                                  Text("Item total \u20B9" +
+                                      _orderItems[index].total.toString()),
+                                ],
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text("Padding"),
+                              Padding(
+                                padding: EdgeInsets.only(left: 4),
+                              ),
+                              Text("Whatevs")
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  }),
               Divider(
                 indent: 8,
                 endIndent: 8,
