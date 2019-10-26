@@ -156,7 +156,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      "\u20B9 " + gst,
+                      "\u20B9 " + amountPayable,
                       style: TextStyle(fontSize: 20),
                     )
                   ],
