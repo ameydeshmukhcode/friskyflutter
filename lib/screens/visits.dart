@@ -40,7 +40,7 @@ class VisitTab extends StatefulWidget {
   _VisitTabState createState() => _VisitTabState();
 }
 
-class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<VisitTab>{
+class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<VisitTab> {
   bool get wantKeepAlive => true;
   FirebaseUser firebaseUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
