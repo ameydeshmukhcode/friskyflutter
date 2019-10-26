@@ -9,8 +9,8 @@ class OrderItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+    return Container(
+      padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -35,7 +35,11 @@ class OrderItemWidget extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 4),
                   ),
-                  Text("Item total \u20B9" + total.toString()),
+                  Text("Item total "),
+                  Text(
+                    "\u20B9 " + total.toString(),
+                    style: TextStyle(color: Colors.red),
+                  )
                 ],
               )
             ],
