@@ -3,6 +3,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/structures/order_status.dart';
+import 'package:friskyflutter/widgets/card_order_item.dart';
 
 import '../frisky_colors.dart';
 
@@ -117,58 +118,8 @@ class _VisitSummaryState extends State<VisitSummary> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.trip_origin,
-                                    size: 10,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 4),
-                                  ),
-                                  Text(_orderItems[index].name)
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text("x" +
-                                      _orderItems[index].count.toString()),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 4),
-                                  ),
-                                  Text("Item total \u20B9" +
-                                      _orderItems[index].total.toString()),
-                                ],
-                              )
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Icon(
-                                Icons.done,
-                                color: Colors.green,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 4),
-                              ),
-                              Text(
-                                "Accepted",
-                                style: TextStyle(color: Colors.green),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    );
+                    return OrderItemWidget(_orderItems[index].name,
+                        _orderItems[index].count, _orderItems[index].total);
                   }),
               Divider(
                 indent: 8,
