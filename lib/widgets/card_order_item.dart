@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:friskyflutter/structures/order_status.dart';
 
 class OrderItemWidget extends StatelessWidget {
   final String name;
   final int count;
   final int total;
+  final OrderStatus status;
 
-  OrderItemWidget(this.name, this.count, this.total);
+  OrderItemWidget(this.name, this.count, this.total, this.status);
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +50,14 @@ class OrderItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Icon(
-                Icons.done,
+                _getStatusIcon(status),
                 color: Colors.green,
               ),
               Padding(
                 padding: EdgeInsets.only(left: 4),
               ),
               Text(
-                "Accepted",
+                _getStatusString(status),
                 style: TextStyle(color: Colors.green),
               )
             ],
@@ -63,5 +65,32 @@ class OrderItemWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  IconData _getStatusIcon(OrderStatus orderStatus) {
+    switch (orderStatus) {
+      case OrderStatus.pending:
+        return Icons.access_time;
+      case OrderStatus.accepted:
+        return Icons.done;
+      case OrderStatus.rejected:
+      case OrderStatus.cancelled:
+        return Icons.close;
+    }
+    return Icons.trip_origin;
+  }
+
+  String _getStatusString(OrderStatus orderStatus) {
+    switch (orderStatus) {
+      case OrderStatus.pending:
+        return "Pending";
+      case OrderStatus.accepted:
+        return "Accepted";
+      case OrderStatus.rejected:
+        return "Rejected";
+      case OrderStatus.cancelled:
+        return "Cancelled";
+    }
+    return "";
   }
 }
