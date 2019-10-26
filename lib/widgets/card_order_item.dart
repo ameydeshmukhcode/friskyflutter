@@ -51,14 +51,14 @@ class OrderItemWidget extends StatelessWidget {
             children: <Widget>[
               Icon(
                 _getStatusIcon(status),
-                color: Colors.green,
+                color: _getStatusColor(status),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 4),
               ),
               Text(
                 _getStatusString(status),
-                style: TextStyle(color: Colors.green),
+                style: TextStyle(color: _getStatusColor(status)),
               )
             ],
           )
@@ -92,5 +92,18 @@ class OrderItemWidget extends StatelessWidget {
         return "Cancelled";
     }
     return "";
+  }
+
+  MaterialColor _getStatusColor(OrderStatus orderStatus) {
+    switch (orderStatus) {
+      case OrderStatus.pending:
+        return Colors.yellow;
+      case OrderStatus.accepted:
+        return Colors.green;
+      case OrderStatus.rejected:
+      case OrderStatus.cancelled:
+        return Colors.red;
+    }
+    return Colors.transparent;
   }
 }
