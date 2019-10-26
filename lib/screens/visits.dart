@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,15 +11,20 @@ import '../size_config.dart';
 import 'visit_summary.dart';
 
 class Visits {
+  String sessionID;
+  String restaurantID;
   String restaurantImage;
   String restaurantName;
   Timestamp endTime;
   String totalAmount;
-  Visits(
-      [String restaurantImage,
-      String restaurantName,
-      Timestamp endTime,
-      String totalAmount]) {
+  Visits([String sessionID,
+        String restaurantID,
+        String restaurantImage,
+        String restaurantName,
+        Timestamp endTime,
+        String totalAmount]) {
+    this.sessionID = sessionID;
+    this.restaurantID = restaurantID;
     this.restaurantImage = restaurantImage;
     this.restaurantName = restaurantName;
     this.endTime = endTime;
@@ -37,10 +44,14 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
   bool get wantKeepAlive => true;
   FirebaseUser firebaseUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
+
+  var sessionId;
   var resname;
   var endtime;
   var totalamount;
   var imgurl;
+  var resid;
+
   Future _visitslist;
   bool isLoading = true;
   bool isEmpty = false;
@@ -88,14 +99,16 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
       VisitsList.clear();
       for (i = 0; i < data.documents.length; i++) {
         if (data.documents[i].data.containsKey("amount_payable")) {
+          sessionId = data.documents[i].documentID;
           endtime = await data.documents[i]["end_time"];
           totalamount = await data.documents[i]["amount_payable"];
           var img = data.documents[i].reference.parent().parent();
           await img.get().then((f) async {
             imgurl = await f.data["image"];
             resname = await f.data["name"];
+            resid = f.documentID;
           }).then((f) async {
-            VisitsList.add(Visits(imgurl, resname, endtime, totalamount));
+            VisitsList.add(Visits(sessionId, resid, imgurl, resname, endtime, totalamount));
           });
         }
       }
@@ -176,7 +189,11 @@ class _VisitTabState extends State<VisitTab>with AutomaticKeepAliveClientMixin<V
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => VisitSummary()),
+                                    MaterialPageRoute(builder: (context) => VisitSummary(
+                                      sessionID: VisitsList[index].sessionID,
+                                      restaurantID: VisitsList[index].restaurantID,
+                                      restaurantName: VisitsList[index].restaurantName,
+                                    )),
                                   );
                                 },
                                 child: Row(
