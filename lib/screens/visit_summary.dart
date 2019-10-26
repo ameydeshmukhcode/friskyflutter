@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/structures/order_status.dart';
 
+import '../frisky_colors.dart';
+
 class VisitSummary extends StatefulWidget {
   final String sessionID;
   final String restaurantID;
@@ -45,99 +47,116 @@ class _VisitSummaryState extends State<VisitSummary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        // body: //_visitsList(),
-        body: Center(
-          child: _orderSummary(),
-        ));
+      appBar: AppBar(
+        title: Text(
+          "Visit Summary",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      backgroundColor: Colors.white,
+      // body: //_visitsList(),
+      body: _orderSummary(),
+    );
   }
 
   Widget _orderSummary() {
     return FutureBuilder(
       future: _orderItemsList,
       builder: (context, snapshot) {
-        return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                "Visit Summary",
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              iconTheme: IconThemeData(color: Colors.black),
-            ),
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+        if (isLoading == true) {
+          return Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  widget.restaurantName,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 8),
-                ),
-                Text(
-                  formatDate(endTime.toDate(), [dd, ' ', M, ' ', yyyy,' ', hh,':', nn, ' ', am]),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
-                ),
-                Divider(
-                  indent: 8,
-                  endIndent: 8,
-                ),
-                //TODO Add order list here
-                Divider(
-                  indent: 8,
-                  endIndent: 8,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Order total"),
-                      Text("\u20B9 " + billAmount)
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[Text("GST"), Text("\u20B9 " + gst)],
-                  ),
-                ),
-                Divider(
-                  indent: 8,
-                  endIndent: 8,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Final Total",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        "\u20B9 " + gst,
-                        style: TextStyle(fontSize: 20),
-                      )
-                    ],
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      FriskyColor().colorPrimary,
+                    ),
                   ),
                 ),
               ],
-            ));
+            ),
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                widget.restaurantName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+              ),
+              Text(
+                formatDate(endTime.toDate(),
+                    [dd, ' ', M, ' ', yyyy, ' ', hh, ':', nn, ' ', am]),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+              ),
+              Divider(
+                indent: 8,
+                endIndent: 8,
+              ),
+              //TODO Add order list here
+              Divider(
+                indent: 8,
+                endIndent: 8,
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Order total"),
+                    Text("\u20B9 " + billAmount)
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[Text("GST"), Text("\u20B9 " + gst)],
+                ),
+              ),
+              Divider(
+                indent: 8,
+                endIndent: 8,
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Final Total",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      "\u20B9 " + gst,
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
       },
     );
   }
