@@ -4,6 +4,7 @@ import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/visits.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'frisky_colors.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -73,14 +74,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(children: <Widget>[
-        HomeTab(),
-        DineTab(),
-        VisitTab(),
-      ], onPageChanged: onPageChanged, controller: _pageController),
+      body: PageView(
+        children: <Widget>[
+          HomeTab(),
+          DineTab(),
+          VisitTab(),
+        ],
+        onPageChanged: onPageChanged,
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
+      ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pushNamed(context, "/scan");
+        onPressed: () async {
+          // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+          navigateToScan();
         },
         icon: Icon(MdiIcons.qrcode),
         label: Text("Scan QR Code"),
@@ -89,5 +96,29 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: _bottomNavBar(),
     );
+  }
+
+  getPermission() async {
+    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    if (await checkForPermission()) {
+      Navigator.pushNamed(context, "/scan");
+    }
+  }
+
+  navigateToScan() async {
+    if (await checkForPermission()) {
+      Navigator.pushNamed(context, "/scan");
+    } else {
+      getPermission();
+    }
+  }
+
+  Future<bool> checkForPermission() async {
+    PermissionStatus permission =
+        await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+    if (permission.toString() == "PermissionStatus.granted")
+      return true;
+    else
+      return false;
   }
 }
