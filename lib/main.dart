@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/login/user_login.dart';
 import 'package:friskyflutter/frisky_colors.dart';
@@ -6,10 +7,34 @@ import 'package:friskyflutter/screens/qrscan.dart';
 import 'home_screen.dart';
 import 'package:friskyflutter/login/email_signup.dart';
 
-void main() => runApp(MyApp());
+FirebaseAuth _auth = FirebaseAuth.instance;
+FirebaseUser user;
+Widget initRoute = Text("hellow");
+
+
+Future<FirebaseUser> getUser() async {
+  return await _auth.currentUser();
+}
+void main() {
+  getUser().then((user){
+    if (user == null) {
+      print("null user");
+      initRoute = UserLogin();
+      runApp(MyApp());
+      return initRoute;
+    }
+    else{
+      print("not null user = "+user.displayName.toString());
+      initRoute = HomeScreen();
+      runApp(MyApp());
+      return initRoute;
+    }
+  });
+
+
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +43,7 @@ class MyApp extends StatelessWidget {
         primaryColor: FriskyColor().colorPrimary,
         accentColor: FriskyColor().colorPrimary,
       ),
-      home: HomeScreen(),
+      home: initRoute,
       routes: <String, WidgetBuilder>{
         "/homepage": (BuildContext context) => HomeScreen(),
         "/esingin": (BuildContext context) => EmailSignIn(),
@@ -30,3 +55,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
