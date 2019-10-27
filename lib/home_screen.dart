@@ -13,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController;
   int _page = 0;
-
   @override
   void initState() {
     super.initState();
@@ -73,11 +72,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(children: <Widget>[
-        HomeTab(),
-        DineTab(),
-        VisitTab(),
-      ], onPageChanged: onPageChanged, controller: _pageController),
+      body: PageView(
+        children: <Widget>[
+          HomeTab(),
+          DineTab(),
+          VisitTab(),
+        ],
+        onPageChanged: onPageChanged,
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.pushNamed(context, "/scan");

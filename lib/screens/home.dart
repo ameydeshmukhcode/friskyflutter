@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:friskyflutter/login/user_login.dart';
 import 'package:friskyflutter/size_config.dart';
 import '../frisky_colors.dart';
 import '../restaurants_details_screen.dart';
@@ -20,13 +21,7 @@ class _HomeTabState extends State<HomeTab>
   bool isSignedIn = false;
   Future _restaurantList;
 
-  checkAuthentication() async {
-    _auth.onAuthStateChanged.listen((user) async {
-      if (user == null) {
-        Navigator.pushReplacementNamed(context, "/login");
-      }
-    });
-  }
+
 
   navigateToDetails(DocumentSnapshot restaurant) {
     Navigator.push(
@@ -39,6 +34,9 @@ class _HomeTabState extends State<HomeTab>
 
   signOut() async {
     _auth.signOut();
+    Navigator.pushReplacement(
+        context, new MaterialPageRoute(
+        builder: (context) => UserLogin()));
   }
 
   getUser() async {
@@ -56,7 +54,6 @@ class _HomeTabState extends State<HomeTab>
   @override
   void initState() {
     super.initState();
-    this.checkAuthentication();
     this.getUser();
     _restaurantList = this.getRestaurants();
   }
