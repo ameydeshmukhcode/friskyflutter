@@ -27,7 +27,7 @@ class _OptionsScreenState extends State<OptionsScreen> {
         children: <Widget>[
           InkWell(
               child: Container(
-                padding: EdgeInsets.only(bottom: 16),
+            padding: EdgeInsets.only(bottom: 16),
             child: FlatButton(
               padding: EdgeInsets.all(0),
               onPressed: _signOut,
