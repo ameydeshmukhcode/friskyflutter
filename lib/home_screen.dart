@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friskyflutter/screens/dine_orders.dart';
 import 'package:friskyflutter/screens/home.dart';
 import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/visits.dart';
@@ -90,18 +91,22 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 0,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        children: <Widget>[
-          HomeTab(),
-          DineTab(),
-          VisitTab(),
-        ],
-        onPageChanged: onPageChanged,
-        controller: _pageController,
+      body: Consumer<Session>(
+        // ignore: non_constant_identifier_names
+        builder: (context, Session, child) {
+         return PageView(
+          children: <Widget>[
+            HomeTab(),
+           Session.isSessionActive ? DineOrders(): DineTab(),
+            VisitTab(),
+          ],
+          onPageChanged: onPageChanged,
+          controller: _pageController,
+        );
+        }
       ),
       floatingActionButton: Consumer<Session>(
           // ignore: non_constant_identifier_names

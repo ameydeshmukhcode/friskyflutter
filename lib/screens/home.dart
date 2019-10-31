@@ -73,9 +73,14 @@ class _HomeTabState extends State<HomeTab>
     return querySnapshot.documents;
   }
 
-  changestatus() async {
+  changeStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.setBool("session_active",false);
+    if(sharedPreferences.getBool("session_active")) {
+      await sharedPreferences.setBool("session_active", false);
+    }
+    else{
+      await sharedPreferences.setBool("session_active",true);
+    }
     Provider.of<Session>(context).getStatus();
   }
 
@@ -96,7 +101,7 @@ class _HomeTabState extends State<HomeTab>
               icon: Icon(Icons.settings),
               color: FriskyColor().colorPrimary,
               onPressed: () {
-                changestatus();
+                changeStatus();
               })
         ],
         elevation: 0.0,
