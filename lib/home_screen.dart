@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:friskyflutter/screens/dine_orders.dart';
 import 'package:friskyflutter/screens/home.dart';
 import 'package:friskyflutter/screens/dine.dart';
+import 'package:friskyflutter/screens/menuscreen.dart';
 import 'package:friskyflutter/screens/visits.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'frisky_colors.dart';
@@ -23,7 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     Provider.of<Session>(context, listen: false).getStatus();
+
   }
+
 
   @override
   initState() {
@@ -64,13 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         BottomNavigationBarItem(
-          icon: Consumer<Session>(builder: (context, Session, child) {
+          icon: Consumer<Session>(builder: (context, session, child) {
             return Badge(
               child: Icon(Icons.restaurant),
               badgeColor: FriskyColor().colorBadge,
               elevation: 0,
               position: BadgePosition.topRight(right: -7, top: -6),
-              showBadge: Session.isSessionActive,
+              showBadge: session.isSessionActive,
             );
           }),
           title: Text(
@@ -107,14 +110,18 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _pageController,
         );
       }),
-      bottomSheet: Consumer<Session>(builder: (context, Session, child) {
+      bottomSheet: Consumer<Session>(builder: (context, session , child) {
         return Visibility(
-            visible: Session.isSessionActive,
+            visible: session.isSessionActive,
             child: ListTile(
-              title: Text("you are at"),
-              subtitle: Text("kya naam deneak ?"),
+              title: Text("Currently at",style: TextStyle(fontSize:14,color: FriskyColor().colorTextLight),),
+              subtitle: Text(session.restaurantName +" - Table "+ session.tableName,style: TextStyle(fontSize:16,fontWeight: FontWeight.bold)),
               trailing: OutlineButton(
-                onPressed: () {},
+                color: Colors.lightGreen,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MenuScreen(session.restaurantName,session.tableName,session.tableName,session.restaurantName)));
+                },
                 child: Text("Menu",style: TextStyle(color: FriskyColor().colorPrimary),),
                 borderSide: BorderSide(color: FriskyColor().colorPrimary,width: 1.5, ),
                 shape: RoundedRectangleBorder(

@@ -18,7 +18,7 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
-  String sessionID;
+  String sessionID,tableName,restaurantName;
  // SharedPreferences sharedPreferences;
   FirebaseUser firebaseUser;
   var firestore = Firestore.instance;
@@ -338,8 +338,8 @@ class _ScanState extends State<Scan> {
               print("data in cloude Function" + getData.data.toString());
               print("datatype in cloude Function" + getData.data.runtimeType.toString());
             print("data in cloude Function" + resultData.toString());
-             String restaurantName = resultData["restaurant_name"];
-             String tableName = resultData["table_name"];
+              restaurantName = resultData["restaurant_name"];
+             tableName = resultData["table_name"];
              sessionID = resultData["session_id"];
              await  setPreferences();
              showMenu(restaurantName: restaurantName,tableName:tableName,sessionID: sessionID);
@@ -352,6 +352,8 @@ class _ScanState extends State<Scan> {
     await sharedPreferences.setString("restaurant_id", restaurantID);
     await sharedPreferences.setString("session_id", sessionID);
     await sharedPreferences.setString("table_id", tableID);
+    await sharedPreferences.setString("table_name", tableName);
+    await sharedPreferences.setString("resturant_name", restaurantName);
     Provider.of<Session>(context).getStatus();
     return null;
   }
