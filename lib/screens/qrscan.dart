@@ -344,7 +344,7 @@ class _ScanState extends State<Scan> {
   showMenu({restaurantName, tableName, sessionID}) {
     popexit();
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MenuScreen(restaurantName,tableName,sessionID)));
+        MaterialPageRoute(builder: (context) => MenuScreen(restaurantName,tableName,sessionID,restaurantID)));
   }
   updateOnSessionStartFail() {
     popexit();

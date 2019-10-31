@@ -64,7 +64,6 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
   @override
   void initState() {
     this.getUser().whenComplete((){
-
       _visitslist = this.getVisits().whenComplete(() {
         setState(() {
           print("inside set state");
@@ -76,7 +75,6 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
             isLoading = false;
             isEmpty = true;
             print("length  = "+ VisitsList.length.toString());
-
           }
         });
       });
@@ -133,7 +131,6 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
     return FutureBuilder(
         future: _visitslist,
         builder: (context, snapshot) {
-          // ignore: missing_return
           if (isLoading == true) {
             return Align(
               alignment: Alignment.center,
