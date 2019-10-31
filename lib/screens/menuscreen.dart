@@ -165,7 +165,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 "session ID = " + widget.sessionID,
                 style: TextStyle(fontSize: 20),
               ),
-              MenuList(),
+              menuList(),
             ],
           ),
         ),
@@ -173,7 +173,7 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
-  Widget MenuList()  {
+  Widget menuList()  {
     return FutureBuilder(
         future: _finalmenulist,
         builder: (context, snapshot) {
