@@ -4,9 +4,10 @@ class DineOrders extends StatefulWidget {
   _DineOrdersState createState() => _DineOrdersState();
 }
 
+
 class _DineOrdersState extends State<DineOrders> {
   @override
   Widget build(BuildContext context) {
-    return Container( child: Center(child: Text("DINE SCREEN WHILE SESSION ACTIVE"),),);
+    return Container( child: Center(child: Text("DINE SCREEN WHILE SESSION ACTIVE"),),color: Colors.white,);
   }
 }

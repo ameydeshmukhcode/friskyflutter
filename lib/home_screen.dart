@@ -22,8 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Provider.of<Session>(context,listen: false).getStatus();
+    Provider.of<Session>(context, listen: false).getStatus();
   }
+
   @override
   initState() {
     super.initState();
@@ -63,17 +64,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         BottomNavigationBarItem(
-          icon: Consumer<Session>(
-        builder: (context, Session, child)
-            {
-              return Badge(child: Icon(Icons.restaurant),
-                badgeColor: FriskyColor().colorBadge,
-                elevation: 0,
-                position: BadgePosition.topRight(right: -7,top: -6),
-                showBadge:  Session.isSessionActive,
-              );
-            }
-          ),
+          icon: Consumer<Session>(builder: (context, Session, child) {
+            return Badge(
+              child: Icon(Icons.restaurant),
+              badgeColor: FriskyColor().colorBadge,
+              elevation: 0,
+              position: BadgePosition.topRight(right: -7, top: -6),
+              showBadge: Session.isSessionActive,
+            );
+          }),
           title: Text(
             "Dine",
           ),
@@ -88,25 +87,43 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
       backgroundColor: Colors.white,
-      elevation: 0,
+      elevation: 8,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<Session>(
-        // ignore: non_constant_identifier_names
-        builder: (context, Session, child) {
-         return PageView(
+          // ignore: non_constant_identifier_names
+          builder: (context, Session, child) {
+        return PageView(
           children: <Widget>[
             HomeTab(),
-           Session.isSessionActive ? DineOrders(): DineTab(),
+            Session.isSessionActive ? DineOrders() : DineTab(),
             VisitTab(),
           ],
           onPageChanged: onPageChanged,
           controller: _pageController,
         );
-        }
+      }),
+      bottomSheet: Consumer<Session>(builder: (context, Session, child) {
+        return Visibility(
+            visible: Session.isSessionActive,
+            child: ListTile(
+              title: Text("you are at"),
+              subtitle: Text("kya naam deneak ?"),
+              trailing: OutlineButton(
+                onPressed: () {},
+                child: Text("Menu",style: TextStyle(color: FriskyColor().colorPrimary),),
+                borderSide: BorderSide(color: FriskyColor().colorPrimary,width: 1.5, ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(4.0),
+                ),
+              ),
+            ));
+    },
+
       ),
       floatingActionButton: Consumer<Session>(
           // ignore: non_constant_identifier_names
