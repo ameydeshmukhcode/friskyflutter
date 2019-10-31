@@ -3,10 +3,13 @@ import 'package:friskyflutter/frisky_colors.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/screens/menuscreen.dart';
+import 'package:provider/provider.dart';
 import 'package:qrcode/qrcode.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 class Scan extends StatefulWidget {
@@ -15,6 +18,8 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
+  String sessionID;
+ // SharedPreferences sharedPreferences;
   FirebaseUser firebaseUser;
   var firestore = Firestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -322,23 +327,33 @@ class _ScanState extends State<Scan> {
 
   _createUserSession() async {
     Map<String, Object> userdata = new HashMap<String, Object>();
-
     userdata["restaurant"] = restaurantID;
     userdata["table"] = tableID;
     print("inside create USER SESSION");
     await cloudFunctions
         .getHttpsCallable(functionName: "createUserSession")
         .call(userdata)
-        .then((getData) {
+        .then((getData) async {
              Map<String, dynamic> resultData = Map<String, dynamic>.from (getData.data);
               print("data in cloude Function" + getData.data.toString());
               print("datatype in cloude Function" + getData.data.runtimeType.toString());
             print("data in cloude Function" + resultData.toString());
              String restaurantName = resultData["restaurant_name"];
              String tableName = resultData["table_name"];
-             String sessionID = resultData["session_id"];
-              showMenu(restaurantName: restaurantName,tableName:tableName,sessionID: sessionID);
+             sessionID = resultData["session_id"];
+             await  setPreferences();
+             showMenu(restaurantName: restaurantName,tableName:tableName,sessionID: sessionID);
     },onError: popexit());
+  }
+
+  setPreferences() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool("session_active", true);
+    await sharedPreferences.setString("restaurant_id", restaurantID);
+    await sharedPreferences.setString("session_id", sessionID);
+    await sharedPreferences.setString("table_id", tableID);
+    Provider.of<Session>(context).getStatus();
+    return null;
   }
 
   showMenu({restaurantName, tableName, sessionID}) {

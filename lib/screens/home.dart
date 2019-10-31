@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/size_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../frisky_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:friskyflutter/provider_models/session.dart';
 import '../restaurants_details_screen.dart';
 
 class HomeTab extends StatefulWidget {
@@ -70,6 +73,13 @@ class _HomeTabState extends State<HomeTab>
     return querySnapshot.documents;
   }
 
+
+  changestatus() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool("session_active",false);
+    Provider.of<Session>(context).getStatus();
+  }
+
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
@@ -87,7 +97,7 @@ class _HomeTabState extends State<HomeTab>
               icon: Icon(Icons.settings),
               color: FriskyColor().colorPrimary,
               onPressed: () {
-                signOut();
+                changestatus();
               })
         ],
         elevation: 0.0,

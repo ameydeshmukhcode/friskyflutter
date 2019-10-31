@@ -140,7 +140,6 @@ class _MenuScreenState extends State<MenuScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +152,6 @@ class _MenuScreenState extends State<MenuScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-
               FlatButton(onPressed: getMenuData, child: Text("GET MENU")),
               Text(
                 "Resturant name = " + widget.restaurantName,
@@ -197,13 +195,10 @@ class _MenuScreenState extends State<MenuScreen> {
             );
           }
           else{
-            
             return Text("Loading DOne");
           }
         }
     );
-
-
   }
 }
 
