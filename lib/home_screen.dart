@@ -5,6 +5,7 @@ import 'package:friskyflutter/screens/visits.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'frisky_colors.dart';
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
     Provider.of<Session>(context,listen: false).getStatus();
   }
-
   @override
   initState() {
     super.initState();
@@ -62,7 +62,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.restaurant),
+          icon: Consumer<Session>(
+        builder: (context, Session, child)
+            {
+              return Badge(child: Icon(Icons.restaurant),
+                badgeColor: FriskyColor().colorBadge,
+                elevation: 0,
+                position: BadgePosition.topRight(right: -7,top: -6),
+                showBadge:  Session.isSessionActive,
+              );
+            }
+          ),
           title: Text(
             "Dine",
           ),

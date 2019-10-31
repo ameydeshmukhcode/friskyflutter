@@ -73,7 +73,6 @@ class _HomeTabState extends State<HomeTab>
     return querySnapshot.documents;
   }
 
-
   changestatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setBool("session_active",false);
