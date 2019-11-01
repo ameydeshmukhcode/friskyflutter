@@ -1,3 +1,4 @@
+import 'package:friskyflutter/size_config.dart';
 import 'dart:collection';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:friskyflutter/structures/MenuCategory.dart';
 import 'package:friskyflutter/structures/DietType.dart';
 import 'package:friskyflutter/structures/MenuItem.dart';
-
 import '../frisky_colors.dart';
+
 class MenuScreen extends StatefulWidget {
   @override
   _MenuScreenState createState() => _MenuScreenState();
@@ -16,6 +17,7 @@ class MenuScreen extends StatefulWidget {
       : super();
   final String restaurantName, tableName, sessionID, restaurantID;
 }
+
 class _MenuScreenState extends State<MenuScreen> {
   List<MenuCategory> mCategories = List<MenuCategory>();
   HashMap<String, List<MenuItem>> mItems =
@@ -49,6 +51,7 @@ class _MenuScreenState extends State<MenuScreen> {
       await getItems();
     });
   }
+  ScrollController _scrollController;
 
   Future getItems() async {
     print("INSIDE GET ITEMS ");
@@ -136,16 +139,83 @@ class _MenuScreenState extends State<MenuScreen> {
         isLoading = false;
       });
     });
+    _scrollController = new ScrollController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Menu Screen"),
+        centerTitle: true,
+        elevation: 0,
+        iconTheme: IconThemeData(color: FriskyColor().colorTextDark),
+        title: Text(
+          "You're at",
+          style: TextStyle(
+            fontWeight: FontWeight.w300,
+            color: FriskyColor().colorTextDark,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.white,
       ),
-      body: Center(child: menuList()),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            color: Colors.white,
+            height: SizeConfig.safeBlockVertical * 10,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      widget.restaurantName,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: FriskyColor().colorTextLight,
+                        fontSize: SizeConfig.safeBlockVertical * 3,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        'Table ' + widget.tableName,
+                        style: TextStyle(
+                            fontSize: SizeConfig.safeBlockVertical * 3,
+                            color: FriskyColor().colorTextLight,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      decoration: BoxDecoration(
+                        color: FriskyColor().colorTableName,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    )
+                  ],
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+                Text(
+                  "Menu",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: FriskyColor().colorTextLight,
+                    fontSize: SizeConfig.safeBlockVertical * 2.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          menuList(),
+        ],
+      ),
+      floatingActionButton: _simplePopup(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -159,34 +229,146 @@ class _MenuScreenState extends State<MenuScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Shimmer.fromColors(child: Text("hellow"), baseColor: Colors.pink, highlightColor: Colors.green),
-                  Shimmer.fromColors(child: Container(height: 20,width: 200,color: Colors.blue,), baseColor: Colors.teal, highlightColor: Colors.pink),
-                  Shimmer.fromColors(child: SizedBox(height: 20,width: 200,), baseColor: FriskyColor().colorPrimary, highlightColor: Colors.blue),
-                  Shimmer.fromColors(child: SizedBox(height: 20,width: 200,), baseColor: FriskyColor().colorPrimary, highlightColor: Colors.teal),
-                  Shimmer.fromColors(child: SizedBox(height: 20,width: 200,), baseColor: FriskyColor().colorPrimary, highlightColor: Colors.grey),
+                  Shimmer.fromColors(
+                      child: Text("hellow"),
+                      baseColor: Colors.pink,
+                      highlightColor: Colors.green),
+                  Shimmer.fromColors(
+                      child: Container(
+                        height: 20,
+                        width: 200,
+                        color: Colors.blue,
+                      ),
+                      baseColor: Colors.teal,
+                      highlightColor: Colors.pink),
+                  Shimmer.fromColors(
+                      child: SizedBox(
+                        height: 20,
+                        width: 200,
+                      ),
+                      baseColor: FriskyColor().colorPrimary,
+                      highlightColor: Colors.blue),
+                  Shimmer.fromColors(
+                      child: SizedBox(
+                        height: 20,
+                        width: 200,
+                      ),
+                      baseColor: FriskyColor().colorPrimary,
+                      highlightColor: Colors.teal),
+                  Shimmer.fromColors(
+                      child: SizedBox(
+                        height: 20,
+                        width: 200,
+                      ),
+                      baseColor: FriskyColor().colorPrimary,
+                      highlightColor: Colors.grey),
                 ],
               ),
             );
-          }
-          else{
-            return Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                ListView.builder(
-                    itemCount: mMenu.length,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      if(mMenu[index].toString()=="Instance of 'MenuCategory'")
-                        {
-                          MenuCategory m = mMenu[index];
-                          return ListTile(title: Text(m.name),);
-                        }
-                      return Text("heloow");
-                    }),
-              ],
+          } else {
+            return Flexible(
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: mMenu.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    if (mMenu[index].toString() ==
+                        "Instance of 'MenuCategory'") {
+                      MenuCategory mc = mMenu[index];
+                      return Container(
+                        height: 70,
+                        child: Center(
+
+                            child: Text(
+                              mc.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: FriskyColor().colorTextLight,
+                                fontSize: SizeConfig.safeBlockVertical * 2.7,
+                              ),
+                            ),
+
+                        ),
+                      );
+                    }
+                    MenuItem mi = mMenu[index];
+                    return Container(
+                      height: 70,
+                      child: ListTile(
+                        title: Text(
+                          mi.name + "\n\u20B9 " + mi.price.toString(),
+                          style: TextStyle(
+                              color: FriskyColor().colorTextDark,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        subtitle: Text(mi.description),
+                        trailing: FlatButton(
+                            color: FriskyColor().colorBadge,
+                            onPressed: () {
+                              print(mi.name);
+                            },
+                            child: Text(
+                              "ADD +",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                    );
+                  }
+                  ),
             );
+
           }
         });
   }
+
+  Widget _simplePopup() {
+    return PopupMenuButton<MenuCategory>(
+      child: Container(
+        child: Padding(
+          padding:
+              const EdgeInsets.only(top: 16, bottom: 16, right: 16, left: 16),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.restaurant,
+                color: Colors.white,
+                size: SizeConfig.safeBlockVertical * 2.5,
+              ),
+              Text(
+                " Category",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: SizeConfig.safeBlockVertical * 2.5),
+              )
+            ],
+          ),
+        ),
+        decoration: BoxDecoration(
+          color: FriskyColor().colorPrimary,
+          borderRadius: BorderRadius.circular(100),
+        ),
+      ),
+      itemBuilder: (BuildContext context) {
+        return mCategories.map((MenuCategory m) {
+          return PopupMenuItem<MenuCategory>(
+            value: m,
+            child: Text(m.name),
+          );
+        }).toList();
+      },
+      onSelected: (s){
+        print(s);
+           MenuCategory menuCategory = s;
+        int a =mMenu.indexOf(menuCategory) ;
+        print(a) ;
+        _scrollController.animateTo(a.toDouble()*70, duration: Duration(seconds: 1), curve: Curves.easeInToLinear);
+        },
+      offset: Offset(1,-460),
+    );
+  }
 }
+
