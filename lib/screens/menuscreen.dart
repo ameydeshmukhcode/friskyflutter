@@ -195,7 +195,22 @@ class _MenuScreenState extends State<MenuScreen> {
             );
           }
           else{
-            return Text("Loading DOne");
+            return Column(
+              children: <Widget>[
+                ListView.builder(
+                    itemCount: mMenu.length,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      if(mMenu[index].toString()=="Instance of 'MenuCategory'")
+                        {
+                          MenuCategory m = mMenu[index];
+                          return ListTile(title: Text(m.name),);
+                        }
+                      return Text("heloow");
+                    }),
+              ],
+            );
           }
         }
     );

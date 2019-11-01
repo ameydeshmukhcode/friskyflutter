@@ -65,7 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.restaurant),
+          icon: Consumer<Session>(builder: (context, session, child) {
+            return Badge(
+              child: Icon(Icons.restaurant),
+              badgeColor: FriskyColor().colorBadge,
+              elevation: 0,
+              position: BadgePosition.topRight(right: -7, top: -6),
+              showBadge: session.isSessionActive,
+            );
+          }),
           title: Text(
             "Dine",
           ),
@@ -88,18 +96,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<Session>(
-          // ignore: non_constant_identifier_names
+        // ignore: non_constant_identifier_names
           builder: (context, Session, child) {
-        return PageView(
-          children: <Widget>[
-            HomeTab(),
-            Session.isSessionActive ? DineOrders() : DineTab(),
-            VisitTab(),
-          ],
-          onPageChanged: onPageChanged,
-          controller: _pageController,
-        );
-      }),
+            return PageView(
+              children: <Widget>[
+                HomeTab(),
+                Session.isSessionActive ? DineOrders() : DineTab(),
+                VisitTab(),
+              ],
+              onPageChanged: onPageChanged,
+              controller: _pageController,
+            );
+          }),
       bottomSheet: Consumer<Session>(
         builder: (context, session, child) {
           return Visibility(
@@ -113,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 subtitle: Text(
                     session.restaurantName + " - Table " + session.tableName,
                     style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 trailing: OutlineButton(
                   color: Colors.lightGreen,
                   onPressed: () {
@@ -142,20 +150,20 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: Consumer<Session>(
-          // ignore: non_constant_identifier_names
+        // ignore: non_constant_identifier_names
           builder: (context, Session, child) {
-        return Visibility(
-          visible: !Session.isSessionActive,
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.pushNamed(context, "/scan");
-            },
-            icon: Icon(MdiIcons.qrcode),
-            label: Text("Scan QR Code"),
-            backgroundColor: FriskyColor().colorPrimary,
-          ),
-        );
-      }),
+            return Visibility(
+              visible: !Session.isSessionActive,
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/scan");
+                },
+                icon: Icon(MdiIcons.qrcode),
+                label: Text("Scan QR Code"),
+                backgroundColor: FriskyColor().colorPrimary,
+              ),
+            );
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: _bottomNavBar(),
     );

@@ -353,7 +353,7 @@ class _ScanState extends State<Scan> {
     await sharedPreferences.setString("session_id", sessionID);
     await sharedPreferences.setString("table_id", tableID);
     await sharedPreferences.setString("table_name", tableName);
-    await sharedPreferences.setString("resturant_name", restaurantName);
+    await sharedPreferences.setString("restaurant_name", restaurantName);
     Provider.of<Session>(context).getStatus();
     return null;
   }
