@@ -1,5 +1,5 @@
 import 'dart:collection';
-
+import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:friskyflutter/structures/MenuCategory.dart';
@@ -146,30 +146,7 @@ class _MenuScreenState extends State<MenuScreen> {
       appBar: AppBar(
         title: Text("Menu Screen"),
       ),
-      body: Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              FlatButton(onPressed: getMenuData, child: Text("GET MENU")),
-              Text(
-                "Resturant name = " + widget.restaurantName,
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                "Table name = " + widget.tableName,
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                "session ID = " + widget.sessionID,
-                style: TextStyle(fontSize: 20),
-              ),
-              menuList(),
-            ],
-          ),
-        ),
-      ),
+      body: Center(child: menuList()),
     );
   }
 
@@ -183,19 +160,18 @@ class _MenuScreenState extends State<MenuScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Center(
-                    child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                        FriskyColor().colorPrimary,
-                      ),
-                    ),
-                  ),
+                  Shimmer.fromColors(child: Text("hellow"), baseColor: Colors.pink, highlightColor: Colors.green),
+                  Shimmer.fromColors(child: Container(height: 20,width: 200,color: Colors.blue,), baseColor: Colors.teal, highlightColor: Colors.pink),
+                  Shimmer.fromColors(child: SizedBox(height: 20,width: 200,), baseColor: FriskyColor().colorPrimary, highlightColor: Colors.blue),
+                  Shimmer.fromColors(child: SizedBox(height: 20,width: 200,), baseColor: FriskyColor().colorPrimary, highlightColor: Colors.teal),
+                  Shimmer.fromColors(child: SizedBox(height: 20,width: 200,), baseColor: FriskyColor().colorPrimary, highlightColor: Colors.grey),
                 ],
               ),
             );
           }
           else{
             return Column(
+              mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 ListView.builder(
                     itemCount: mMenu.length,

@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 
+import 'provider_models/session.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -92,24 +94,22 @@ class _HomeScreenState extends State<HomeScreen>
       body: Consumer<Session>(
           // ignore: non_constant_identifier_names
           builder: (context, Session, child) {
-        return TabBarView(
-          children: [
-            HomeTab(),
-            Session.isSessionActive ? DineOrders() : DineTab(),
-            VisitTab(),
-          ],
-          controller: _tabController,
-          physics: NeverScrollableScrollPhysics(),
-        );
-      }),
-      bottomSheet: Consumer<Session>(
-        builder: (context, session, child) {
-//          return
-          return BottomSheet(
-              onClosing: () {},
-              builder: (BuildContext context) {
-                return Visibility(
-                    visible: session.isSessionActive,
+        return Stack(
+          children: <Widget>[
+            TabBarView(
+              children: [
+                HomeTab(),
+                Session.isSessionActive ? DineOrders() : DineTab(),
+                VisitTab(),
+              ],
+              controller: _tabController,
+              physics: NeverScrollableScrollPhysics(),
+            ),
+            Visibility(
+                visible: Session.isSessionActive,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(color: Colors.white,
                     child: ListTile(
                       title: Text(
                         "Currently at",
@@ -117,9 +117,9 @@ class _HomeScreenState extends State<HomeScreen>
                             fontSize: 14, color: FriskyColor().colorTextLight),
                       ),
                       subtitle: Text(
-                          session.restaurantName +
+                          Session.restaurantName +
                               " - Table " +
-                              session.tableName,
+                              Session.tableName,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
                       trailing: OutlineButton(
@@ -129,10 +129,10 @@ class _HomeScreenState extends State<HomeScreen>
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MenuScreen(
-                                      session.restaurantName,
-                                      session.tableName,
-                                      session.sessionID,
-                                      session.restaurantID)));
+                                      Session.restaurantName,
+                                      Session.tableName,
+                                      Session.sessionID,
+                                      Session.restaurantID)));
                         },
                         child: Text(
                           "Menu",
@@ -146,12 +146,14 @@ class _HomeScreenState extends State<HomeScreen>
                           borderRadius: new BorderRadius.circular(4.0),
                         ),
                       ),
-                    ));
-              },
-              enableDrag: true,
-              );
-        },
-      ),
+
+                    ),
+                  ),
+                ))
+
+          ],
+        );
+      }),
       floatingActionButton: Consumer<Session>(
           // ignore: non_constant_identifier_names
           builder: (context, Session, child) {

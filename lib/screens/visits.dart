@@ -50,6 +50,7 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
   var endtime;
   var totalamount;
   var imgurl;
+  var index =0;
   var resid;
 
   Future _visitslist;
@@ -172,99 +173,102 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
             } else {
               return Column(
                 children: <Widget>[
-                  ListView.builder(
-                      itemCount: VisitsList.length,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-                          child: Card(
-                              margin: EdgeInsets.all(0),
-                              elevation: 1,
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => VisitSummary(
-                                      sessionID: VisitsList[index].sessionID,
-                                      restaurantID: VisitsList[index].restaurantID,
-                                      restaurantName: VisitsList[index].restaurantName,
-                                    )),
-                                  );
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Image.network(
-                                          VisitsList[index].restaurantImage,
-                                          fit: BoxFit.cover,
+                  //Container(height: 100,color: Colors.teal,),
+                  Flexible(
+                    child: ListView.builder(
+                        itemCount: VisitsList.length,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+                            child: Card(
+                                margin: EdgeInsets.all(0),
+                                elevation: 1,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => VisitSummary(
+                                        sessionID: VisitsList[index].sessionID,
+                                        restaurantID: VisitsList[index].restaurantID,
+                                        restaurantName: VisitsList[index].restaurantName,
+                                      )),
+                                    );
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Image.network(
+                                            VisitsList[index].restaurantImage,
+                                            fit: BoxFit.cover,
+                                        ),
                                       ),
-                                    ),
-                                    Expanded (
-                                        child: Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  VisitsList[index].restaurantName,
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  softWrap: true,
-                                                  style: TextStyle(
-                                                    color: FriskyColor().colorTextLight,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
+                                      Expanded (
+                                          child: Container(
+                                            child: Padding(
+                                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    VisitsList[index].restaurantName,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                    style: TextStyle(
+                                                      color: FriskyColor().colorTextLight,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
-                                                ),
-                                                Divider(),
-                                                Text("Visited On ",
-                                                  maxLines: 1,
-                                                  style: TextStyle(
-                                                      color: FriskyColor().colorTextLight,
-                                                      fontWeight: FontWeight.w300,
-                                                      fontSize: 14),
-                                                ),
-                                                Text(formatDate(VisitsList[index].endTime.toDate(), [dd, ' ', M, ' ', yyyy,' ', hh,':', nn, '', am]),
-                                                  maxLines: 1,
-                                                  style: TextStyle(fontSize: 14,
-                                                      color: FriskyColor().colorTextLight,
-                                                      fontWeight: FontWeight.bold
+                                                  Divider(),
+                                                  Text("Visited On ",
+                                                    maxLines: 1,
+                                                    style: TextStyle(
+                                                        color: FriskyColor().colorTextLight,
+                                                        fontWeight: FontWeight.w300,
+                                                        fontSize: 14),
                                                   ),
-                                                ),
-                                                Padding(padding: EdgeInsets.only(top: 4),),
-                                                Text("Total Amount",
+                                                  Text(formatDate(VisitsList[index].endTime.toDate(), [dd, ' ', M, ' ', yyyy,' ', hh,':', nn, '', am]),
+                                                    maxLines: 1,
+                                                    style: TextStyle(fontSize: 14,
+                                                        color: FriskyColor().colorTextLight,
+                                                        fontWeight: FontWeight.bold
+                                                    ),
+                                                  ),
+                                                  Padding(padding: EdgeInsets.only(top: 4),),
+                                                  Text("Total Amount",
 
-                                                  maxLines: 1,
-                                                  style: TextStyle(fontSize: 14,
-                                                      color: FriskyColor().colorTextLight,
-                                                      fontWeight: FontWeight.w300),
+                                                    maxLines: 1,
+                                                    style: TextStyle(fontSize: 14,
+                                                        color: FriskyColor().colorTextLight,
+                                                        fontWeight: FontWeight.w300),
 
-                                                ),
-                                                Text(
-                                                  "\u20B9 "+VisitsList[index].totalAmount,
-                                                  style: TextStyle(fontSize: 14,
-                                                      color: FriskyColor().colorTextLight,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
+                                                  ),
+                                                  Text(
+                                                    "\u20B9 "+VisitsList[index].totalAmount,
+                                                    style: TextStyle(fontSize: 14,
+                                                        color: FriskyColor().colorTextLight,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        )
-                                    )
-                                  ],
+                                          )
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )
-                        );
-                      }),
+                              )
+                          );
+                        }),
+                  ),
                 ],
               );
             }
