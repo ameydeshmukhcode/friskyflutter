@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/screens/dine_orders.dart';
 import 'package:friskyflutter/screens/home.dart';
