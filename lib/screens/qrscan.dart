@@ -18,8 +18,8 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
-  String sessionID,tableName,restaurantName;
- // SharedPreferences sharedPreferences;
+  String sessionID, tableName, restaurantName;
+  // SharedPreferences sharedPreferences;
   FirebaseUser firebaseUser;
   var firestore = Firestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -52,11 +52,14 @@ class _ScanState extends State<Scan> {
                 child: Text("cancel"),
               ),
               FlatButton(
-                color: FriskyColor().colorPrimary,
+                  color: FriskyColor().colorPrimary,
                   onPressed: () {
                     continueSessionStart(data);
                   },
-                  child: Text("Start",style: TextStyle(color: Colors.white),))
+                  child: Text(
+                    "Start",
+                    style: TextStyle(color: Colors.white),
+                  ))
             ],
           );
         },
@@ -72,7 +75,10 @@ class _ScanState extends State<Scan> {
         body: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            Container(child: QRCaptureView(controller: _captureController,)),
+            Container(
+                child: QRCaptureView(
+              controller: _captureController,
+            )),
             Container(
                 // color: Colors.orange.withOpacity(0.2),
                 ),
@@ -88,35 +94,39 @@ class _ScanState extends State<Scan> {
 
   Widget _buildToolBar() {
     return Column(
-
       children: <Widget>[
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(color: Colors.white,
-              onPressed: () {
-
-              },
+            IconButton(
+              color: Colors.white,
+              onPressed: () {},
               icon: Icon(Icons.center_focus_strong),
             ),
-           Text("Scan QR Code",style: TextStyle(color: Colors.white,fontSize: 24),),
-            IconButton(color: Colors.white,
-    onPressed: () {
-    if (_isTorchOn) {
-    _captureController.torchMode = CaptureTorchMode.off;
-    setState(() {
-      flashicon = Icons.flash_on;
-    });
-    } else {
-    _captureController.torchMode = CaptureTorchMode.on;
-    setState(() {
-      flashicon = Icons.flash_off;
-    });
-    }
-    _isTorchOn = !_isTorchOn;
-    },
+            Text(
+              "Scan QR Code",
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+            IconButton(
+              color: Colors.white,
+              onPressed: () {
+                if (_isTorchOn) {
+                  _captureController.torchMode = CaptureTorchMode.off;
+                  setState(() {
+                    flashicon = Icons.flash_on;
+                  });
+                } else {
+                  _captureController.torchMode = CaptureTorchMode.on;
+                  setState(() {
+                    flashicon = Icons.flash_off;
+                  });
+                }
+                _isTorchOn = !_isTorchOn;
+              },
               icon: Icon(flashicon),
             ),
           ],
@@ -334,19 +344,23 @@ class _ScanState extends State<Scan> {
         .getHttpsCallable(functionName: "createUserSession")
         .call(userdata)
         .then((getData) async {
-             Map<String, dynamic> resultData = Map<String, dynamic>.from (getData.data);
-              print("data in cloude Function" + getData.data.toString());
-              print("datatype in cloude Function" + getData.data.runtimeType.toString());
-            print("data in cloude Function" + resultData.toString());
-              restaurantName = resultData["restaurant_name"];
-             tableName = resultData["table_name"];
-             sessionID = resultData["session_id"];
-             await  setPreferences();
-             showMenu(restaurantName: restaurantName,tableName:tableName,sessionID: sessionID);
-    },onError: popexit());
+      Map<String, dynamic> resultData = Map<String, dynamic>.from(getData.data);
+      print("data in cloude Function" + getData.data.toString());
+      print(
+          "datatype in cloude Function" + getData.data.runtimeType.toString());
+      print("data in cloude Function" + resultData.toString());
+      restaurantName = resultData["restaurant_name"];
+      tableName = resultData["table_name"];
+      sessionID = resultData["session_id"];
+      await setPreferences();
+      showMenu(
+          restaurantName: restaurantName,
+          tableName: tableName,
+          sessionID: sessionID);
+    }, onError: popexit());
   }
 
-  setPreferences() async{
+  setPreferences() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setBool("session_active", true);
     await sharedPreferences.setString("restaurant_id", restaurantID);
@@ -360,9 +374,13 @@ class _ScanState extends State<Scan> {
 
   showMenu({restaurantName, tableName, sessionID}) {
     popexit();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MenuScreen(restaurantName,tableName,sessionID,restaurantID)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MenuScreen(
+                restaurantName, tableName, sessionID, restaurantID)));
   }
+
   updateOnSessionStartFail() {
     popexit();
     _captureController.resume();

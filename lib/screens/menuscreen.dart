@@ -7,6 +7,7 @@ import 'package:friskyflutter/structures/DietType.dart';
 import 'package:friskyflutter/structures/MenuItem.dart';
 
 import '../frisky_colors.dart';
+
 class MenuScreen extends StatefulWidget {
   @override
   _MenuScreenState createState() => _MenuScreenState();
@@ -16,15 +17,17 @@ class MenuScreen extends StatefulWidget {
       : super();
   final String restaurantName, tableName, sessionID, restaurantID;
 }
+
 class _MenuScreenState extends State<MenuScreen> {
   List<MenuCategory> mCategories = List<MenuCategory>();
-  HashMap<String, List<MenuItem>> mItems = new HashMap<String , List<MenuItem>>();
+  HashMap<String, List<MenuItem>> mItems =
+      new HashMap<String, List<MenuItem>>();
   List<dynamic> mMenu = List<dynamic>();
   Firestore firestore = Firestore.instance;
   HashMap<String, int> mCategoryOrderMap = HashMap<String, int>();
   bool isLoading = true;
   Future getMenuData() async {
-   print("INSIDE GET MENU DATA");
+    print("INSIDE GET MENU DATA");
     await firestore
         .collection("restaurants")
         .document(widget.restaurantID)
@@ -34,105 +37,103 @@ class _MenuScreenState extends State<MenuScreen> {
         .then((categoryDoc) async {
       print("INSIDE GET MENU DATA after getting Catagory doc");
       mCategories.clear();
-      for (int i = 0; i <= categoryDoc.documents.length-1; i++) {
-        print("INSIDE Catagory doc FOR LOOP time "+ i.toString());
+      for (int i = 0; i <= categoryDoc.documents.length - 1; i++) {
+        print("INSIDE Catagory doc FOR LOOP time " + i.toString());
         MenuCategory menuCategory = new MenuCategory(
-           categoryDoc.documents[i].documentID,
-           await categoryDoc.documents[i].data["name"]);
+            categoryDoc.documents[i].documentID,
+            await categoryDoc.documents[i].data["name"]);
         mCategories.add(menuCategory);
-        print("INSIDE Catagory doc loop after adding data time "+ i.toString());
+        print(
+            "INSIDE Catagory doc loop after adding data time " + i.toString());
       }
-      for(int i = 0 ; i< mCategories.length;i++)
-        print("Printing Catagory list\t"+mCategories[i].getName());
+      for (int i = 0; i < mCategories.length; i++)
+        print("Printing Catagory list\t" + mCategories[i].getName());
       await getItems();
     });
   }
-  Future getItems() async{
+
+  Future getItems() async {
     print("INSIDE GET ITEMS ");
-    await firestore.collection("restaurants")
-          .document(widget.restaurantID)
-          .collection("items")
-          .orderBy("category_id")
-          .getDocuments()
-          .then((itemDoc) async {
+    await firestore
+        .collection("restaurants")
+        .document(widget.restaurantID)
+        .collection("items")
+        .orderBy("category_id")
+        .getDocuments()
+        .then((itemDoc) async {
       print("INSIDE ITEM DOCS ");
-        String categoryId = "";
-        mItems.clear();
-        for (int i = 0; i <= itemDoc.documents.length-1; i++) {
-          print("INSIDE GET ITEMS FOR times "+i.toString());
-          bool available = true;
-          String currentCategory = await itemDoc.documents[i].data["category_id"];
-          if (!(categoryId == currentCategory))
-            categoryId =  await  itemDoc.documents[i].data["category_id"];
-          String name = await  itemDoc.documents[i].data["name"];
-          if (itemDoc.documents[i].data.containsKey("is_available")){
-            if (!itemDoc.documents[i].data["is_available"]) {
-              available = false;
-            }
-          }
-          String description = "";
-          if (itemDoc.documents[i].data.containsKey("description")) {
-            description =  await itemDoc.documents[i].data["description"];
-          }
-          DietType type = DietType.NONE;
-          if (itemDoc.documents[i].data.containsKey("type")) {
-            type = getDietTypeFromString( await itemDoc.documents[i].data["type"]);
-          }
-          int cost = int.parse( await itemDoc.documents[i].data["cost"]);
-          MenuItem item = new MenuItem(itemDoc.documents[i].documentID, name, description,
-              currentCategory, cost, available, type);
-          if(!mItems.containsKey(currentCategory))
-            {
-              List<MenuItem> categoryList = new List<MenuItem>();
-              categoryList.add(item);
-              mItems[currentCategory] =categoryList;
-            }
-          else{
-            mItems[currentCategory].add(item);
+      String categoryId = "";
+      mItems.clear();
+      for (int i = 0; i <= itemDoc.documents.length - 1; i++) {
+        print("INSIDE GET ITEMS FOR times " + i.toString());
+        bool available = true;
+        String currentCategory = await itemDoc.documents[i].data["category_id"];
+        if (!(categoryId == currentCategory))
+          categoryId = await itemDoc.documents[i].data["category_id"];
+        String name = await itemDoc.documents[i].data["name"];
+        if (itemDoc.documents[i].data.containsKey("is_available")) {
+          if (!itemDoc.documents[i].data["is_available"]) {
+            available = false;
           }
         }
+        String description = "";
+        if (itemDoc.documents[i].data.containsKey("description")) {
+          description = await itemDoc.documents[i].data["description"];
+        }
+        DietType type = DietType.NONE;
+        if (itemDoc.documents[i].data.containsKey("type")) {
+          type = getDietTypeFromString(await itemDoc.documents[i].data["type"]);
+        }
+        int cost = int.parse(await itemDoc.documents[i].data["cost"]);
+        MenuItem item = new MenuItem(itemDoc.documents[i].documentID, name,
+            description, currentCategory, cost, available, type);
+        if (!mItems.containsKey(currentCategory)) {
+          List<MenuItem> categoryList = new List<MenuItem>();
+          categoryList.add(item);
+          mItems[currentCategory] = categoryList;
+        } else {
+          mItems[currentCategory].add(item);
+        }
+      }
 
       mItems.forEach((key, value) {
         print("Catagory = " + key);
-        for(int i =0 ; i< value.length;i++)
-          print(value[i].getName());
+        for (int i = 0; i < value.length; i++) print(value[i].getName());
       });
-       await setupMenu();
-      });
+      await setupMenu();
+    });
   }
+
   Future setupMenu() async {
-  print("INSIDE SETUP MENU");
+    print("INSIDE SETUP MENU");
     mMenu.clear();
     for (int i = 0; i < mCategories.length; i++) {
-      print("INSIDE SETUP MENU FOR times "+i.toString());
+      print("INSIDE SETUP MENU FOR times " + i.toString());
       final MenuCategory category = mCategories[i];
       String categoryID = category.getId();
       mMenu.add(category);
-      mCategoryOrderMap[category.getName()] = (mMenu.length- 1);
-     // categoryMenu.getMenu().add(category.getName());
+      mCategoryOrderMap[category.getName()] = (mMenu.length - 1);
+      // categoryMenu.getMenu().add(category.getName());
       mMenu.addAll(mItems[categoryID]);
     }
-   for(int i=0;i<mMenu.length;i++) {
-
-     if (mMenu[i].toString() == "Instance of 'MenuCategory'")
-       {
+    for (int i = 0; i < mMenu.length; i++) {
+      if (mMenu[i].toString() == "Instance of 'MenuCategory'") {
         MenuCategory m = mMenu[i];
-       print(" CATAGORY " + m.name);
-       print("   /n");
-   }
-     else{
-       MenuItem m = mMenu[i];
-       print("" + m.name);
-     }
+        print(" CATAGORY " + m.name);
+        print("   /n");
+      } else {
+        MenuItem m = mMenu[i];
+        print("" + m.name);
+      }
+    }
 
-   }
-
-   return mMenu;
+    return mMenu;
   }
+
   Future _finalmenulist;
   @override
   void initState() {
-    _finalmenulist = getMenuData().whenComplete((){
+    _finalmenulist = getMenuData().whenComplete(() {
       setState(() {
         isLoading = false;
       });
@@ -173,7 +174,7 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
-  Widget menuList()  {
+  Widget menuList() {
     return FutureBuilder(
         future: _finalmenulist,
         builder: (context, snapshot) {
@@ -193,13 +194,9 @@ class _MenuScreenState extends State<MenuScreen> {
                 ],
               ),
             );
-          }
-          else{
+          } else {
             return Text("Loading DOne");
           }
-        }
-    );
+        });
   }
 }
-
-

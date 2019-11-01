@@ -1,8 +1,8 @@
 import 'dart:core';
 
 class MenuCategory {
-   String id;
-   String name;
+  String id;
+  String name;
   MenuCategory(String id, String name) {
     this.id = id;
     this.name = name;

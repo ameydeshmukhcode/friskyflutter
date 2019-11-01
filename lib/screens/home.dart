@@ -24,8 +24,6 @@ class _HomeTabState extends State<HomeTab>
   bool isSignedIn = false;
   Future _restaurantList;
 
-
-
   navigateToDetails(DocumentSnapshot restaurant) {
     Navigator.push(
         context,
@@ -38,8 +36,7 @@ class _HomeTabState extends State<HomeTab>
   signOut() async {
     _auth.signOut();
     Navigator.pushReplacement(
-        context, new MaterialPageRoute(
-        builder: (context) => UserLogin()));
+        context, new MaterialPageRoute(builder: (context) => UserLogin()));
   }
 
   getUser() async {
@@ -72,11 +69,10 @@ class _HomeTabState extends State<HomeTab>
 
   changeStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if(sharedPreferences.getBool("session_active")) {
+    if (sharedPreferences.getBool("session_active")) {
       await sharedPreferences.setBool("session_active", false);
-    }
-    else{
-      await sharedPreferences.setBool("session_active",true);
+    } else {
+      await sharedPreferences.setBool("session_active", true);
     }
     Provider.of<Session>(context).getStatus();
   }
@@ -147,8 +143,7 @@ class _HomeTabState extends State<HomeTab>
                 ],
               ),
             );
-          }
-          else {
+          } else {
             return ListView.builder(
                 itemCount: snapshot.data.length,
                 scrollDirection: Axis.vertical,

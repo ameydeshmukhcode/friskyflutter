@@ -7,7 +7,7 @@ import 'package:friskyflutter/screens/visits.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'frisky_colors.dart';
 import 'package:provider/provider.dart';
-import 'package:badges/badges.dart';
+//import 'package:badges/badges.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 
 class HomeScreen extends StatefulWidget {
