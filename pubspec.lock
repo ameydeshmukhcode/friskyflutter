@@ -130,20 +130,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.7"
-  indexed_list_view:
-    dependency: "direct main"
-    description:
-      name: indexed_list_view
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.8"
-  list_view_item_builder:
-    dependency: "direct main"
-    description:
-      name: list_view_item_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   matcher:
     dependency: transitive
     description:

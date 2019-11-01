@@ -1,3 +1,4 @@
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:friskyflutter/size_config.dart';
 import 'dart:collection';
 import 'package:shimmer/shimmer.dart';
@@ -288,7 +289,6 @@ class _MenuScreenState extends State<MenuScreen> {
                                 fontSize: SizeConfig.safeBlockVertical * 2.7,
                               ),
                             ),
-
                         ),
                       );
                     }
