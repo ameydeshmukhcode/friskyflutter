@@ -17,12 +17,13 @@ class Visits {
   String restaurantName;
   Timestamp endTime;
   String totalAmount;
-  Visits([String sessionID,
-        String restaurantID,
-        String restaurantImage,
-        String restaurantName,
-        Timestamp endTime,
-        String totalAmount]) {
+  Visits(
+      [String sessionID,
+      String restaurantID,
+      String restaurantImage,
+      String restaurantName,
+      Timestamp endTime,
+      String totalAmount]) {
     this.sessionID = sessionID;
     this.restaurantID = restaurantID;
     this.restaurantImage = restaurantImage;
@@ -40,7 +41,8 @@ class VisitTab extends StatefulWidget {
   _VisitTabState createState() => _VisitTabState();
 }
 
-class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<VisitTab> {
+class _VisitTabState extends State<VisitTab>
+    with AutomaticKeepAliveClientMixin<VisitTab> {
   bool get wantKeepAlive => true;
   FirebaseUser firebaseUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -50,21 +52,20 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
   var endtime;
   var totalamount;
   var imgurl;
-  var index =0;
   var resid;
 
   Future _visitslist;
   bool isLoading = true;
   bool isEmpty = false;
 
-  Future getUser()  async{
+  Future getUser() async {
     firebaseUser = await _auth.currentUser();
     print(firebaseUser.uid.toString());
   }
 
   @override
   void initState() {
-    this.getUser().whenComplete((){
+    this.getUser().whenComplete(() {
       _visitslist = this.getVisits().whenComplete(() {
         setState(() {
           print("inside set state");
@@ -75,7 +76,7 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
             print("inside set state else");
             isLoading = false;
             isEmpty = true;
-            print("length  = "+ VisitsList.length.toString());
+            print("length  = " + VisitsList.length.toString());
           }
         });
       });
@@ -107,7 +108,8 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
             resname = await f.data["name"];
             resid = f.documentID;
           }).then((f) async {
-            VisitsList.add(Visits(sessionId, resid, imgurl, resname, endtime, totalamount));
+            VisitsList.add(Visits(
+                sessionId, resid, imgurl, resname, endtime, totalamount));
           });
         }
       }
@@ -120,12 +122,11 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      // body: //_visitsList(),
-      body: Center(
+        backgroundColor: Colors.white,
+        // body: //_visitsList(),
+        body: Center(
           child: _visitsList(),
-      )
-    );
+        ));
   }
 
   Widget _visitsList() {
@@ -148,27 +149,31 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
                 ],
               ),
             );
-          }
-          else {
+          } else {
             if (isEmpty == true) {
-              return Container(child:
-              Center(
-                child: Column( mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("You Do Not Have Any Visits Yet!",style: TextStyle(
-                      fontSize: 20,
-                        color: FriskyColor().colorTextLight),),
-                    SizedBox(height: 30,),
-                   Container(
-                      child: SvgPicture.asset(
-                        'img/no_visits.svg',
-                        height: SizeConfig.safeBlockVertical * 30,
-                        width: SizeConfig.safeBlockHorizontal * 56,
+              return Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "You Do Not Have Any Visits Yet!",
+                        style: TextStyle(
+                            fontSize: 20, color: FriskyColor().colorTextLight),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        child: SvgPicture.asset(
+                          'img/no_visits.svg',
+                          height: SizeConfig.safeBlockVertical * 30,
+                          width: SizeConfig.safeBlockHorizontal * 56,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
               );
             } else {
               return Column(
@@ -239,10 +244,10 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
                                                     maxLines: 1,
                                                     style: TextStyle(fontSize: 14,
                                                         color: FriskyColor().colorTextLight,
-                                                        fontWeight: FontWeight.bold
+                                                        fontWeight: FontWeight.bold),
                                                     ),
-                                                  ),
-                                                  Padding(padding: EdgeInsets.only(top: 4),),
+                                                  Padding(
+                                                  padding: EdgeInsets.only(top: 4),),
                                                   Text("Total Amount",
 
                                                     maxLines: 1,
@@ -260,13 +265,12 @@ class _VisitTabState extends State<VisitTab> with AutomaticKeepAliveClientMixin<
                                                 ],
                                               ),
                                             ),
-                                          )
-                                      )
-                                    ],
+                                          ))
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                          );
+                                ));
+
                         }),
                   ),
                 ],

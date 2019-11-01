@@ -5,7 +5,6 @@ class FriskyColor {
   MaterialColor colorTextDark = MaterialColor(0xFF707070, color);
   MaterialColor colorTextLight = MaterialColor(0xFF757575, color);
   MaterialColor colorBadge = MaterialColor(0xFF49D852, color);
-
 }
 
 Map<int, Color> color = {

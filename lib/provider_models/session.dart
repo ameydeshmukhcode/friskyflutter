@@ -8,6 +8,13 @@ class Session extends ChangeNotifier{
  String sessionID = " ";
  String restaurantID = " ";
  Future getStatus() async {
+
+class Session extends ChangeNotifier {
+  bool isSessionActive = false;
+  String restaurantName = " ";
+  String tableName = " ";
+  String tableID = " ";
+  Future getStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     isSessionActive = sharedPreferences.getBool("session_active");
     if(isSessionActive==null|| isSessionActive==false)
@@ -31,6 +38,14 @@ class Session extends ChangeNotifier{
     restaurantID = sharedPreferences.getString("restaurant_id");
     notifyListeners();
   }
+    if (isSessionActive == null) {
+      isSessionActive = false;
+    } else {
+      print("SESSION = " + isSessionActive.toString());
+      restaurantName = sharedPreferences.getString("resturant_name");
+      tableName = sharedPreferences.getString("table_name");
+      tableID = sharedPreferences.getString("table_id");
+      notifyListeners();
+    }
   }
-
 }

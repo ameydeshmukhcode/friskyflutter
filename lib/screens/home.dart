@@ -24,8 +24,6 @@ class _HomeTabState extends State<HomeTab>
   bool isSignedIn = false;
   Future _restaurantList;
 
-
-
   navigateToDetails(DocumentSnapshot restaurant) {
     Navigator.push(
         context,
@@ -38,8 +36,7 @@ class _HomeTabState extends State<HomeTab>
   signOut() async {
     _auth.signOut();
     Navigator.pushReplacement(
-        context, new MaterialPageRoute(
-        builder: (context) => UserLogin()));
+        context, new MaterialPageRoute(builder: (context) => UserLogin()));
   }
 
   getUser() async {
@@ -72,11 +69,10 @@ class _HomeTabState extends State<HomeTab>
 
   changeStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if(sharedPreferences.getBool("session_active")) {
+    if (sharedPreferences.getBool("session_active")) {
       await sharedPreferences.setBool("session_active", false);
-    }
-    else{
-      await sharedPreferences.setBool("session_active",true);
+    } else {
+      await sharedPreferences.setBool("session_active", true);
     }
     Provider.of<Session>(context).getStatus();
   }
@@ -120,7 +116,7 @@ class _HomeTabState extends State<HomeTab>
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  _restaurantsList()
+                  Container(child: _restaurantsList()),
                 ],
               ),
             ),
@@ -147,87 +143,77 @@ class _HomeTabState extends State<HomeTab>
                 ],
               ),
             );
-          }
-          else {
-            return Flexible(
-              child: Column(
-                children: <Widget>[
-                  Flexible(
-                    child: ListView.builder(
-                      padding: EdgeInsets.only(bottom: 65),
-                        itemCount: 8,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-                            child: Card(
-                                margin: EdgeInsets.all(0),
-                                elevation: 2,
-                                child: InkWell(
-                                  onTap: () {
-                                    navigateToDetails(snapshot.data[0]);
-                                  },
-                                  child: Container(
-                                    height: SizeConfig.safeBlockVertical * 12,
-                                    width: SizeConfig.safeBlockHorizontal * 100,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          } else {
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                    child: Card(
+                        margin: EdgeInsets.all(0),
+                        elevation: 2,
+                        child: InkWell(
+                          onTap: () {
+                            navigateToDetails(snapshot.data[index]);
+                          },
+                          child: Container(
+                            height: SizeConfig.safeBlockVertical * 12,
+                            width: SizeConfig.safeBlockHorizontal * 100,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Image.network(
+                                  snapshot.data[index].data['image'],
+                                  fit: BoxFit.cover,
+                                  width:
+                                      SizeConfig.safeBlockHorizontal * 50 - 8,
+                                ),
+                                Container(
+                                  width:
+                                      SizeConfig.safeBlockHorizontal * 50 - 8,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Image.network(
-                                          snapshot.data[0].data['image'],
-                                          fit: BoxFit.cover,
-                                          width:
-                                              SizeConfig.safeBlockHorizontal * 50 - 8,
-                                        ),
-                                        Container(
-                                          width:
-                                              SizeConfig.safeBlockHorizontal * 50 - 8,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  snapshot.data[0].data['name'],
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  softWrap: true,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  snapshot.data[0].data['address'],
-                                                  maxLines: 1,
-                                                  style: TextStyle(fontSize: 12),
-                                                ),
-                                                Text(
-                                                  snapshot.data[0].data['cuisine']
-                                                          [0] +
-                                                      ", " +
-                                                      snapshot.data[0]
-                                                          .data['cuisine'][1],
-                                                  style: TextStyle(fontSize: 12),
-                                                ),
-                                              ],
-                                            ),
+                                        Text(
+                                          snapshot.data[index].data['name'],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                        )
+                                        ),
+                                        Text(
+                                          snapshot.data[index].data['address'],
+                                          maxLines: 1,
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        Text(
+                                          snapshot.data[index].data['cuisine']
+                                                  [0] +
+                                              ", " +
+                                              snapshot.data[index]
+                                                  .data['cuisine'][1],
+                                          style: TextStyle(fontSize: 12),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                )),
-                          );
-                        }),
-                  ),
-                ],
-              ),
-            );
+                                )
+                              ],
+                            ),
+                          ),
+                        )),
+                  );
+                });
           }
         });
   }

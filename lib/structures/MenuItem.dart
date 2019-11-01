@@ -3,16 +3,15 @@ library com.frisky.icebreaker.core.structures;
 import 'package:friskyflutter/structures/BaseItem.dart';
 import 'package:friskyflutter/structures/DietType.dart';
 
-class MenuItem extends BaseItem
-{
+class MenuItem extends BaseItem {
   String description;
   String category;
   int price;
   bool available;
   DietType dietType;
 
-  MenuItem(String id, String name, String description, String category, int price, bool available, DietType dietType)
-  {
+  MenuItem(String id, String name, String description, String category,
+      int price, bool available, DietType dietType) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -22,53 +21,43 @@ class MenuItem extends BaseItem
     this.dietType = dietType;
   }
 
-  String getId()
-  {
+  String getId() {
     return id;
   }
 
-  String getName()
-  {
+  String getName() {
     return name;
   }
 
-  String getDescription()
-  {
+  String getDescription() {
     return description;
   }
 
-  String getCategory()
-  {
+  String getCategory() {
     return category;
   }
 
-  int getPrice()
-  {
+  int getPrice() {
     return price;
   }
 
-  bool getAvailable()
-  {
+  bool getAvailable() {
     return available;
   }
 
-  DietType getDietType()
-  {
+  DietType getDietType() {
     return dietType;
   }
 
-  int getCount()
-  {
+  int getCount() {
     return count;
   }
 
-  void incrementCount()
-  {
+  void incrementCount() {
     ++count;
   }
 
-  void decrementCount()
-  {
+  void decrementCount() {
     --count;
   }
 }
