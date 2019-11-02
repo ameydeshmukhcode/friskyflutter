@@ -7,8 +7,10 @@ import 'package:friskyflutter/structures/MenuCategory.dart';
 import 'package:friskyflutter/structures/DietType.dart';
 import 'package:friskyflutter/structures/MenuItem.dart';
 import '../frisky_colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
+
 class MenuScreen extends StatefulWidget {
   @override
   _MenuScreenState createState() => _MenuScreenState();
@@ -20,7 +22,6 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  var cartProvider;
   List<MenuCategory> mCategories = List<MenuCategory>();
   HashMap<String, List<MenuItem>> mItems =
       new HashMap<String, List<MenuItem>>();
@@ -53,6 +54,7 @@ class _MenuScreenState extends State<MenuScreen> {
       await getItems();
     });
   }
+
   ScrollController _scrollController;
 
   Future getItems() async {
@@ -147,7 +149,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //cartProvider = Provider.of<Cart>(context,listen: false);
+    //cartProvider = Provider.of<Cart>(context,listen: true);
     print("UI REBUILDED");
     SizeConfig().init(context);
     return Scaffold(
@@ -222,7 +224,6 @@ class _MenuScreenState extends State<MenuScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-
   Widget menuList() {
     return FutureBuilder(
         future: _finalmenulist,
@@ -230,50 +231,18 @@ class _MenuScreenState extends State<MenuScreen> {
           if (isLoading == true) {
             return Align(
               alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Shimmer.fromColors(
-                      child: Text("hellow"),
-                      baseColor: Colors.pink,
-                      highlightColor: Colors.green),
-                  Shimmer.fromColors(
-                      child: Container(
-                        height: 20,
-                        width: 200,
-                        color: Colors.blue,
-                      ),
-                      baseColor: Colors.teal,
-                      highlightColor: Colors.pink),
-                  Shimmer.fromColors(
-                      child: SizedBox(
-                        height: 20,
-                        width: 200,
-                      ),
-                      baseColor: FriskyColor().colorPrimary,
-                      highlightColor: Colors.blue),
-                  Shimmer.fromColors(
-                      child: SizedBox(
-                        height: 20,
-                        width: 200,
-                      ),
-                      baseColor: FriskyColor().colorPrimary,
-                      highlightColor: Colors.teal),
-                  Shimmer.fromColors(
-                      child: SizedBox(
-                        height: 20,
-                        width: 200,
-                      ),
-                      baseColor: FriskyColor().colorPrimary,
-                      highlightColor: Colors.grey),
-                ],
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                  FriskyColor().colorPrimary,
+                ),
               ),
             );
           } else {
             return Flexible(
               child: ListView.builder(
-                controller: _scrollController,
-                itemCount: mMenu.length,
+                  padding: (Provider.of<Cart>(context, listen: true).cartList.isNotEmpty)?EdgeInsets.only(bottom: SizeConfig.safeBlockVertical * 18,):EdgeInsets.only(bottom: SizeConfig.safeBlockVertical * 10,),
+                  controller: _scrollController,
+                  itemCount: mMenu.length,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
@@ -283,15 +252,14 @@ class _MenuScreenState extends State<MenuScreen> {
                       return Container(
                         height: 70,
                         child: Center(
-
-                            child: Text(
-                              mc.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: FriskyColor().colorTextLight,
-                                fontSize: SizeConfig.safeBlockVertical * 2.7,
-                              ),
+                          child: Text(
+                            mc.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: FriskyColor().colorTextLight,
+                              fontSize: SizeConfig.safeBlockVertical * 2.7,
                             ),
+                          ),
                         ),
                       );
                     }
@@ -306,85 +274,215 @@ class _MenuScreenState extends State<MenuScreen> {
                               fontWeight: FontWeight.w500),
                         ),
                         subtitle: Text(mi.description),
-                        trailing: Consumer<Cart>(
-                          builder: (context, cp, child,){
-                            return FlatButton(
-                                color: (cp.cartList.contains(mi))? FriskyColor().colorBadge:Colors.pink,
-                                onPressed: () {
-                                  cp.addToCart(mi);
-                                },
-                                child: Text(
-                                  "ADD +",
-                                  style: TextStyle(color: Colors.white),
-                                ));
-                          },
-                        ),
-                        leading: FlatButton(
-                            color: FriskyColor().colorBadge,
-                            onPressed: () {
-                                    Provider.of<Cart>(context,listen: false).removeFromCart(mi);
-                            },
-                            child: Text(
-                              "Remove -",
-                              style: TextStyle(color: Colors.white),
-                            )),
+                        trailing: (Provider.of<Cart>(context, listen: true)
+                                .cartList
+                                .contains(mi))
+                            ? cartButtons(mi)
+                            : addButton(mi),
+                        leading: Container(
+                          margin: EdgeInsets.only(left: 24,bottom: 20),
+                            width: SizeConfig.safeBlockHorizontal * 3,
+                            child: typeIcon(mi)),
                       ),
                     );
-                  }
-                  ),
+                  }),
             );
-
           }
         });
   }
 
   Widget _simplePopup() {
-    return PopupMenuButton<MenuCategory>(
-      child: Container(
-        child: Padding(
-          padding:
-              const EdgeInsets.only(top: 16, bottom: 16, right: 16, left: 16),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                Icons.restaurant,
-                color: Colors.white,
-                size: SizeConfig.safeBlockVertical * 2.5,
-              ),
-              Text(
-                " Category",
-                style: TextStyle(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        PopupMenuButton<MenuCategory>(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 16, bottom: 16, right: 16, left: 16),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.restaurant,
                     color: Colors.white,
-                    fontSize: SizeConfig.safeBlockVertical * 2.5),
-              )
-            ],
+                    size: SizeConfig.safeBlockVertical * 2.5,
+                  ),
+                  Text(
+                    " Category",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: SizeConfig.safeBlockVertical * 2.5),
+                  )
+                ],
+              ),
+            ),
+            decoration: BoxDecoration(
+              color: FriskyColor().colorPrimary,
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
+          itemBuilder: (BuildContext context) {
+            return mCategories.map((MenuCategory m) {
+              return PopupMenuItem<MenuCategory>(
+                value: m,
+                child: Text(m.name),
+              );
+            }).toList();
+          },
+          onSelected: (s) {
+            print(s);
+            MenuCategory menuCategory = s;
+            int a = mMenu.indexOf(menuCategory);
+            print(a);
+            _scrollController.animateTo(a.toDouble() * 70,
+                duration: Duration(seconds: 1), curve: Curves.linear);
+          },
+          offset: Offset(1, -460),
+        ),
+        Visibility(
+          visible: (Provider.of<Cart>(context, listen: true).cartList.isNotEmpty),
+          child: Container(
+            padding: EdgeInsets.all(4),
+            margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  "You Have items in the Cart  ",
+                  style: TextStyle(color: FriskyColor().colorSnackBarText,
+                  fontSize: SizeConfig.safeBlockVertical*2),
+                ),
+                Container(
+                  width: SizeConfig.safeBlockHorizontal *16,
+                  child: FlatButton(color: FriskyColor().colorSnackBarButton,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(4.0),
+                      ),
+                      onPressed: () {}, child: Text("View",style: TextStyle(color: FriskyColor().colorSnackBarText,
+                      fontSize: SizeConfig.safeBlockVertical*2),)),
+                ),
+              ],
+            ),
+            decoration: BoxDecoration(
+                color: FriskyColor().colorSnackBar,
+                borderRadius: BorderRadius.circular(6)),
           ),
         ),
-        decoration: BoxDecoration(
-          color: FriskyColor().colorPrimary,
-          borderRadius: BorderRadius.circular(100),
-        ),
-      ),
-      itemBuilder: (BuildContext context) {
-        return mCategories.map((MenuCategory m) {
-          return PopupMenuItem<MenuCategory>(
-            value: m,
-            child: Text(m.name),
-          );
-        }).toList();
-      },
-      onSelected: (s){
-        print(s);
-           MenuCategory menuCategory = s;
-        int a =mMenu.indexOf(menuCategory) ;
-        print(a) ;
-        _scrollController.animateTo(a.toDouble()*70, duration: Duration(seconds: 1), curve: Curves.easeInToLinear);
-        },
-      offset: Offset(1,-460),
+      ],
     );
   }
-}
 
+  Widget cartButtons(MenuItem mi) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          width: SizeConfig.safeBlockHorizontal * 9,
+          child: FlatButton(
+            padding: EdgeInsets.all(0),
+            color: FriskyColor().colorBadge,
+            onPressed: () {
+              Provider.of<Cart>(context, listen: false).removeFromCart(mi);
+            },
+            child: Icon(
+              Icons.remove,
+              size: 20,
+              color: Colors.white,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(8.0),
+            ),
+          ),
+        ),
+        Container(
+          width: SizeConfig.safeBlockHorizontal * 9,
+          child: Center(
+              child: Text(
+            Provider.of<Cart>(context, listen: false).getCount(mi),
+            style: TextStyle(
+                fontSize: SizeConfig.safeBlockVertical * 2.5,
+                fontWeight: FontWeight.bold),
+          )),
+        ),
+        Container(
+          width: SizeConfig.safeBlockHorizontal * 9,
+          child: FlatButton(
+            padding: EdgeInsets.all(0),
+            color: FriskyColor().colorBadge,
+            onPressed: () {
+              Provider.of<Cart>(context, listen: false).addToCart(mi);
+            },
+            child: Icon(
+              Icons.add,
+              size: 20,
+              color: Colors.white,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(8.0),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget addButton(MenuItem mi) {
+    return Container(
+      width: SizeConfig.safeBlockHorizontal * 27,
+      padding: EdgeInsets.all(0),
+      child: Consumer<Cart>(
+        builder: (
+          context,
+          cp,
+          child,
+        ) {
+          return FlatButton(
+              padding: EdgeInsets.all(0),
+              color: FriskyColor().colorBadge,
+              onPressed: () {
+                cp.addToCart(mi);
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    "Add  ",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: SizeConfig.safeBlockVertical * 2),
+                  ),
+                  Icon(
+                    Icons.add,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                ],
+              ));
+        },
+      ),
+    );
+  }
+
+  typeIcon(MenuItem mi) {
+    if (mi.dietType == DietType.NONE) {
+      return Text("");
+    }
+    if (mi.dietType == DietType.VEG) {
+      return SvgPicture.asset("img/veg.svg");
+    }
+    if (mi.dietType == DietType.NON_VEG) {
+      return SvgPicture.asset("img/nonveg.svg");
+    }
+    if (mi.dietType == DietType.EGG) {
+      return SvgPicture.asset("img/egg.svg");
+    }
+  }
+}

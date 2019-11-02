@@ -5,6 +5,12 @@ class Cart extends ChangeNotifier
   List<MenuItem> cartList = new List();
    String _name = ""    ;
   String  get itemName  =>_name;
+  String getCount(MenuItem menuItem){
+
+
+    return menuItem.getCount().toString();
+
+  }
    void printFunction(MenuItem menuItem ){
       addToCart(menuItem);
     }
@@ -13,6 +19,7 @@ class Cart extends ChangeNotifier
       if(!cartList.contains(menuItem))
      { cartList.add(menuItem);
       menuItem.incrementCount();
+      notifyListeners();
      }
       else
       {menuItem.incrementCount();}

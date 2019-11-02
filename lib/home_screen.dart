@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin  {
   int currentIndex = 0;
 
   TabController _tabController;
