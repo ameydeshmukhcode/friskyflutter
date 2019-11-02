@@ -7,7 +7,8 @@ import 'package:friskyflutter/structures/MenuCategory.dart';
 import 'package:friskyflutter/structures/DietType.dart';
 import 'package:friskyflutter/structures/MenuItem.dart';
 import '../frisky_colors.dart';
-
+import 'package:provider/provider.dart';
+import 'package:friskyflutter/provider_models/cart.dart';
 class MenuScreen extends StatefulWidget {
   @override
   _MenuScreenState createState() => _MenuScreenState();
@@ -19,6 +20,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  var cartProvider;
   List<MenuCategory> mCategories = List<MenuCategory>();
   HashMap<String, List<MenuItem>> mItems =
       new HashMap<String, List<MenuItem>>();
@@ -145,6 +147,8 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //cartProvider = Provider.of<Cart>(context,listen: false);
+    print("UI REBUILDED");
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -152,7 +156,7 @@ class _MenuScreenState extends State<MenuScreen> {
         elevation: 0,
         iconTheme: IconThemeData(color: FriskyColor().colorTextDark),
         title: Text(
-          "You're at",
+          "you're at",
           style: TextStyle(
             fontWeight: FontWeight.w300,
             color: FriskyColor().colorTextDark,
@@ -302,13 +306,26 @@ class _MenuScreenState extends State<MenuScreen> {
                               fontWeight: FontWeight.w500),
                         ),
                         subtitle: Text(mi.description),
-                        trailing: FlatButton(
+                        trailing: Consumer<Cart>(
+                          builder: (context, cp, child,){
+                            return FlatButton(
+                                color: (cp.cartList.contains(mi))? FriskyColor().colorBadge:Colors.pink,
+                                onPressed: () {
+                                  cp.addToCart(mi);
+                                },
+                                child: Text(
+                                  "ADD +",
+                                  style: TextStyle(color: Colors.white),
+                                ));
+                          },
+                        ),
+                        leading: FlatButton(
                             color: FriskyColor().colorBadge,
                             onPressed: () {
-                              print(mi.name);
+                                    Provider.of<Cart>(context,listen: false).removeFromCart(mi);
                             },
                             child: Text(
-                              "ADD +",
+                              "Remove -",
                               style: TextStyle(color: Colors.white),
                             )),
                       ),

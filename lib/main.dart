@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [ChangeNotifierProvider(builder: (_) => Session())],
+        providers: [
+          ChangeNotifierProvider(builder: (_) => Session()),
+          ChangeNotifierProvider(builder: (_) => Cart())
+        ],
         child: MaterialApp(
           title: 'FriSky Flutter',
           theme: ThemeData(
