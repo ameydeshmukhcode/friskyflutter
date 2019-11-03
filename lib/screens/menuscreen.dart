@@ -28,6 +28,7 @@ class _MenuScreenState extends State<MenuScreen> {
   Firestore firestore = Firestore.instance;
   HashMap<String, int> mCategoryOrderMap = HashMap<String, int>();
   bool isLoading = true;
+  ScrollController _scrollController;
   Future getMenuData() async {
     print("INSIDE GET MENU DATA");
     await firestore
@@ -53,8 +54,6 @@ class _MenuScreenState extends State<MenuScreen> {
       await getItems();
     });
   }
-
-  ScrollController _scrollController;
 
   Future getItems() async {
     print("INSIDE GET ITEMS ");
@@ -151,78 +150,94 @@ class _MenuScreenState extends State<MenuScreen> {
     //cartProvider = Provider.of<Cart>(context,listen: true);
     print("UI REBUILDED");
     SizeConfig().init(context);
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        iconTheme: IconThemeData(color: FriskyColor().colorTextDark),
-        title: Text(
-          "you're at",
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            color: FriskyColor().colorTextDark,
+    return WillPopScope(
+      onWillPop: (){
+        Navigator.pop(context);
+        return Provider.of<Cart>(context, listen: true).clearList();
+
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          iconTheme: IconThemeData(color: FriskyColor().colorTextDark),
+          title: Text(
+            "you're at",
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              color: FriskyColor().colorTextDark,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
+          backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.clear_all),
+                onPressed: () {
+                  Provider.of<Cart>(context, listen: true).clearList();
+                })
+          ],
         ),
         backgroundColor: Colors.white,
-      ),
-      backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            color: Colors.white,
-            height: SizeConfig.safeBlockVertical * 10,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      widget.restaurantName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: FriskyColor().colorTextLight,
-                        fontSize: SizeConfig.safeBlockVertical * 3,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        'Table ' + widget.tableName,
+        body: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              color: Colors.white,
+              height: SizeConfig.safeBlockVertical * 10,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        widget.restaurantName,
                         style: TextStyle(
-                            fontSize: SizeConfig.safeBlockVertical * 3,
-                            color: FriskyColor().colorTextLight,
-                            fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w500,
+                          color: FriskyColor().colorTextLight,
+                          fontSize: SizeConfig.safeBlockVertical * 3,
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: FriskyColor().colorTableName,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    )
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                ),
-                Text(
-                  "Menu",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: FriskyColor().colorTextLight,
-                    fontSize: SizeConfig.safeBlockVertical * 2.5,
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        child: Text(
+                          'Table ' + widget.tableName,
+                          style: TextStyle(
+                              fontSize: SizeConfig.safeBlockVertical * 3,
+                              color: FriskyColor().colorTextLight,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        decoration: BoxDecoration(
+                          color: FriskyColor().colorTableName,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              ],
+                  Divider(
+                    thickness: 2,
+                  ),
+                  Text(
+                    "Menu",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: FriskyColor().colorTextLight,
+                      fontSize: SizeConfig.safeBlockVertical * 2.5,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          menuList(),
-        ],
+            menuList(),
+          ],
+        ),
+        floatingActionButton: _simplePopup(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       ),
-      floatingActionButton: _simplePopup(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
   Widget menuList() {
     return FutureBuilder(
         future: _finalmenulist,
@@ -239,7 +254,15 @@ class _MenuScreenState extends State<MenuScreen> {
           } else {
             return Flexible(
               child: ListView.builder(
-                  padding: (Provider.of<Cart>(context, listen: true).cartList.isNotEmpty)?EdgeInsets.only(bottom: SizeConfig.safeBlockVertical * 18,):EdgeInsets.only(bottom: SizeConfig.safeBlockVertical * 10,),
+                  padding: (Provider.of<Cart>(context, listen: true)
+                          .cartList
+                          .isNotEmpty)
+                      ? EdgeInsets.only(
+                          bottom: SizeConfig.safeBlockVertical * 18,
+                        )
+                      : EdgeInsets.only(
+                          bottom: SizeConfig.safeBlockVertical * 10,
+                        ),
                   controller: _scrollController,
                   itemCount: mMenu.length,
                   scrollDirection: Axis.vertical,
@@ -279,7 +302,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             ? cartButtons(mi)
                             : addButton(mi),
                         leading: Container(
-                          margin: EdgeInsets.only(left: 24,bottom: 20),
+                            margin: EdgeInsets.only(left: 24, bottom: 20),
                             width: SizeConfig.safeBlockHorizontal * 3,
                             child: typeIcon(mi)),
                       ),
@@ -343,7 +366,8 @@ class _MenuScreenState extends State<MenuScreen> {
           offset: Offset(1, -460),
         ),
         Visibility(
-          visible: (Provider.of<Cart>(context, listen: true).cartList.isNotEmpty),
+          visible:
+              (Provider.of<Cart>(context, listen: true).cartList.isNotEmpty),
           child: Container(
             padding: EdgeInsets.all(4),
             margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
@@ -354,17 +378,24 @@ class _MenuScreenState extends State<MenuScreen> {
               children: <Widget>[
                 Text(
                   "You Have items in the Cart  ",
-                  style: TextStyle(color: FriskyColor().colorSnackBarText,
-                  fontSize: SizeConfig.safeBlockVertical*2),
+                  style: TextStyle(
+                      color: FriskyColor().colorSnackBarText,
+                      fontSize: SizeConfig.safeBlockVertical * 2),
                 ),
                 Container(
-                  width: SizeConfig.safeBlockHorizontal *16,
-                  child: FlatButton(color: FriskyColor().colorSnackBarButton,
+                  width: SizeConfig.safeBlockHorizontal * 16,
+                  child: FlatButton(
+                      color: FriskyColor().colorSnackBarButton,
                       shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(4.0),
                       ),
-                      onPressed: () {}, child: Text("View",style: TextStyle(color: FriskyColor().colorSnackBarText,
-                      fontSize: SizeConfig.safeBlockVertical*2),)),
+                      onPressed: () {},
+                      child: Text(
+                        "View",
+                        style: TextStyle(
+                            color: FriskyColor().colorSnackBarText,
+                            fontSize: SizeConfig.safeBlockVertical * 2),
+                      )),
                 ),
               ],
             ),
@@ -389,7 +420,7 @@ class _MenuScreenState extends State<MenuScreen> {
             padding: EdgeInsets.all(0),
             color: FriskyColor().colorBadge,
             onPressed: () {
-              Provider.of<Cart>(context, listen: false).removeFromCart(mi);
+              Provider.of<Cart>(context, listen: true).removeFromCart(mi);
             },
             child: Icon(
               Icons.remove,
@@ -405,7 +436,7 @@ class _MenuScreenState extends State<MenuScreen> {
           width: SizeConfig.safeBlockHorizontal * 9,
           child: Center(
               child: Text(
-            Provider.of<Cart>(context, listen: false).getCount(mi),
+            Provider.of<Cart>(context, listen: true).getCount(mi),
             style: TextStyle(
                 fontSize: SizeConfig.safeBlockVertical * 2.5,
                 fontWeight: FontWeight.bold),
@@ -417,7 +448,7 @@ class _MenuScreenState extends State<MenuScreen> {
             padding: EdgeInsets.all(0),
             color: FriskyColor().colorBadge,
             onPressed: () {
-              Provider.of<Cart>(context, listen: false).addToCart(mi);
+              Provider.of<Cart>(context, listen: true).addToCart(mi);
             },
             child: Icon(
               Icons.add,
@@ -435,41 +466,32 @@ class _MenuScreenState extends State<MenuScreen> {
 
   Widget addButton(MenuItem mi) {
     return Container(
-      width: SizeConfig.safeBlockHorizontal * 27,
-      padding: EdgeInsets.all(0),
-      child: Consumer<Cart>(
-        builder: (
-          context,
-          cp,
-          child,
-        ) {
-          return FlatButton(
-              padding: EdgeInsets.all(0),
-              color: FriskyColor().colorBadge,
-              onPressed: () {
-                cp.addToCart(mi);
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    "Add  ",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.safeBlockVertical * 2),
-                  ),
-                  Icon(
-                    Icons.add,
-                    size: 20,
+        width: SizeConfig.safeBlockHorizontal * 27,
+        padding: EdgeInsets.all(0),
+        child: FlatButton(
+          padding: EdgeInsets.all(0),
+          color: FriskyColor().colorBadge,
+          onPressed: () {
+            Provider.of<Cart>(context, listen: true).addToCart(mi);
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                "Add  ",
+                style: TextStyle(
                     color: Colors.white,
-                  ),
-                ],
-              ));
-        },
-      ),
-    );
+                    fontSize: SizeConfig.safeBlockVertical * 2),
+              ),
+              Icon(
+                Icons.add,
+                size: 20,
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ));
   }
-
   typeIcon(MenuItem mi) {
     if (mi.dietType == DietType.NONE) {
       return Text("");
