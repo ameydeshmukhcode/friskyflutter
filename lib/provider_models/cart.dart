@@ -14,7 +14,6 @@ class Cart extends ChangeNotifier {
   clearList()
   {
     print("list before clear");
-
     printList();
     cartList.removeRange(0, cartList.length);
     print("list after clear");

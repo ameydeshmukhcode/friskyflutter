@@ -1,3 +1,4 @@
+import 'package:friskyflutter/screens/cartscreen.dart';
 import 'package:friskyflutter/size_config.dart';
 import 'dart:collection';
 import 'package:flutter/material.dart';
@@ -389,7 +390,14 @@ class _MenuScreenState extends State<MenuScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(4.0),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CartScreen()));
+
+                      },
                       child: Text(
                         "View",
                         style: TextStyle(
