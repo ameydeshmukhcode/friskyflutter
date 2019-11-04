@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Session extends ChangeNotifier {
   bool isSessionActive = false;
+  bool isOrderActive = false;
   String restaurantName = " ";
   String tableName = " ";
   String tableID = " ";
