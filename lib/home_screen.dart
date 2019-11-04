@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/screens/dine_orders.dart';
 import 'package:friskyflutter/screens/home.dart';
@@ -8,10 +7,11 @@ import 'package:friskyflutter/screens/visits.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'frisky_colors.dart';
 import 'package:provider/provider.dart';
-//import 'package:badges/badges.dart';
+import 'package:badges/badges.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 
 import 'provider_models/session.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,27 +19,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin  {
+    with SingleTickerProviderStateMixin {
   int currentIndex = 0;
-
   TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
   @override
   void dispose() {
-    // TODO: implement dispose
-    _tabController.dispose();
     super.dispose();
+    _tabController.dispose();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     Provider.of<Session>(context, listen: false).getStatus();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
   }
 
   Widget _bottomNavBar() {
@@ -110,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen>
                 visible: Session.isSessionActive,
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Container(color: Colors.white,
+                  child: Container(
+                    color: Colors.white,
                     child: ListTile(
                       title: Text(
                         "Currently at",
@@ -147,11 +147,9 @@ class _HomeScreenState extends State<HomeScreen>
                           borderRadius: new BorderRadius.circular(4.0),
                         ),
                       ),
-
                     ),
                   ),
                 ))
-
           ],
         );
       }),
@@ -161,8 +159,9 @@ class _HomeScreenState extends State<HomeScreen>
         return Visibility(
           visible: !Session.isSessionActive,
           child: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.pushNamed(context, "/scan");
+            onPressed: () async {
+              // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+              navigateToScan();
             },
             icon: Icon(MdiIcons.qrcode),
             label: Text("Scan QR Code"),
@@ -173,5 +172,29 @@ class _HomeScreenState extends State<HomeScreen>
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: _bottomNavBar(),
     );
+  }
+
+  getPermission() async {
+    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    if (await checkForPermission()) {
+      Navigator.pushNamed(context, "/scan");
+    }
+  }
+
+  navigateToScan() async {
+    if (await checkForPermission()) {
+      Navigator.pushNamed(context, "/scan");
+    } else {
+      getPermission();
+    }
+  }
+
+  Future<bool> checkForPermission() async {
+    PermissionStatus permission =
+        await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+    if (permission.toString() == "PermissionStatus.granted")
+      return true;
+    else
+      return false;
   }
 }
