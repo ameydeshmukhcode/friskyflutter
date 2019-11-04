@@ -163,6 +163,8 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - permission_handler (3.3.0):
+    - Flutter
   - Protobuf (3.10.0)
   - qrcode (0.0.1):
     - Flutter
@@ -178,6 +180,7 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - qrcode (from `.symlinks/plugins/qrcode/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
@@ -225,6 +228,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/fluttertoast/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
   qrcode:
     :path: ".symlinks/plugins/qrcode/ios"
   shared_preferences:
@@ -262,6 +267,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   qrcode: 703d52352679d9b4284555e9a09c2157062f1989
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
