@@ -2,9 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
+
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    this.cartExit();
+  }
+
+  cartExit()
+  {
+
+    if( Provider.of<Cart>(context, listen: true ).cartList.isEmpty)
+      Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: ListView.builder(
           itemCount: Provider.of<Cart>(context, listen: true).cartList.length,
