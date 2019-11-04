@@ -202,7 +202,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       Container(
                         padding: EdgeInsets.all(8),
                         child: Text(
-                          'Table ' + widget.tableName,
+                          'TABLE ' + widget.tableName,
                           style: TextStyle(
                               fontSize: SizeConfig.safeBlockVertical * 3,
                               color: FriskyColor().colorTextLight,
@@ -395,7 +395,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CartScreen()));
+                                builder: (context) => CartScreen(widget.tableName)));
 
                       },
                       child: Text(
@@ -447,7 +447,8 @@ class _MenuScreenState extends State<MenuScreen> {
             Provider.of<Cart>(context, listen: true).getCount(mi),
             style: TextStyle(
                 fontSize: SizeConfig.safeBlockVertical * 2.5,
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.bold,
+                color: FriskyColor().colorTextDark ),
           )),
         ),
         Container(

@@ -4,12 +4,23 @@ import 'package:friskyflutter/structures/menu_item.dart';
 class Cart extends ChangeNotifier {
   List<MenuItem> cartList = new List();
   String _name = "";
+  int _cartTotal = 0;
 
   String get itemName => _name;
+  int get total => _cartTotal;
 
   String getCount(MenuItem menuItem) {
     return cartList[getIndex(menuItem)].getCount().toString();
   }
+
+   countTotal()
+   {
+     _cartTotal = 0;
+     for(int i = 0 ; i<cartList.length;i++){
+       _cartTotal = _cartTotal + (cartList[i].getPrice() * cartList[i].getCount());
+     }
+   }
+
 
   clearList()
   {
@@ -29,9 +40,11 @@ class Cart extends ChangeNotifier {
     if (!cartList.contains(menuItem)) {
       cartList.add(menuItem);
       cartList[getIndex(menuItem)].incrementCount();
+      countTotal();
       notifyListeners();
     } else {
       cartList[getIndex(menuItem)].incrementCount();
+      countTotal();
       notifyListeners();
     }
   //  printMenuList();
@@ -46,13 +59,16 @@ class Cart extends ChangeNotifier {
       cartList[getIndex(menuItem)].decrementCount();
       cartList.removeAt(getIndex(menuItem));
       print("item removed succesfully");
+      countTotal();
       notifyListeners();
     } else {
       if (cartList[getIndex(menuItem)].getCount() > 0) {
         cartList[getIndex(menuItem)].decrementCount();
+        countTotal();
         notifyListeners();
       } else {
         print("Itam Count Zero Order Something");
+        countTotal();
         notifyListeners();
       }
     }
