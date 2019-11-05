@@ -5,8 +5,10 @@ class Cart extends ChangeNotifier {
   List<MenuItem> cartList = new List();
   String _name = "";
   int _cartTotal = 0;
+  bool orderPlaced = false;
 
   String get itemName => _name;
+  bool get isOrderPlaced => orderPlaced;
   int get total => _cartTotal;
 
   String getCount(MenuItem menuItem) {
@@ -29,6 +31,27 @@ class Cart extends ChangeNotifier {
     cartList.removeRange(0, cartList.length);
     print("list after clear");
     printList();
+    notifyListeners();
+  }
+
+
+  orderToggle(){
+
+    if(orderPlaced)
+      orderPlaced=false;
+    orderPlaced=true;
+    notifyListeners();
+  }
+
+ void clearCart(){
+    for(int i=cartList.length-1;i>=0;i--)
+      {
+        cartList[i].count = 0;
+        cartList.removeAt(i);
+        print("inside clearCArt "+i.toString());
+        printList();
+      }
+   orderToggle();
     notifyListeners();
   }
 

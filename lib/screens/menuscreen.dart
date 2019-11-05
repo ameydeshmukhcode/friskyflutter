@@ -21,6 +21,9 @@ class MenuScreen extends StatefulWidget {
   final String restaurantName, tableName, sessionID, restaurantID;
 }
 
+
+
+
 class _MenuScreenState extends State<MenuScreen> {
   List<MenuCategory> mCategories = List<MenuCategory>();
   HashMap<String, List<MenuItem>> mItems =
@@ -30,6 +33,8 @@ class _MenuScreenState extends State<MenuScreen> {
   HashMap<String, int> mCategoryOrderMap = HashMap<String, int>();
   bool isLoading = true;
   ScrollController _scrollController;
+
+
   Future getMenuData() async {
     print("INSIDE GET MENU DATA");
     await firestore

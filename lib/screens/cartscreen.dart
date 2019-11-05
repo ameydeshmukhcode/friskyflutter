@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:friskyflutter/screens/orders_screen.dart';
 import 'package:friskyflutter/structures/diet_type.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +34,18 @@ class _CartScreenState extends State<CartScreen> {
 
   cartExit() {
     if (Provider.of<Cart>(context, listen: true).cartList.isEmpty)
-      Navigator.pop(context);
+    {
+      if(Provider.of<Cart>(context, listen: true).orderPlaced)
+     {
+
+       Navigator.pushReplacementNamed(context, "/ordersscreen");
+       Provider.of<Cart>(context, listen: true).orderToggle();
+
+     }
+    else {
+        Navigator.pop(context);
+    }
+    }
   }
 
   @override
@@ -380,11 +390,8 @@ class _CartScreenState extends State<CartScreen> {
           .then((result) async {
         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         await sharedPreferences.setBool("order_active", true);
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-            builder: (context) => OrdersScreen()));
+         Provider.of<Cart>(context, listen: false).clearCart();
+         Navigator.pop(context);
 
       }).catchError((error){
         Navigator.pop(context);

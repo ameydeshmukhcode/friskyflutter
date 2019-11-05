@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/session.dart';
+import 'package:friskyflutter/screens/orders_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/login/user_login.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
             "/esingup": (BuildContext context) => EmailSignUp(),
             "/login": (BuildContext context) => UserLogin(),
             "/scan": (BuildContext context) => Scan(),
+            "/ordersscreen": (BuildContext context) => OrdersScreen(),
             //   "/menu": (BuildContext context) => MenuScreen(restaurantName, tableName,sessionID),
           },
         ));
