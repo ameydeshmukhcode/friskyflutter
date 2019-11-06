@@ -19,7 +19,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-
+   bool orderPlaced = false;
   CloudFunctions cloudFunctions = CloudFunctions.instance;
   @override
   void initState() {
@@ -35,11 +35,11 @@ class _CartScreenState extends State<CartScreen> {
   cartExit() {
     if (Provider.of<Cart>(context, listen: true).cartList.isEmpty)
     {
-      if(Provider.of<Cart>(context, listen: true).orderPlaced)
+      if(orderPlaced)
      {
-
+       orderPlaced=false;
        Navigator.pushReplacementNamed(context, "/ordersscreen");
-       Provider.of<Cart>(context, listen: true).orderToggle();
+
 
      }
     else {
@@ -391,6 +391,7 @@ class _CartScreenState extends State<CartScreen> {
         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         await sharedPreferences.setBool("order_active", true);
          Provider.of<Cart>(context, listen: false).clearCart();
+        orderPlaced=true;
          Navigator.pop(context);
 
       }).catchError((error){
