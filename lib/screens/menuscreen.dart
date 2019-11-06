@@ -123,6 +123,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Future setupMenu() async {
+    Provider.of<Orders>(context, listen: false).getOrderStatus();
     print("INSIDE SETUP MENU");
     mMenu.clear();
     for (int i = 0; i < mCategories.length; i++) {
@@ -169,7 +170,6 @@ class _MenuScreenState extends State<MenuScreen> {
       onWillPop: (){
         Navigator.pop(context);
         return Provider.of<Cart>(context, listen: true).clearList();
-
       },
       child: Scaffold(
         appBar: AppBar(
@@ -458,7 +458,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => OrdersScreen()));
+                                builder: (context) => OrdersScreen(widget.tableName)));
 
                       },
                       child: Text(

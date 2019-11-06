@@ -198,7 +198,6 @@ class _VisitSummaryState extends State<VisitSummary> {
         .then((data) async {
       for (DocumentSnapshot documentSnapshot in data.documents) {
         Map<dynamic, dynamic> items = documentSnapshot.data["items"];
-
         for (int i = 0; i < items.length; i++) {
           String itemID = items.keys.elementAt(i).toString();
           Map<dynamic, dynamic> itemData = items.values.elementAt(i);
@@ -206,8 +205,7 @@ class _VisitSummaryState extends State<VisitSummary> {
           int cost = int.parse(itemData["cost"]);
           int quantity = itemData["quantity"];
 
-          OrderItem orderItem =
-              OrderItem(itemID, name, quantity, (quantity * cost));
+          OrderItem orderItem = OrderItem(itemID, name, quantity, (quantity * cost));
 
           if (itemData["status"].toString().compareTo("pending") == 0) {
             orderItem.orderStatus = OrderStatus.pending;

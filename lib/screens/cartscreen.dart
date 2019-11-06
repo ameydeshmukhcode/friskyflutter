@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../frisky_colors.dart';
 import '../size_config.dart';
+import 'orders_screen.dart';
 
 class CartScreen extends StatefulWidget {
   final String tableName;
@@ -39,7 +39,11 @@ class _CartScreenState extends State<CartScreen> {
       if(orderPlaced)
      {
        orderPlaced=false;
-       Navigator.pushReplacementNamed(context, "/ordersscreen");
+
+       Navigator.pushReplacement(
+           context,
+           MaterialPageRoute(
+               builder: (context) => OrdersScreen(widget.tableName)));
      }
     else {
         Navigator.pop(context);
@@ -391,7 +395,7 @@ class _CartScreenState extends State<CartScreen> {
         await sharedPreferences.setBool("order_active", true);
          Provider.of<Cart>(context, listen: false).clearCart();
          Provider.of<Orders>(context, listen: false).getOrderStatus();
-        orderPlaced=true;
+         orderPlaced=true;
          Navigator.pop(context);
 
       }).catchError((error){
