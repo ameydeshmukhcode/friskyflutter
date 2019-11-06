@@ -8,15 +8,18 @@ import 'package:date_format/date_format.dart';
 import 'package:friskyflutter/structures/order_header.dart';
 import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/widgets/card_order_item.dart';
+
 class OrdersScreen extends StatefulWidget {
   final String tableName;
   const OrdersScreen(this.tableName) : super();
   @override
   _OrdersScreenState createState() => _OrdersScreenState();
 }
+
 List<Object> mOrderList = new List<Object>();
+
 class _OrdersScreenState extends State<OrdersScreen> {
-  Stream<int> getOrders() async*{
+  Stream<int> getOrders() async* {
     SharedPreferences sp = await SharedPreferences.getInstance();
     Firestore.instance
         .collection("restaurants")
@@ -28,22 +31,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
         .listen((snaps) {
       mOrderList.clear();
       int docRank = snaps.documents.length;
-      print(docRank.toString());
-      print(snaps.toString());
       for (DocumentSnapshot documentSnapshot in snaps.documents) {
         Map<dynamic, dynamic> orderData = documentSnapshot.data["items"];
-        print(orderData);
         String orderTime = formatDate(
             documentSnapshot.data["timestamp"].toDate(),
             [hh, ':', nn, ' ', am]).toString();
-        print(orderTime);
         OrderHeader orderHeader = new OrderHeader(orderTime, docRank);
         mOrderList.add(orderHeader);
         for (int i = 0; i < orderData.length; i++) {
           String itemID = orderData.keys.elementAt(i).toString();
           Map<dynamic, dynamic> itemData = orderData.values.elementAt(i);
-          print(itemID);
-          print(itemData);
           String name = itemData["name"];
           int cost = int.parse(itemData["cost"]);
           int quantity = itemData["quantity"];
@@ -63,9 +60,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
         }
         docRank--;
       }
-      print(mOrderList.toString());
+      if (mOrderList != mOrderList) {
+        setState(() {
+        });
+      }
     });
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +104,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 16,left: 16,right: 16),
+            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             child: Divider(
               thickness: 2,
             ),
@@ -112,7 +115,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 stream: getOrders(),
                 builder: (context, asyncSnapshot) {
                   return ListView.builder(
-                    padding: EdgeInsets.all(0),
+                      padding: EdgeInsets.all(0),
                       itemCount: mOrderList.length,
                       itemBuilder: (context, index) {
                         if (mOrderList[index].toString() ==
@@ -120,28 +123,30 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           OrderHeader header = mOrderList[index];
                           return Column(
                             children: <Widget>[
-                              Text("Order # " +
-                                  header.getRank().toString() +
-                                  " - " +
-                                  header.getTime(),style:
-                                TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  color: FriskyColor().colorTextDark,
-                                  fontSize: SizeConfig.safeBlockVertical* 2.5
-                                ),),
+                              Text(
+                                "Order # " +
+                                    header.getRank().toString() +
+                                    " - " +
+                                    header.getTime(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    color: FriskyColor().colorTextDark,
+                                    fontSize:
+                                        SizeConfig.safeBlockVertical * 2.5),
+                              ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(20,8,20,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 8, 20, 0),
                                 child: Divider(
                                   thickness: 2,
                                 ),
                               )
                             ],
                           );
-                        }
-                        else{
+                        } else {
                           OrderItem item = mOrderList[index];
-                          return OrderItemWidget(item.name, item.count, item.total,item.orderStatus);
-
+                          return OrderItemWidget(item.name, item.count,
+                              item.total, item.orderStatus);
                         }
                       });
                 }),
