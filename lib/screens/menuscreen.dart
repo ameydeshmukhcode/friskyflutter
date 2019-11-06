@@ -271,7 +271,8 @@ class _MenuScreenState extends State<MenuScreen> {
               child: ListView.builder(
                   padding: (Provider.of<Cart>(context, listen: true)
                           .cartList
-                          .isNotEmpty)
+                          .isNotEmpty||Provider.of<Orders>(context, listen: true)
+                      .isOrderActive)
                       ? EdgeInsets.only(
                           bottom: SizeConfig.safeBlockVertical * 18,
                         )
