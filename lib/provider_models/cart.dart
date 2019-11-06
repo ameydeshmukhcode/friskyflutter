@@ -7,7 +7,6 @@ class Cart extends ChangeNotifier {
   int _cartTotal = 0;
   String get itemName => _name;
   int get total => _cartTotal;
-
   String getCount(MenuItem menuItem) {
     return cartList[getIndex(menuItem)].getCount().toString();
   }

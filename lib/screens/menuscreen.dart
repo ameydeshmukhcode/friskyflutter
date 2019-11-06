@@ -1,6 +1,7 @@
 import 'package:friskyflutter/screens/cartscreen.dart';
 import 'package:friskyflutter/size_config.dart';
 import 'dart:collection';
+import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:friskyflutter/structures/menu_category.dart';
@@ -10,6 +11,8 @@ import '../frisky_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
+
+import 'orders_screen.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -24,15 +27,21 @@ class MenuScreen extends StatefulWidget {
 
 
 
+
+
 class _MenuScreenState extends State<MenuScreen> {
+
+
   List<MenuCategory> mCategories = List<MenuCategory>();
   HashMap<String, List<MenuItem>> mItems =
-      new HashMap<String, List<MenuItem>>();
+  new HashMap<String, List<MenuItem>>();
   List<dynamic> mMenu = List<dynamic>();
   Firestore firestore = Firestore.instance;
   HashMap<String, int> mCategoryOrderMap = HashMap<String, int>();
   bool isLoading = true;
   ScrollController _scrollController;
+
+
 
 
   Future getMenuData() async {
@@ -405,6 +414,54 @@ class _MenuScreenState extends State<MenuScreen> {
                       },
                       child: Text(
                         "View",
+                        style: TextStyle(
+                            color: FriskyColor().colorSnackBarText,
+                            fontSize: SizeConfig.safeBlockVertical * 2),
+                      )),
+                ),
+              ],
+            ),
+            decoration: BoxDecoration(
+                color: FriskyColor().colorSnackBar,
+                borderRadius: BorderRadius.circular(6)),
+          ),
+        ),
+        Visibility(
+
+          visible:
+              (Provider.of<Cart>(context, listen: true).cartList.isEmpty && Provider.of<Orders>(context, listen: true
+              ).isOrderActive),
+          child: Container(
+            padding: EdgeInsets.all(4),
+            margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  "You Have Orders  ",
+                  style: TextStyle(
+                      color: FriskyColor().colorSnackBarText,
+                      fontSize: SizeConfig.safeBlockVertical * 2),
+                ),
+                Container(
+                  width: SizeConfig.safeBlockHorizontal * 18,
+                  child: FlatButton(
+                      color: FriskyColor().colorSnackBarButton,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(4.0),
+                      ),
+                      onPressed: () {
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrdersScreen()));
+
+                      },
+                      child: Text(
+                        "Show",
                         style: TextStyle(
                             color: FriskyColor().colorSnackBarText,
                             fontSize: SizeConfig.safeBlockVertical * 2),

@@ -6,6 +6,7 @@ import 'package:friskyflutter/structures/diet_type.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
 import 'package:provider/provider.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
+import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../frisky_colors.dart';
@@ -39,8 +40,6 @@ class _CartScreenState extends State<CartScreen> {
      {
        orderPlaced=false;
        Navigator.pushReplacementNamed(context, "/ordersscreen");
-
-
      }
     else {
         Navigator.pop(context);
@@ -391,6 +390,7 @@ class _CartScreenState extends State<CartScreen> {
         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         await sharedPreferences.setBool("order_active", true);
          Provider.of<Cart>(context, listen: false).clearCart();
+         Provider.of<Orders>(context, listen: false).getOrderStatus();
         orderPlaced=true;
          Navigator.pop(context);
 
