@@ -29,45 +29,57 @@ class _OrdersScreenState extends State<OrdersScreen> {
         .orderBy("timestamp", descending: true)
         .snapshots()
         .listen((snaps) {
-      mOrderList.clear();
-      int docRank = snaps.documents.length;
-      for (DocumentSnapshot documentSnapshot in snaps.documents) {
-        Map<dynamic, dynamic> orderData = documentSnapshot.data["items"];
-        String orderTime = formatDate(
-            documentSnapshot.data["timestamp"].toDate(),
-            [hh, ':', nn, ' ', am]).toString();
-        OrderHeader orderHeader = new OrderHeader(orderTime, docRank);
-        mOrderList.add(orderHeader);
-        for (int i = 0; i < orderData.length; i++) {
-          String itemID = orderData.keys.elementAt(i).toString();
-          Map<dynamic, dynamic> itemData = orderData.values.elementAt(i);
-          String name = itemData["name"];
-          int cost = int.parse(itemData["cost"]);
-          int quantity = itemData["quantity"];
-          OrderItem orderItem =
-              OrderItem(itemID, name, quantity, (quantity * cost));
-          if (itemData["status"].toString().compareTo("pending") == 0) {
-            orderItem.orderStatus = OrderStatus.pending;
-          } else if (itemData["status"].toString().compareTo("accepted") == 0) {
-            orderItem.orderStatus = OrderStatus.accepted;
-          } else if (itemData["status"].toString().compareTo("rejected") == 0) {
-            orderItem.orderStatus = OrderStatus.rejected;
-          } else if (itemData["status"].toString().compareTo("cancelled") ==
-              0) {
-            orderItem.orderStatus = OrderStatus.cancelled;
+          if(snaps.documentChanges.isNotEmpty)
+            {
+              updateList(snaps);
+
+            }
+
+          else{
+            print("else doc not chnages");
           }
-          mOrderList.add(orderItem);
-        }
-        docRank--;
-      }
-      if (mOrderList != mOrderList) {
-        setState(() {
-        });
-      }
+          setState(() {
+            print("setting");
+          });
     });
   }
 
 
+
+     updateList(snaps){
+
+       mOrderList.clear();
+       int docRank = snaps.documents.length;
+       for (DocumentSnapshot documentSnapshot in snaps.documents) {
+         Map<dynamic, dynamic> orderData = documentSnapshot.data["items"];
+         String orderTime = formatDate(
+             documentSnapshot.data["timestamp"].toDate(),
+             [hh, ':', nn, ' ', am]).toString();
+         OrderHeader orderHeader = new OrderHeader(orderTime, docRank);
+         mOrderList.add(orderHeader);
+         for (int i = 0; i < orderData.length; i++) {
+           String itemID = orderData.keys.elementAt(i).toString();
+           Map<dynamic, dynamic> itemData = orderData.values.elementAt(i);
+           String name = itemData["name"];
+           int cost = int.parse(itemData["cost"]);
+           int quantity = itemData["quantity"];
+           OrderItem orderItem =
+           OrderItem(itemID, name, quantity, (quantity * cost));
+           if (itemData["status"].toString().compareTo("pending") == 0) {
+             orderItem.orderStatus = OrderStatus.pending;
+           } else if (itemData["status"].toString().compareTo("accepted") == 0) {
+             orderItem.orderStatus = OrderStatus.accepted;
+           } else if (itemData["status"].toString().compareTo("rejected") == 0) {
+             orderItem.orderStatus = OrderStatus.rejected;
+           } else if (itemData["status"].toString().compareTo("cancelled") ==
+               0) {
+             orderItem.orderStatus = OrderStatus.cancelled;
+           }
+           mOrderList.add(orderItem);
+         }
+         docRank--;
+       }
+     }
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +126,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 initialData: Text("Loading"),
                 stream: getOrders(),
                 builder: (context, asyncSnapshot) {
+
                   return ListView.builder(
                       padding: EdgeInsets.all(0),
                       itemCount: mOrderList.length,
@@ -149,6 +162,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               item.total, item.orderStatus);
                         }
                       });
+
                 }),
           ),
           Container(
