@@ -99,7 +99,9 @@ class _HomeScreenState extends State<HomeScreen>
             TabBarView(
               children: [
                 HomeTab(),
-                Session.isSessionActive ? ( Session.isBillRequested ? BillRequested() :DineOrders()) : DineTab(),
+                Session.isSessionActive
+                    ? (Session.isBillRequested ? BillRequested() : DineOrders())
+                    : DineTab(),
                 VisitTab(),
               ],
               controller: _tabController,
@@ -113,40 +115,50 @@ class _HomeScreenState extends State<HomeScreen>
                     color: Colors.white,
                     child: ListTile(
                       title: Text(
-            Session.isBillRequested ? ("Bill Requested"):("Currently at"),
+                        Session.isBillRequested
+                            ? ("Bill Requested")
+                            : ("Currently at"),
                         style: TextStyle(
-                            fontSize: 14, color: FriskyColor().colorTextLight)  ,
+                            fontSize: 14, color: FriskyColor().colorTextLight),
                       ),
                       subtitle: Text(
-                         Session.isBillRequested ? ("Bill Amount to Be Paid - "+Session.totalAmount):( Session.restaurantName +
-                             " - Table " +
-                             Session.tableName),
+                          Session.isBillRequested
+                              ? ("Bill Amount to Be Paid - " +
+                                  Session.totalAmount)
+                              : (Session.restaurantName +
+                                  " - Table " +
+                                  Session.tableName),
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
-                      trailing: Session.isBillRequested ? SizedBox(height: 1,):OutlineButton(
-                        color: Colors.lightGreen,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MenuScreen(
-                                      Session.restaurantName,
-                                      Session.tableName,
-                                      Session.sessionID,
-                                      Session.restaurantID)));
-                        },
-                        child: Text(
-                          "Menu",
-                          style: TextStyle(color: FriskyColor().colorPrimary),
-                        ),
-                        borderSide: BorderSide(
-                          color: FriskyColor().colorPrimary,
-                          width: 1.5,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(4.0),
-                        ),
-                      ),
+                      trailing: Session.isBillRequested
+                          ? SizedBox(
+                              height: 1,
+                            )
+                          : OutlineButton(
+                              color: Colors.lightGreen,
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MenuScreen(
+                                            Session.restaurantName,
+                                            Session.tableName,
+                                            Session.sessionID,
+                                            Session.restaurantID)));
+                              },
+                              child: Text(
+                                "Menu",
+                                style: TextStyle(
+                                    color: FriskyColor().colorPrimary),
+                              ),
+                              borderSide: BorderSide(
+                                color: FriskyColor().colorPrimary,
+                                width: 1.5,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(4.0),
+                              ),
+                            ),
                     ),
                   ),
                 ))

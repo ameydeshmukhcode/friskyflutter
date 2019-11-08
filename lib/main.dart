@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(builder: (_) => Session()),
           ChangeNotifierProvider(builder: (_) => Cart()),
-         ChangeNotifierProvider(builder: (_) => Orders()),
-         // ListenableProvider(builder: (_)=> Orders())
+          ChangeNotifierProvider(builder: (_) => Orders()),
+          // ListenableProvider(builder: (_)=> Orders())
         ],
         child: MaterialApp(
           title: 'FriSky Flutter',
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             "/esingup": (BuildContext context) => EmailSignUp(),
             "/login": (BuildContext context) => UserLogin(),
             "/scan": (BuildContext context) => Scan(),
-          //  "/ordersscreen": (BuildContext context,) => OrdersScreen(),
+            //  "/ordersscreen": (BuildContext context,) => OrdersScreen(),
             //   "/menu": (BuildContext context) => MenuScreen(restaurantName, tableName,sessionID),
           },
         ));

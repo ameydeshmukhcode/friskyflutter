@@ -1,21 +1,17 @@
-class OrderHeader
-{
+class OrderHeader {
   String time;
   int rank;
 
-  OrderHeader(String time, int rank)
-  {
+  OrderHeader(String time, int rank) {
     this.time = time;
     this.rank = rank;
   }
 
-  String getTime()
-  {
+  String getTime() {
     return time;
   }
 
-  int getRank()
-  {
+  int getRank() {
     return rank;
   }
 }

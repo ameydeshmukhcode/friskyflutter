@@ -24,25 +24,15 @@ class MenuScreen extends StatefulWidget {
   final String restaurantName, tableName, sessionID, restaurantID;
 }
 
-
-
-
-
-
 class _MenuScreenState extends State<MenuScreen> {
-
-
   List<MenuCategory> mCategories = List<MenuCategory>();
   HashMap<String, List<MenuItem>> mItems =
-  new HashMap<String, List<MenuItem>>();
+      new HashMap<String, List<MenuItem>>();
   List<dynamic> mMenu = List<dynamic>();
   Firestore firestore = Firestore.instance;
   HashMap<String, int> mCategoryOrderMap = HashMap<String, int>();
   bool isLoading = true;
   ScrollController _scrollController;
-
-
-
 
   Future getMenuData() async {
     print("INSIDE GET MENU DATA");
@@ -167,7 +157,7 @@ class _MenuScreenState extends State<MenuScreen> {
     print("UI REBUILDED");
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: (){
+      onWillPop: () {
         Navigator.pop(context);
         return Provider.of<Cart>(context, listen: true).clearList();
       },
@@ -248,7 +238,6 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
         floatingActionButton: _simplePopup(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-
       ),
     );
   }
@@ -270,9 +259,10 @@ class _MenuScreenState extends State<MenuScreen> {
             return Flexible(
               child: ListView.builder(
                   padding: (Provider.of<Cart>(context, listen: true)
-                          .cartList
-                          .isNotEmpty||Provider.of<Orders>(context, listen: true)
-                      .isOrderActive)
+                              .cartList
+                              .isNotEmpty ||
+                          Provider.of<Orders>(context, listen: true)
+                              .isOrderActive)
                       ? EdgeInsets.only(
                           bottom: SizeConfig.safeBlockVertical * 18,
                         )
@@ -406,12 +396,11 @@ class _MenuScreenState extends State<MenuScreen> {
                         borderRadius: new BorderRadius.circular(4.0),
                       ),
                       onPressed: () {
-
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CartScreen(widget.tableName)));
-
+                                builder: (context) =>
+                                    CartScreen(widget.tableName)));
                       },
                       child: Text(
                         "View",
@@ -428,10 +417,8 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ),
         Visibility(
-
-          visible:
-              (Provider.of<Cart>(context, listen: true).cartList.isEmpty && Provider.of<Orders>(context, listen: true
-              ).isOrderActive),
+          visible: (Provider.of<Cart>(context, listen: true).cartList.isEmpty &&
+              Provider.of<Orders>(context, listen: true).isOrderActive),
           child: Container(
             padding: EdgeInsets.all(4),
             margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
@@ -454,12 +441,11 @@ class _MenuScreenState extends State<MenuScreen> {
                         borderRadius: new BorderRadius.circular(4.0),
                       ),
                       onPressed: () {
-
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => OrdersScreen(widget.tableName)));
-
+                                builder: (context) =>
+                                    OrdersScreen(widget.tableName)));
                       },
                       child: Text(
                         "Show",
@@ -511,7 +497,7 @@ class _MenuScreenState extends State<MenuScreen> {
             style: TextStyle(
                 fontSize: SizeConfig.safeBlockVertical * 2.5,
                 fontWeight: FontWeight.bold,
-                color: FriskyColor().colorTextDark ),
+                color: FriskyColor().colorTextDark),
           )),
         ),
         Container(
@@ -564,6 +550,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ));
   }
+
   typeIcon(MenuItem mi) {
     if (mi.dietType == DietType.NONE) {
       return Text("");

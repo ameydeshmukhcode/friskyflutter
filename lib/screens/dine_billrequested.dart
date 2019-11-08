@@ -14,8 +14,8 @@ class BillRequested extends StatelessWidget {
           children: <Widget>[
             Text(
               "Bill Requested. The waiter will\ncollect payment from you.",
-              style: TextStyle(
-                  fontSize: 20, color: FriskyColor().colorTextLight),
+              style:
+                  TextStyle(fontSize: 20, color: FriskyColor().colorTextLight),
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -33,6 +33,4 @@ class BillRequested extends StatelessWidget {
       ),
     );
   }
-
-
 }

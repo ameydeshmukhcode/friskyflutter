@@ -11,17 +11,15 @@ class Cart extends ChangeNotifier {
     return cartList[getIndex(menuItem)].getCount().toString();
   }
 
-   countTotal()
-   {
-     _cartTotal = 0;
-     for(int i = 0 ; i<cartList.length;i++){
-       _cartTotal = _cartTotal + (cartList[i].getPrice() * cartList[i].getCount());
-     }
-   }
+  countTotal() {
+    _cartTotal = 0;
+    for (int i = 0; i < cartList.length; i++) {
+      _cartTotal =
+          _cartTotal + (cartList[i].getPrice() * cartList[i].getCount());
+    }
+  }
 
-
-  clearList()
-  {
+  clearList() {
     print("list before clear");
     printList();
     cartList.removeRange(0, cartList.length);
@@ -30,16 +28,13 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
- void clearCart(){
-    for(int i=cartList.length-1;i>=0;i--)
-      {
-        cartList[i].count = 0;
-        cartList.removeAt(i);
-        print("inside clearCArt "+i.toString());
-        printList();
-      }
+  void clearCart() {
+    for (int i = cartList.length - 1; i >= 0; i--) {
+      cartList[i].count = 0;
+      cartList.removeAt(i);
+      print("inside clearCArt " + i.toString());
+      printList();
+    }
     notifyListeners();
   }
 
@@ -58,10 +53,9 @@ class Cart extends ChangeNotifier {
       countTotal();
       notifyListeners();
     }
-  //  printMenuList();
+    //  printMenuList();
     printList();
     printMenuList();
-
   }
 
   void removeFromCart(MenuItem menuItem) {
@@ -83,7 +77,7 @@ class Cart extends ChangeNotifier {
         notifyListeners();
       }
     }
-   // printMenuList();
+    // printMenuList();
     printList();
     printMenuList();
   }
@@ -95,10 +89,8 @@ class Cart extends ChangeNotifier {
     });
   }
 
-  printList(){
-    if(cartList.isEmpty)
-      print("List IS EMPTY");
+  printList() {
+    if (cartList.isEmpty) print("List IS EMPTY");
     print(cartList.toString());
-
   }
 }

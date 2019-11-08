@@ -13,11 +13,11 @@ class Session extends ChangeNotifier {
   Future getStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     isSessionActive = sharedPreferences.getBool("session_active");
-   // isBillRequested = sharedPreferences.getBool("bill_requested");
+    // isBillRequested = sharedPreferences.getBool("bill_requested");
     if (isSessionActive == null || isSessionActive == false) {
       print("in if of SESSION = " + isSessionActive.toString());
       isSessionActive = false;
-     // isBillRequested =false;
+      // isBillRequested =false;
       //print("SESSION = " + isSessionActive.toString());
       await sharedPreferences.setString("restaurant_id", " ");
       await sharedPreferences.setString("session_id", " ");
@@ -39,17 +39,16 @@ class Session extends ChangeNotifier {
       getBillStatus();
     }
   }
-  Future getBillStatus()async {
+
+  Future getBillStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     isBillRequested = sharedPreferences.getBool("bill_requested");
-    if(isBillRequested == null || isBillRequested == false)
-      {
-        isBillRequested =false;
-        notifyListeners();
-      }
-    else{
+    if (isBillRequested == null || isBillRequested == false) {
+      isBillRequested = false;
+      notifyListeners();
+    } else {
       totalAmount = sharedPreferences.getString("total_Amount");
-      isBillRequested =true;
+      isBillRequested = true;
       notifyListeners();
     }
   }

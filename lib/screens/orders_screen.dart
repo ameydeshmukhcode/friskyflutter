@@ -19,25 +19,17 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-
-
-
-
-
   List<Object> mOrderList = new List<Object>();
-  getListLength(){
-         if(Provider.of<Orders>(context, listen: true).mOrderList.length == 0)
-           {
-             Provider.of<Orders>(context, listen: true).getOrders();
-             return 0;
-           }
-             else
-             {
-                  return  Provider.of<Orders>(context, listen: true).mOrderList.length;
-             }
+  getListLength() {
+    if (Provider.of<Orders>(context, listen: true).mOrderList.length == 0) {
+      Provider.of<Orders>(context, listen: true).getOrders();
+      return 0;
+    } else {
+      return Provider.of<Orders>(context, listen: true).mOrderList.length;
+    }
+  }
 
-     }
-     @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -84,18 +76,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
           ),
           Flexible(
-            child:ListView.builder(
+            child: ListView.builder(
                 padding: EdgeInsets.all(0),
-                itemCount:  getListLength(),
+                itemCount: getListLength(),
                 itemBuilder: (context, index) {
-                  if(Provider.of<Orders>(context, listen: true).isLoading)
-                    {
-                      return CircularProgressIndicator();
-                    }
-                  else{
-                    if ( Provider.of<Orders>(context, listen: true).mOrderList[index].toString() ==
+                  if (Provider.of<Orders>(context, listen: true).isLoading) {
+                    return CircularProgressIndicator();
+                  } else {
+                    if (Provider.of<Orders>(context, listen: true)
+                            .mOrderList[index]
+                            .toString() ==
                         "Instance of 'OrderHeader'") {
-                      OrderHeader header =  Provider.of<Orders>(context, listen: true).mOrderList[index];
+                      OrderHeader header =
+                          Provider.of<Orders>(context, listen: true)
+                              .mOrderList[index];
                       return Column(
                         children: <Widget>[
                           Text(
@@ -106,12 +100,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w300,
                                 color: FriskyColor().colorTextDark,
-                                fontSize:
-                                SizeConfig.safeBlockVertical * 2.5),
+                                fontSize: SizeConfig.safeBlockVertical * 2.5),
                           ),
                           Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
                             child: Divider(
                               thickness: 2,
                             ),
@@ -119,9 +111,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         ],
                       );
                     } else {
-                      OrderItem item =  Provider.of<Orders>(context, listen: true).mOrderList[index];
-                      return OrderItemWidget(item.name, item.count,
-                          item.total, item.orderStatus);
+                      OrderItem item =
+                          Provider.of<Orders>(context, listen: true)
+                              .mOrderList[index];
+                      return OrderItemWidget(
+                          item.name, item.count, item.total, item.orderStatus);
                     }
                   }
                 }),
@@ -134,7 +128,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
           ),
           Padding(
             padding:
-            const EdgeInsets.only(left: 30, right: 30, top: 8, bottom: 8),
+                const EdgeInsets.only(left: 30, right: 30, top: 8, bottom: 8),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,17 +143,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 Text(
                   "\u20B9" +
                       Provider.of<Orders>(context, listen: true).billAmount,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: FriskyColor().colorTextDark,
-                        fontSize: SizeConfig.safeBlockVertical * 2.2),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: FriskyColor().colorTextDark,
+                      fontSize: SizeConfig.safeBlockVertical * 2.2),
                 ),
               ],
             ),
           ),
           Padding(
-            padding:
-            const EdgeInsets.only(left: 30, right: 30,  bottom: 8),
+            padding: const EdgeInsets.only(left: 30, right: 30, bottom: 8),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,8 +165,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       fontSize: SizeConfig.safeBlockVertical * 2.2),
                 ),
                 Text(
-                  "\u20B9" +
-                      Provider.of<Orders>(context, listen: true).gst,
+                  "\u20B9" + Provider.of<Orders>(context, listen: true).gst,
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: FriskyColor().colorTextDark,
@@ -183,8 +175,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
           ),
           Padding(
-            padding:
-            const EdgeInsets.only(left: 30, right: 30, bottom: 8),
+            padding: const EdgeInsets.only(left: 30, right: 30, bottom: 8),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,167 +198,164 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ],
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-     crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                 height: SizeConfig.safeBlockHorizontal * 12,
-                width: SizeConfig.safeBlockVertical * 22,
-                padding: EdgeInsets.all(0),
-                child: FlatButton(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  height: SizeConfig.safeBlockHorizontal * 12,
+                  width: SizeConfig.safeBlockVertical * 22,
                   padding: EdgeInsets.all(0),
-                  color: FriskyColor().colorBadge,
-                  onPressed: () {
-                    showConfirmAlert();
-
-                  },
-                  child: Text(
-                    "Clear Bill",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.safeBlockVertical * 3),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(4.0),
-                  ),
-                ),
-              ),
-              Container(
-                height: SizeConfig.safeBlockHorizontal * 12,
-                width: SizeConfig.safeBlockVertical * 22,
-                child: OutlineButton(
-                  color: Colors.lightGreen,
-                  onPressed: () {
-                  Navigator.pop(context);
-                  },
-                  child: Text(
-                    "Order More",
-                    style: TextStyle(color: FriskyColor().colorPrimary,
-                        fontSize: SizeConfig.safeBlockVertical * 3 ),
-                  ),
-                  borderSide: BorderSide(
-                    color: FriskyColor().colorPrimary,
-                    width: 1.5,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(4.0),
+                  child: FlatButton(
+                    padding: EdgeInsets.all(0),
+                    color: FriskyColor().colorBadge,
+                    onPressed: () {
+                      showConfirmAlert();
+                    },
+                    child: Text(
+                      "Clear Bill",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: SizeConfig.safeBlockVertical * 3),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(4.0),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        )
-
+                Container(
+                  height: SizeConfig.safeBlockHorizontal * 12,
+                  width: SizeConfig.safeBlockVertical * 22,
+                  child: OutlineButton(
+                    color: Colors.lightGreen,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Order More",
+                      style: TextStyle(
+                          color: FriskyColor().colorPrimary,
+                          fontSize: SizeConfig.safeBlockVertical * 3),
+                    ),
+                    borderSide: BorderSide(
+                      color: FriskyColor().colorPrimary,
+                      width: 1.5,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(4.0),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
   }
-   showConfirmAlert() {
-     showDialog(
-       context: context,
-       builder: (BuildContext context) {
-         return AlertDialog(
-           title: Text(
-             "Clear Bill",
-             style: TextStyle(
-                 color: FriskyColor().colorTextDark,
-                 fontWeight: FontWeight.bold),
-           ),
-           content: Text(
-             "You are about to request the bill and end your session. You won\'t be able to order anymore items after you confirm.",
-             style: TextStyle(
-                 color: FriskyColor().colorTextLight,
-                 fontWeight: FontWeight.w400),
-           ),
-           actions: <Widget>[
-             FlatButton(
-               onPressed: () {
-                 Navigator.pop(context);
-               },
-               child: Text("Cancel",
-                   style: TextStyle(
-                       color: FriskyColor().colorPrimary,
-                       fontWeight: FontWeight.bold)),
-             ),
-             FlatButton(
-                 color: FriskyColor().colorPrimary,
-                 onPressed: () {
-                   requestBill();
-                 },
-                 child: Text(
-                   "Clear",
-                   style: TextStyle(
-                       color: Colors.white, fontWeight: FontWeight.bold),
-                 ))
-           ],
-         );
-       },
-       barrierDismissible: false,
-     );
-   }
-   showBillClearing() {
-     showDialog(
-       context: context,
-       builder: (BuildContext context) {
-         return AlertDialog(
-           title: Text(
-             "Requesting the Bill",
-             style: TextStyle(
-                 color: FriskyColor().colorTextDark,
-                 fontWeight: FontWeight.bold),
-           ),
-           content: Container(
-             height: SizeConfig.safeBlockVertical * 10,
-             width: SizeConfig.safeBlockVertical * 10,
-             child: Center(
-               child: CircularProgressIndicator(
-                 valueColor: new AlwaysStoppedAnimation<Color>(
-                   FriskyColor().colorPrimary,
-                 ),
-               ),
-             ),
-           ),
-         );
-       },
-       barrierDismissible: false,
-     );
-   }
-   requestBill() async {
 
-       Navigator.pop(context);
-       showBillClearing();
-       CloudFunctions cloudFunctions = CloudFunctions.instance;
-       SharedPreferences sp = await SharedPreferences.getInstance();
-       Map<String, Object> data = new HashMap<String, Object>();
-       data["restaurant"] = sp.getString("restaurant_id");
-       data["table"] = sp.getString("table_id");
-       data["session"] = sp.getString("session_id");
-       await cloudFunctions.getHttpsCallable(functionName: "requestBill").call(data).
-       then((result){
-         Provider.of<Orders>(context).mOrderList.clear();
-         sp.setBool("bill_requested",true);
-         sp.setString("total_Amount",Provider.of<Orders>(context, listen: true).amountPayable.isEmpty ? "0":Provider.of<Orders>(context, listen: true).amountPayable);
-         Navigator.pop(context);
-         Navigator.pop(context);
-         Navigator.pop(context);
-        // Navigator.popUntil(context,ModalRoute.withName('/homepage'));
-         print("BILL CLEARD");
+  showConfirmAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Clear Bill",
+            style: TextStyle(
+                color: FriskyColor().colorTextDark,
+                fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            "You are about to request the bill and end your session. You won\'t be able to order anymore items after you confirm.",
+            style: TextStyle(
+                color: FriskyColor().colorTextLight,
+                fontWeight: FontWeight.w400),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel",
+                  style: TextStyle(
+                      color: FriskyColor().colorPrimary,
+                      fontWeight: FontWeight.bold)),
+            ),
+            FlatButton(
+                color: FriskyColor().colorPrimary,
+                onPressed: () {
+                  requestBill();
+                },
+                child: Text(
+                  "Clear",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ))
+          ],
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
 
-       }).catchError((error){
-         Navigator.pop(context);
-         print(error.toString());
+  showBillClearing() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Requesting the Bill",
+            style: TextStyle(
+                color: FriskyColor().colorTextDark,
+                fontWeight: FontWeight.bold),
+          ),
+          content: Container(
+            height: SizeConfig.safeBlockVertical * 10,
+            width: SizeConfig.safeBlockVertical * 10,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                  FriskyColor().colorPrimary,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
 
-       });
-
-
-
-
-
-     }
-
-
-
+  requestBill() async {
+    Navigator.pop(context);
+    showBillClearing();
+    CloudFunctions cloudFunctions = CloudFunctions.instance;
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    Map<String, Object> data = new HashMap<String, Object>();
+    data["restaurant"] = sp.getString("restaurant_id");
+    data["table"] = sp.getString("table_id");
+    data["session"] = sp.getString("session_id");
+    await cloudFunctions
+        .getHttpsCallable(functionName: "requestBill")
+        .call(data)
+        .then((result) {
+      Provider.of<Orders>(context).mOrderList.clear();
+      sp.setBool("bill_requested", true);
+      sp.setString(
+          "total_Amount",
+          Provider.of<Orders>(context, listen: true).amountPayable.isEmpty
+              ? "0"
+              : Provider.of<Orders>(context, listen: true).amountPayable);
+      Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pop(context);
+      // Navigator.popUntil(context,ModalRoute.withName('/homepage'));
+      print("BILL CLEARD");
+    }).catchError((error) {
+      Navigator.pop(context);
+      print(error.toString());
+    });
+  }
 }

@@ -20,7 +20,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-   bool orderPlaced = false;
+  bool orderPlaced = false;
   CloudFunctions cloudFunctions = CloudFunctions.instance;
   @override
   void initState() {
@@ -34,20 +34,17 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   cartExit() {
-    if (Provider.of<Cart>(context, listen: true).cartList.isEmpty)
-    {
-      if(orderPlaced)
-     {
-       orderPlaced=false;
+    if (Provider.of<Cart>(context, listen: true).cartList.isEmpty) {
+      if (orderPlaced) {
+        orderPlaced = false;
 
-       Navigator.pushReplacement(
-           context,
-           MaterialPageRoute(
-               builder: (context) => OrdersScreen(widget.tableName)));
-     }
-    else {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => OrdersScreen(widget.tableName)));
+      } else {
         Navigator.pop(context);
-    }
+      }
     }
   }
 
@@ -349,6 +346,7 @@ class _CartScreenState extends State<CartScreen> {
       barrierDismissible: false,
     );
   }
+
   showOrderPlacing() {
     showDialog(
       context: context,
@@ -363,21 +361,21 @@ class _CartScreenState extends State<CartScreen> {
           content: Container(
             height: SizeConfig.safeBlockVertical * 10,
             width: SizeConfig.safeBlockVertical * 10,
-              child: Center(
-                child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
-                  ),
-            ),
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                  FriskyColor().colorPrimary,
+                ),
               ),
+            ),
           ),
         );
       },
       barrierDismissible: false,
     );
   }
-  placeOrder() async {
 
+  placeOrder() async {
     Navigator.pop(context);
     showOrderPlacing();
     HashMap<String, int> orderlist = new HashMap<String, int>();
@@ -388,20 +386,21 @@ class _CartScreenState extends State<CartScreen> {
       MenuItem item = Provider.of<Cart>(context, listen: true).cartList[i];
       orderlist[item.getId()] = item.getCount();
     }
-     data["order"] = orderlist;
-      await cloudFunctions.getHttpsCallable(functionName: "placeOrder").call(data)
-          .then((result) async {
-        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        await sharedPreferences.setBool("order_active", true);
-         Provider.of<Cart>(context, listen: false).clearCart();
-         Provider.of<Orders>(context, listen: false).getOrderStatus();
-         orderPlaced=true;
-         Navigator.pop(context);
-
-      }).catchError((error){
-        Navigator.pop(context);
-        print(error.toString());
-      });
-
+    data["order"] = orderlist;
+    await cloudFunctions
+        .getHttpsCallable(functionName: "placeOrder")
+        .call(data)
+        .then((result) async {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      await sharedPreferences.setBool("order_active", true);
+      Provider.of<Cart>(context, listen: false).clearCart();
+      Provider.of<Orders>(context, listen: false).getOrderStatus();
+      orderPlaced = true;
+      Navigator.pop(context);
+    }).catchError((error) {
+      Navigator.pop(context);
+      print(error.toString());
+    });
   }
 }
