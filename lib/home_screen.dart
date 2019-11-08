@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:friskyflutter/provider_models/session.dart';
+import 'package:friskyflutter/screens/dine_billrequested.dart';
 import 'package:friskyflutter/screens/dine_orders.dart';
 import 'package:friskyflutter/screens/home.dart';
 import 'package:friskyflutter/screens/dine.dart';
@@ -8,8 +10,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'frisky_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
-import 'package:friskyflutter/provider_models/session.dart';
-
 import 'provider_models/session.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen>
             TabBarView(
               children: [
                 HomeTab(),
-                Session.isSessionActive ? DineOrders() : DineTab(),
+                Session.isSessionActive ? ( Session.isBillRequested ? BillRequested() :DineOrders()) : DineTab(),
                 VisitTab(),
               ],
               controller: _tabController,
@@ -113,17 +113,17 @@ class _HomeScreenState extends State<HomeScreen>
                     color: Colors.white,
                     child: ListTile(
                       title: Text(
-                        "Currently at",
+            Session.isBillRequested ? ("Bill Requested"):("Currently at"),
                         style: TextStyle(
-                            fontSize: 14, color: FriskyColor().colorTextLight),
+                            fontSize: 14, color: FriskyColor().colorTextLight)  ,
                       ),
                       subtitle: Text(
-                          Session.restaurantName +
-                              " - Table " +
-                              Session.tableName,
+                         Session.isBillRequested ? ("Bill Amount to Be Paid - "+Session.totalAmount):( Session.restaurantName +
+                             " - Table " +
+                             Session.tableName),
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
-                      trailing: OutlineButton(
+                      trailing: Session.isBillRequested ? SizedBox(height: 1,):OutlineButton(
                         color: Colors.lightGreen,
                         onPressed: () {
                           Navigator.push(

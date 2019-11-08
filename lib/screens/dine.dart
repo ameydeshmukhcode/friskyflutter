@@ -11,10 +11,6 @@ class DineTab extends StatefulWidget {
 
 class _DineTabState extends State<DineTab>
     with AutomaticKeepAliveClientMixin<DineTab> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
     super.build(context);

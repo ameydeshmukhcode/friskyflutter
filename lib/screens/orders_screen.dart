@@ -1,5 +1,9 @@
+import 'dart:collection';
+
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../frisky_colors.dart';
 import '../size_config.dart';
 import 'package:friskyflutter/structures/order_header.dart';
@@ -19,19 +23,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
 
 
-  clearBill() {
-    Navigator.pop(context);
-    showBillClearing();
 
 
-
-    Map<String, Object> data = new HashMap<String, Object>();
-
-
-
-  }
-
-     getListLength(){
+  getListLength(){
          if(Provider.of<Orders>(context, listen: true).mOrderList.length == 0)
            {
              Provider.of<Orders>(context, listen: true).getOrders();
@@ -287,7 +281,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
              FlatButton(
                  color: FriskyColor().colorPrimary,
                  onPressed: () {
-
+                   requestBill();
                  },
                  child: Text(
                    "Clear",
@@ -327,7 +321,34 @@ class _OrdersScreenState extends State<OrdersScreen> {
        barrierDismissible: false,
      );
    }
+   requestBill() async {
 
+       Navigator.pop(context);
+       showBillClearing();
+       CloudFunctions cloudFunctions = CloudFunctions.instance;
+       SharedPreferences sp = await SharedPreferences.getInstance();
+       Map<String, Object> data = new HashMap<String, Object>();
+       data["restaurant"] = sp.getString("restaurant_id");
+       data["table"] = sp.getString("table_id");
+       data["session"] = sp.getString("session_id");
+       await cloudFunctions.getHttpsCallable(functionName: "requestBill").call(data).
+       then((result){
+         sp.setBool("bill_requested",true);
+         sp.setString("total_Amount",Provider.of<Orders>(context, listen: true).amountPayable);
+         Navigator.popUntil(context,ModalRoute.withName('/homepage'));
+
+
+       }).catchError((error){
+         Navigator.pop(context);
+         print(error.toString());
+
+       });
+
+
+
+
+
+     }
 
 
 

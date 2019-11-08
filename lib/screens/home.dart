@@ -71,8 +71,12 @@ class _HomeTabState extends State<HomeTab>
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getBool("session_active")) {
       await sharedPreferences.setBool("session_active", false);
+      await sharedPreferences.setBool("order_active", false);
+      await sharedPreferences.setBool("bill_requested", false);
     } else {
       await sharedPreferences.setBool("session_active", true);
+      await sharedPreferences.setBool("bill_requested", true);
+      await sharedPreferences.setBool("bill_requested", true);
     }
     Provider.of<Session>(context).getStatus();
   }

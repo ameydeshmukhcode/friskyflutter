@@ -15,8 +15,6 @@ class Orders extends ChangeNotifier
    var gst =" ";
   var billAmount ="";
      getOrders() async{
-
-
        SharedPreferences sp = await SharedPreferences.getInstance();
        Firestore.instance
            .collection("restaurants")
@@ -97,7 +95,7 @@ class Orders extends ChangeNotifier
   bool isOrderActive = false;
   Future getOrderStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    isOrderActive = sharedPreferences.getBool("session_active");
+    isOrderActive = sharedPreferences.getBool("order_active");
     if (isOrderActive == null || isOrderActive == false) {
       isOrderActive = false;
       notifyListeners();

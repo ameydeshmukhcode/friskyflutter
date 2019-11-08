@@ -377,6 +377,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
   placeOrder() async {
+
     Navigator.pop(context);
     showOrderPlacing();
     HashMap<String, int> orderlist = new HashMap<String, int>();
