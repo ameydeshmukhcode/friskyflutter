@@ -5,6 +5,7 @@ import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/structures/order_status.dart';
 import 'package:friskyflutter/widgets/card_order_item.dart';
 import '../frisky_colors.dart';
+
 class VisitSummary extends StatefulWidget {
   final String sessionID;
   final String restaurantID;
@@ -203,7 +204,8 @@ class _VisitSummaryState extends State<VisitSummary> {
           int cost = int.parse(itemData["cost"]);
           int quantity = itemData["quantity"];
 
-          OrderItem orderItem = OrderItem(itemID, name, quantity, (quantity * cost));
+          OrderItem orderItem =
+              OrderItem(itemID, name, quantity, (quantity * cost));
 
           if (itemData["status"].toString().compareTo("pending") == 0) {
             orderItem.orderStatus = OrderStatus.pending;
@@ -216,7 +218,9 @@ class _VisitSummaryState extends State<VisitSummary> {
             orderItem.orderStatus = OrderStatus.cancelled;
           }
 
-          _orderItems.add(orderItem);
+          if (orderItem.orderStatus != OrderStatus.pending) {
+            _orderItems.add(orderItem);
+          }
         }
       }
     });
