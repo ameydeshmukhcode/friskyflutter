@@ -8,13 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 class Orders extends ChangeNotifier
 {
-
+  bool isOrderActive = false;
+  bool isLoading = true;
   List<Object> mOrderList = new List<Object>();
-
-  var amountPayable =" ";
-   var gst =" ";
-  var billAmount ="";
-     getOrders() async{
+ String amountPayable =" ";
+ String gst =" ";
+  String billAmount ="";
+  Future getOrders() async{
+      mOrderList.removeRange(0, mOrderList.length);
        SharedPreferences sp = await SharedPreferences.getInstance();
        Firestore.instance
            .collection("restaurants")
@@ -24,21 +25,30 @@ class Orders extends ChangeNotifier
            .orderBy("timestamp", descending: true)
            .snapshots()
            .listen((snaps) {
-         if(snaps.documentChanges.isNotEmpty)
-         {
-           updateList(snaps);
-           getBillDetails();
-           notifyListeners();
 
-         }
+            if(snaps.documentChanges.isNotEmpty)
+            {
+              updateList(snaps);
+//              notifyListeners();
+               getBillDetails().then((result){
+                 isLoading=false;
+                 notifyListeners();
+               }).catchError((error){
+
+                 print("error in get bills "+ error.toString());
+               });
+
+
+
+          }
 
          else{
            print("else doc not chnages");
+           notifyListeners();
          }
        });
      }
-
-  getBillDetails() async {
+ Future getBillDetails() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     await Firestore.instance
         .collection("restaurants")
@@ -53,11 +63,8 @@ class Orders extends ChangeNotifier
       print(amountPayable);
       print(gst);
       print(billAmount);
-      notifyListeners();
     });
   }
-
-
   updateList(snaps){
 
     mOrderList.clear();
@@ -91,8 +98,8 @@ class Orders extends ChangeNotifier
       }
       docRank--;
     }
+
   }
-  bool isOrderActive = false;
   Future getOrderStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     isOrderActive = sharedPreferences.getBool("order_active");

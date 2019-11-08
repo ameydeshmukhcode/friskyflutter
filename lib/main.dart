@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(builder: (_) => Session()),
           ChangeNotifierProvider(builder: (_) => Cart()),
-          ChangeNotifierProvider(builder: (_) => Orders())
-
+         ChangeNotifierProvider(builder: (_) => Orders()),
+         // ListenableProvider(builder: (_)=> Orders())
         ],
         child: MaterialApp(
           title: 'FriSky Flutter',

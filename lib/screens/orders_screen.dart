@@ -24,7 +24,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
 
 
-
+  List<Object> mOrderList = new List<Object>();
   getListLength(){
          if(Provider.of<Orders>(context, listen: true).mOrderList.length == 0)
            {
@@ -34,6 +34,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
        return  Provider.of<Orders>(context, listen: true).mOrderList.length;
 
      }
+     @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +81,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
           ),
           Flexible(
-            child: ListView.builder(
+            child:ListView.builder(
                 padding: EdgeInsets.all(0),
                 itemCount:  getListLength(),
                 itemBuilder: (context, index) {
@@ -333,10 +338,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
        data["session"] = sp.getString("session_id");
        await cloudFunctions.getHttpsCallable(functionName: "requestBill").call(data).
        then((result){
+         Provider.of<Orders>(context).mOrderList.clear();
          sp.setBool("bill_requested",true);
-         sp.setString("total_Amount",Provider.of<Orders>(context, listen: true).amountPayable);
-         Navigator.popUntil(context,ModalRoute.withName('/homepage'));
-
+         sp.setString("total_Amount",Provider.of<Orders>(context, listen: true).amountPayable.isEmpty ? "0":Provider.of<Orders>(context, listen: true).amountPayable);
+         Navigator.pop(context);
+         Navigator.pop(context);
+         Navigator.pop(context);
+        // Navigator.popUntil(context,ModalRoute.withName('/homepage'));
+         print("BILL CLEARD");
 
        }).catchError((error){
          Navigator.pop(context);

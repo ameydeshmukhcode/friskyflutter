@@ -48,6 +48,7 @@ class Session extends ChangeNotifier {
         notifyListeners();
       }
     else{
+      totalAmount = sharedPreferences.getString("total_Amount");
       isBillRequested =true;
       notifyListeners();
     }
