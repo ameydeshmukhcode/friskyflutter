@@ -31,7 +31,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
              Provider.of<Orders>(context, listen: true).getOrders();
              return 0;
            }
-       return  Provider.of<Orders>(context, listen: true).mOrderList.length;
+             else
+             {
+                  return  Provider.of<Orders>(context, listen: true).mOrderList.length;
+             }
 
      }
      @override
@@ -85,35 +88,41 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 padding: EdgeInsets.all(0),
                 itemCount:  getListLength(),
                 itemBuilder: (context, index) {
-                  if ( Provider.of<Orders>(context, listen: true).mOrderList[index].toString() ==
-                      "Instance of 'OrderHeader'") {
-                    OrderHeader header =  Provider.of<Orders>(context, listen: true).mOrderList[index];
-                    return Column(
-                      children: <Widget>[
-                        Text(
-                          "Order # " +
-                              header.getRank().toString() +
-                              " - " +
-                              header.getTime(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              color: FriskyColor().colorTextDark,
-                              fontSize:
-                              SizeConfig.safeBlockVertical * 2.5),
-                        ),
-                        Padding(
-                          padding:
-                          const EdgeInsets.fromLTRB(20, 8, 20, 0),
-                          child: Divider(
-                            thickness: 2,
+                  if(Provider.of<Orders>(context, listen: true).isLoading)
+                    {
+                      return CircularProgressIndicator();
+                    }
+                  else{
+                    if ( Provider.of<Orders>(context, listen: true).mOrderList[index].toString() ==
+                        "Instance of 'OrderHeader'") {
+                      OrderHeader header =  Provider.of<Orders>(context, listen: true).mOrderList[index];
+                      return Column(
+                        children: <Widget>[
+                          Text(
+                            "Order # " +
+                                header.getRank().toString() +
+                                " - " +
+                                header.getTime(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                color: FriskyColor().colorTextDark,
+                                fontSize:
+                                SizeConfig.safeBlockVertical * 2.5),
                           ),
-                        )
-                      ],
-                    );
-                  } else {
-                    OrderItem item =  Provider.of<Orders>(context, listen: true).mOrderList[index];
-                    return OrderItemWidget(item.name, item.count,
-                        item.total, item.orderStatus);
+                          Padding(
+                            padding:
+                            const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                            child: Divider(
+                              thickness: 2,
+                            ),
+                          )
+                        ],
+                      );
+                    } else {
+                      OrderItem item =  Provider.of<Orders>(context, listen: true).mOrderList[index];
+                      return OrderItemWidget(item.name, item.count,
+                          item.total, item.orderStatus);
+                    }
                   }
                 }),
           ),

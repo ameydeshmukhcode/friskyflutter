@@ -27,23 +27,32 @@ class Orders extends ChangeNotifier
            .listen((snaps) {
 
             if(snaps.documentChanges.isNotEmpty)
-            {
+            { print("insde not empty doc changes");
               updateList(snaps);
-//              notifyListeners();
+      //          notifyListeners();
                getBillDetails().then((result){
                  isLoading=false;
                  notifyListeners();
                }).catchError((error){
-
                  print("error in get bills "+ error.toString());
                });
-
-
-
           }
 
          else{
-           print("else doc not chnages");
+              if(isLoading){
+                isLoading=false;
+                updateList(snaps);
+                //          notifyListeners();
+                getBillDetails().then((result){
+                  isLoading=false;
+                  notifyListeners();
+                }).catchError((error){
+                  print("error in get bills "+ error.toString());
+                });
+
+              }
+
+              print("else doc not chnages");
            notifyListeners();
          }
        });
