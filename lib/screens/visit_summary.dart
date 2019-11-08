@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/structures/order_status.dart';
 import 'package:friskyflutter/widgets/card_order_item.dart';
-
 import '../frisky_colors.dart';
-
 class VisitSummary extends StatefulWidget {
   final String sessionID;
   final String restaurantID;

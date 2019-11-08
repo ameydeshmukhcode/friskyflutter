@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:friskyflutter/structures/order_status.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:friskyflutter/provider_models/orders.dart';
 import '../frisky_colors.dart';
 import '../size_config.dart';
-import 'package:date_format/date_format.dart';
 import 'package:friskyflutter/structures/order_header.dart';
 import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/widgets/card_order_item.dart';
+import 'package:provider/provider.dart';
 
 class OrdersScreen extends StatefulWidget {
   final String tableName;
@@ -16,69 +14,31 @@ class OrdersScreen extends StatefulWidget {
   _OrdersScreenState createState() => _OrdersScreenState();
 }
 
-List<Object> mOrderList = new List<Object>();
-
 class _OrdersScreenState extends State<OrdersScreen> {
-  Stream<int> getOrders() async* {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    Firestore.instance
-        .collection("restaurants")
-        .document(sp.getString("restaurant_id"))
-        .collection("orders")
-        .where("session_id", isEqualTo: sp.getString("session_id"))
-        .orderBy("timestamp", descending: true)
-        .snapshots()
-        .listen((snaps) {
-          if(snaps.documentChanges.isNotEmpty)
-            {
-              updateList(snaps);
 
-            }
 
-          else{
-            print("else doc not chnages");
-          }
-          setState(() {
-            print("setting");
-          });
-    });
+
+
+  clearBill() {
+    Navigator.pop(context);
+    showBillClearing();
+
+
+
+    Map<String, Object> data = new HashMap<String, Object>();
+
+
+
   }
 
-
-
-     updateList(snaps){
-
-       mOrderList.clear();
-       int docRank = snaps.documents.length;
-       for (DocumentSnapshot documentSnapshot in snaps.documents) {
-         Map<dynamic, dynamic> orderData = documentSnapshot.data["items"];
-         String orderTime = formatDate(
-             documentSnapshot.data["timestamp"].toDate(),
-             [hh, ':', nn, ' ', am]).toString();
-         OrderHeader orderHeader = new OrderHeader(orderTime, docRank);
-         mOrderList.add(orderHeader);
-         for (int i = 0; i < orderData.length; i++) {
-           String itemID = orderData.keys.elementAt(i).toString();
-           Map<dynamic, dynamic> itemData = orderData.values.elementAt(i);
-           String name = itemData["name"];
-           int cost = int.parse(itemData["cost"]);
-           int quantity = itemData["quantity"];
-           OrderItem orderItem =
-           OrderItem(itemID, name, quantity, (quantity * cost));
-           if (itemData["status"].toString().compareTo("pending") == 0) {
-             orderItem.orderStatus = OrderStatus.pending;
-           } else if (itemData["status"].toString().compareTo("accepted") == 0) {
-             orderItem.orderStatus = OrderStatus.accepted;
-           } else if (itemData["status"].toString().compareTo("rejected") == 0) {
-             orderItem.orderStatus = OrderStatus.rejected;
-           } else if (itemData["status"].toString().compareTo("cancelled") ==
-               0) {
-             orderItem.orderStatus = OrderStatus.cancelled;
+     getListLength(){
+         if(Provider.of<Orders>(context, listen: true).mOrderList.length == 0)
+           {
+             Provider.of<Orders>(context, listen: true).getOrders();
+             return 0;
            }
-           mOrderList.add(orderItem);
-         }
-         docRank--;
-       }
+       return  Provider.of<Orders>(context, listen: true).mOrderList.length;
+
      }
 
   @override
@@ -122,55 +82,253 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
           ),
           Flexible(
-            child: StreamBuilder(
-                initialData: Text("Loading"),
-                stream: getOrders(),
-                builder: (context, asyncSnapshot) {
-
-                  return ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      itemCount: mOrderList.length,
-                      itemBuilder: (context, index) {
-                        if (mOrderList[index].toString() ==
-                            "Instance of 'OrderHeader'") {
-                          OrderHeader header = mOrderList[index];
-                          return Column(
-                            children: <Widget>[
-                              Text(
-                                "Order # " +
-                                    header.getRank().toString() +
-                                    " - " +
-                                    header.getTime(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: FriskyColor().colorTextDark,
-                                    fontSize:
-                                        SizeConfig.safeBlockVertical * 2.5),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 8, 20, 0),
-                                child: Divider(
-                                  thickness: 2,
-                                ),
-                              )
-                            ],
-                          );
-                        } else {
-                          OrderItem item = mOrderList[index];
-                          return OrderItemWidget(item.name, item.count,
-                              item.total, item.orderStatus);
-                        }
-                      });
-
+            child: ListView.builder(
+                padding: EdgeInsets.all(0),
+                itemCount:  getListLength(),
+                itemBuilder: (context, index) {
+                  if ( Provider.of<Orders>(context, listen: true).mOrderList[index].toString() ==
+                      "Instance of 'OrderHeader'") {
+                    OrderHeader header =  Provider.of<Orders>(context, listen: true).mOrderList[index];
+                    return Column(
+                      children: <Widget>[
+                        Text(
+                          "Order # " +
+                              header.getRank().toString() +
+                              " - " +
+                              header.getTime(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              color: FriskyColor().colorTextDark,
+                              fontSize:
+                              SizeConfig.safeBlockVertical * 2.5),
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                          child: Divider(
+                            thickness: 2,
+                          ),
+                        )
+                      ],
+                    );
+                  } else {
+                    OrderItem item =  Provider.of<Orders>(context, listen: true).mOrderList[index];
+                    return OrderItemWidget(item.name, item.count,
+                        item.total, item.orderStatus);
+                  }
                 }),
           ),
-          Container(
-            height: 10,
-            color: Colors.red,
+          Padding(
+            padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+            child: Divider(
+              thickness: 2,
+            ),
           ),
+          Padding(
+            padding:
+            const EdgeInsets.only(left: 30, right: 30, top: 8, bottom: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Cart Total",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      color: FriskyColor().colorTextDark,
+                      fontSize: SizeConfig.safeBlockVertical * 2.2),
+                ),
+                Text(
+                  "\u20B9" +
+                      Provider.of<Orders>(context, listen: true).billAmount,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: FriskyColor().colorTextDark,
+                        fontSize: SizeConfig.safeBlockVertical * 2.2),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding:
+            const EdgeInsets.only(left: 30, right: 30,  bottom: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "GST",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      color: FriskyColor().colorTextDark,
+                      fontSize: SizeConfig.safeBlockVertical * 2.2),
+                ),
+                Text(
+                  "\u20B9" +
+                      Provider.of<Orders>(context, listen: true).gst,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: FriskyColor().colorTextDark,
+                      fontSize: SizeConfig.safeBlockVertical * 2.2),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding:
+            const EdgeInsets.only(left: 30, right: 30, bottom: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Final Total",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: FriskyColor().colorTextDark,
+                      fontSize: SizeConfig.safeBlockVertical * 3),
+                ),
+                Text(
+                  "\u20B9" +
+                      Provider.of<Orders>(context, listen: true).amountPayable,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                      fontSize: SizeConfig.safeBlockVertical * 3),
+                ),
+              ],
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+     crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                 height: SizeConfig.safeBlockHorizontal * 12,
+                width: SizeConfig.safeBlockVertical * 22,
+                padding: EdgeInsets.all(0),
+                child: FlatButton(
+                  padding: EdgeInsets.all(0),
+                  color: FriskyColor().colorBadge,
+                  onPressed: () {
+                    showConfirmAlert();
+
+                  },
+                  child: Text(
+                    "Clear Bill",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: SizeConfig.safeBlockVertical * 3),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(4.0),
+                  ),
+                ),
+              ),
+              Container(
+                height: SizeConfig.safeBlockHorizontal * 12,
+                width: SizeConfig.safeBlockVertical * 22,
+                child: OutlineButton(
+                  color: Colors.lightGreen,
+                  onPressed: () {
+                  Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Order More",
+                    style: TextStyle(color: FriskyColor().colorPrimary,
+                        fontSize: SizeConfig.safeBlockVertical * 3 ),
+                  ),
+                  borderSide: BorderSide(
+                    color: FriskyColor().colorPrimary,
+                    width: 1.5,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(4.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+
         ],
       ),
     );
   }
+   showConfirmAlert() {
+     showDialog(
+       context: context,
+       builder: (BuildContext context) {
+         return AlertDialog(
+           title: Text(
+             "Clear Bill",
+             style: TextStyle(
+                 color: FriskyColor().colorTextDark,
+                 fontWeight: FontWeight.bold),
+           ),
+           content: Text(
+             "You are about to request the bill and end your session. You won\'t be able to order anymore items after you confirm.",
+             style: TextStyle(
+                 color: FriskyColor().colorTextLight,
+                 fontWeight: FontWeight.w400),
+           ),
+           actions: <Widget>[
+             FlatButton(
+               onPressed: () {
+                 Navigator.pop(context);
+               },
+               child: Text("Cancel",
+                   style: TextStyle(
+                       color: FriskyColor().colorPrimary,
+                       fontWeight: FontWeight.bold)),
+             ),
+             FlatButton(
+                 color: FriskyColor().colorPrimary,
+                 onPressed: () {
+
+                 },
+                 child: Text(
+                   "Clear",
+                   style: TextStyle(
+                       color: Colors.white, fontWeight: FontWeight.bold),
+                 ))
+           ],
+         );
+       },
+       barrierDismissible: false,
+     );
+   }
+   showBillClearing() {
+     showDialog(
+       context: context,
+       builder: (BuildContext context) {
+         return AlertDialog(
+           title: Text(
+             "Requesting the Bill",
+             style: TextStyle(
+                 color: FriskyColor().colorTextDark,
+                 fontWeight: FontWeight.bold),
+           ),
+           content: Container(
+             height: SizeConfig.safeBlockVertical * 10,
+             width: SizeConfig.safeBlockVertical * 10,
+             child: Center(
+               child: CircularProgressIndicator(
+                 valueColor: new AlwaysStoppedAnimation<Color>(
+                   FriskyColor().colorPrimary,
+                 ),
+               ),
+             ),
+           ),
+         );
+       },
+       barrierDismissible: false,
+     );
+   }
+
+
+
+
 }

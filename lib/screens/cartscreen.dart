@@ -376,7 +376,6 @@ class _CartScreenState extends State<CartScreen> {
       barrierDismissible: false,
     );
   }
-
   placeOrder() async {
     Navigator.pop(context);
     showOrderPlacing();
