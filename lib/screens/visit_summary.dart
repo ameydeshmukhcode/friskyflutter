@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/structures/order_status.dart';
 import 'package:friskyflutter/widgets/card_order_item.dart';
-
 import '../frisky_colors.dart';
 
 class VisitSummary extends StatefulWidget {
@@ -198,7 +197,6 @@ class _VisitSummaryState extends State<VisitSummary> {
         .then((data) async {
       for (DocumentSnapshot documentSnapshot in data.documents) {
         Map<dynamic, dynamic> items = documentSnapshot.data["items"];
-
         for (int i = 0; i < items.length; i++) {
           String itemID = items.keys.elementAt(i).toString();
           Map<dynamic, dynamic> itemData = items.values.elementAt(i);
@@ -220,7 +218,9 @@ class _VisitSummaryState extends State<VisitSummary> {
             orderItem.orderStatus = OrderStatus.cancelled;
           }
 
-          _orderItems.add(orderItem);
+          if (orderItem.orderStatus != OrderStatus.pending) {
+            _orderItems.add(orderItem);
+          }
         }
       }
     });

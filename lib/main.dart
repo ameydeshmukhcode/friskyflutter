@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
+import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(builder: (_) => Session()),
-          ChangeNotifierProvider(builder: (_) => Cart())
+          ChangeNotifierProvider(builder: (_) => Cart()),
+          ChangeNotifierProvider(builder: (_) => Orders()),
+          // ListenableProvider(builder: (_)=> Orders())
         ],
         child: MaterialApp(
           title: 'FriSky Flutter',
@@ -56,6 +59,7 @@ class MyApp extends StatelessWidget {
             "/esingup": (BuildContext context) => EmailSignUp(),
             "/login": (BuildContext context) => UserLogin(),
             "/scan": (BuildContext context) => Scan(),
+            //  "/ordersscreen": (BuildContext context,) => OrdersScreen(),
             //   "/menu": (BuildContext context) => MenuScreen(restaurantName, tableName,sessionID),
           },
         ));
