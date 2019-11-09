@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:friskyflutter/provider_models/Bill.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(builder: (_) => Session()),
           ChangeNotifierProvider(builder: (_) => Cart()),
           ChangeNotifierProvider(builder: (_) => Orders()),
+          ChangeNotifierProvider(builder: (_) => Bill()),
           // ListenableProvider(builder: (_)=> Orders())
         ],
         child: MaterialApp(
