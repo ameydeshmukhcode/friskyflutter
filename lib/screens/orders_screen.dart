@@ -363,14 +363,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
         .getHttpsCallable(functionName: "requestBill")
         .call(data)
         .then((result) {
-      Provider.of<Orders>(context, listen: true).resetOrdersList();
-      Provider.of<Orders>(context, listen: true).resetBill();
       sp.setBool("bill_requested", true);
       sp.setString(
           "total_Amount",
           Provider.of<Orders>(context, listen: true).amountPayable.isEmpty
               ? "0"
               : Provider.of<Orders>(context, listen: true).amountPayable);
+      Provider.of<Orders>(context, listen: true).resetOrdersList();
+      Provider.of<Orders>(context, listen: true).resetBill();
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
