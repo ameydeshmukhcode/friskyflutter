@@ -1,3 +1,8 @@
+import 'dart:collection';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/screens/dine_billrequested.dart';
@@ -7,12 +12,12 @@ import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/menuscreen.dart';
 import 'package:friskyflutter/screens/visits.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'frisky_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
 import 'provider_models/session.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -22,12 +27,75 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   int currentIndex = 0;
   TabController _tabController;
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    firebaseCloudMessagingListeners();
   }
+
+  void iOSPermission() {
+    firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
+
+
+  Future<FirebaseUser> getUser() async {
+    return await _auth.currentUser();
+  }
+
+  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async { return Future<void>.value(); }
+
+
+
+  void firebaseCloudMessagingListeners() {
+    if (Platform.isIOS) iOSPermission();
+    getUser().then((user){
+      Map<String, Object> userDetails = HashMap<String,Object>();
+      print(user.uid +" ye hai ID" );
+      firebaseMessaging.getToken().then((token){
+        userDetails["firebase_instance_id"] = token;
+        Firestore.instance.collection("users").
+            document(user.uid).setData(userDetails,merge: true).then((update){
+               print("TOKEN IS  = "+token);
+               print("instace ID UPDATED ");
+        }).catchError((error){
+          print("instace ID Update Failed");
+        });
+      }).catchError((error){
+        print("error in getting token");
+      });
+
+    }).catchError((error){
+      print("error in getting User");
+    });
+    firebaseMessaging.configure(
+      //onBackgroundMessage: myBackgroundMessageHandler,
+      onMessage: (Map<String, dynamic> message) async {
+       doSomething(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+        doSomething(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+        doSomething(message);
+      },
+    );
+  }
+
 
   @override
   void dispose() {
@@ -208,5 +276,30 @@ class _HomeScreenState extends State<HomeScreen>
       return true;
     else
       return false;
+  }
+
+  Future doSomething(message) async {
+
+    print('on message $message');
+    //print("in mess " + message["data"]);
+    Map<dynamic,dynamic> data = message["data"];
+    print(data.toString());
+    if(data.containsKey("end_session")&&data["end_session"]=="yes")
+    {
+      print(data.toString());
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setBool("session_active", false);
+      await sharedPreferences.setBool("order_active", false);
+      await sharedPreferences.setBool("bill_requested", false);
+      Navigator.popUntil(
+        context,
+        ModalRoute.withName(Navigator.defaultRouteName),
+      );
+      print("Session ENDED");
+    }
+    else{
+      print("Session not ENDED");
+    }
+    Provider.of<Session>(context,listen: false).getStatus();
   }
 }

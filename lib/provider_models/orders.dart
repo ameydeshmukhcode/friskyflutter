@@ -56,6 +56,7 @@ class Orders extends ChangeNotifier {
     });
   }
   Future getBillDetails() async {
+    resetBill();
     SharedPreferences sp = await SharedPreferences.getInstance();
     Firestore.instance
         .collection("restaurants")
@@ -63,16 +64,13 @@ class Orders extends ChangeNotifier {
         .collection("sessions")
         .document(sp.getString("session_id"))
         .snapshots().listen((data) {
-      print("inside bill listne");
       if(data.exists)
       {
-        print("insdei bill if");
-        print(data.exists);
         updateBill(data);
         notifyListeners();
       }
       else{
-        print("inside else of bill");
+
         updateBill(data);
         notifyListeners();
 

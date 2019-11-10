@@ -80,7 +80,6 @@ class _HomeTabState extends State<HomeTab>
       await sharedPreferences.setBool("session_active", true);
       await sharedPreferences.setBool("bill_requested", true);
       Provider.of<Orders>(context).mOrderList.clear();
-      await sharedPreferences.setBool("bill_requested", true);
     }
     Provider.of<Session>(context).getStatus();
   }

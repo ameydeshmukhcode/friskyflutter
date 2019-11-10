@@ -10,7 +10,6 @@ class VisitSummary extends StatefulWidget {
   final String sessionID;
   final String restaurantID;
   final String restaurantName;
-
   VisitSummary(
       {Key key,
       @required this.sessionID,
