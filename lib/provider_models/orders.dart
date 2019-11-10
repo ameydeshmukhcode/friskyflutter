@@ -15,12 +15,11 @@ class Orders extends ChangeNotifier {
   String gst = "0";
   String billAmount = "0";
 
-
   fetchData() async {
     print("insdie fetech data");
-   await getOrders().then((a) async {
+    await getOrders().then((a) async {
       print("insdie fetech data get orders");
-      await getBillDetails().then((a){
+      await getBillDetails().then((a) {
         print("inside fetch data bill details");
         notifyListeners();
       });
@@ -56,21 +55,18 @@ class Orders extends ChangeNotifier {
     });
   }
   Future getBillDetails() async {
-    resetBill();
     SharedPreferences sp = await SharedPreferences.getInstance();
     Firestore.instance
         .collection("restaurants")
         .document(sp.getString("restaurant_id"))
         .collection("sessions")
         .document(sp.getString("session_id"))
-        .snapshots().listen((data) {
-      if(data.exists)
-      {
+        .snapshots()
+        .listen((data) {
+      if (data.exists) {
         updateBill(data);
         notifyListeners();
-      }
-      else{
-
+      } else {
         updateBill(data);
         notifyListeners();
 
