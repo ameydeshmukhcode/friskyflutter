@@ -2,13 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:friskyflutter/login/user_login.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
+import 'package:friskyflutter/screens/options.dart';
 import 'package:friskyflutter/size_config.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../frisky_colors.dart';
-import 'package:provider/provider.dart';
-import 'package:friskyflutter/provider_models/session.dart';
 import '../restaurants_details_screen.dart';
 
 class HomeTab extends StatefulWidget {
@@ -32,12 +28,6 @@ class _HomeTabState extends State<HomeTab>
             builder: (context) => DetailsPage(
                   resturant: restaurant,
                 )));
-  }
-
-  signOut() async {
-    _auth.signOut();
-    Navigator.pushReplacement(
-        context, new MaterialPageRoute(builder: (context) => UserLogin()));
   }
 
   getUser() async {
@@ -68,23 +58,6 @@ class _HomeTabState extends State<HomeTab>
     return querySnapshot.documents;
   }
 
-  changeStatus() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getBool("session_active")) {
-      await sharedPreferences.setBool("session_active", false);
-      await sharedPreferences.setBool("order_active", false);
-      await sharedPreferences.setBool("bill_requested", false);
-      Provider.of<Orders>(context).mOrderList.clear();
-
-    } else {
-      await sharedPreferences.setBool("session_active", true);
-      await sharedPreferences.setBool("bill_requested", true);
-      Provider.of<Orders>(context).mOrderList.clear();
-      await sharedPreferences.setBool("bill_requested", true);
-    }
-    Provider.of<Session>(context).getStatus();
-  }
-
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
@@ -102,7 +75,8 @@ class _HomeTabState extends State<HomeTab>
               icon: Icon(Icons.settings),
               color: FriskyColor().colorPrimary,
               onPressed: () {
-                changeStatus();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => OptionsScreen()));
               })
         ],
         elevation: 0.0,
