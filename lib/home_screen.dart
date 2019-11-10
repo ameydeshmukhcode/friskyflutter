@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/screens/dine_billrequested.dart';
 import 'package:friskyflutter/screens/dine_orders.dart';
 import 'package:friskyflutter/screens/home.dart';
 import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/menuscreen.dart';
+import 'package:friskyflutter/screens/visit_summary.dart';
 import 'package:friskyflutter/screens/visits.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
 import 'provider_models/session.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -29,23 +32,64 @@ class _HomeScreenState extends State<HomeScreen>
   TabController _tabController;
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   FirebaseAuth _auth = FirebaseAuth.instance;
-
-
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  Map<dynamic, dynamic> data;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     firebaseCloudMessagingListeners();
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('icon_first_logo');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android, iOS);
+    flutterLocalNotificationsPlugin.initialize(initSetttings, onSelectNotification: onSelectNotification);
   }
+
+  showNotification() async {
+    var android = new AndroidNotificationDetails(
+        'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
+        priority: Priority.High,importance: Importance.Max
+    );
+    var iOS = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android, iOS);
+    await flutterLocalNotificationsPlugin.show(
+        0, "Session Ended", "Click here to check your visit summary", platform,
+        payload: 'FRiSKY APP');
+  }
+
+  // ignore: missing_return
+  Future onSelectNotification(String payload) {
+
+    print(data.toString());
+    print(data["session_id"]);
+    print(data["restaurant_id"]);
+    print(data["restaurant_name"]);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => VisitSummary(
+            sessionID: data["session_id"],
+            restaurantID:   data["restaurant_id"],
+            restaurantName:  data["restaurant_name"],
+
+          )),
+    );
+  }
+
+
+
+
+
 
   void iOSPermission() {
     firebaseMessaging.requestNotificationPermissions(
         IosNotificationSettings(sound: true, badge: true, alert: true)
     );
     firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings)
-    {
+        .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
   }
@@ -55,35 +99,36 @@ class _HomeScreenState extends State<HomeScreen>
     return await _auth.currentUser();
   }
 
-  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async { return Future<void>.value(); }
-
+  Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
+    return Future<void>.value();
+  }
 
 
   void firebaseCloudMessagingListeners() {
     if (Platform.isIOS) iOSPermission();
-    getUser().then((user){
-      Map<String, Object> userDetails = HashMap<String,Object>();
-      print(user.uid +" ye hai ID" );
-      firebaseMessaging.getToken().then((token){
+    getUser().then((user) {
+      Map<String, Object> userDetails = HashMap<String, Object>();
+      print(user.uid + " ye hai ID");
+      firebaseMessaging.getToken().then((token) {
         userDetails["firebase_instance_id"] = token;
         Firestore.instance.collection("users").
-            document(user.uid).setData(userDetails,merge: true).then((update){
-               print("TOKEN IS  = "+token);
-               print("instace ID UPDATED ");
-        }).catchError((error){
+        document(user.uid).setData(userDetails, merge: true).then((update) {
+          print("TOKEN IS  = " + token);
+          print("instace ID UPDATED ");
+        }).catchError((error) {
           print("instace ID Update Failed");
         });
-      }).catchError((error){
+      }).catchError((error) {
         print("error in getting token");
       });
-
-    }).catchError((error){
+    }).catchError((error) {
       print("error in getting User");
     });
     firebaseMessaging.configure(
       //onBackgroundMessage: myBackgroundMessageHandler,
       onMessage: (Map<String, dynamic> message) async {
-       doSomething(message);
+        doSomething(message);
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
@@ -113,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen>
     return BottomNavigationBar(
       onTap: (index) {
         setState(
-          () {
+              () {
             currentIndex = index;
             _tabController.animateTo(currentIndex, curve: Curves.easeOutBack);
           },
@@ -160,95 +205,100 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<Session>(
-          // ignore: non_constant_identifier_names
+        // ignore: non_constant_identifier_names
           builder: (context, Session, child) {
-        return Stack(
-          children: <Widget>[
-            TabBarView(
-              children: [
-                HomeTab(),
-                Session.isSessionActive
-                    ? (Session.isBillRequested ? BillRequested() : DineOrders())
-                    : DineTab(),
-                VisitTab(),
-              ],
-              controller: _tabController,
-              physics: NeverScrollableScrollPhysics(),
-            ),
-            Visibility(
-                visible: Session.isSessionActive,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      title: Text(
-                        Session.isBillRequested
-                            ? ("Bill Requested")
-                            : ("Currently at"),
-                        style: TextStyle(
-                            fontSize: 14, color: FriskyColor().colorTextLight),
-                      ),
-                      subtitle: Text(
-                          Session.isBillRequested
-                              ? ("Bill Amount to Be Paid - " +
+            return Stack(
+              children: <Widget>[
+                TabBarView(
+                  children: [
+                    HomeTab(),
+                    Session.isSessionActive
+                        ? (Session.isBillRequested
+                        ? BillRequested()
+                        : DineOrders())
+                        : DineTab(),
+                    VisitTab(),
+                  ],
+                  controller: _tabController,
+                  physics: NeverScrollableScrollPhysics(),
+                ),
+                Visibility(
+                    visible: Session.isSessionActive,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        color: Colors.white,
+                        child: ListTile(
+                          title: Text(
+                            Session.isBillRequested
+                                ? ("Bill Requested")
+                                : ("Currently at"),
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: FriskyColor().colorTextLight),
+                          ),
+                          subtitle: Text(
+                              Session.isBillRequested
+                                  ? ("Bill Amount to Be Paid - " +
                                   Session.totalAmount)
-                              : (Session.restaurantName +
+                                  : (Session.restaurantName +
                                   " - Table " +
                                   Session.tableName),
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      trailing: Session.isBillRequested
-                          ? SizedBox(
-                              height: 1,
-                            )
-                          : OutlineButton(
-                              color: Colors.lightGreen,
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MenuScreen(
-                                            Session.restaurantName,
-                                            Session.tableName,
-                                            Session.sessionID,
-                                            Session.restaurantID)));
-                              },
-                              child: Text(
-                                "Menu",
-                                style: TextStyle(
-                                    color: FriskyColor().colorPrimary),
-                              ),
-                              borderSide: BorderSide(
-                                color: FriskyColor().colorPrimary,
-                                width: 1.5,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(4.0),
-                              ),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                          trailing: Session.isBillRequested
+                              ? SizedBox(
+                            height: 1,
+                          )
+                              : OutlineButton(
+                            color: Colors.lightGreen,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MenuScreen(
+                                              Session.restaurantName,
+                                              Session.tableName,
+                                              Session.sessionID,
+                                              Session.restaurantID)));
+                            },
+                            child: Text(
+                              "Menu",
+                              style: TextStyle(
+                                  color: FriskyColor().colorPrimary),
                             ),
-                    ),
-                  ),
-                ))
-          ],
-        );
-      }),
+                            borderSide: BorderSide(
+                              color: FriskyColor().colorPrimary,
+                              width: 1.5,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(4.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ))
+              ],
+            );
+          }),
       floatingActionButton: Consumer<Session>(
-          // ignore: non_constant_identifier_names
+        // ignore: non_constant_identifier_names
           builder: (context, Session, child) {
-        return Visibility(
-          visible: !Session.isSessionActive,
-          child: FloatingActionButton.extended(
-            onPressed: () async {
-              // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
-              navigateToScan();
-            },
-            icon: Icon(MdiIcons.qrcode),
-            label: Text("Scan QR Code"),
-            backgroundColor: FriskyColor().colorPrimary,
-          ),
-        );
-      }),
+            return Visibility(
+              visible: !Session.isSessionActive,
+              child: FloatingActionButton.extended(
+                onPressed: () async {
+                  // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+                 navigateToScan();
+                 // showNotification();
+                },
+                icon: Icon(MdiIcons.qrcode),
+                label: Text("Scan QR Code"),
+                backgroundColor: FriskyColor().colorPrimary,
+              ),
+            );
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: _bottomNavBar(),
     );
@@ -271,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<bool> checkForPermission() async {
     PermissionStatus permission =
-        await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+    await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
     if (permission.toString() == "PermissionStatus.granted")
       return true;
     else
@@ -279,27 +329,29 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future doSomething(message) async {
-
     print('on message $message');
     //print("in mess " + message["data"]);
-    Map<dynamic,dynamic> data = message["data"];
+    data = message["data"];
     print(data.toString());
-    if(data.containsKey("end_session")&&data["end_session"]=="yes")
-    {
+    if (data.containsKey("end_session") && data["end_session"] == "yes") {
       print(data.toString());
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      SharedPreferences sharedPreferences = await SharedPreferences
+          .getInstance();
       await sharedPreferences.setBool("session_active", false);
       await sharedPreferences.setBool("order_active", false);
       await sharedPreferences.setBool("bill_requested", false);
+      showNotification();
       Navigator.popUntil(
         context,
         ModalRoute.withName(Navigator.defaultRouteName),
       );
       print("Session ENDED");
     }
-    else{
+    else {
       print("Session not ENDED");
     }
-    Provider.of<Session>(context,listen: false).getStatus();
+    Provider.of<Session>(context, listen: false).getStatus();
   }
+
+
 }

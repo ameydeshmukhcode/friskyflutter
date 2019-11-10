@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/login/user_login.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
+import 'package:friskyflutter/home_screen.dart';
 import 'package:friskyflutter/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../frisky_colors.dart';
@@ -69,19 +70,8 @@ class _HomeTabState extends State<HomeTab>
   }
 
   changeStatus() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getBool("session_active")) {
-      await sharedPreferences.setBool("session_active", false);
-      await sharedPreferences.setBool("order_active", false);
-      await sharedPreferences.setBool("bill_requested", false);
-      Provider.of<Orders>(context).mOrderList.clear();
 
-    } else {
-      await sharedPreferences.setBool("session_active", true);
-      await sharedPreferences.setBool("bill_requested", true);
-      Provider.of<Orders>(context).mOrderList.clear();
-    }
-    Provider.of<Session>(context).getStatus();
+
   }
 
   @override
@@ -127,6 +117,7 @@ class _HomeTabState extends State<HomeTab>
                 ],
               ),
             ),
+
     );
   }
 
