@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/size_config.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import '../frisky_colors.dart';
 
 class EmailSignUp extends StatefulWidget {
@@ -9,11 +10,42 @@ class EmailSignUp extends StatefulWidget {
 }
 
 class _EmailSignUpState extends State<EmailSignUp> {
+
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
   TextEditingController _cpasswordController = new TextEditingController();
   String _errorMessage = " ";
+
+  showLoader() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Signing you Up",
+            style: TextStyle(
+                color: FriskyColor().colorTextDark,
+                fontWeight: FontWeight.bold),
+          ),
+          content: Container(
+            height: SizeConfig.safeBlockVertical * 10,
+            width: SizeConfig.safeBlockVertical * 10,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                  FriskyColor().colorPrimary,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
+
 
   customError(String customMsg) {
     setState(() {
@@ -85,11 +117,17 @@ class _EmailSignUpState extends State<EmailSignUp> {
 
   signUp() async {
     try {
+      showLoader();
       print("inside catch of signup");
       await _auth.createUserWithEmailAndPassword(
           email: _emailController.text, password: _cpasswordController.text);
+      var u = await _auth.currentUser();
+      await u.sendEmailVerification();
+      await _auth.signOut();
+      Navigator.pop(context);
       navigateToSignIn();
     } catch (e) {
+      Navigator.pop(context);
       showError(e);
     }
   }
@@ -168,7 +206,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                       children: <Widget>[
                         Text("Sign Up",
                             style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                            TextStyle(fontSize: 20, color: Colors.white)),
                       ],
                     ),
                     onPressed: () {

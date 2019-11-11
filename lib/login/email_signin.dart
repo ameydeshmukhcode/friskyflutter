@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:friskyflutter/frisky_colors.dart';
+
 import '../size_config.dart';
 
 class EmailSignIn extends StatefulWidget {
@@ -8,7 +9,37 @@ class EmailSignIn extends StatefulWidget {
   _EmailSignInState createState() => _EmailSignInState();
 }
 
+
 class _EmailSignInState extends State<EmailSignIn> {
+
+  showLoader() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Signing you in",
+            style: TextStyle(
+                color: FriskyColor().colorTextDark,
+                fontWeight: FontWeight.bold),
+          ),
+          content: Container(
+            height: SizeConfig.safeBlockVertical * 10,
+            width: SizeConfig.safeBlockVertical * 10,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                  FriskyColor().colorPrimary,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
+
   AuthResult user;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
@@ -29,6 +60,7 @@ class _EmailSignInState extends State<EmailSignIn> {
 
   signIn() async {
     try {
+      showLoader();
       user = await _auth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       print("ye hai user " + user.user.email);
@@ -41,6 +73,7 @@ class _EmailSignInState extends State<EmailSignIn> {
       }
     } catch (e) {
       print(e.toString());
+      Navigator.pop(context);
       showError(e);
     }
   }
@@ -136,7 +169,7 @@ class _EmailSignInState extends State<EmailSignIn> {
                     controller: _emailController,
                     style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
-                        //errorText: validateEmail(_emailController.text),
+                      //errorText: validateEmail(_emailController.text),
                         labelText: 'Email',
                         border: OutlineInputBorder()),
                     cursorColor: FriskyColor().colorPrimary,
@@ -177,7 +210,7 @@ class _EmailSignInState extends State<EmailSignIn> {
                       children: <Widget>[
                         Text("Sign In",
                             style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                            TextStyle(fontSize: 20, color: Colors.white)),
                       ],
                     ),
                     onPressed: () {
