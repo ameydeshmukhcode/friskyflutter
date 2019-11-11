@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:friskyflutter/login/user_login.dart';
+import 'package:friskyflutter/screens/options.dart';
 import 'package:friskyflutter/size_config.dart';
+
 import '../frisky_colors.dart';
 import '../restaurants_details_screen.dart';
 
@@ -28,12 +29,6 @@ class _HomeTabState extends State<HomeTab>
             builder: (context) => DetailsPage(
                   resturant: restaurant,
                 )));
-  }
-
-  signOut() async {
-    _auth.signOut();
-    Navigator.pushReplacement(
-        context, new MaterialPageRoute(builder: (context) => UserLogin()));
   }
 
   getUser() async {
@@ -86,7 +81,8 @@ class _HomeTabState extends State<HomeTab>
               icon: Icon(Icons.settings),
               color: FriskyColor().colorPrimary,
               onPressed: () {
-                changeStatus();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => OptionsScreen()));
               })
         ],
         elevation: 0.0,
