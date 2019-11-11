@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/screens/options.dart';
 import 'package:friskyflutter/size_config.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../frisky_colors.dart';
 import '../restaurants_details_screen.dart';
@@ -88,17 +89,7 @@ class _HomeTabState extends State<HomeTab>
         elevation: 0.0,
       ),
       backgroundColor: Colors.white,
-      body: !isSignedIn
-          ? Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  CircularProgressIndicator(),
-                ],
-              ),
-            )
-          : Container(
+      body: Container(
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -118,14 +109,316 @@ class _HomeTabState extends State<HomeTab>
         builder: (context, snapshot) {
           // ignore: missing_return
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Align(
-              alignment: Alignment.center,
+            return Container(
               child: Column(
                 children: <Widget>[
-                  Center(
-                    child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                        FriskyColor().colorPrimary,
+
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 4,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
                       ),
                     ),
                   ),
@@ -133,76 +426,80 @@ class _HomeTabState extends State<HomeTab>
               ),
             );
           } else {
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-                    child: Card(
-                        margin: EdgeInsets.all(0),
-                        elevation: 2,
-                        child: InkWell(
-                          onTap: () {
-                            navigateToDetails(snapshot.data[index]);
-                          },
-                          child: Container(
-                            height: SizeConfig.safeBlockVertical * 12,
-                            width: SizeConfig.safeBlockHorizontal * 100,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Image.network(
-                                  snapshot.data[index].data['image'],
-                                  fit: BoxFit.cover,
-                                  width:
-                                      SizeConfig.safeBlockHorizontal * 50 - 8,
-                                ),
-                                Container(
-                                  width:
-                                      SizeConfig.safeBlockHorizontal * 50 - 8,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          snapshot.data[index].data['name'],
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          snapshot.data[index].data['address'],
-                                          maxLines: 1,
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        Text(
-                                          snapshot.data[index].data['cuisine']
-                                                  [0] +
-                                              ", " +
-                                              snapshot.data[index]
-                                                  .data['cuisine'][1],
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
+            return Flexible(
+              child: ListView.builder(
+                  itemCount: snapshot.data.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                      child: Card(
+                          margin: EdgeInsets.all(0),
+                          elevation: 2,
+                          child: InkWell(
+                            onTap: () {
+                              navigateToDetails(snapshot.data[index]);
+                            },
+                            child: Container(
+                              height: SizeConfig.safeBlockVertical * 12,
+                              width: SizeConfig.safeBlockHorizontal * 100,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceEvenly,
+                                children: <Widget>[
+                                  Image.network(
+                                    snapshot.data[index].data['image'],
+                                    fit: BoxFit.cover,
+                                    width:
+                                    SizeConfig.safeBlockHorizontal * 50 - 8,
                                   ),
-                                )
-                              ],
+                                  Container(
+                                    width:
+                                    SizeConfig.safeBlockHorizontal * 50 - 8,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            snapshot.data[index].data['name'],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            snapshot.data[index]
+                                                .data['address'],
+                                            maxLines: 1,
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                          Text(
+                                            snapshot.data[index].data['cuisine']
+                                            [0] +
+                                                ", " +
+                                                snapshot.data[index]
+                                                    .data['cuisine'][1],
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        )),
-                  );
-                });
+                          )),
+                    );
+                  }),
+            );
           }
         });
   }

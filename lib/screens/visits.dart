@@ -5,6 +5,7 @@ import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../frisky_colors.dart';
 import '../size_config.dart';
@@ -122,9 +123,14 @@ class _VisitTabState extends State<VisitTab>
     return Scaffold(
         backgroundColor: Colors.white,
         // body: //_visitsList(),
-        body: Center(
-          child: _visitsList(),
-        ));
+//        body: Center(
+//          child: _visitsList(),
+//
+
+      body: SafeArea(
+          child: _visitsList()
+      ),
+    );
   }
 
   Widget _visitsList() {
@@ -132,18 +138,490 @@ class _VisitTabState extends State<VisitTab>
         future: _visitslist,
         builder: (context, snapshot) {
           if (isLoading == true) {
-            return Align(
-              alignment: Alignment.center,
+            return Container(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Center(
-                    child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                        FriskyColor().colorPrimary,
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 8,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 16,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        "\u20B9 \u20B9 \u20B9 \u20B9 \u20B9",
+                                        style: TextStyle(color: Colors.black),),
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30, height: 10,),
+                                    // Text("\u20B9" ,style: TextStyle(color: Colors.white12),)
+
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
                       ),
                     ),
                   ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 8,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 16,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        "\u20B9 \u20B9 \u20B9 \u20B9 \u20B9",
+                                        style: TextStyle(color: Colors.black),),
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30, height: 10,),
+                                    // Text("\u20B9" ,style: TextStyle(color: Colors.white12),)
+
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 8,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 16,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        "\u20B9 \u20B9 \u20B9 \u20B9 \u20B9",
+                                        style: TextStyle(color: Colors.black),),
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30, height: 10,),
+                                    // Text("\u20B9" ,style: TextStyle(color: Colors.white12),)
+
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 8,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 16,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        "\u20B9 \u20B9 \u20B9 \u20B9 \u20B9",
+                                        style: TextStyle(color: Colors.black),),
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30, height: 10,),
+                                    // Text("\u20B9" ,style: TextStyle(color: Colors.white12),)
+
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 8,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 16,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        "\u20B9 \u20B9 \u20B9 \u20B9 \u20B9",
+                                        style: TextStyle(color: Colors.black),),
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30, height: 10,),
+                                    // Text("\u20B9" ,style: TextStyle(color: Colors.white12),)
+
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 8,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 16,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        "\u20B9 \u20B9 \u20B9 \u20B9 \u20B9",
+                                        style: TextStyle(color: Colors.black),),
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30, height: 10,),
+                                    // Text("\u20B9" ,style: TextStyle(color: Colors.white12),)
+
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 8,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 16,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        "\u20B9 \u20B9 \u20B9 \u20B9 \u20B9",
+                                        style: TextStyle(color: Colors.black),),
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30, height: 10,),
+                                    // Text("\u20B9" ,style: TextStyle(color: Colors.white12),)
+
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: SizeConfig.safeBlockVertical * 10,
+                        width: SizeConfig.safeBlockHorizontal * 100,
+                        child: Shimmer.fromColors(
+                            enabled: true,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white10,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 50,
+                                  color: Colors.white12,),
+                                SizedBox(width: 8,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          40,
+                                      color: Colors.white12,
+                                      height: 16,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30,
+                                      color: Colors.white12,
+                                      height: 10,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        "\u20B9 \u20B9 \u20B9 \u20B9 \u20B9",
+                                        style: TextStyle(color: Colors.black),),
+                                      width: SizeConfig.safeBlockHorizontal *
+                                          30, height: 10,),
+                                    // Text("\u20B9" ,style: TextStyle(color: Colors.white12),)
+
+                                  ],
+                                )
+
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+
                 ],
               ),
             );
