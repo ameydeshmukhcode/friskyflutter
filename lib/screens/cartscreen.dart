@@ -1,13 +1,15 @@
 import 'dart:collection';
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:friskyflutter/provider_models/cart.dart';
+import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/structures/diet_type.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
 import 'package:provider/provider.dart';
-import 'package:friskyflutter/provider_models/cart.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../frisky_colors.dart';
 import '../size_config.dart';
 import 'orders_screen.dart';
@@ -353,7 +355,7 @@ class _CartScreenState extends State<CartScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            "Place Your Order",
+            "Placing Your Order",
             style: TextStyle(
                 color: FriskyColor().colorTextDark,
                 fontWeight: FontWeight.bold),
