@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/screens/options.dart';
 import 'package:friskyflutter/size_config.dart';
+
 import '../frisky_colors.dart';
 import '../restaurants_details_screen.dart';
 
@@ -58,6 +59,11 @@ class _HomeTabState extends State<HomeTab>
     return querySnapshot.documents;
   }
 
+  changeStatus() async {
+
+
+  }
+
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
@@ -102,6 +108,7 @@ class _HomeTabState extends State<HomeTab>
                 ],
               ),
             ),
+
     );
   }
 

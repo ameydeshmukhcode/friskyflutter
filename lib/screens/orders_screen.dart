@@ -363,9 +363,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
               : Provider.of<Orders>(context, listen: true).amountPayable);
       Provider.of<Orders>(context, listen: true).resetOrdersList();
       Provider.of<Orders>(context, listen: true).resetBill();
-      Navigator.pop(context);
-      Navigator.pop(context);
-      Navigator.pop(context);
+      Navigator.popUntil(
+        context,
+        ModalRoute.withName(Navigator.defaultRouteName),
+      );
       // Navigator.popUntil(context,ModalRoute.withName('/homepage'));
       print("BILL CLEARD");
     }).catchError((error) {
@@ -373,4 +374,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
       print(error.toString());
     });
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+
 }

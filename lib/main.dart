@@ -11,6 +11,9 @@ import 'package:friskyflutter/screens/qrscan.dart';
 import 'home_screen.dart';
 import 'package:friskyflutter/login/email_signup.dart';
 
+
+
+
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseUser user;
 Widget initRoute = Text("hellow");
@@ -36,7 +39,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
