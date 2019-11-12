@@ -1,16 +1,18 @@
 import 'dart:collection';
-import 'package:friskyflutter/frisky_colors.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/screens/menuscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode/qrcode.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_functions/cloud_functions.dart';
+
+import '../size_config.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -142,48 +144,63 @@ class _ScanState extends State<Scan> {
 
   popexit() {
     Navigator.pop(context);
+    Navigator.pop(context);
+  }
+
+  showLoader() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Retrieving the Menu",
+            style: TextStyle(
+                color: FriskyColor().colorTextDark,
+                fontWeight: FontWeight.bold),
+          ),
+          content: Container(
+            height: SizeConfig.safeBlockVertical * 10,
+            width: SizeConfig.safeBlockVertical * 10,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                  FriskyColor().colorPrimary,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      barrierDismissible: false,
+    );
   }
 
   continueSessionStart(data) async {
+    showLoader();
     if (!data.contains("frisky") || (data.split("+").length != 3)) {
-      print("data hai = " + data.contains("frisky").toString());
-      print("data hai split ka length = " + data.split("+").length.toString());
-      print("data hai split = " + data.split("+").toString());
-      print("if ka " + data);
+      //Navigator.pop(context);
       popexit();
       _captureController.resume();
       showInvalidToast();
     } else {
-      print("inside else");
-      print("QR CODE DATA IS = " + data.toString());
       restaurantID = data.split("+")[1];
       tableID = data.split("+")[2];
-      print("resturant ka id " + restaurantID);
-      print("table ID " + tableID);
       await firestore
           .collection("restaurants")
           .document(restaurantID)
           .get()
           .then((f) {
-        //print(f.data["address"].toString());
-        print(f.toString());
-        print("before if  data null hai ");
-        print("f null hai kya " + (f == null).toString());
-        print("f null hai kya " + (f.exists).toString());
-
         if (f == null) {
-          print("inside if  fro data is null");
           _captureController.resume();
+          Navigator.pop(context);
           popexit();
           showInvalidToast();
           return null;
         }
         if (f.exists) {
-          print("inside if  data exist hai ");
-          Fluttertoast.showToast(
-              msg: "Valid QR CODE before CTQ", toastLength: Toast.LENGTH_LONG);
           checkForTableOccupied();
         } else {
+          Navigator.pop(context);
           popexit();
           _captureController.resume();
           showInvalidToast();
@@ -231,109 +248,12 @@ class _ScanState extends State<Scan> {
     );
   }
 
-  // ignore: missing_return
-  Future getRestaurantAndTableDetails(restaurantID, tableID) async {
-    Fluttertoast.showToast(
-        msg: "implementation baki hai but qr is 100% valid",
-        toastLength: Toast.LENGTH_LONG);
-
-    await firestore.collection("restaurants").document(restaurantID).get().then(
-      (resDoc) async {
-        if (resDoc == null) {
-          return;
-        }
-        if (resDoc.exists) {
-          var resname = await resDoc.data["name"];
-          print("RES NAME IS = " + resname.toString());
-        } else {
-          print("NO Such Doc Exit");
-        }
-      },
-      onError: (e) {
-        print(e.toString());
-        throw e;
-      },
-    ).whenComplete(() async {
-      await firestore
-          .collection("restaurants")
-          .document(restaurantID)
-          .collection("tables")
-          .document(tableID)
-          .get()
-          .then(
-        (resTableDoc) async {
-          if (resTableDoc == null) {
-            return;
-          }
-          if (resTableDoc.exists) {
-            var tableSerial = "Table " + await resTableDoc.data["number"];
-            print("Table Serial IS = " + tableSerial.toString());
-          } else {
-            print("NO Such Doc Exit");
-          }
-        },
-        onError: (e) {
-          print(e.toString());
-
-          throw e;
-        },
-      );
-    });
-  }
-
   Future getUser() async {
     firebaseUser = await _auth.currentUser();
     // print(firebaseUser.uid.toString());
   }
 
-  initUserSession(restaurantID, tableID) async {
-    Map<String, Object> sessionDetails = new HashMap<String, Object>();
-    sessionDetails.clear();
-    print("inside init user session");
-    sessionDetails["table_id"] = tableID;
-    await getUser();
-    if (firebaseUser != null) sessionDetails["created_by"] = firebaseUser.uid;
-    sessionDetails["start_time"] =
-        DateTime.now().toUtc().millisecondsSinceEpoch;
-    sessionDetails["is_active"] = true;
-    print("last me sab print \n " + sessionDetails.toString());
-    await firestore
-        .collection("restaurants")
-        .document(restaurantID)
-        .collection("sessions")
-        .add(sessionDetails)
-        .then((data) async {
-      final String sessionID = data.documentID;
-      Map<String, Object> userSessionDetails = new HashMap<String, Object>();
-      userSessionDetails["session_active"] = true;
-      userSessionDetails["current_session"] = sessionID;
-      userSessionDetails["restaurant"] = restaurantID;
-      print("last me sab print \n " + userSessionDetails.toString());
-      await firestore
-          .collection("users")
-          .document(firebaseUser.uid)
-          .setData(userSessionDetails, merge: true)
-          .then((userdata) async {
-        Map<String, Object> tableSessionDetails = new HashMap<String, Object>();
-        tableSessionDetails["occupied"] = true;
-        tableSessionDetails["session_id"] = sessionID;
-        await firestore
-            .collection("restaurants")
-            .document(restaurantID)
-            .collection("tables")
-            .document(tableID)
-            .setData(tableSessionDetails, merge: true)
-            .then((table) {
-          popexit();
-          popexit();
-          showMenu();
-        }, onError: (e) {
-          e.toString();
-          print(e.toString());
-        });
-      });
-    });
-  }
+
 
   _createUserSession() async {
     Map<String, Object> userdata = new HashMap<String, Object>();
@@ -357,9 +277,10 @@ class _ScanState extends State<Scan> {
           restaurantName: restaurantName,
           tableName: tableName,
           sessionID: sessionID);
-    }, onError: popexit());
+    }, onError: (error) {
+      popexit();
+    });
   }
-
   setPreferences() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setBool("session_active", true);
@@ -371,8 +292,8 @@ class _ScanState extends State<Scan> {
     Provider.of<Session>(context).getStatus();
     return null;
   }
-
   showMenu({restaurantName, tableName, sessionID}) {
+    Navigator.pop(context);
     popexit();
     Navigator.push(
         context,
@@ -380,7 +301,6 @@ class _ScanState extends State<Scan> {
             builder: (context) => MenuScreen(
                 restaurantName, tableName, sessionID, restaurantID)));
   }
-
   updateOnSessionStartFail() {
     popexit();
     _captureController.resume();

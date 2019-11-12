@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:friskyflutter/size_config.dart';
-import 'package:friskyflutter/frisky_colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/login/email_signin.dart';
+import 'package:friskyflutter/size_config.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -15,11 +15,42 @@ class _UserLoginState extends State<UserLogin> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+
+  showLoader() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Signing you in",
+            style: TextStyle(
+                color: FriskyColor().colorTextDark,
+                fontWeight: FontWeight.bold),
+          ),
+          content: Container(
+            height: SizeConfig.safeBlockVertical * 10,
+            width: SizeConfig.safeBlockVertical * 10,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                  FriskyColor().colorPrimary,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
+
+
   googleSignIn() async {
     try {
+      showLoader();
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.getCredential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -27,9 +58,11 @@ class _UserLoginState extends State<UserLogin> {
       final FirebaseUser user =
           (await _auth.signInWithCredential(credential)).user;
       print("signed in " + user.displayName);
+      Navigator.pop(context);
       Navigator.pushReplacementNamed(context, "/homepage");
       return user;
     } catch (e) {
+      Navigator.pop(context);
       showError(e.message);
     }
   }

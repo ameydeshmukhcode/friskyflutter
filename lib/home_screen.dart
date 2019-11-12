@@ -1,25 +1,27 @@
 import 'dart:collection';
 import 'dart:io';
+
+import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:friskyflutter/provider_models/session.dart';
+import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/dine_billrequested.dart';
 import 'package:friskyflutter/screens/dine_orders.dart';
 import 'package:friskyflutter/screens/home.dart';
-import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/menuscreen.dart';
 import 'package:friskyflutter/screens/visit_summary.dart';
 import 'package:friskyflutter/screens/visits.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'frisky_colors.dart';
-import 'package:provider/provider.dart';
-import 'package:badges/badges.dart';
-import 'provider_models/session.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'frisky_colors.dart';
+import 'provider_models/session.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -334,12 +336,13 @@ class _HomeScreenState extends State<HomeScreen>
     data = message["data"];
     print(data.toString());
     if (data.containsKey("end_session") && data["end_session"] == "yes") {
-      print(data.toString());
+      // print(data.toString());
       SharedPreferences sharedPreferences = await SharedPreferences
           .getInstance();
       await sharedPreferences.setBool("session_active", false);
       await sharedPreferences.setBool("order_active", false);
       await sharedPreferences.setBool("bill_requested", false);
+      print("RAJ");
       showNotification();
       Navigator.popUntil(
         context,

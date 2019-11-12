@@ -1,17 +1,19 @@
+import 'dart:collection';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:friskyflutter/provider_models/cart.dart';
+import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/screens/cartscreen.dart';
 import 'package:friskyflutter/size_config.dart';
-import 'dart:collection';
-import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:friskyflutter/structures/menu_category.dart';
 import 'package:friskyflutter/structures/diet_type.dart';
+import 'package:friskyflutter/structures/menu_category.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
-import '../frisky_colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:friskyflutter/provider_models/cart.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../frisky_colors.dart';
 import 'orders_screen.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -161,7 +163,8 @@ class _MenuScreenState extends State<MenuScreen> {
         Navigator.pop(context);
         return Provider.of<Cart>(context, listen: true).clearList();
       },
-      child: Scaffold(
+      child: !isLoading
+          ? Scaffold(
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
@@ -237,7 +240,465 @@ class _MenuScreenState extends State<MenuScreen> {
           ],
         ),
         floatingActionButton: _simplePopup(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation:
+        FloatingActionButtonLocation.centerFloat,
+      )
+          : SafeArea(
+        child: Scaffold(
+          body: Container(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 60, right: 20),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 2,
+                        width: SizeConfig.safeBlockHorizontal * 30,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(20))),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                          width: SizeConfig.safeBlockHorizontal * 16),
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 6,
+                        width: SizeConfig.safeBlockHorizontal * 24,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[200],
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(12))),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: SizeConfig.safeBlockVertical * 6),
+                Container(
+                  height: SizeConfig.safeBlockVertical * 1.3,
+                  width: SizeConfig.safeBlockHorizontal * 24,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.white24,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow,
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(20))),
+                    ),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.safeBlockVertical * 6),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 6,
+                        width: SizeConfig.safeBlockHorizontal * 40,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey[400],
+                            highlightColor: Colors.white24,
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 40,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 15,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                              ],
+                            )),
+                      ),
+                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 4,
+                        width: SizeConfig.safeBlockHorizontal * 24,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.green[200],
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(24))),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 0.5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 6,
+                        width: SizeConfig.safeBlockHorizontal * 40,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey[400],
+                            highlightColor: Colors.white24,
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 40,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 15,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                              ],
+                            )),
+                      ),
+                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 4,
+                        width: SizeConfig.safeBlockHorizontal * 24,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.green[200],
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(24))),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: SizeConfig.safeBlockVertical * 6),
+                Container(
+                  height: SizeConfig.safeBlockVertical * 1.3,
+                  width: SizeConfig.safeBlockHorizontal * 24,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.white24,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow,
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(20))),
+                    ),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.safeBlockVertical * 6),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 6,
+                        width: SizeConfig.safeBlockHorizontal * 40,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey[400],
+                            highlightColor: Colors.white24,
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 40,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 15,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                              ],
+                            )),
+                      ),
+                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 4,
+                        width: SizeConfig.safeBlockHorizontal * 24,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.green[200],
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(24))),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 0.5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 6,
+                        width: SizeConfig.safeBlockHorizontal * 40,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey[400],
+                            highlightColor: Colors.white24,
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 40,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 15,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                              ],
+                            )),
+                      ),
+                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 4,
+                        width: SizeConfig.safeBlockHorizontal * 24,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.green[200],
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(24))),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 0.5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 6,
+                        width: SizeConfig.safeBlockHorizontal * 40,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey[400],
+                            highlightColor: Colors.white24,
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 40,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 15,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                              ],
+                            )),
+                      ),
+                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 4,
+                        width: SizeConfig.safeBlockHorizontal * 24,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.green[200],
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(24))),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: SizeConfig.safeBlockVertical * 6),
+                Container(
+                  height: SizeConfig.safeBlockVertical * 1.3,
+                  width: SizeConfig.safeBlockHorizontal * 24,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.white24,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow,
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(20))),
+                    ),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.safeBlockVertical * 4),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 6,
+                        width: SizeConfig.safeBlockHorizontal * 40,
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.grey[400],
+                            highlightColor: Colors.white24,
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 40,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  width:
+                                  SizeConfig.safeBlockHorizontal * 15,
+                                  color: Colors.white12,
+                                  height: 10,
+                                ),
+                              ],
+                            )),
+                      ),
+                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 4,
+                        width: SizeConfig.safeBlockHorizontal * 24,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.green[200],
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(24))),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 0.5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 34),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 4,
+                        width: SizeConfig.safeBlockHorizontal * 24,
+                        child: Shimmer.fromColors(
+                          baseColor: FriskyColor().colorPrimary.withOpacity(
+                              0.5),
+                          highlightColor: Colors.white24,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: FriskyColor().colorPrimary,
+                                    width: 4),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(24))),
+
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
