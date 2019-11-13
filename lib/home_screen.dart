@@ -11,7 +11,7 @@ import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/screens/dine.dart';
 import 'package:friskyflutter/screens/dine_billrequested.dart';
 import 'package:friskyflutter/screens/dine_orders.dart';
-import 'package:friskyflutter/screens/home.dart';
+import 'package:friskyflutter/screens/restaurant_list_screen.dart';
 import 'package:friskyflutter/screens/menuscreen.dart';
 import 'package:friskyflutter/screens/visit_summary.dart';
 import 'package:friskyflutter/screens/visits.dart';
