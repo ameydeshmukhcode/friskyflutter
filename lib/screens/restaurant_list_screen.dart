@@ -74,7 +74,7 @@ class _HomeTabState extends State<HomeTab>
         centerTitle: true,
         title: Padding(
           padding: const EdgeInsets.all(5.0),
-          child: SvgPicture.asset('img/logo_text.svg'),
+          child: SvgPicture.asset('images/logo_text.svg'),
         ),
         backgroundColor: Colors.white,
         actions: <Widget>[

@@ -99,7 +99,7 @@ class _UserLoginState extends State<UserLogin> {
             children: <Widget>[
               Expanded(
                 child: SvgPicture.asset(
-                  'img/logo_text.svg',
+                  'images/logo_text.svg',
                   height: SizeConfig.safeBlockVertical * 14,
                   width: SizeConfig.safeBlockHorizontal * 56,
                 ),
@@ -114,7 +114,7 @@ class _UserLoginState extends State<UserLogin> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SvgPicture.asset(
-                        'img/icons/google.svg',
+                        'images/icons/google.svg',
                         height: 20,
                         width: 20,
                       ),

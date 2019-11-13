@@ -31,7 +31,7 @@ class _DineTabState extends State<DineTab>
               ),
               Container(
                 child: SvgPicture.asset(
-                  'img/state_graphics/state_scan_qr.svg',
+                  'images/state_graphics/state_scan_qr.svg',
                   height: SizeConfig.safeBlockVertical * 35,
                   width: SizeConfig.safeBlockHorizontal * 56,
                 ),
