@@ -1020,7 +1020,7 @@ class _MenuScreenState extends State<MenuScreen> {
       return SvgPicture.asset("img/veg.svg");
     }
     if (mi.dietType == DietType.NON_VEG) {
-      return SvgPicture.asset("img/nonveg.svg");
+      return SvgPicture.asset("img/non_veg.svg");
     }
     if (mi.dietType == DietType.EGG) {
       return SvgPicture.asset("img/egg.svg");
