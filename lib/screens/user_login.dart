@@ -114,7 +114,7 @@ class _UserLoginState extends State<UserLogin> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SvgPicture.asset(
-                        'img/google.svg',
+                        'img/icons/google.svg',
                         height: 20,
                         width: 20,
                       ),
