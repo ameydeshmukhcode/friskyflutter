@@ -99,7 +99,7 @@ class _UserLoginState extends State<UserLogin> {
             children: <Widget>[
               Expanded(
                 child: SvgPicture.asset(
-                  'img/logo1.svg',
+                  'img/logo_text.svg',
                   height: SizeConfig.safeBlockVertical * 14,
                   width: SizeConfig.safeBlockHorizontal * 56,
                 ),
