@@ -1017,13 +1017,13 @@ class _MenuScreenState extends State<MenuScreen> {
       return Text("");
     }
     if (mi.dietType == DietType.VEG) {
-      return SvgPicture.asset("img/veg.svg");
+      return SvgPicture.asset("img/icons/veg.svg");
     }
     if (mi.dietType == DietType.NON_VEG) {
-      return SvgPicture.asset("img/non_veg.svg");
+      return SvgPicture.asset("img/icons/non_veg.svg");
     }
     if (mi.dietType == DietType.EGG) {
-      return SvgPicture.asset("img/egg.svg");
+      return SvgPicture.asset("img/icons/egg.svg");
     }
   }
 }
