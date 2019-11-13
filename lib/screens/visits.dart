@@ -642,7 +642,7 @@ class _VisitTabState extends State<VisitTab>
                       ),
                       Container(
                         child: SvgPicture.asset(
-                          'img/no_visits.svg',
+                          'img/state_graphics/state_no_visits.svg',
                           height: SizeConfig.safeBlockVertical * 30,
                           width: SizeConfig.safeBlockHorizontal * 56,
                         ),

@@ -23,7 +23,7 @@ class BillRequested extends StatelessWidget {
             ),
             Container(
               child: SvgPicture.asset(
-                'img/scanstateempty.svg',
+                'img/state_graphics/state_scan_qr.svg',
                 height: SizeConfig.safeBlockVertical * 35,
                 width: SizeConfig.safeBlockHorizontal * 56,
               ),
