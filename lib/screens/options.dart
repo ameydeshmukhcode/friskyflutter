@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/login/user_login.dart';
+import 'package:friskyflutter/screens/user_login.dart';
 
 import '../frisky_colors.dart';
 
