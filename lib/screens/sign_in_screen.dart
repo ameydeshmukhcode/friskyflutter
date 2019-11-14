@@ -23,8 +23,9 @@ class _UserLoginState extends State<UserLogin> {
           title: Text(
             "Signing you in",
             style: TextStyle(
-                color: FriskyColor().colorTextDark,
-                fontWeight: FontWeight.bold),
+                fontFamily: "museo",
+                fontWeight: FontWeight.w100,
+                color: FriskyColor().colorTextDark),
           ),
           content: Container(
             height: SizeConfig.safeBlockVertical * 10,

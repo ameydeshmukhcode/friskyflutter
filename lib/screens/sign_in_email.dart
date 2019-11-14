@@ -18,8 +18,10 @@ class _EmailSignInState extends State<EmailSignIn> {
           title: Text(
             "Signing you in",
             style: TextStyle(
-                color: FriskyColor().colorTextDark,
-                fontWeight: FontWeight.bold),
+              fontFamily: "museo",
+              fontWeight: FontWeight.w100,
+              color: FriskyColor().colorTextDark,
+            ),
           ),
           content: Container(
             height: SizeConfig.safeBlockVertical * 10,
