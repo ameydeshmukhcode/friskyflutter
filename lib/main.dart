@@ -4,12 +4,12 @@ import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/screens/user_login.dart';
+import 'package:friskyflutter/screens/sign_in_screen.dart';
 import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/screens/email_signin.dart';
+import 'package:friskyflutter/screens/sign_in_email.dart';
 import 'package:friskyflutter/screens/qrscan.dart';
 import 'home_screen.dart';
-import 'package:friskyflutter/screens/email_signup.dart';
+import 'package:friskyflutter/screens/sign_up_email.dart';
 
 
 
