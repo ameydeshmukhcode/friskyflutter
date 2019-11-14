@@ -10,8 +10,6 @@ class EmailSignUp extends StatefulWidget {
 }
 
 class _EmailSignUpState extends State<EmailSignUp> {
-
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
@@ -45,7 +43,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
       barrierDismissible: false,
     );
   }
-
 
   customError(String customMsg) {
     setState(() {
@@ -162,7 +159,10 @@ class _EmailSignUpState extends State<EmailSignUp> {
               child: Column(
                 children: <Widget>[
                   TextField(
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontFamily: "museo",
+                        fontWeight: FontWeight.w100,
+                        fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Email',
                       focusColor: Colors.black,
@@ -171,9 +171,12 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     controller: _emailController,
                     cursorColor: FriskyColor().colorPrimary,
                   ),
-                  Padding(padding: EdgeInsets.only(top: 16)),
+                  Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontFamily: "museo",
+                        fontWeight: FontWeight.w100,
+                        fontSize: 16),
                     decoration: InputDecoration(
                         errorText: validatePassword(_passwordController.text),
                         labelText: 'Password',
@@ -183,9 +186,12 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     controller: _passwordController,
                     cursorColor: FriskyColor().colorPrimary,
                   ),
-                  Padding(padding: EdgeInsets.only(top: 16)),
+                  Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontFamily: "museo",
+                        fontWeight: FontWeight.w100,
+                        fontSize: 16),
                     decoration: InputDecoration(
                       errorText: validatePassword(_passwordController.text),
                       labelText: 'Confirm Password',
@@ -196,17 +202,20 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     controller: _cpasswordController,
                     cursorColor: FriskyColor().colorPrimary,
                   ),
-                  Padding(padding: EdgeInsets.only(top: 16)),
+                  Padding(padding: EdgeInsets.only(top: 8)),
                   RaisedButton(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(8),
                     shape: StadiumBorder(),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text("Sign Up",
-                            style:
-                            TextStyle(fontSize: 20, color: Colors.white)),
+                            style: TextStyle(
+                                fontFamily: "museo",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                                color: Colors.white)),
                       ],
                     ),
                     onPressed: () {
@@ -222,6 +231,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         _errorMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(
+                          fontFamily: "museo",
+                          fontWeight: FontWeight.w100,
                           fontSize: SizeConfig.safeBlockVertical * 2.5,
                           color: Colors.red,
                         ),

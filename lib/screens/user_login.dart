@@ -15,7 +15,6 @@ class _UserLoginState extends State<UserLogin> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-
   showLoader() {
     showDialog(
       context: context,
@@ -44,13 +43,12 @@ class _UserLoginState extends State<UserLogin> {
     );
   }
 
-
   googleSignIn() async {
     try {
       showLoader();
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+          await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.getCredential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -123,6 +121,8 @@ class _UserLoginState extends State<UserLogin> {
                       ),
                       Text("Use Google Account",
                           style: TextStyle(
+                            fontFamily: "museo",
+                            fontWeight: FontWeight.w500,
                             fontSize: 20,
                             color: FriskyColor().colorPrimary,
                           )),
@@ -150,7 +150,11 @@ class _UserLoginState extends State<UserLogin> {
                         padding: EdgeInsets.all(8),
                       ),
                       Text("Use Email Address",
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                          style: TextStyle(
+                              fontFamily: "museo",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: Colors.white)),
                     ],
                   ),
                   onPressed: () {
@@ -172,6 +176,8 @@ class _UserLoginState extends State<UserLogin> {
                   "By signing in, you\'re agreeing to our Terms and Privacy Policy",
                   textAlign: TextAlign.center,
                   style: TextStyle(
+                    fontFamily: "museo",
+                    fontWeight: FontWeight.w100,
                     fontSize: 14,
                     color: FriskyColor().colorTextDark,
                   ),

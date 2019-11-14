@@ -9,9 +9,7 @@ class EmailSignIn extends StatefulWidget {
   _EmailSignInState createState() => _EmailSignInState();
 }
 
-
 class _EmailSignInState extends State<EmailSignIn> {
-
   showLoader() {
     showDialog(
       context: context,
@@ -167,17 +165,23 @@ class _EmailSignInState extends State<EmailSignIn> {
                 children: <Widget>[
                   TextField(
                     controller: _emailController,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontFamily: "museo",
+                        fontWeight: FontWeight.w100,
+                        fontSize: 16),
                     decoration: InputDecoration(
-                      //errorText: validateEmail(_emailController.text),
+                        //errorText: validateEmail(_emailController.text),
                         labelText: 'Email',
                         border: OutlineInputBorder()),
                     cursorColor: FriskyColor().colorPrimary,
                   ),
-                  Padding(padding: EdgeInsets.only(top: 16)),
+                  Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
                     controller: _passwordController,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontFamily: "museo",
+                        fontWeight: FontWeight.w100,
+                        fontSize: 16),
                     decoration: InputDecoration(
                         errorText: validatePassword(_passwordController.text),
                         labelText: 'Password',
@@ -194,7 +198,8 @@ class _EmailSignInState extends State<EmailSignIn> {
                         child: Text("Forgot password?",
                             textAlign: TextAlign.end,
                             style: TextStyle(
-                              fontFamily: 'MuseoSans',
+                              fontFamily: "museo",
+                              fontWeight: FontWeight.w300,
                               color: Colors.black,
                               fontSize: 14,
                             )),
@@ -202,15 +207,18 @@ class _EmailSignInState extends State<EmailSignIn> {
                     ),
                   ),
                   RaisedButton(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(8),
                     shape: StadiumBorder(),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text("Sign In",
-                            style:
-                            TextStyle(fontSize: 20, color: Colors.white)),
+                            style: TextStyle(
+                                fontFamily: "museo",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                                color: Colors.white)),
                       ],
                     ),
                     onPressed: () {
@@ -235,6 +243,8 @@ class _EmailSignInState extends State<EmailSignIn> {
                         _errorMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(
+                          fontFamily: "museo",
+                          fontWeight: FontWeight.w100,
                           fontSize: 14,
                           color: Colors.red,
                         ),
@@ -253,19 +263,23 @@ class _EmailSignInState extends State<EmailSignIn> {
                   children: <Widget>[
                     Text(
                       "Don't have an account?",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(
+                          fontFamily: "museo",
+                          fontWeight: FontWeight.w300,
+                          fontSize: 16,
+                          color: Colors.white),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
                     FlatButton(
-                      padding: EdgeInsets.all(0),
                       onPressed: navigateToSignUp,
                       child: Text(
                         "Sign up",
                         style: TextStyle(
-                          fontFamily: 'MuseoSans',
-                          color: Color(0xffffffff),
+                          fontFamily: "museo",
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
                           fontSize: 16,
                         ),
                       ),
