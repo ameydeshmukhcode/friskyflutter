@@ -97,7 +97,6 @@ class _SignInEmailState extends State<SignInEmail> {
                     onTap: () {
                       if (_errorMessage.compareTo(_verifyEmailMessage) == 0) {
                         _sendVerificationLink();
-                        print(" inside if of link");
                       }
                     },
                     child: Text(
