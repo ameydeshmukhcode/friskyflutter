@@ -15,7 +15,7 @@ class _SignInEmailState extends State<SignInEmail> {
   AuthResult _authResult;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  String _errorMessage = " ";
+  String _errorMessage = "";
   String _verifyEmailMessage =
       "You need to verify your email.\nClick here to send verification link.";
 
