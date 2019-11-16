@@ -5,12 +5,12 @@ import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/screens/sign_in_email.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class UserLogin extends StatefulWidget {
+class SignInMain extends StatefulWidget {
   @override
-  _UserLoginState createState() => _UserLoginState();
+  _SignInMainState createState() => _SignInMainState();
 }
 
-class _UserLoginState extends State<UserLogin> {
+class _SignInMainState extends State<SignInMain> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 

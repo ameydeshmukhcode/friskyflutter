@@ -26,7 +26,7 @@ void main() {
   getUser().then((user) {
     if (user == null) {
       print("null user");
-      initRoute = UserLogin();
+      initRoute = SignInMain();
       runApp(MyApp());
       return initRoute;
     } else {
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
             "/homepage": (BuildContext context) => HomeScreen(),
             "/esingin": (BuildContext context) => EmailSignIn(),
             "/esingup": (BuildContext context) => EmailSignUp(),
-            "/login": (BuildContext context) => UserLogin(),
+            "/login": (BuildContext context) => SignInMain(),
             "/scan": (BuildContext context) => Scan(),
             //  "/ordersscreen": (BuildContext context,) => OrdersScreen(),
             //   "/menu": (BuildContext context) => MenuScreen(restaurantName, tableName,sessionID),
