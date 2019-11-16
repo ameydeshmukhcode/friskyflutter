@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           home: initRoute,
           routes: <String, WidgetBuilder>{
             "/homepage": (BuildContext context) => HomeScreen(),
-            "/esingin": (BuildContext context) => EmailSignIn(),
+            "/esingin": (BuildContext context) => SignInEmail(),
             "/esingup": (BuildContext context) => EmailSignUp(),
             "/login": (BuildContext context) => SignInMain(),
             "/scan": (BuildContext context) => Scan(),

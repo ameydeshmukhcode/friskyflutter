@@ -86,7 +86,7 @@ class _SignInMainState extends State<SignInMain> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return EmailSignIn();
+                      return SignInEmail();
                     },
                   ),
                 );

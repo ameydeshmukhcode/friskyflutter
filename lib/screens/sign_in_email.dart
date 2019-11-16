@@ -1,156 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/frisky_colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:friskyflutter/home_screen.dart';
+import 'package:friskyflutter/screens/sign_up_email.dart';
 
-import '../size_config.dart';
-
-class EmailSignIn extends StatefulWidget {
+class SignInEmail extends StatefulWidget {
   @override
-  _EmailSignInState createState() => _EmailSignInState();
+  _SignInEmailState createState() => _SignInEmailState();
 }
 
-class _EmailSignInState extends State<EmailSignIn> {
-  showLoader() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Signing you in",
-            style: TextStyle(
-              fontFamily: "museo",
-              fontWeight: FontWeight.w100,
-              color: FriskyColor().colorTextDark,
-            ),
-          ),
-          content: Container(
-            height: SizeConfig.safeBlockVertical * 10,
-            width: SizeConfig.safeBlockVertical * 10,
-            child: Center(
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                  FriskyColor().colorPrimary,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-      barrierDismissible: false,
-    );
-  }
-
-  AuthResult user;
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _passwordController = new TextEditingController();
+class _SignInEmailState extends State<SignInEmail> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  AuthResult _authResult;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   String _errorMessage = " ";
-
-//  checkAuthentication() async {
-//    _auth.onAuthStateChanged.listen((user) async {
-//      if (user != null) {
-//        Navigator.pushReplacementNamed(context, "/");
-//      }
-//    });
-//  }
-
-  navigateToSignUp() {
-    Navigator.pushNamed(context, "/esingup");
-  }
-
-  signIn() async {
-    try {
-      showLoader();
-      user = await _auth.signInWithEmailAndPassword(
-          email: _emailController.text, password: _passwordController.text);
-      print("ye hai user " + user.user.email);
-      if (user.user.isEmailVerified) {
-        Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, "/homepage");
-      } else {
-        customError(
-            "You need to verify your email.\nClick here to send verification link.");
-      }
-    } catch (e) {
-      print(e.toString());
-      Navigator.pop(context);
-      showError(e);
-    }
-  }
-
-  customError(String customMsg) {
-    setState(() {
-      _errorMessage = customMsg;
-    });
-  }
-
-  showError(var e) {
-    switch (e.code) {
-      case "ERROR_INVALID_EMAIL":
-        {
-          customError("Invalid email entered. Enter a valid email.");
-        }
-        break;
-      case "ERROR_WRONG_PASSWORD":
-        {
-          customError("Incorrect password entered");
-        }
-        break;
-      case "ERROR_USER_NOT_FOUND":
-        {
-          customError(
-              "Account with this email doesn\'t exist.\nSign up first.");
-        }
-        break;
-      case "ERROR_USER_DISABLED":
-        {
-          customError(e.message);
-        }
-        break;
-      case "ERROR_TOO_MANY_REQUESTS":
-        {
-          customError(e.message);
-        }
-        break;
-      case "ERROR_OPERATION_NOT_ALLOWED":
-        {
-          customError(e.message);
-        }
-        break;
-    }
-  }
-
-  resetPassword() async {
-    try {
-      await _auth.sendPasswordResetEmail(email: _emailController.text);
-      customError("Password reset link sent to your email.");
-    } catch (e) {
-      showError(e);
-    }
-  }
-
-  sendVerifactionLink() async {
-    try {
-      await user.user.sendEmailVerification();
-      customError("Link Sent To Your Email ");
-      return user.user.uid;
-    } catch (e) {
-      print("An error occured while trying to send email verification");
-      customError(e.message);
-    }
-  }
-
-  String validatePassword(String value) {
-    if (!(value.length >= 6) && value.isNotEmpty) {
-      return "Password should contains more then 6 character";
-    }
-
-    return null;
-  }
+  String _verifyEmailMessage =
+      "You need to verify your email.\nClick here to send verification link.";
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -158,142 +28,240 @@ class _EmailSignInState extends State<EmailSignIn> {
         iconTheme: IconThemeData(color: Colors.black),
         elevation: 0,
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 24, top: 8, right: 24),
-              child: Column(
-                children: <Widget>[
-                  TextField(
-                    controller: _emailController,
-                    style: TextStyle(
-                        fontFamily: "museo",
-                        fontWeight: FontWeight.w100,
-                        fontSize: 16),
-                    decoration: InputDecoration(
-                        //errorText: validateEmail(_emailController.text),
-                        labelText: 'Email',
-                        border: OutlineInputBorder()),
-                    cursorColor: FriskyColor().colorPrimary,
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 24, top: 8, right: 24),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  controller: _emailController,
+                  style: TextStyle(fontFamily: "museoS", fontSize: 16),
+                  decoration: InputDecoration(
+                      labelText: 'Email', border: OutlineInputBorder()),
+                  cursorColor: FriskyColor().colorPrimary,
+                ),
+                Padding(padding: EdgeInsets.only(top: 8)),
+                TextField(
+                  controller: _passwordController,
+                  style: TextStyle(fontFamily: "museoS", fontSize: 16),
+                  decoration: InputDecoration(
+                      labelText: 'Password',
+                      focusColor: Colors.black,
+                      border: OutlineInputBorder()),
+                  obscureText: true,
+                  cursorColor: FriskyColor().colorPrimary,
+                ),
+                Container(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: FlatButton(
+                      onPressed: _resetPassword,
+                      child: Text("Forgot password?",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                            fontFamily: "museoM",
+                            color: Colors.black,
+                            fontSize: 14,
+                          )),
+                    ),
                   ),
-                  Padding(padding: EdgeInsets.only(top: 8)),
-                  TextField(
-                    controller: _passwordController,
-                    style: TextStyle(
-                        fontFamily: "museo",
-                        fontWeight: FontWeight.w100,
-                        fontSize: 16),
-                    decoration: InputDecoration(
-                        errorText: validatePassword(_passwordController.text),
-                        labelText: 'Password',
-                        focusColor: Colors.black,
-                        border: OutlineInputBorder()),
-                    obscureText: true,
-                    cursorColor: FriskyColor().colorPrimary,
+                ),
+                RaisedButton(
+                  padding: EdgeInsets.all(8),
+                  shape: StadiumBorder(),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Sign In",
+                          style: TextStyle(
+                              fontFamily: "museoM",
+                              fontSize: 20,
+                              color: Colors.white)),
+                    ],
                   ),
-                  Container(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: FlatButton(
-                        onPressed: resetPassword,
-                        child: Text("Forgot password?",
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                              fontFamily: "museo",
-                              fontWeight: FontWeight.w300,
-                              color: Colors.black,
-                              fontSize: 14,
-                            )),
+                  onPressed: () {
+                    if (_validateForm()) {
+                      _signIn();
+                    }
+                  },
+                  elevation: 2,
+                  color: FriskyColor().colorPrimary,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      if (_errorMessage.compareTo(_verifyEmailMessage) == 0) {
+                        _sendVerificationLink();
+                        print(" inside if of link");
+                      }
+                    },
+                    child: Text(
+                      _errorMessage,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: "museoS",
+                        fontSize: 14,
+                        color: Colors.red,
                       ),
                     ),
                   ),
-                  RaisedButton(
-                    padding: EdgeInsets.all(8),
-                    shape: StadiumBorder(),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Sign In",
-                            style: TextStyle(
-                                fontFamily: "museo",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20,
-                                color: Colors.white)),
-                      ],
-                    ),
-                    onPressed: () {
-                      signIn();
-                    },
-                    elevation: 2,
-                    color: FriskyColor().colorPrimary,
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 4, bottom: 4),
+            decoration: new BoxDecoration(color: Color(0xff707070)),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Don't have an account?",
+                    style: TextStyle(
+                        fontFamily: "museoS",
+                        fontSize: 16,
+                        color: Colors.white),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 16, top: 8, right: 16),
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () {
-                        if (_errorMessage ==
-                            "You need to verify your email.\nClick here to send verification link.") {
-                          sendVerifactionLink();
-                          print(" inside if of link");
-                        }
-                      },
-                      child: Text(
-                        _errorMessage,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: "museo",
-                          fontWeight: FontWeight.w100,
-                          fontSize: 14,
-                          color: Colors.red,
-                        ),
+                    padding: EdgeInsets.only(left: 4),
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EmailSignUp()),
+                      );
+                    },
+                    child: Text(
+                      "Sign up",
+                      style: TextStyle(
+                        fontFamily: "museoM",
+                        color: Colors.white,
+                        fontSize: 16,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(top: 4, bottom: 4),
-              decoration: new BoxDecoration(color: Color(0xff707070)),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Don't have an account?",
-                      style: TextStyle(
-                          fontFamily: "museo",
-                          fontWeight: FontWeight.w300,
-                          fontSize: 16,
-                          color: Colors.white),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 4),
-                    ),
-                    FlatButton(
-                      onPressed: navigateToSignUp,
-                      child: Text(
-                        "Sign up",
-                        style: TextStyle(
-                          fontFamily: "museo",
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        ),
+          ),
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
       ),
     );
+  }
+
+  _showProgressDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: Text(
+              "Signing you in",
+              style: TextStyle(
+                fontFamily: "museoL",
+                color: FriskyColor().colorTextDark,
+              ),
+            ),
+            content: Wrap(
+              children: <Widget>[
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      FriskyColor().colorPrimary,
+                    ),
+                  ),
+                )
+              ],
+            ));
+      },
+      barrierDismissible: false,
+    );
+  }
+
+  _validateForm() {
+    if (_emailController.text.compareTo("") == 0) {
+      Fluttertoast.showToast(
+          msg: "Enter email", toastLength: Toast.LENGTH_SHORT);
+      return false;
+    }
+
+    if (_passwordController.text.compareTo("") == 0) {
+      Fluttertoast.showToast(
+          msg: "Enter password", toastLength: Toast.LENGTH_SHORT);
+      return false;
+    }
+
+    return true;
+  }
+
+  _setErrorMessage(String errorMessage) {
+    setState(() {
+      _errorMessage = errorMessage;
+    });
+  }
+
+  _signIn() async {
+    try {
+      _showProgressDialog();
+      _authResult = await _auth.signInWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
+      if (_authResult.user.isEmailVerified) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        _setErrorMessage(_verifyEmailMessage);
+      }
+    } catch (e) {
+      print(e.toString());
+      Navigator.pop(context);
+      _showError(e);
+    }
+  }
+
+  _showError(var e) {
+    switch (e.code) {
+      case "ERROR_INVALID_EMAIL":
+        _setErrorMessage("Invalid email entered.\nEnter a valid email.");
+        break;
+      case "ERROR_WRONG_PASSWORD":
+        _setErrorMessage("Incorrect password entered");
+        break;
+      case "ERROR_USER_NOT_FOUND":
+        _setErrorMessage(
+            "Account with this email doesn\'t exist.\nSign up first.");
+        break;
+      default:
+        _setErrorMessage("Something went wrong.\nTry again.");
+        break;
+    }
+  }
+
+  _resetPassword() async {
+    try {
+      await _auth.sendPasswordResetEmail(email: _emailController.text);
+      Fluttertoast.showToast(
+          msg: "Password reset link sent to your email.",
+          toastLength: Toast.LENGTH_LONG);
+    } catch (e) {
+      _showError(e);
+    }
+  }
+
+  _sendVerificationLink() async {
+    try {
+      await _authResult.user.sendEmailVerification();
+      _setErrorMessage("Link Sent To Your Email ");
+      return _authResult.user.uid;
+    } catch (e) {
+      _setErrorMessage(
+          "An error occured while trying to send verification email.");
+    }
   }
 }
