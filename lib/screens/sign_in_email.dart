@@ -92,23 +92,25 @@ class _SignInEmailState extends State<SignInEmail> {
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 8, right: 16),
                   child: InkWell(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () {
-                      if (_errorMessage.compareTo(_verifyEmailMessage) == 0) {
-                        _sendVerificationLink();
-                      }
-                    },
-                    child: Text(
-                      _errorMessage,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: "museoS",
-                        fontSize: 14,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
+                      splashColor: Colors.black12,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        if (_errorMessage.compareTo(_verifyEmailMessage) == 0) {
+                          _sendVerificationLink();
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Text(
+                          _errorMessage,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: "museoS",
+                            fontSize: 14,
+                            color: Colors.red,
+                          ),
+                        ),
+                      )),
                 )
               ],
             ),
@@ -185,6 +187,10 @@ class _SignInEmailState extends State<SignInEmail> {
   }
 
   _validateForm() {
+    setState(() {
+      _errorMessage = "";
+    });
+
     if (_emailController.text.compareTo("") == 0) {
       Fluttertoast.showToast(
           msg: "Enter email", toastLength: Toast.LENGTH_SHORT);
@@ -215,6 +221,7 @@ class _SignInEmailState extends State<SignInEmail> {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomeScreen()));
       } else {
+        Navigator.pop(context);
         _setErrorMessage(_verifyEmailMessage);
       }
     } catch (e) {
@@ -234,7 +241,7 @@ class _SignInEmailState extends State<SignInEmail> {
         break;
       case "ERROR_USER_NOT_FOUND":
         _setErrorMessage(
-            "Account with this email doesn\'t exist.\nSign up first.");
+            "Account with this email doesn\'t exist. Sign up first.");
         break;
       default:
         _setErrorMessage("Something went wrong.\nTry again.");
@@ -256,7 +263,12 @@ class _SignInEmailState extends State<SignInEmail> {
   _sendVerificationLink() async {
     try {
       await _authResult.user.sendEmailVerification();
-      _setErrorMessage("Link Sent To Your Email ");
+      setState(() {
+        _errorMessage = "";
+      });
+      Fluttertoast.showToast(
+          msg: "Verification link send to your email.",
+          toastLength: Toast.LENGTH_LONG);
       return _authResult.user.uid;
     } catch (e) {
       _setErrorMessage(

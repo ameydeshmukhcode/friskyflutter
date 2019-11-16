@@ -112,7 +112,38 @@ class _SignUpEmailState extends State<SignUpEmail> {
     );
   }
 
+  _showProgressDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: Text(
+              "Signing you up",
+              style: TextStyle(
+                  color: FriskyColor().colorTextDark,
+                  fontFamily: "museoL"),
+            ),
+            content: Wrap(
+              children: <Widget>[
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      FriskyColor().colorPrimary,
+                    ),
+                  ),
+                )
+              ],
+            ));
+      },
+      barrierDismissible: false,
+    );
+  }
+
   _validateForm() {
+    setState(() {
+      _errorMessage = "";
+    });
+
     String passwordText = _passwordController.text;
     String cpasswordText = _cpasswordController.text;
 
@@ -137,33 +168,6 @@ class _SignUpEmailState extends State<SignUpEmail> {
     return true;
   }
 
-  _showProgressDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-            title: Text(
-              "Signing you Up",
-              style: TextStyle(
-                  color: FriskyColor().colorTextDark,
-                  fontWeight: FontWeight.bold),
-            ),
-            content: Wrap(
-              children: <Widget>[
-                Center(
-                  child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
-                    ),
-                  ),
-                )
-              ],
-            ));
-      },
-      barrierDismissible: false,
-    );
-  }
-
   _setErrorMessage(String customMsg) {
     setState(() {
       _errorMessage = customMsg;
@@ -174,13 +178,6 @@ class _SignUpEmailState extends State<SignUpEmail> {
     switch (e.code) {
       case "ERROR_INVALID_EMAIL":
         _setErrorMessage("Invalid email entered.\nEnter a valid email.");
-        break;
-      case "ERROR_WRONG_PASSWORD":
-        _setErrorMessage("Incorrect password entered");
-        break;
-      case "ERROR_USER_NOT_FOUND":
-        _setErrorMessage(
-            "Account with this email doesn\'t exist.\nSign up first.");
         break;
       case "ERROR_EMAIL_ALREADY_IN_USE":
         _setErrorMessage(
