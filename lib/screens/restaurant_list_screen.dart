@@ -18,7 +18,6 @@ class _HomeTabState extends State<HomeTab>
     with AutomaticKeepAliveClientMixin<HomeTab> {
   @override
   bool get wantKeepAlive => true;
-  FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
   bool isSignedIn = false;
   Future _restaurantList;
@@ -32,22 +31,9 @@ class _HomeTabState extends State<HomeTab>
                 )));
   }
 
-  getUser() async {
-    FirebaseUser firebaseUser = await _auth.currentUser();
-    if (firebaseUser != null && firebaseUser.isEmailVerified == true) {
-      print("ye hai USer Id " + firebaseUser.uid);
-      setState(() {
-        this.isSignedIn = true;
-      });
-    } else {
-      Navigator.pushReplacementNamed(context, "/login");
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    this.getUser();
     _restaurantList = this.getRestaurants();
   }
 
@@ -60,10 +46,7 @@ class _HomeTabState extends State<HomeTab>
     return querySnapshot.documents;
   }
 
-  changeStatus() async {
-
-
-  }
+  changeStatus() async {}
 
   @override
   // ignore: must_call_super
@@ -90,16 +73,15 @@ class _HomeTabState extends State<HomeTab>
       ),
       backgroundColor: Colors.white,
       body: Container(
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(child: _restaurantsList()),
-                ],
-              ),
-            ),
-
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(child: _restaurantsList()),
+          ],
+        ),
+      ),
     );
   }
 
@@ -112,7 +94,6 @@ class _HomeTabState extends State<HomeTab>
             return Container(
               child: Column(
                 children: <Widget>[
-
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -127,34 +108,42 @@ class _HomeTabState extends State<HomeTab>
                               children: <Widget>[
                                 Container(
                                   width: SizeConfig.safeBlockHorizontal * 50,
-                                  color: Colors.white12,),
-                                SizedBox(width: 10,),
+                                  color: Colors.white12,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          40,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 40,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
+                                      height: 10,
+                                    ),
                                   ],
                                 )
-
                               ],
-                            )
-                        ),
+                            )),
                       ),
                     ),
                   ),
@@ -171,34 +160,42 @@ class _HomeTabState extends State<HomeTab>
                               children: <Widget>[
                                 Container(
                                   width: SizeConfig.safeBlockHorizontal * 50,
-                                  color: Colors.white12,),
-                                SizedBox(width: 10,),
+                                  color: Colors.white12,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          40,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 40,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
+                                      height: 10,
+                                    ),
                                   ],
                                 )
-
                               ],
-                            )
-                        ),
+                            )),
                       ),
                     ),
                   ),
@@ -215,34 +212,42 @@ class _HomeTabState extends State<HomeTab>
                               children: <Widget>[
                                 Container(
                                   width: SizeConfig.safeBlockHorizontal * 50,
-                                  color: Colors.white12,),
-                                SizedBox(width: 10,),
+                                  color: Colors.white12,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          40,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 40,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
+                                      height: 10,
+                                    ),
                                   ],
                                 )
-
                               ],
-                            )
-                        ),
+                            )),
                       ),
                     ),
                   ),
@@ -259,34 +264,42 @@ class _HomeTabState extends State<HomeTab>
                               children: <Widget>[
                                 Container(
                                   width: SizeConfig.safeBlockHorizontal * 50,
-                                  color: Colors.white12,),
-                                SizedBox(width: 10,),
+                                  color: Colors.white12,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          40,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 40,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
+                                      height: 10,
+                                    ),
                                   ],
                                 )
-
                               ],
-                            )
-                        ),
+                            )),
                       ),
                     ),
                   ),
@@ -303,34 +316,42 @@ class _HomeTabState extends State<HomeTab>
                               children: <Widget>[
                                 Container(
                                   width: SizeConfig.safeBlockHorizontal * 50,
-                                  color: Colors.white12,),
-                                SizedBox(width: 10,),
+                                  color: Colors.white12,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          40,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 40,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
+                                      height: 10,
+                                    ),
                                   ],
                                 )
-
                               ],
-                            )
-                        ),
+                            )),
                       ),
                     ),
                   ),
@@ -347,34 +368,42 @@ class _HomeTabState extends State<HomeTab>
                               children: <Widget>[
                                 Container(
                                   width: SizeConfig.safeBlockHorizontal * 50,
-                                  color: Colors.white12,),
-                                SizedBox(width: 10,),
+                                  color: Colors.white12,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          40,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 40,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
+                                      height: 10,
+                                    ),
                                   ],
                                 )
-
                               ],
-                            )
-                        ),
+                            )),
                       ),
                     ),
                   ),
@@ -391,34 +420,42 @@ class _HomeTabState extends State<HomeTab>
                               children: <Widget>[
                                 Container(
                                   width: SizeConfig.safeBlockHorizontal * 50,
-                                  color: Colors.white12,),
-                                SizedBox(width: 10,),
+                                  color: Colors.white12,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          40,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 40,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
-                                    SizedBox(height: 4,),
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
                                     Container(
-                                      width: SizeConfig.safeBlockHorizontal *
-                                          30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       color: Colors.white12,
-                                      height: 10,),
+                                      height: 10,
+                                    ),
                                   ],
                                 )
-
                               ],
-                            )
-                        ),
+                            )),
                       ),
                     ),
                   ),
@@ -445,25 +482,25 @@ class _HomeTabState extends State<HomeTab>
                               height: SizeConfig.safeBlockVertical * 12,
                               width: SizeConfig.safeBlockHorizontal * 100,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Image.network(
                                     snapshot.data[index].data['image'],
                                     fit: BoxFit.cover,
                                     width:
-                                    SizeConfig.safeBlockHorizontal * 50 - 8,
+                                        SizeConfig.safeBlockHorizontal * 50 - 8,
                                   ),
                                   Container(
                                     width:
-                                    SizeConfig.safeBlockHorizontal * 50 - 8,
+                                        SizeConfig.safeBlockHorizontal * 50 - 8,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             snapshot.data[index].data['name'],
@@ -476,14 +513,14 @@ class _HomeTabState extends State<HomeTab>
                                             ),
                                           ),
                                           Text(
-                                            snapshot.data[index]
-                                                .data['address'],
+                                            snapshot
+                                                .data[index].data['address'],
                                             maxLines: 1,
                                             style: TextStyle(fontSize: 12),
                                           ),
                                           Text(
                                             snapshot.data[index].data['cuisine']
-                                            [0] +
+                                                    [0] +
                                                 ", " +
                                                 snapshot.data[index]
                                                     .data['cuisine'][1],

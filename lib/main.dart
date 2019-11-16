@@ -6,10 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/screens/sign_in_screen.dart';
 import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/screens/sign_in_email.dart';
 import 'package:friskyflutter/screens/qrscan.dart';
 import 'home_screen.dart';
-import 'package:friskyflutter/screens/sign_up_email.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseUser user;
@@ -51,10 +49,6 @@ class MyApp extends StatelessWidget {
           ),
           home: initRoute,
           routes: <String, WidgetBuilder>{
-            "/homepage": (BuildContext context) => HomeScreen(),
-            "/esingin": (BuildContext context) => SignInEmail(),
-            "/esingup": (BuildContext context) => SignUpEmail(),
-            "/login": (BuildContext context) => SignInMain(),
             "/scan": (BuildContext context) => Scan(),
           },
         ));
