@@ -22,12 +22,10 @@ Future<FirebaseUser> getUser() async {
 void main() {
   getUser().then((user) {
     if (user == null) {
-      print("null user");
       initRoute = SignInMain();
       runApp(MyApp());
       return initRoute;
     } else {
-      print("not null user = " + user.displayName.toString());
       initRoute = HomeScreen();
       runApp(MyApp());
       return initRoute;
