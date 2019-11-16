@@ -11,9 +11,6 @@ import 'package:friskyflutter/screens/qrscan.dart';
 import 'home_screen.dart';
 import 'package:friskyflutter/screens/sign_up_email.dart';
 
-
-
-
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseUser user;
 Widget initRoute = Text("hellow");
@@ -39,7 +36,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -62,8 +58,6 @@ class MyApp extends StatelessWidget {
             "/esingup": (BuildContext context) => SignUpEmail(),
             "/login": (BuildContext context) => SignInMain(),
             "/scan": (BuildContext context) => Scan(),
-            //  "/ordersscreen": (BuildContext context,) => OrdersScreen(),
-            //   "/menu": (BuildContext context) => MenuScreen(restaurantName, tableName,sessionID),
           },
         ));
   }
