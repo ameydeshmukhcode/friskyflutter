@@ -134,7 +134,7 @@ class _SignInEmailState extends State<SignInEmail> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => EmailSignUp()),
+                        MaterialPageRoute(builder: (context) => SignUpEmail()),
                       );
                     },
                     child: Text(

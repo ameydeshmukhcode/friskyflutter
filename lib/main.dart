@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             "/homepage": (BuildContext context) => HomeScreen(),
             "/esingin": (BuildContext context) => SignInEmail(),
-            "/esingup": (BuildContext context) => EmailSignUp(),
+            "/esingup": (BuildContext context) => SignUpEmail(),
             "/login": (BuildContext context) => SignInMain(),
             "/scan": (BuildContext context) => Scan(),
             //  "/ordersscreen": (BuildContext context,) => OrdersScreen(),

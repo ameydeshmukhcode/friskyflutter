@@ -1,149 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/size_config.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../frisky_colors.dart';
 
-class EmailSignUp extends StatefulWidget {
+class SignUpEmail extends StatefulWidget {
   @override
-  _EmailSignUpState createState() => _EmailSignUpState();
+  _SignUpEmailState createState() => _SignUpEmailState();
 }
 
-class _EmailSignUpState extends State<EmailSignUp> {
+class _SignUpEmailState extends State<SignUpEmail> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
   TextEditingController _cpasswordController = new TextEditingController();
-  String _errorMessage = " ";
-
-  showLoader() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Signing you Up",
-            style: TextStyle(
-                color: FriskyColor().colorTextDark,
-                fontWeight: FontWeight.bold),
-          ),
-          content: Container(
-            height: SizeConfig.safeBlockVertical * 10,
-            width: SizeConfig.safeBlockVertical * 10,
-            child: Center(
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                  FriskyColor().colorPrimary,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-      barrierDismissible: false,
-    );
-  }
-
-  customError(String customMsg) {
-    setState(() {
-      _errorMessage = customMsg;
-    });
-  }
-
-  showError(var e) {
-    switch (e.code) {
-      case "ERROR_INVALID_EMAIL":
-        {
-          customError("Invalid email entered. Enter a valid email.");
-        }
-        break;
-      case "ERROR_WRONG_PASSWORD":
-        {
-          customError("Incorrect password entered");
-        }
-        break;
-      case "ERROR_USER_NOT_FOUND":
-        {
-          customError(
-              "Account with this email doesn\'t exist.\nSign up first.");
-        }
-        break;
-      case "ERROR_USER_DISABLED":
-        {
-          customError(e.message);
-        }
-        break;
-      case "ERROR_TOO_MANY_REQUESTS":
-        {
-          customError(e.message);
-        }
-        break;
-      case "ERROR_OPERATION_NOT_ALLOWED":
-        {
-          customError(e.message);
-        }
-        break;
-      case "ERROR_EMAIL_ALREADY_IN_USE":
-        {
-          customError(
-              "Account with this email already exists.\nTry Signing In.");
-        }
-        break;
-      case "ERROR_WEAK_PASSWORD":
-        {
-          customError(
-              "Weak password.\nPassword length should be more than 6 characters.");
-        }
-        break;
-    }
-  }
-
-//  checkAuthentication() async {
-//    _auth.onAuthStateChanged.listen((user) async {
-//      if (user != null) {
-//        Navigator.pushReplacementNamed(context, "/esingin");
-//      }
-//    });
-//  }
-  String validatePassword(String value) {
-    if (!(value.length >= 6) && value.isNotEmpty) {
-      return "Password should contains more then 6 character";
-    }
-    return null;
-  }
-
-  signUp() async {
-    try {
-      showLoader();
-      print("inside catch of signup");
-      await _auth.createUserWithEmailAndPassword(
-          email: _emailController.text, password: _cpasswordController.text);
-      var u = await _auth.currentUser();
-      await u.sendEmailVerification();
-      await _auth.signOut();
-      Navigator.pop(context);
-      navigateToSignIn();
-    } catch (e) {
-      Navigator.pop(context);
-      showError(e);
-    }
-  }
-
-  navigateToSignIn() {
-    _auth.signOut();
-    Navigator.pop(context);
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // this.checkAuthentication();
-  }
+  String _errorMessage = "";
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -159,10 +33,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
               child: Column(
                 children: <Widget>[
                   TextField(
-                    style: TextStyle(
-                        fontFamily: "museo",
-                        fontWeight: FontWeight.w100,
-                        fontSize: 16),
+                    style: TextStyle(fontFamily: "museoS", fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Email',
                       focusColor: Colors.black,
@@ -173,12 +44,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
-                    style: TextStyle(
-                        fontFamily: "museo",
-                        fontWeight: FontWeight.w100,
-                        fontSize: 16),
+                    style: TextStyle(fontFamily: "museoS", fontSize: 16),
                     decoration: InputDecoration(
-                        errorText: validatePassword(_passwordController.text),
                         labelText: 'Password',
                         focusColor: Colors.black,
                         border: OutlineInputBorder()),
@@ -188,12 +55,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
-                    style: TextStyle(
-                        fontFamily: "museo",
-                        fontWeight: FontWeight.w100,
-                        fontSize: 16),
+                    style: TextStyle(fontFamily: "museoS", fontSize: 16),
                     decoration: InputDecoration(
-                      errorText: validatePassword(_passwordController.text),
                       labelText: 'Confirm Password',
                       focusColor: Colors.black,
                       border: OutlineInputBorder(),
@@ -212,14 +75,15 @@ class _EmailSignUpState extends State<EmailSignUp> {
                       children: <Widget>[
                         Text("Sign Up",
                             style: TextStyle(
-                                fontFamily: "museo",
-                                fontWeight: FontWeight.w500,
+                                fontFamily: "museoM",
                                 fontSize: 20,
                                 color: Colors.white)),
                       ],
                     ),
                     onPressed: () {
-                      signUp();
+                      if (_validateForm()) {
+                        _signUp();
+                      }
                     },
                     elevation: 2,
                     color: FriskyColor().colorPrimary,
@@ -231,9 +95,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         _errorMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontFamily: "museo",
-                          fontWeight: FontWeight.w100,
-                          fontSize: SizeConfig.safeBlockVertical * 2.5,
+                          fontFamily: "museoS",
+                          fontSize: 14,
                           color: Colors.red,
                         ),
                       ),
@@ -247,5 +110,110 @@ class _EmailSignUpState extends State<EmailSignUp> {
         ),
       ),
     );
+  }
+
+  _validateForm() {
+    String passwordText = _passwordController.text;
+    String cpasswordText = _cpasswordController.text;
+
+    if (_emailController.text.compareTo("") == 0) {
+      Fluttertoast.showToast(
+          msg: "Enter email", toastLength: Toast.LENGTH_SHORT);
+      return false;
+    }
+
+    if (passwordText.compareTo("") == 0) {
+      Fluttertoast.showToast(
+          msg: "Enter password", toastLength: Toast.LENGTH_SHORT);
+      return false;
+    }
+
+    if (cpasswordText.compareTo(passwordText) != 0) {
+      Fluttertoast.showToast(
+          msg: "Passwords don't match", toastLength: Toast.LENGTH_SHORT);
+      return false;
+    }
+
+    return true;
+  }
+
+  _showProgressDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: Text(
+              "Signing you Up",
+              style: TextStyle(
+                  color: FriskyColor().colorTextDark,
+                  fontWeight: FontWeight.bold),
+            ),
+            content: Wrap(
+              children: <Widget>[
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      FriskyColor().colorPrimary,
+                    ),
+                  ),
+                )
+              ],
+            ));
+      },
+      barrierDismissible: false,
+    );
+  }
+
+  _setErrorMessage(String customMsg) {
+    setState(() {
+      _errorMessage = customMsg;
+    });
+  }
+
+  _showError(var e) {
+    switch (e.code) {
+      case "ERROR_INVALID_EMAIL":
+        _setErrorMessage("Invalid email entered.\nEnter a valid email.");
+        break;
+      case "ERROR_WRONG_PASSWORD":
+        _setErrorMessage("Incorrect password entered");
+        break;
+      case "ERROR_USER_NOT_FOUND":
+        _setErrorMessage(
+            "Account with this email doesn\'t exist.\nSign up first.");
+        break;
+      case "ERROR_EMAIL_ALREADY_IN_USE":
+        _setErrorMessage(
+            "Account with this email already exists.\nTry Signing In.");
+        break;
+      case "ERROR_WEAK_PASSWORD":
+        _setErrorMessage(
+            "Weak password.\nPassword length should be more than 6 characters.");
+        break;
+      default:
+        _setErrorMessage("Something went wrong.\nTry again.");
+        break;
+    }
+  }
+
+  _signUp() async {
+    try {
+      _showProgressDialog();
+      await _auth.createUserWithEmailAndPassword(
+          email: _emailController.text, password: _cpasswordController.text);
+      var u = await _auth.currentUser();
+      await u.sendEmailVerification();
+      await _auth.signOut();
+      Navigator.pop(context);
+      _navigateBackToSignIn();
+    } catch (e) {
+      Navigator.pop(context);
+      _showError(e);
+    }
+  }
+
+  _navigateBackToSignIn() {
+    _auth.signOut();
+    Navigator.pop(context);
   }
 }
