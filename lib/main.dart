@@ -10,8 +10,7 @@ import 'package:friskyflutter/screens/qrscan.dart';
 import 'home_screen.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
-FirebaseUser user;
-Widget initRoute = Text("hellow");
+Widget _homeWidget = Text("hellow");
 
 Future<FirebaseUser> getUser() async {
   return await _auth.currentUser();
@@ -20,13 +19,13 @@ Future<FirebaseUser> getUser() async {
 void main() {
   getUser().then((user) {
     if (user == null) {
-      initRoute = SignInMain();
+      _homeWidget = SignInMain();
       runApp(MyApp());
-      return initRoute;
+      return _homeWidget;
     } else {
-      initRoute = HomeScreen();
+      _homeWidget = HomeScreen();
       runApp(MyApp());
-      return initRoute;
+      return _homeWidget;
     }
   });
 }
@@ -47,7 +46,7 @@ class MyApp extends StatelessWidget {
             primaryColor: FriskyColor().colorPrimary,
             accentColor: FriskyColor().colorPrimary,
           ),
-          home: initRoute,
+          home: _homeWidget,
           routes: <String, WidgetBuilder>{
             "/scan": (BuildContext context) => Scan(),
           },
