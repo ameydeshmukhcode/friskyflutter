@@ -47,7 +47,9 @@ class _OptionsScreenState extends State<OptionsScreen> {
 
   _signOut() async {
     FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(
-        context, new MaterialPageRoute(builder: (context) => SignInMain()));
+    Navigator.pushAndRemoveUntil(
+        context,
+        new MaterialPageRoute(builder: (context) => SignInMain()),
+        (Route route) => false);
   }
 }

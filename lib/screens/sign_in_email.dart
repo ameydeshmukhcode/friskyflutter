@@ -218,8 +218,10 @@ class _SignInEmailState extends State<SignInEmail> {
       _authResult = await _auth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       if (_authResult.user.isEmailVerified) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (Route route) => false);
       } else {
         Navigator.pop(context);
         _setErrorMessage(_verifyEmailMessage);

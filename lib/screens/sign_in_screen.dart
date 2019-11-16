@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/frisky_colors.dart';
+import 'package:friskyflutter/home_screen.dart';
 import 'package:friskyflutter/screens/sign_in_email.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -148,9 +149,10 @@ class _SignInMainState extends State<SignInMain> {
       );
       final FirebaseUser user =
           (await _auth.signInWithCredential(credential)).user;
-      print("signed in " + user.displayName);
-      Navigator.pop(context);
-      Navigator.pushReplacementNamed(context, "/homepage");
+      Navigator.pushAndRemoveUntil(
+          context,
+          new MaterialPageRoute(builder: (context) => HomeScreen()),
+          (Route route) => false);
       return user;
     } catch (e) {
       Navigator.pop(context);
