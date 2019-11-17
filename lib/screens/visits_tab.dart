@@ -5,45 +5,22 @@ import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:friskyflutter/structures/visit.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../frisky_colors.dart';
-import '../size_config.dart';
 import 'visit_summary.dart';
 
-class Visits {
-  String sessionID;
-  String restaurantID;
-  String restaurantImage;
-  String restaurantName;
-  Timestamp endTime;
-  String totalAmount;
-  Visits(
-      [String sessionID,
-      String restaurantID,
-      String restaurantImage,
-      String restaurantName,
-      Timestamp endTime,
-      String totalAmount]) {
-    this.sessionID = sessionID;
-    this.restaurantID = restaurantID;
-    this.restaurantImage = restaurantImage;
-    this.restaurantName = restaurantName;
-    this.endTime = endTime;
-    this.totalAmount = totalAmount;
-  }
-}
-
 // ignore: non_constant_identifier_names
-List<Visits> VisitsList = List<Visits>();
+List<Visit> VisitsList = List<Visit>();
 
-class VisitTab extends StatefulWidget {
+class VisitsTab extends StatefulWidget {
   @override
-  _VisitTabState createState() => _VisitTabState();
+  _VisitsTabState createState() => _VisitsTabState();
 }
 
-class _VisitTabState extends State<VisitTab>
-    with AutomaticKeepAliveClientMixin<VisitTab> {
+class _VisitsTabState extends State<VisitsTab>
+    with AutomaticKeepAliveClientMixin<VisitsTab> {
   bool get wantKeepAlive => true;
   FirebaseUser firebaseUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -107,7 +84,7 @@ class _VisitTabState extends State<VisitTab>
             resname = await f.data["name"];
             resid = f.documentID;
           }).then((f) async {
-            VisitsList.add(Visits(
+            VisitsList.add(Visit(
                 sessionId, resid, imgurl, resname, endtime, totalamount));
           });
         }
@@ -121,15 +98,8 @@ class _VisitTabState extends State<VisitTab>
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        // body: //_visitsList(),
-//        body: Center(
-//          child: _visitsList(),
-//
-
-      body: SafeArea(
-          child: _visitsList()
-      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(child: _visitsList()),
     );
   }
 
@@ -138,7 +108,164 @@ class _VisitTabState extends State<VisitTab>
         future: _visitslist,
         builder: (context, snapshot) {
           if (isLoading == true) {
-            return Container(
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                  FriskyColor().colorPrimary,
+                ),
+              ),
+            );
+          } else {
+            if (isEmpty == true) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      child: Text(
+                        "You do not have any visits yet!",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: FriskyColor().colorTextLight,
+                            fontFamily: "museoS"),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 64, top: 16, right: 64),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: SvgPicture.asset(
+                          'images/state_graphics/state_no_visits.svg',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return ListView.builder(
+                  itemCount: VisitsList.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Container(
+                        padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+                        child: Card(
+                          margin: EdgeInsets.all(0),
+                          elevation: 2,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VisitSummary(
+                                          sessionID:
+                                              VisitsList[index].sessionID,
+                                          restaurantID:
+                                              VisitsList[index].restaurantID,
+                                          restaurantName:
+                                              VisitsList[index].restaurantName,
+                                        )),
+                              );
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Image.network(
+                                      VisitsList[index].restaurantImage,
+                                      fit: BoxFit.fitWidth,
+                                      height: 90),
+                                ),
+                                Expanded(
+                                    child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          VisitsList[index].restaurantName,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                              color:
+                                                  FriskyColor().colorTextLight,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "museoM"),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 4),
+                                        ),
+                                        Text(
+                                          "Visited On ",
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                              color:
+                                                  FriskyColor().colorTextLight,
+                                              fontSize: 12,
+                                              fontFamily: "museoS"),
+                                        ),
+                                        Text(
+                                          _getFormattedTimestamp(
+                                              VisitsList[index].endTime),
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  FriskyColor().colorTextLight,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "museoS"),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 4),
+                                        ),
+                                        Text(
+                                          "Total Amount",
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  FriskyColor().colorTextLight,
+                                              fontFamily: "museoS"),
+                                        ),
+                                        Text(
+                                          "\u20B9 " +
+                                              VisitsList[index].totalAmount,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  FriskyColor().colorTextLight,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "museoS"),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ))
+                              ],
+                            ),
+                          ),
+                        ));
+                  });
+            }
+          }
+        });
+  }
+
+  _getFormattedTimestamp(Timestamp timestamp) {
+    return formatDate(
+        timestamp.toDate(), [dd, ' ', M, ' ', yyyy, ' ', hh, ':', nn, '', am]);
+  }
+
+  /*_shimmerLoader() {
+              return Container(
               child: Column(
                 children: <Widget>[
                   Container(
@@ -625,173 +752,5 @@ class _VisitTabState extends State<VisitTab>
                 ],
               ),
             );
-          } else {
-            if (isEmpty == true) {
-              return Container(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "You Do Not Have Any Visits Yet!",
-                        style: TextStyle(
-                            fontSize: 20, color: FriskyColor().colorTextLight),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Container(
-                        child: SvgPicture.asset(
-                          'images/state_graphics/state_no_visits.svg',
-                          height: SizeConfig.safeBlockVertical * 30,
-                          width: SizeConfig.safeBlockHorizontal * 56,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              return Column(
-                children: <Widget>[
-                  //Container(height: 100,color: Colors.teal,),
-                  Flexible(
-                    child: ListView.builder(
-                        itemCount: VisitsList.length,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Container(
-                              padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-                              child: Card(
-                                margin: EdgeInsets.all(0),
-                                elevation: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => VisitSummary(
-                                                sessionID:
-                                                    VisitsList[index].sessionID,
-                                                restaurantID: VisitsList[index]
-                                                    .restaurantID,
-                                                restaurantName:
-                                                    VisitsList[index]
-                                                        .restaurantName,
-                                              )),
-                                    );
-                                  },
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Image.network(
-                                          VisitsList[index].restaurantImage,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 8, 4),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                VisitsList[index]
-                                                    .restaurantName,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: true,
-                                                style: TextStyle(
-                                                  color: FriskyColor()
-                                                      .colorTextLight,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Divider(),
-                                              Text(
-                                                "Visited On ",
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                    color: FriskyColor()
-                                                        .colorTextLight,
-                                                    fontWeight: FontWeight.w300,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                formatDate(
-                                                    VisitsList[index]
-                                                        .endTime
-                                                        .toDate(),
-                                                    [
-                                                      dd,
-                                                      ' ',
-                                                      M,
-                                                      ' ',
-                                                      yyyy,
-                                                      ' ',
-                                                      hh,
-                                                      ':',
-                                                      nn,
-                                                      '',
-                                                      am
-                                                    ]),
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: FriskyColor()
-                                                        .colorTextLight,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 4),
-                                              ),
-                                              Text(
-                                                "Total Amount",
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: FriskyColor()
-                                                        .colorTextLight,
-                                                    fontWeight:
-                                                        FontWeight.w300),
-                                              ),
-                                              Text(
-                                                "\u20B9 " +
-                                                    VisitsList[index]
-                                                        .totalAmount,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: FriskyColor()
-                                                        .colorTextLight,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ))
-                                    ],
-                                  ),
-                                ),
-                              ));
-                        }),
-                  ),
-                ],
-              );
-            }
-          }
-        });
-  }
+  }*/
 }

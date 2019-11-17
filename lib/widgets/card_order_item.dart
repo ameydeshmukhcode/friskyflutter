@@ -16,35 +16,37 @@ class OrderItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.trip_origin,
-                    size: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 4),
-                  ),
-                  Text(name)
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Text("x" + count.toString()),
-                  Padding(
-                    padding: EdgeInsets.only(left: 4),
-                  ),
-                  Text("Item total "),
-                  Text(
-                    "\u20B9 " + total.toString(),
-                    style: TextStyle(color: Colors.red),
-                  )
-                ],
-              )
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.trip_origin,
+                      size: 10,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 4),
+                    ),
+                    Text(name)
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text("x" + count.toString()),
+                    Padding(
+                      padding: EdgeInsets.only(left: 4),
+                    ),
+                    Text("Item total "),
+                    Text(
+                      "\u20B9 " + total.toString(),
+                      style: TextStyle(color: Colors.red),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
