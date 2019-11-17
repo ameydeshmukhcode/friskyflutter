@@ -47,11 +47,10 @@ class _VisitSummaryState extends State<VisitSummary> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Visit Summary",
-          style: TextStyle(
-            color: Colors.black,
-          ),
+          style: TextStyle(color: Colors.black, fontFamily: "museoM"),
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -91,9 +90,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                 widget.restaurantName,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                ),
+                    color: Colors.black, fontSize: 20, fontFamily: "museoM"),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 8),
@@ -103,9 +100,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                     [dd, ' ', M, ' ', yyyy, ' ', hh, ':', nn, ' ', am]),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                ),
+                    color: Colors.black, fontSize: 14, fontFamily: "museoM"),
               ),
               Divider(
                 indent: 8,
@@ -132,8 +127,14 @@ class _VisitSummaryState extends State<VisitSummary> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("Order total"),
-                    Text("\u20B9 " + billAmount)
+                    Text(
+                      "Order total",
+                      style: TextStyle(fontFamily: "museoS"),
+                    ),
+                    Text(
+                      "\u20B9 " + billAmount,
+                      style: TextStyle(fontFamily: "museoS"),
+                    )
                   ],
                 ),
               ),
@@ -141,7 +142,16 @@ class _VisitSummaryState extends State<VisitSummary> {
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[Text("GST"), Text("\u20B9 " + gst)],
+                  children: <Widget>[
+                    Text(
+                      "GST",
+                      style: TextStyle(fontFamily: "museoS"),
+                    ),
+                    Text(
+                      "\u20B9 " + gst,
+                      style: TextStyle(fontFamily: "museoS"),
+                    )
+                  ],
                 ),
               ),
               Divider(
@@ -155,11 +165,11 @@ class _VisitSummaryState extends State<VisitSummary> {
                   children: <Widget>[
                     Text(
                       "Final Total",
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20, fontFamily: "museoS"),
                     ),
                     Text(
                       "\u20B9 " + amountPayable,
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20, fontFamily: "museoS"),
                     )
                   ],
                 ),
