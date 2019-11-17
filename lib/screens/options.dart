@@ -14,6 +14,7 @@ class _OptionsScreenState extends State<OptionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Options",
         ),
@@ -23,23 +24,23 @@ class _OptionsScreenState extends State<OptionsScreen> {
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          InkWell(
-              child: Container(
-            padding: EdgeInsets.only(bottom: 16),
-            child: FlatButton(
-              padding: EdgeInsets.all(0),
-              onPressed: _signOut,
-              child: Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  "Log out",
-                  style: TextStyle(fontSize: 20),
+          Align(
+              alignment: Alignment.center,
+              child: InkWell(
+                child: FlatButton(
+                  padding: EdgeInsets.all(0),
+                  onPressed: _signOut,
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      "Log out",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ))
+              ))
         ],
       ),
     );
