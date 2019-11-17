@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/size_config.dart';
 import '../frisky_colors.dart';
 import 'package:provider/provider.dart';
 
-class DineOrders extends StatefulWidget {
+class DineTabActive extends StatefulWidget {
   @override
-  _DineOrdersState createState() => _DineOrdersState();
+  _DineTabActiveState createState() => _DineTabActiveState();
 }
 
-class _DineOrdersState extends State<DineOrders> {
+class _DineTabActiveState extends State<DineTabActive> {
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -21,7 +19,7 @@ class _DineOrdersState extends State<DineOrders> {
         title: Text(
           "You're at",
           style: TextStyle(
-            fontWeight: FontWeight.w300,
+            fontFamily: "museoS",
             color: FriskyColor().colorTextDark,
           ),
           textAlign: TextAlign.center,
@@ -37,18 +35,18 @@ class _DineOrdersState extends State<DineOrders> {
               return Container(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 color: Colors.white,
-                height: SizeConfig.safeBlockVertical * 10,
                 child: Column(
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
                           Session.restaurantName,
                           style: TextStyle(
-                            fontWeight: FontWeight.w500,
+                            fontFamily: "museoM",
                             color: FriskyColor().colorTextLight,
-                            fontSize: SizeConfig.safeBlockVertical * 3,
+                            fontSize: 20,
                           ),
                         ),
                         Container(
@@ -56,9 +54,9 @@ class _DineOrdersState extends State<DineOrders> {
                           child: Text(
                             'Table ' + Session.tableName,
                             style: TextStyle(
-                                fontSize: SizeConfig.safeBlockVertical * 3,
+                                fontSize: 20,
                                 color: FriskyColor().colorTextLight,
-                                fontWeight: FontWeight.w500),
+                                fontFamily: "museoM"),
                           ),
                           decoration: BoxDecoration(
                             color: FriskyColor().colorTableName,
