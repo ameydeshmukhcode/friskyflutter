@@ -5,7 +5,7 @@ import 'package:friskyflutter/screens/options.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../frisky_colors.dart';
-import '../restaurants_details_screen.dart';
+import 'restaurants_details_screen.dart';
 
 class RestaurantsTab extends StatefulWidget {
   @override
