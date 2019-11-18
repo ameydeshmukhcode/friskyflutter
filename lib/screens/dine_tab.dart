@@ -15,7 +15,7 @@ class _DineTabState extends State<DineTab> {
   Widget build(BuildContext context) {
     // ignore: missing_return
     return Scaffold(body: Consumer<Session>(builder: (context, Session, child) {
-      if (Session.isSessionActive) {
+      if (!Session.isSessionActive) {
         return DineTabDefault();
       } else {
         if (Session.isBillRequested) {
