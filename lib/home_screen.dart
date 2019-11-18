@@ -10,6 +10,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/screens/dine_tab.dart';
+import 'package:friskyflutter/screens/qr_scan.dart';
 import 'package:friskyflutter/screens/restaurants_tab.dart';
 import 'package:friskyflutter/screens/menuscreen.dart';
 import 'package:friskyflutter/screens/visit_summary.dart';
@@ -52,35 +53,34 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<Session>(
-          // ignore: non_constant_identifier_names
-          builder: (context, Session, child) {
+          builder: (context, session, child) {
         return Stack(
           children: <Widget>[
             _pages[_currentIndex],
             Visibility(
-                visible: Session.isSessionActive,
+                visible: session.isSessionActive,
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     color: Colors.white,
                     child: ListTile(
                       title: Text(
-                        Session.isBillRequested
+                        session.isBillRequested
                             ? ("Bill Requested")
                             : ("Currently at"),
                         style: TextStyle(
                             fontSize: 14, color: FriskyColor().colorTextLight),
                       ),
                       subtitle: Text(
-                          Session.isBillRequested
+                          session.isBillRequested
                               ? ("Bill Amount to Be Paid - " +
-                                  Session.totalAmount)
-                              : (Session.restaurantName +
+                                  session.totalAmount)
+                              : (session.restaurantName +
                                   " - Table " +
-                                  Session.tableName),
+                                  session.tableName),
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
-                      trailing: Session.isBillRequested
+                      trailing: session.isBillRequested
                           ? SizedBox(
                               height: 1,
                             )
@@ -91,10 +91,10 @@ class _HomeScreenState extends State<HomeScreen>
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => MenuScreen(
-                                            Session.restaurantName,
-                                            Session.tableName,
-                                            Session.sessionID,
-                                            Session.restaurantID)));
+                                            session.restaurantName,
+                                            session.tableName,
+                                            session.sessionID,
+                                            session.restaurantID)));
                               },
                               child: Text(
                                 "Menu",
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen>
           child: FloatingActionButton.extended(
             onPressed: () async {
               // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
-              navigateToScan();
+              _openScanner();
               // showNotification();
             },
             icon: SvgPicture.asset(
@@ -291,9 +291,10 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  navigateToScan() async {
+  _openScanner() async {
     if (await checkForPermission()) {
-      Navigator.pushNamed(context, "/scan");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => QrCodeScanner()));
     } else {
       getPermission();
     }

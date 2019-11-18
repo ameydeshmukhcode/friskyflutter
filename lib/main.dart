@@ -6,14 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/screens/sign_in_screen.dart';
 import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/screens/qrscan.dart';
 import 'home_screen.dart';
 
-FirebaseAuth _auth = FirebaseAuth.instance;
 Widget _homeWidget = Text("hellow");
 
 Future<FirebaseUser> getUser() async {
-  return await _auth.currentUser();
+  return await FirebaseAuth.instance.currentUser();
 }
 
 void main() {
@@ -38,18 +36,13 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(builder: (_) => Session()),
           ChangeNotifierProvider(builder: (_) => Cart()),
           ChangeNotifierProvider(builder: (_) => Orders()),
-          // ListenableProvider(builder: (_)=> Orders())
         ],
         child: MaterialApp(
-          title: 'FriSky Flutter',
-          theme: ThemeData(
-            primaryColor: FriskyColor().colorPrimary,
-            accentColor: FriskyColor().colorPrimary,
-          ),
-          home: _homeWidget,
-          routes: <String, WidgetBuilder>{
-            "/scan": (BuildContext context) => Scan(),
-          },
-        ));
+            title: 'FriSky Flutter',
+            theme: ThemeData(
+              primaryColor: FriskyColor().colorPrimary,
+              accentColor: FriskyColor().colorPrimary,
+            ),
+            home: _homeWidget));
   }
 }
