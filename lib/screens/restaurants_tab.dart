@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/screens/options.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../frisky_colors.dart';
 import 'restaurants_details_screen.dart';
@@ -91,7 +90,6 @@ class _RestaurantsTabState extends State<RestaurantsTab>
             return ListView.builder(
                 itemCount: snapshot.data.length,
                 scrollDirection: Axis.vertical,
-                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),

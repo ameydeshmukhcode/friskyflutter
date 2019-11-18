@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/structures/visit.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../frisky_colors.dart';
 import 'visit_summary.dart';
@@ -148,7 +147,6 @@ class _VisitsTabState extends State<VisitsTab>
               return ListView.builder(
                   itemCount: VisitsList.length,
                   scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Container(
                         height: 100,
