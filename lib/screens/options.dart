@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/screens/sign_in_screen.dart';
 
 import '../frisky_colors.dart';
@@ -17,6 +18,7 @@ class _OptionsScreenState extends State<OptionsScreen> {
         centerTitle: true,
         title: Text(
           "Options",
+          style: TextStyle(fontFamily: "museoM"),
         ),
         elevation: 4,
         backgroundColor: FriskyColor().colorPrimary,
@@ -26,6 +28,16 @@ class _OptionsScreenState extends State<OptionsScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.all(4),
+              child: SvgPicture.asset(
+                'images/logo_text.svg',
+                height: 40,
+              ),
+            ),
+          ),
           Align(
               alignment: Alignment.center,
               child: InkWell(
