@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/menuscreen.dart';
+import 'package:friskyflutter/screens/menu_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode/qrcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';

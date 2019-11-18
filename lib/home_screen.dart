@@ -12,7 +12,7 @@ import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/screens/dine_tab.dart';
 import 'package:friskyflutter/screens/qr_scan.dart';
 import 'package:friskyflutter/screens/restaurants_tab.dart';
-import 'package:friskyflutter/screens/menuscreen.dart';
+import 'package:friskyflutter/screens/menu_screen.dart';
 import 'package:friskyflutter/screens/visit_summary.dart';
 import 'package:friskyflutter/screens/visits_tab.dart';
 import 'package:permission_handler/permission_handler.dart';
