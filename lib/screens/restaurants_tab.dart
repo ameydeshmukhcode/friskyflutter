@@ -102,79 +102,78 @@ class _RestaurantsTabState extends State<RestaurantsTab>
                           onTap: () {
                             navigateToDetails(snapshot.data[index]);
                           },
-                          child: Wrap(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Image.network(
-                                      snapshot.data[index].data['image'],
-                                      fit: BoxFit.fitWidth,
-                                      height: 80,
-                                    ),
+                          child: Container(
+                            height: 80,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Image.network(
+                                    snapshot.data[index].data['image'],
+                                    fit: BoxFit.cover,
                                   ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            snapshot.data[index].data['name'],
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: true,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: "museoM"),
-                                          ),
-                                          Text(
-                                            snapshot
-                                                .data[index].data['address'],
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontFamily: "museoS"),
-                                          ),
-                                          Text(
-                                            snapshot.data[index].data['cuisine']
-                                                    [0] +
-                                                ", " +
-                                                snapshot.data[index]
-                                                    .data['cuisine'][1],
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontFamily: "museoS"),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.centerRight,
-                                            child: DecoratedBox(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                  color: Colors.green),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(4),
-                                                child: Text(
-                                                  "4.5",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontFamily: "museoL"),
-                                                ),
+                                ),
+                                Expanded(
+                                    child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          snapshot.data[index].data['name'],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: "museoM"),
+                                        ),
+                                        Text(
+                                          snapshot.data[index].data['address'],
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: "museoS"),
+                                        ),
+                                        Text(
+                                          snapshot.data[index].data['cuisine']
+                                                  [0] +
+                                              ", " +
+                                              snapshot.data[index]
+                                                  .data['cuisine'][1],
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: "museoS"),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerRight,
+                                          child: DecoratedBox(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                                color: Colors.green),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(4),
+                                              child: Text(
+                                                "4.5",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontFamily: "museoL"),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  )
-                                ],
-                              ),
-                            ],
+                                  ),
+                                ))
+                              ],
+                            ),
                           ),
                         )),
                   );

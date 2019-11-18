@@ -84,8 +84,8 @@ class _VisitsTabState extends State<VisitsTab>
             resname = await f.data["name"];
             resid = f.documentID;
           }).then((f) async {
-            VisitsList.add(Visit(
-                sessionId, resid, imgurl, resname, endtime, totalamount));
+            VisitsList.add(
+                Visit(sessionId, resid, imgurl, resname, endtime, totalamount));
           });
         }
       }
@@ -151,6 +151,7 @@ class _VisitsTabState extends State<VisitsTab>
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Container(
+                        height: 100,
                         padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
                         child: Card(
                           margin: EdgeInsets.all(0),
@@ -175,11 +176,9 @@ class _VisitsTabState extends State<VisitsTab>
                                 Expanded(
                                   child: Image.network(
                                       VisitsList[index].restaurantImage,
-                                      fit: BoxFit.fitWidth,
-                                      height: 90),
+                                      fit: BoxFit.cover),
                                 ),
                                 Expanded(
-                                    child: Container(
                                   child: Padding(
                                     padding: const EdgeInsets.all(4),
                                     child: Column(
@@ -248,7 +247,7 @@ class _VisitsTabState extends State<VisitsTab>
                                       ],
                                     ),
                                   ),
-                                ))
+                                )
                               ],
                             ),
                           ),
