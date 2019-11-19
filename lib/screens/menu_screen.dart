@@ -5,39 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/screens/cartscreen.dart';
-import 'package:friskyflutter/size_config.dart';
+import 'package:friskyflutter/screens/cart_screen.dart';
 import 'package:friskyflutter/structures/diet_type.dart';
 import 'package:friskyflutter/structures/menu_category.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../frisky_colors.dart';
 import 'orders_screen.dart';
 
 class MenuScreen extends StatefulWidget {
-  @override
-  _MenuScreenState createState() => _MenuScreenState();
+  final String restaurantName, tableName, sessionID, restaurantID;
 
   MenuScreen(
-      this.restaurantName, this.tableName, this.sessionID, this.restaurantID)
-      : super();
-  final String restaurantName, tableName, sessionID, restaurantID;
+      this.restaurantName, this.tableName, this.sessionID, this.restaurantID);
+
+  @override
+  _MenuScreenState createState() => _MenuScreenState();
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  List<MenuCategory> mCategories = List<MenuCategory>();
-  HashMap<String, List<MenuItem>> mItems =
+  final Firestore firestore = Firestore.instance;
+
+  List<MenuCategory> _categoryList = List<MenuCategory>();
+  HashMap<String, List<MenuItem>> _categoryItemListMap =
       new HashMap<String, List<MenuItem>>();
-  List<dynamic> mMenu = List<dynamic>();
-  Firestore firestore = Firestore.instance;
-  HashMap<String, int> mCategoryOrderMap = HashMap<String, int>();
-  bool isLoading = true;
+  List<dynamic> _menuList = List<dynamic>();
+  HashMap<String, int> _categoryOrderMap = HashMap<String, int>();
+  bool _isLoading = true;
   ScrollController _scrollController;
+  Future _finalMenuList;
 
   Future getMenuData() async {
-    print("INSIDE GET MENU DATA");
     await firestore
         .collection("restaurants")
         .document(widget.restaurantID)
@@ -45,25 +44,18 @@ class _MenuScreenState extends State<MenuScreen> {
         .orderBy("order")
         .getDocuments()
         .then((categoryDoc) async {
-      print("INSIDE GET MENU DATA after getting Catagory doc");
-      mCategories.clear();
+      _categoryList.clear();
       for (int i = 0; i <= categoryDoc.documents.length - 1; i++) {
-        print("INSIDE Catagory doc FOR LOOP time " + i.toString());
         MenuCategory menuCategory = new MenuCategory(
             categoryDoc.documents[i].documentID,
             await categoryDoc.documents[i].data["name"]);
-        mCategories.add(menuCategory);
-        print(
-            "INSIDE Catagory doc loop after adding data time " + i.toString());
+        _categoryList.add(menuCategory);
       }
-      for (int i = 0; i < mCategories.length; i++)
-        print("Printing Catagory list\t" + mCategories[i].getName());
       await getItems();
     });
   }
 
   Future getItems() async {
-    print("INSIDE GET ITEMS ");
     await firestore
         .collection("restaurants")
         .document(widget.restaurantID)
@@ -71,11 +63,9 @@ class _MenuScreenState extends State<MenuScreen> {
         .orderBy("category_id")
         .getDocuments()
         .then((itemDoc) async {
-      print("INSIDE ITEM DOCS ");
       String categoryId = "";
-      mItems.clear();
+      _categoryItemListMap.clear();
       for (int i = 0; i <= itemDoc.documents.length - 1; i++) {
-        print("INSIDE GET ITEMS FOR times " + i.toString());
         bool available = true;
         String currentCategory = await itemDoc.documents[i].data["category_id"];
         if (!(categoryId == currentCategory))
@@ -97,56 +87,38 @@ class _MenuScreenState extends State<MenuScreen> {
         int cost = int.parse(await itemDoc.documents[i].data["cost"]);
         MenuItem item = new MenuItem(itemDoc.documents[i].documentID, name,
             description, currentCategory, cost, available, type);
-        if (!mItems.containsKey(currentCategory)) {
+        if (!_categoryItemListMap.containsKey(currentCategory)) {
           List<MenuItem> categoryList = new List<MenuItem>();
           categoryList.add(item);
-          mItems[currentCategory] = categoryList;
+          _categoryItemListMap[currentCategory] = categoryList;
         } else {
-          mItems[currentCategory].add(item);
+          _categoryItemListMap[currentCategory].add(item);
         }
       }
 
-      mItems.forEach((key, value) {
-        print("Catagory = " + key);
-        for (int i = 0; i < value.length; i++) print(value[i].getName());
-      });
       await setupMenu();
     });
   }
 
   Future setupMenu() async {
     Provider.of<Orders>(context, listen: false).getOrderStatus();
-    print("INSIDE SETUP MENU");
-    mMenu.clear();
-    for (int i = 0; i < mCategories.length; i++) {
-      print("INSIDE SETUP MENU FOR times " + i.toString());
-      final MenuCategory category = mCategories[i];
+    _menuList.clear();
+    for (int i = 0; i < _categoryList.length; i++) {
+      final MenuCategory category = _categoryList[i];
       String categoryID = category.getId();
-      mMenu.add(category);
-      mCategoryOrderMap[category.getName()] = (mMenu.length - 1);
-      // categoryMenu.getMenu().add(category.getName());
-      mMenu.addAll(mItems[categoryID]);
-    }
-    for (int i = 0; i < mMenu.length; i++) {
-      if (mMenu[i].toString() == "Instance of 'MenuCategory'") {
-        MenuCategory m = mMenu[i];
-        print(" CATAGORY " + m.name);
-        print("   /n");
-      } else {
-        MenuItem m = mMenu[i];
-        print("" + m.name);
-      }
+      _menuList.add(category);
+      _categoryOrderMap[category.getName()] = (_menuList.length - 1);
+      _menuList.addAll(_categoryItemListMap[categoryID]);
     }
 
-    return mMenu;
+    return _menuList;
   }
 
-  Future _finalmenulist;
   @override
   void initState() {
-    _finalmenulist = getMenuData().whenComplete(() {
+    _finalMenuList = getMenuData().whenComplete(() {
       setState(() {
-        isLoading = false;
+        _isLoading = false;
       });
     });
     _scrollController = new ScrollController();
@@ -155,559 +127,98 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //cartProvider = Provider.of<Cart>(context,listen: true);
-    print("UI REBUILDED");
-    SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () {
-        Navigator.pop(context);
-        return Provider.of<Cart>(context, listen: true).clearList();
-      },
-      child: !isLoading
-          ? Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          elevation: 0,
-          iconTheme: IconThemeData(color: FriskyColor().colorTextDark),
-          title: Text(
-            "you're at",
-            style: TextStyle(
-              fontWeight: FontWeight.w300,
-              color: FriskyColor().colorTextDark,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          backgroundColor: Colors.white,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.clear_all),
-                onPressed: () {
-                  Provider.of<Cart>(context, listen: true).clearList();
-                })
-          ],
-        ),
-        backgroundColor: Colors.white,
-        body: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 16, right: 16),
-              color: Colors.white,
-              height: SizeConfig.safeBlockVertical * 10,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        widget.restaurantName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: FriskyColor().colorTextLight,
-                          fontSize: SizeConfig.safeBlockVertical * 3,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          'TABLE ' + widget.tableName,
-                          style: TextStyle(
-                              fontSize: SizeConfig.safeBlockVertical * 3,
-                              color: FriskyColor().colorTextLight,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        decoration: BoxDecoration(
-                          color: FriskyColor().colorTableName,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      )
-                    ],
-                  ),
-                  Divider(
-                    thickness: 2,
-                  ),
-                  Text(
-                    "Menu",
+        onWillPop: () {
+          Navigator.pop(context);
+          return Provider.of<Cart>(context, listen: true).clearList();
+        },
+        child: !_isLoading
+            ? Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  elevation: 0,
+                  iconTheme: IconThemeData(color: Colors.black),
+                  title: Text(
+                    "You're at",
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: FriskyColor().colorTextLight,
-                      fontSize: SizeConfig.safeBlockVertical * 2.5,
+                      fontFamily: "museoM",
+                      color: FriskyColor().colorTextDark,
                     ),
                   ),
-                ],
-              ),
-            ),
-            menuList(),
-          ],
-        ),
-        floatingActionButton: _simplePopup(),
-        floatingActionButtonLocation:
-        FloatingActionButtonLocation.centerFloat,
-      )
-          : SafeArea(
-        child: Scaffold(
-          body: Container(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical * 8,
+                  backgroundColor: Colors.white,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 60, right: 20),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 2,
-                        width: SizeConfig.safeBlockHorizontal * 30,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(20))),
+                backgroundColor: Colors.white,
+                body: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      color: Colors.white,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(
+                                widget.restaurantName,
+                                style: TextStyle(
+                                    color: FriskyColor().colorTextLight,
+                                    fontSize: 20,
+                                    fontFamily: "museoM"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(8),
+                                child: Text(
+                                  'Table ' + widget.tableName,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: FriskyColor().colorTextLight,
+                                      fontFamily: "museoM"),
+                                ),
+                                decoration: BoxDecoration(
+                                  color: FriskyColor().colorTableName,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              )
+                            ],
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                          width: SizeConfig.safeBlockHorizontal * 16),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 6,
-                        width: SizeConfig.safeBlockHorizontal * 24,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.grey[200],
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(12))),
+                          Divider(
+                            thickness: 1,
                           ),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Text(
+                              "Menu",
+                              style: TextStyle(
+                                fontFamily: "museoM",
+                                color: FriskyColor().colorTextLight,
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 6),
-                Container(
-                  height: SizeConfig.safeBlockVertical * 1.3,
-                  width: SizeConfig.safeBlockHorizontal * 24,
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.white24,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.yellow,
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(20))),
                     ),
+                    _menuItemsList(),
+                  ],
+                ),
+                floatingActionButton: _simplePopup(),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerFloat,
+              )
+            : Center(
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                    FriskyColor().colorPrimary,
                   ),
                 ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 6),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 6,
-                        width: SizeConfig.safeBlockHorizontal * 40,
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey[400],
-                            highlightColor: Colors.white24,
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 40,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 15,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 4,
-                        width: SizeConfig.safeBlockHorizontal * 24,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.green[200],
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(24))),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical * 0.5,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 6,
-                        width: SizeConfig.safeBlockHorizontal * 40,
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey[400],
-                            highlightColor: Colors.white24,
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 40,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 15,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 4,
-                        width: SizeConfig.safeBlockHorizontal * 24,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.green[200],
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(24))),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 6),
-                Container(
-                  height: SizeConfig.safeBlockVertical * 1.3,
-                  width: SizeConfig.safeBlockHorizontal * 24,
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.white24,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.yellow,
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(20))),
-                    ),
-                  ),
-                ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 6),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 6,
-                        width: SizeConfig.safeBlockHorizontal * 40,
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey[400],
-                            highlightColor: Colors.white24,
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 40,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 15,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 4,
-                        width: SizeConfig.safeBlockHorizontal * 24,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.green[200],
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(24))),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical * 0.5,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 6,
-                        width: SizeConfig.safeBlockHorizontal * 40,
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey[400],
-                            highlightColor: Colors.white24,
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 40,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 15,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 4,
-                        width: SizeConfig.safeBlockHorizontal * 24,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.green[200],
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(24))),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical * 0.5,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 6,
-                        width: SizeConfig.safeBlockHorizontal * 40,
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey[400],
-                            highlightColor: Colors.white24,
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 40,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 15,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 4,
-                        width: SizeConfig.safeBlockHorizontal * 24,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.green[200],
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(24))),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 6),
-                Container(
-                  height: SizeConfig.safeBlockVertical * 1.3,
-                  width: SizeConfig.safeBlockHorizontal * 24,
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.white24,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.yellow,
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(20))),
-                    ),
-                  ),
-                ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 4),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 6,
-                        width: SizeConfig.safeBlockHorizontal * 40,
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey[400],
-                            highlightColor: Colors.white24,
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 40,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Container(
-                                  width:
-                                  SizeConfig.safeBlockHorizontal * 15,
-                                  color: Colors.white12,
-                                  height: 10,
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(width: SizeConfig.safeBlockHorizontal * 20),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 4,
-                        width: SizeConfig.safeBlockHorizontal * 24,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.green[200],
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(24))),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical * 0.5,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 34),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 4,
-                        width: SizeConfig.safeBlockHorizontal * 24,
-                        child: Shimmer.fromColors(
-                          baseColor: FriskyColor().colorPrimary.withOpacity(
-                              0.5),
-                          highlightColor: Colors.white24,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: FriskyColor().colorPrimary,
-                                    width: 4),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(24))),
-
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+              ));
   }
 
-  Widget menuList() {
+  Widget _menuItemsList() {
     return FutureBuilder(
-        future: _finalmenulist,
+        future: _finalMenuList,
         builder: (context, snapshot) {
-          if (isLoading == true) {
+          if (_isLoading == true) {
             return Align(
               alignment: Alignment.center,
               child: CircularProgressIndicator(
@@ -725,53 +236,82 @@ class _MenuScreenState extends State<MenuScreen> {
                           Provider.of<Orders>(context, listen: true)
                               .isOrderActive)
                       ? EdgeInsets.only(
-                          bottom: SizeConfig.safeBlockVertical * 18,
+                          bottom: 150,
                         )
                       : EdgeInsets.only(
-                          bottom: SizeConfig.safeBlockVertical * 10,
+                          bottom: 75,
                         ),
                   controller: _scrollController,
-                  itemCount: mMenu.length,
+                  itemCount: _menuList.length,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    if (mMenu[index].toString() ==
+                    if (_menuList[index].toString() ==
                         "Instance of 'MenuCategory'") {
-                      MenuCategory mc = mMenu[index];
-                      return Container(
-                        height: 70,
-                        child: Center(
-                          child: Text(
-                            mc.name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: FriskyColor().colorTextLight,
-                              fontSize: SizeConfig.safeBlockVertical * 2.7,
-                            ),
+                      MenuCategory menuCategory = _menuList[index];
+                      return Center(
+                          child: Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Text(
+                          menuCategory.name,
+                          style: TextStyle(
+                            fontFamily: "museoM",
+                            color: FriskyColor().colorTextLight,
+                            fontSize: 16,
                           ),
                         ),
-                      );
+                      ));
                     }
-                    MenuItem mi = mMenu[index];
-                    return Container(
-                      height: 70,
-                      child: ListTile(
-                        title: Text(
-                          mi.name + "\n\u20B9 " + mi.price.toString(),
-                          style: TextStyle(
-                              color: FriskyColor().colorTextDark,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        subtitle: Text(mi.description),
-                        trailing: (Provider.of<Cart>(context, listen: true)
-                                .cartList
-                                .contains(mi))
-                            ? cartButtons(mi)
-                            : addButton(mi),
-                        leading: Container(
-                            margin: EdgeInsets.only(left: 24, bottom: 20),
-                            width: SizeConfig.safeBlockHorizontal * 3,
-                            child: typeIcon(mi)),
+                    MenuItem menuItem = _menuList[index];
+                    return Padding(
+                      padding: EdgeInsets.fromLTRB(24, 4, 24, 4),
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      child: _typeIcon(menuItem),
+                                    ),
+                                    Flexible(
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(4, 2, 4, 2),
+                                        child: Text(menuItem.name,
+                                            style: TextStyle(
+                                                fontFamily: "museoS")),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Text(
+                                  "\u20B9 " + menuItem.price.toString(),
+                                  style: TextStyle(
+                                      color: Colors.red, fontFamily: "museoS"),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 2, right: 4, bottom: 2),
+                                    child: Text(menuItem.description,
+                                        style:
+                                            TextStyle(fontFamily: "museoS"))),
+                              ],
+                            ),
+                          ),
+                          Center(
+                            child: (Provider.of<Cart>(context, listen: true)
+                                    .cartList
+                                    .contains(menuItem))
+                                ? _cartButtons(menuItem)
+                                : _addButton(menuItem),
+                          )
+                        ],
                       ),
                     );
                   }),
@@ -786,51 +326,35 @@ class _MenuScreenState extends State<MenuScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         PopupMenuButton<MenuCategory>(
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 16, bottom: 16, right: 16, left: 16),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.restaurant,
-                    color: Colors.white,
-                    size: SizeConfig.safeBlockVertical * 2.5,
-                  ),
-                  Text(
-                    " Category",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.safeBlockVertical * 2.5),
-                  )
-                ],
-              ),
+          child: FloatingActionButton.extended(
+            icon: Icon(
+              Icons.restaurant,
+              color: Colors.white,
+              size: 20,
             ),
-            decoration: BoxDecoration(
-              color: FriskyColor().colorPrimary,
-              borderRadius: BorderRadius.circular(100),
+            label: Text(
+              "Category",
+              style: TextStyle(color: Colors.white, fontFamily: "museoM"),
             ),
+            onPressed: null,
           ),
           itemBuilder: (BuildContext context) {
-            return mCategories.map((MenuCategory m) {
+            return _categoryList.map((MenuCategory menuCategory) {
               return PopupMenuItem<MenuCategory>(
-                value: m,
-                child: Text(m.name),
+                value: menuCategory,
+                child: Text(
+                  menuCategory.name,
+                  style: TextStyle(fontFamily: "museoS"),
+                ),
               );
             }).toList();
           },
-          onSelected: (s) {
-            print(s);
-            MenuCategory menuCategory = s;
-            int a = mMenu.indexOf(menuCategory);
-            print(a);
-            _scrollController.animateTo(a.toDouble() * 70,
-                duration: Duration(seconds: 1), curve: Curves.linear);
+          onSelected: (category) {
+            MenuCategory menuCategory = category;
+            int a = _menuList.indexOf(menuCategory);
+            _scrollController.animateTo(a.toDouble() * 65,
+                duration: Duration(milliseconds: 300), curve: Curves.easeIn);
           },
-          offset: Offset(1, -460),
         ),
         Visibility(
           visible:
@@ -843,16 +367,20 @@ class _MenuScreenState extends State<MenuScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Text(
-                  "You Have items in the Cart  ",
-                  style: TextStyle(
-                      color: FriskyColor().colorSnackBarText,
-                      fontSize: SizeConfig.safeBlockVertical * 2),
-                ),
-                Container(
-                  width: SizeConfig.safeBlockHorizontal * 16,
+                Expanded(
+                    child: Center(
+                  child: Text(
+                    "You have items in the cart",
+                    style: TextStyle(
+                        color: FriskyColor().colorSnackBarText,
+                        fontSize: 14,
+                        fontFamily: "museoM"),
+                  ),
+                )),
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
                   child: FlatButton(
-                      color: FriskyColor().colorSnackBarButton,
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(4.0),
                       ),
@@ -865,11 +393,9 @@ class _MenuScreenState extends State<MenuScreen> {
                       },
                       child: Text(
                         "View",
-                        style: TextStyle(
-                            color: FriskyColor().colorSnackBarText,
-                            fontSize: SizeConfig.safeBlockVertical * 2),
+                        style: TextStyle(color: Colors.black, fontSize: 14),
                       )),
-                ),
+                )
               ],
             ),
             decoration: BoxDecoration(
@@ -888,16 +414,21 @@ class _MenuScreenState extends State<MenuScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Text(
-                  "You Have Orders  ",
-                  style: TextStyle(
-                      color: FriskyColor().colorSnackBarText,
-                      fontSize: SizeConfig.safeBlockVertical * 2),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "You have orders",
+                      style: TextStyle(
+                          color: FriskyColor().colorSnackBarText,
+                          fontSize: 14,
+                          fontFamily: "museoM"),
+                    ),
+                  ),
                 ),
-                Container(
-                  width: SizeConfig.safeBlockHorizontal * 18,
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
                   child: FlatButton(
-                      color: FriskyColor().colorSnackBarButton,
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(4.0),
                       ),
@@ -911,8 +442,9 @@ class _MenuScreenState extends State<MenuScreen> {
                       child: Text(
                         "Show",
                         style: TextStyle(
-                            color: FriskyColor().colorSnackBarText,
-                            fontSize: SizeConfig.safeBlockVertical * 2),
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontFamily: "museoL"),
                       )),
                 ),
               ],
@@ -926,81 +458,90 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
-  Widget cartButtons(MenuItem mi) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: SizeConfig.safeBlockHorizontal * 9,
-          child: FlatButton(
-            padding: EdgeInsets.all(0),
-            color: FriskyColor().colorBadge,
-            onPressed: () {
-              Provider.of<Cart>(context, listen: true).removeFromCart(mi);
-            },
-            child: Icon(
-              Icons.remove,
-              size: 20,
-              color: Colors.white,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(8.0),
-            ),
-          ),
-        ),
-        Container(
-          width: SizeConfig.safeBlockHorizontal * 9,
-          child: Center(
-              child: Text(
-            Provider.of<Cart>(context, listen: true).getCount(mi),
-            style: TextStyle(
-                fontSize: SizeConfig.safeBlockVertical * 2.5,
-                fontWeight: FontWeight.bold,
-                color: FriskyColor().colorTextDark),
-          )),
-        ),
-        Container(
-          width: SizeConfig.safeBlockHorizontal * 9,
-          child: FlatButton(
-            padding: EdgeInsets.all(0),
-            color: FriskyColor().colorBadge,
-            onPressed: () {
-              Provider.of<Cart>(context, listen: true).addToCart(mi);
-            },
-            child: Icon(
-              Icons.add,
-              size: 20,
-              color: Colors.white,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(8.0),
+  Widget _cartButtons(MenuItem menuItem) {
+    return Center(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            height: 30,
+            width: 30,
+            child: FlatButton(
+              padding: EdgeInsets.all(0),
+              color: FriskyColor().colorBadge,
+              onPressed: () {
+                Provider.of<Cart>(context, listen: true)
+                    .removeFromCart(menuItem);
+              },
+              child: Icon(
+                Icons.remove,
+                size: 20,
+                color: Colors.white,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
             ),
           ),
-        ),
-      ],
+          Container(
+            height: 30,
+            width: 30,
+            child: Center(
+                child: Text(
+              Provider.of<Cart>(context, listen: true).getCount(menuItem),
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: FriskyColor().colorTextDark),
+            )),
+          ),
+          Container(
+            height: 30,
+            width: 30,
+            child: FlatButton(
+              padding: EdgeInsets.all(0),
+              color: FriskyColor().colorBadge,
+              onPressed: () {
+                Provider.of<Cart>(context, listen: true).addToCart(menuItem);
+              },
+              child: Icon(
+                Icons.add,
+                size: 20,
+                color: Colors.white,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget addButton(MenuItem mi) {
-    return Container(
-        width: SizeConfig.safeBlockHorizontal * 27,
-        padding: EdgeInsets.all(0),
+  Widget _addButton(MenuItem menuItem) {
+    return Center(
+      child: Container(
+        height: 30,
+        width: 90,
         child: FlatButton(
-          padding: EdgeInsets.all(0),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           color: FriskyColor().colorBadge,
           onPressed: () {
-            Provider.of<Cart>(context, listen: true).addToCart(mi);
+            Provider.of<Cart>(context, listen: true).addToCart(menuItem);
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                "Add  ",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: SizeConfig.safeBlockVertical * 2),
+                "Add",
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 4),
               ),
               Icon(
                 Icons.add,
@@ -1009,20 +550,22 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
-  typeIcon(MenuItem mi) {
-    if (mi.dietType == DietType.NONE) {
-      return Text("");
-    }
-    if (mi.dietType == DietType.VEG) {
+  _typeIcon(MenuItem menuItem) {
+    if (menuItem.dietType == DietType.NONE) {
       return SvgPicture.asset("images/icons/veg.svg");
     }
-    if (mi.dietType == DietType.NON_VEG) {
+    if (menuItem.dietType == DietType.VEG) {
+      return SvgPicture.asset("images/icons/veg.svg");
+    }
+    if (menuItem.dietType == DietType.NON_VEG) {
       return SvgPicture.asset("images/icons/non_veg.svg");
     }
-    if (mi.dietType == DietType.EGG) {
+    if (menuItem.dietType == DietType.EGG) {
       return SvgPicture.asset("images/icons/egg.svg");
     }
   }

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../frisky_colors.dart';
-import '../size_config.dart';
 import 'package:friskyflutter/structures/order_header.dart';
 import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/widgets/card_order_item.dart';
@@ -22,24 +21,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
   List<Object> mOrderList = new List<Object>();
   getListLength() {
     if (Provider.of<Orders>(context, listen: true).mOrderList.length == 0) {
-      //
       Provider.of<Orders>(context, listen: true).fetchData();
-      print("insde get len if");
-
       return 0;
     } else {
-      print("insde get len else");
-
-      // Provider.of<Orders>(context, listen: true).getOrders();
-      // Provider.of<Bill>(context, listen: true).getBillDetails();
       return Provider.of<Orders>(context, listen: true).mOrderList.length;
     }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
   }
 
   @override
@@ -59,7 +45,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
           title: Text(
             "Your Order",
             style: TextStyle(
-              fontWeight: FontWeight.w300,
+              fontFamily: "museoM",
               color: FriskyColor().colorTextDark,
             ),
             textAlign: TextAlign.center,
@@ -72,11 +58,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
             Container(
               padding: EdgeInsets.all(8),
               child: Text(
-                'TABLE ' + widget.tableName,
+                'Table ' + widget.tableName,
                 style: TextStyle(
-                    fontSize: SizeConfig.safeBlockVertical * 3,
+                    fontSize: 20,
                     color: FriskyColor().colorTextLight,
-                    fontWeight: FontWeight.w500),
+                    fontFamily: "museoM"),
               ),
               decoration: BoxDecoration(
                 color: FriskyColor().colorTableName,
@@ -84,9 +70,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: Divider(
-                thickness: 2,
+                thickness: 1,
               ),
             ),
             Flexible(
@@ -110,14 +96,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 " - " +
                                 header.getTime(),
                             style: TextStyle(
-                                fontWeight: FontWeight.w300,
                                 color: FriskyColor().colorTextDark,
-                                fontSize: SizeConfig.safeBlockVertical * 2.5),
+                                fontSize: 14,
+                                fontFamily: "museoS"),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                            padding: EdgeInsets.only(left: 32, right: 32),
                             child: Divider(
-                              thickness: 2,
+                              thickness: 1,
                             ),
                           )
                         ],
@@ -133,14 +119,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   }),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+              padding: EdgeInsets.only(left: 16, right: 16),
               child: Divider(
-                thickness: 2,
+                thickness: 1,
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.only(left: 30, right: 30, top: 8, bottom: 8),
+              padding: EdgeInsets.fromLTRB(24, 2, 24, 2),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,23 +133,23 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   Text(
                     "Cart Total",
                     style: TextStyle(
-                        fontWeight: FontWeight.w300,
+                        fontFamily: "museoS",
                         color: FriskyColor().colorTextDark,
-                        fontSize: SizeConfig.safeBlockVertical * 2.2),
+                        fontSize: 14),
                   ),
                   Text(
                     "\u20B9" +
                         Provider.of<Orders>(context, listen: true).billAmount,
                     style: TextStyle(
-                        fontWeight: FontWeight.w400,
+                        fontFamily: "museoS",
                         color: FriskyColor().colorTextDark,
-                        fontSize: SizeConfig.safeBlockVertical * 2.2),
+                        fontSize: 14),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 8),
+              padding: EdgeInsets.fromLTRB(24, 2, 24, 2),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,22 +157,22 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   Text(
                     "GST",
                     style: TextStyle(
-                        fontWeight: FontWeight.w300,
+                        fontFamily: "museoS",
                         color: FriskyColor().colorTextDark,
-                        fontSize: SizeConfig.safeBlockVertical * 2.2),
+                        fontSize: 14),
                   ),
                   Text(
                     "\u20B9" + Provider.of<Orders>(context, listen: true).gst,
                     style: TextStyle(
-                        fontWeight: FontWeight.w400,
+                        fontFamily: "museoS",
                         color: FriskyColor().colorTextDark,
-                        fontSize: SizeConfig.safeBlockVertical * 2.2),
+                        fontSize: 14),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 8),
+              padding: EdgeInsets.fromLTRB(24, 2, 24, 2),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,34 +180,29 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   Text(
                     "Final Total",
                     style: TextStyle(
-                        fontWeight: FontWeight.w400,
+                        fontFamily: "museoM",
                         color: FriskyColor().colorTextDark,
-                        fontSize: SizeConfig.safeBlockVertical * 3),
+                        fontSize: 16),
                   ),
                   Text(
                     "\u20B9" +
                         Provider.of<Orders>(context, listen: true)
                             .amountPayable,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                        fontSize: SizeConfig.safeBlockVertical * 3),
+                        fontFamily: "museoM", color: Colors.red, fontSize: 16),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(left: 24, right: 24, bottom: 8),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Container(
-                    height: SizeConfig.safeBlockHorizontal * 12,
-                    width: SizeConfig.safeBlockVertical * 22,
-                    padding: EdgeInsets.all(0),
+                  Expanded(
                     child: FlatButton(
-                      padding: EdgeInsets.all(0),
+                      padding: EdgeInsets.all(8),
                       color: FriskyColor().colorBadge,
                       onPressed: () {
                         showConfirmAlert();
@@ -231,17 +211,21 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         "Clear Bill",
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: SizeConfig.safeBlockVertical * 3),
+                            fontSize: 20,
+                            fontFamily: "museoM"),
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(4.0),
+                        borderRadius: new BorderRadius.circular(8),
                       ),
                     ),
                   ),
-                  Container(
-                    height: SizeConfig.safeBlockHorizontal * 12,
-                    width: SizeConfig.safeBlockVertical * 22,
+                  Padding(
+                    padding: EdgeInsets.only(left: 8),
+                  ),
+                  Expanded(
                     child: OutlineButton(
+                      padding: EdgeInsets.all(8),
+                      highlightedBorderColor: FriskyColor().colorPrimary,
                       color: Colors.lightGreen,
                       onPressed: () {
                         Navigator.pop(context);
@@ -250,14 +234,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         "Order More",
                         style: TextStyle(
                             color: FriskyColor().colorPrimary,
-                            fontSize: SizeConfig.safeBlockVertical * 3),
+                            fontSize: 20,
+                            fontFamily: "museoM"),
                       ),
                       borderSide: BorderSide(
                         color: FriskyColor().colorPrimary,
-                        width: 1.5,
+                        width: 1,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(4.0),
+                        borderRadius: new BorderRadius.circular(8),
                       ),
                     ),
                   ),
@@ -276,16 +261,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            "Clear Bill",
+            "Clear Bill?",
             style: TextStyle(
-                color: FriskyColor().colorTextDark,
-                fontWeight: FontWeight.bold),
+                color: FriskyColor().colorTextDark, fontFamily: "museoM"),
           ),
           content: Text(
             "You are about to request the bill and end your session. You won\'t be able to order anymore items after you confirm.",
             style: TextStyle(
-                color: FriskyColor().colorTextLight,
-                fontWeight: FontWeight.w400),
+                color: FriskyColor().colorTextLight, fontFamily: "museoS"),
           ),
           actions: <Widget>[
             FlatButton(
@@ -294,8 +277,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               },
               child: Text("Cancel",
                   style: TextStyle(
-                      color: FriskyColor().colorPrimary,
-                      fontWeight: FontWeight.bold)),
+                      color: FriskyColor().colorPrimary, fontFamily: "museoS")),
             ),
             FlatButton(
                 color: FriskyColor().colorPrimary,
@@ -304,8 +286,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 },
                 child: Text(
                   "Clear",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white, fontFamily: "museoS"),
                 ))
           ],
         );
@@ -319,24 +300,22 @@ class _OrdersScreenState extends State<OrdersScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "Requesting the Bill",
-            style: TextStyle(
-                color: FriskyColor().colorTextDark,
-                fontWeight: FontWeight.bold),
-          ),
-          content: Container(
-            height: SizeConfig.safeBlockVertical * 10,
-            width: SizeConfig.safeBlockVertical * 10,
-            child: Center(
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                  FriskyColor().colorPrimary,
-                ),
-              ),
+            title: Text(
+              "Requesting the Bill",
+              style: TextStyle(
+                  color: FriskyColor().colorTextDark, fontFamily: "museoS"),
             ),
-          ),
-        );
+            content: Wrap(
+              children: <Widget>[
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      FriskyColor().colorPrimary,
+                    ),
+                  ),
+                )
+              ],
+            ));
       },
       barrierDismissible: false,
     );
@@ -374,11 +353,4 @@ class _OrdersScreenState extends State<OrdersScreen> {
       print(error.toString());
     });
   }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-
 }

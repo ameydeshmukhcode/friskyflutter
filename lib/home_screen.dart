@@ -52,8 +52,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<Session>(
-          builder: (context, session, child) {
+      body: Consumer<Session>(builder: (context, session, child) {
         return Stack(
           children: <Widget>[
             _pages[_currentIndex],
@@ -61,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen>
                 visible: session.isSessionActive,
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Container(
+                  child: Material(
+                    elevation: 4,
                     color: Colors.white,
                     child: ListTile(
                       title: Text(
@@ -69,7 +69,9 @@ class _HomeScreenState extends State<HomeScreen>
                             ? ("Bill Requested")
                             : ("Currently at"),
                         style: TextStyle(
-                            fontSize: 14, color: FriskyColor().colorTextLight),
+                            fontSize: 14,
+                            color: FriskyColor().colorTextLight,
+                            fontFamily: "museoS"),
                       ),
                       subtitle: Text(
                           session.isBillRequested
@@ -79,12 +81,16 @@ class _HomeScreenState extends State<HomeScreen>
                                   " - Table " +
                                   session.tableName),
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "museoM")),
                       trailing: session.isBillRequested
                           ? SizedBox(
                               height: 1,
                             )
                           : OutlineButton(
+                              highlightedBorderColor:
+                                  FriskyColor().colorPrimary,
                               color: Colors.lightGreen,
                               onPressed: () {
                                 Navigator.push(
@@ -99,14 +105,14 @@ class _HomeScreenState extends State<HomeScreen>
                               child: Text(
                                 "Menu",
                                 style: TextStyle(
-                                    color: FriskyColor().colorPrimary),
+                                    color: FriskyColor().colorPrimary,
+                                    fontFamily: "museoM"),
                               ),
                               borderSide: BorderSide(
                                 color: FriskyColor().colorPrimary,
-                                width: 1.5,
                               ),
                               shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(4.0),
+                                borderRadius: new BorderRadius.circular(4),
                               ),
                             ),
                     ),
@@ -166,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen>
           icon: Icon(Icons.home),
           title: Text(
             "Home",
-            style: TextStyle(fontFamily: "museoM"),
+            style: TextStyle(fontFamily: "museoL"),
           ),
         ),
         BottomNavigationBarItem(
@@ -181,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen>
           }),
           title: Text(
             "Dine",
-            style: TextStyle(fontFamily: "museoM"),
+            style: TextStyle(fontFamily: "museoL"),
           ),
         ),
         BottomNavigationBarItem(
@@ -190,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           title: Text(
             "Visits",
-            style: TextStyle(fontFamily: "museoM"),
+            style: TextStyle(fontFamily: "museoL"),
           ),
         ),
       ],

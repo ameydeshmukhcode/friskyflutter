@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../frisky_colors.dart';
-import '../size_config.dart';
 import 'orders_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -60,7 +59,7 @@ class _CartScreenState extends State<CartScreen> {
         title: Text(
           "Your Cart",
           style: TextStyle(
-            fontWeight: FontWeight.w300,
+            fontFamily: "museoM",
             color: FriskyColor().colorTextDark,
           ),
           textAlign: TextAlign.center,
@@ -69,25 +68,28 @@ class _CartScreenState extends State<CartScreen> {
       ),
       backgroundColor: Colors.white,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
+          Center(
+              child: Container(
             padding: EdgeInsets.all(8),
             child: Text(
-              'TABLE ' + widget.tableName,
+              'Table ' + widget.tableName,
               style: TextStyle(
-                  fontSize: SizeConfig.safeBlockVertical * 3,
-                  color: FriskyColor().colorTextLight,
-                  fontWeight: FontWeight.w500),
+                fontFamily: "museoM",
+                fontSize: 20,
+                color: FriskyColor().colorTextDark,
+              ),
             ),
             decoration: BoxDecoration(
               color: FriskyColor().colorTableName,
               borderRadius: BorderRadius.circular(8),
             ),
-          ),
+          )),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             child: Divider(
-              thickness: 2,
+              thickness: 1,
             ),
           ),
           Flexible(
@@ -95,68 +97,81 @@ class _CartScreenState extends State<CartScreen> {
                 itemCount:
                     Provider.of<Cart>(context, listen: true).cartList.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    child: ListTile(
-                      title: Text(
-                        Provider.of<Cart>(context, listen: true)
-                                .cartList[index]
-                                .getName() +
-                            "\n\u20B9 " +
-                            Provider.of<Cart>(context, listen: true)
-                                .cartList[index]
-                                .getPrice()
-                                .toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: FriskyColor().colorTextDark,
-                        ),
-                      ),
-                      subtitle: RichText(
-                          text: TextSpan(children: <TextSpan>[
-                        TextSpan(
-                          text: "item total  ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: FriskyColor().colorTextLight,
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(24, 4, 24, 4),
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
+                                      child: Text(
+                                          Provider.of<Cart>(context,
+                                                  listen: true)
+                                              .cartList[index]
+                                              .getName(),
+                                          style:
+                                              TextStyle(fontFamily: "museoS")),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Text(
+                                "\u20B9 " +
+                                    Provider.of<Cart>(context, listen: true)
+                                        .cartList[index]
+                                        .getPrice()
+                                        .toString(),
+                                style: TextStyle(fontFamily: "museoS"),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 2, right: 4, bottom: 2),
+                                  child: Text(
+                                      "Item Total: \u20B9 " +
+                                          (Provider.of<Cart>(context,
+                                                          listen: true)
+                                                      .cartList[index]
+                                                      .getPrice() *
+                                                  Provider.of<Cart>(context,
+                                                          listen: true)
+                                                      .cartList[index]
+                                                      .getCount())
+                                              .toString(),
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontFamily: "museoS"))),
+                            ],
                           ),
                         ),
-                        TextSpan(
-                          text: "\u20B9 " +
-                              (Provider.of<Cart>(context, listen: true)
-                                          .cartList[index]
-                                          .getCount() *
-                                      Provider.of<Cart>(context, listen: true)
-                                          .cartList[index]
-                                          .getPrice())
-                                  .toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                          ),
+                        Center(
+                          child: cartButtons(
+                              Provider.of<Cart>(context, listen: false)
+                                  .cartList[index]),
                         )
-                      ])),
-                      trailing: cartButtons(
-                          Provider.of<Cart>(context, listen: false)
-                              .cartList[index]),
-                      leading: Container(
-                          margin: EdgeInsets.only(left: 24, bottom: 20),
-                          width: SizeConfig.safeBlockHorizontal * 3,
-                          child: typeIcon(
-                              Provider.of<Cart>(context, listen: true)
-                                  .cartList[index])),
+                      ],
                     ),
                   );
                 }),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
             child: Divider(
-              thickness: 2,
+              thickness: 1,
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 30, right: 30, top: 8, bottom: 8),
+            padding: const EdgeInsets.only(left: 24, right: 24),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,64 +179,55 @@ class _CartScreenState extends State<CartScreen> {
                 Text(
                   "Cart Total",
                   style: TextStyle(
-                      fontWeight: FontWeight.w300,
+                      fontFamily: "museoM",
                       color: FriskyColor().colorTextDark,
-                      fontSize: SizeConfig.safeBlockVertical * 3),
+                      fontSize: 16),
                 ),
                 Text(
                   "\u20B9" +
                       Provider.of<Cart>(context, listen: true).total.toString(),
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                      fontSize: SizeConfig.safeBlockVertical * 3),
+                      fontFamily: "museoM", color: Colors.red, fontSize: 16),
                 ),
               ],
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 16),
-            child: Container(
-              height: SizeConfig.safeBlockVertical * 6.5,
-              width: SizeConfig.screenWidth,
-              padding: EdgeInsets.all(0),
+              padding: EdgeInsets.only(left: 24, right: 24, bottom: 8),
               child: FlatButton(
-                padding: EdgeInsets.all(0),
+                padding: EdgeInsets.all(8),
+                onPressed: showConfirmAlert,
                 color: FriskyColor().colorBadge,
-                onPressed: () {
-                  showConfirmAlert();
-                },
                 child: Text(
                   "Place Order",
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: SizeConfig.safeBlockVertical * 3),
+                      fontFamily: "museoM", fontSize: 20, color: Colors.white),
                 ),
-              ),
-            ),
-          ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(8),
+                ),
+              ))
         ],
       ),
     );
   }
 
-  typeIcon(MenuItem mi) {
-    if (mi.dietType == DietType.NONE) {
-      return Text("");
+  typeIcon(MenuItem menuItem) {
+    if (menuItem.dietType == DietType.NONE) {
+      return SizedBox();
     }
-    if (mi.dietType == DietType.VEG) {
+    if (menuItem.dietType == DietType.VEG) {
       return SvgPicture.asset("images/icons/veg.svg");
     }
-    if (mi.dietType == DietType.NON_VEG) {
+    if (menuItem.dietType == DietType.NON_VEG) {
       return SvgPicture.asset("images/icons/non_veg.svg");
     }
-    if (mi.dietType == DietType.EGG) {
+    if (menuItem.dietType == DietType.EGG) {
       return SvgPicture.asset("images/icons/egg.svg");
     }
   }
 
-  Widget cartButtons(MenuItem mi) {
+  Widget cartButtons(MenuItem menuItem) {
     return Column(
       children: <Widget>[
         Row(
@@ -230,13 +236,14 @@ class _CartScreenState extends State<CartScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: SizeConfig.safeBlockHorizontal * 6,
-              width: SizeConfig.safeBlockHorizontal * 6,
+              height: 30,
+              width: 30,
               child: FlatButton(
                 padding: EdgeInsets.all(0),
                 color: FriskyColor().colorBadge,
                 onPressed: () {
-                  Provider.of<Cart>(context, listen: true).removeFromCart(mi);
+                  Provider.of<Cart>(context, listen: true)
+                      .removeFromCart(menuItem);
                 },
                 child: Icon(
                   Icons.remove,
@@ -244,30 +251,30 @@ class _CartScreenState extends State<CartScreen> {
                   color: Colors.white,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(8.0),
+                  borderRadius: new BorderRadius.circular(50),
                 ),
               ),
             ),
             Container(
-              height: SizeConfig.safeBlockHorizontal * 6,
-              width: SizeConfig.safeBlockHorizontal * 6,
+              height: 30,
+              width: 30,
               child: Center(
                   child: Text(
-                Provider.of<Cart>(context, listen: true).getCount(mi),
+                Provider.of<Cart>(context, listen: true).getCount(menuItem),
                 style: TextStyle(
-                    fontSize: SizeConfig.safeBlockVertical * 2.5,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: FriskyColor().colorTextLight),
               )),
             ),
             Container(
-              height: SizeConfig.safeBlockHorizontal * 6,
-              width: SizeConfig.safeBlockHorizontal * 6,
+              height: 30,
+              width: 30,
               child: FlatButton(
                 padding: EdgeInsets.all(0),
                 color: FriskyColor().colorBadge,
                 onPressed: () {
-                  Provider.of<Cart>(context, listen: true).addToCart(mi);
+                  Provider.of<Cart>(context, listen: true).addToCart(menuItem);
                 },
                 child: Icon(
                   Icons.add,
@@ -275,7 +282,7 @@ class _CartScreenState extends State<CartScreen> {
                   color: Colors.white,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(8.0),
+                  borderRadius: new BorderRadius.circular(50),
                 ),
               ),
             ),
@@ -289,12 +296,14 @@ class _CartScreenState extends State<CartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Icon(Icons.shopping_cart,
-                  size: SizeConfig.safeBlockVertical * 2.5,
-                  color: FriskyColor().colorTextLight),
+                  size: 14, color: FriskyColor().colorTextLight),
+              Padding(
+                padding: EdgeInsets.only(left: 2),
+              ),
               Text(
-                " In cart",
+                "In cart",
                 style: TextStyle(
-                  fontWeight: FontWeight.w400,
+                  fontFamily: "museoS",
                   color: FriskyColor().colorTextLight,
                 ),
               ),
@@ -313,14 +322,12 @@ class _CartScreenState extends State<CartScreen> {
           title: Text(
             "Place Order",
             style: TextStyle(
-                color: FriskyColor().colorTextDark,
-                fontWeight: FontWeight.bold),
+                color: FriskyColor().colorTextDark, fontFamily: "museoM"),
           ),
           content: Text(
-            "Send order to kitchen for prepration ?",
+            "Send order to kitchen for prepration?",
             style: TextStyle(
-                color: FriskyColor().colorTextLight,
-                fontWeight: FontWeight.w400),
+                color: FriskyColor().colorTextLight, fontFamily: "museoS"),
           ),
           actions: <Widget>[
             FlatButton(
@@ -329,8 +336,7 @@ class _CartScreenState extends State<CartScreen> {
               },
               child: Text("Cancel",
                   style: TextStyle(
-                      color: FriskyColor().colorPrimary,
-                      fontWeight: FontWeight.bold)),
+                      color: FriskyColor().colorPrimary, fontFamily: "museoM")),
             ),
             FlatButton(
                 color: FriskyColor().colorPrimary,
@@ -339,8 +345,7 @@ class _CartScreenState extends State<CartScreen> {
                 },
                 child: Text(
                   "OK",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white, fontFamily: "museoM"),
                 ))
           ],
         );
@@ -354,24 +359,23 @@ class _CartScreenState extends State<CartScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "Placing Your Order",
-            style: TextStyle(
-                color: FriskyColor().colorTextDark,
-                fontWeight: FontWeight.bold),
-          ),
-          content: Container(
-            height: SizeConfig.safeBlockVertical * 10,
-            width: SizeConfig.safeBlockVertical * 10,
-            child: Center(
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                  FriskyColor().colorPrimary,
-                ),
-              ),
+            title: Text(
+              "Placing Your Order",
+              style: TextStyle(
+                  color: FriskyColor().colorTextDark,
+                  fontFamily: "museoM"),
             ),
-          ),
-        );
+            content: Wrap(
+              children: <Widget>[
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      FriskyColor().colorPrimary,
+                    ),
+                  ),
+                )
+              ],
+            ));
       },
       barrierDismissible: false,
     );
