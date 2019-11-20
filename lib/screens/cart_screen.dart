@@ -119,7 +119,7 @@ class _CartScreenState extends State<CartScreen> {
                                           Provider.of<Cart>(context,
                                                   listen: true)
                                               .cartList[index]
-                                              .getName(),
+                                              .name,
                                           style:
                                               TextStyle(fontFamily: "museoS")),
                                     ),
@@ -130,7 +130,7 @@ class _CartScreenState extends State<CartScreen> {
                                 "\u20B9 " +
                                     Provider.of<Cart>(context, listen: true)
                                         .cartList[index]
-                                        .getPrice()
+                                        .price
                                         .toString(),
                                 style: TextStyle(fontFamily: "museoS"),
                               ),
@@ -142,11 +142,11 @@ class _CartScreenState extends State<CartScreen> {
                                           (Provider.of<Cart>(context,
                                                           listen: true)
                                                       .cartList[index]
-                                                      .getPrice() *
+                                                      .price *
                                                   Provider.of<Cart>(context,
                                                           listen: true)
                                                       .cartList[index]
-                                                      .getCount())
+                                                      .count)
                                               .toString(),
                                       style: TextStyle(
                                           color: Colors.red,
@@ -362,8 +362,7 @@ class _CartScreenState extends State<CartScreen> {
             title: Text(
               "Placing Your Order",
               style: TextStyle(
-                  color: FriskyColor().colorTextDark,
-                  fontFamily: "museoM"),
+                  color: FriskyColor().colorTextDark, fontFamily: "museoM"),
             ),
             content: Wrap(
               children: <Widget>[
@@ -390,7 +389,7 @@ class _CartScreenState extends State<CartScreen> {
         i < Provider.of<Cart>(context, listen: true).cartList.length;
         i++) {
       MenuItem item = Provider.of<Cart>(context, listen: true).cartList[i];
-      orderlist[item.getId()] = item.getCount();
+      orderlist[item.id] = item.count;
     }
     data["order"] = orderlist;
     await cloudFunctions

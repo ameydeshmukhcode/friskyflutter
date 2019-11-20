@@ -105,9 +105,9 @@ class _MenuScreenState extends State<MenuScreen> {
     _menuList.clear();
     for (int i = 0; i < _categoryList.length; i++) {
       final MenuCategory category = _categoryList[i];
-      String categoryID = category.getId();
+      String categoryID = category.categoryId;
       _menuList.add(category);
-      _categoryOrderMap[category.getName()] = (_menuList.length - 1);
+      _categoryOrderMap[category.name] = (_menuList.length - 1);
       _menuList.addAll(_categoryItemListMap[categoryID]);
     }
 

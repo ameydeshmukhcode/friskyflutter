@@ -8,14 +8,13 @@ class Cart extends ChangeNotifier {
   String get itemName => _name;
   int get total => _cartTotal;
   String getCount(MenuItem menuItem) {
-    return cartList[getIndex(menuItem)].getCount().toString();
+    return cartList[getIndex(menuItem)].count.toString();
   }
 
   countTotal() {
     _cartTotal = 0;
     for (int i = 0; i < cartList.length; i++) {
-      _cartTotal =
-          _cartTotal + (cartList[i].getPrice() * cartList[i].getCount());
+      _cartTotal = _cartTotal + (cartList[i].price * cartList[i].count);
     }
   }
 
@@ -59,15 +58,15 @@ class Cart extends ChangeNotifier {
   }
 
   void removeFromCart(MenuItem menuItem) {
-    print("remov item count " + menuItem.getCount().toString());
-    if (cartList[getIndex(menuItem)].getCount() == 1) {
+    print("remov item count " + menuItem.count.toString());
+    if (cartList[getIndex(menuItem)].count == 1) {
       cartList[getIndex(menuItem)].decrementCount();
       cartList.removeAt(getIndex(menuItem));
       print("item removed succesfully");
       countTotal();
       notifyListeners();
     } else {
-      if (cartList[getIndex(menuItem)].getCount() > 0) {
+      if (cartList[getIndex(menuItem)].count > 0) {
         cartList[getIndex(menuItem)].decrementCount();
         countTotal();
         notifyListeners();
@@ -85,7 +84,7 @@ class Cart extends ChangeNotifier {
   void printMenuList() {
     print("ITEM NAME            Quantity");
     cartList.forEach((f) {
-      print(f.name + "         " + f.getCount().toString());
+      print(f.name + "         " + f.count.toString());
     });
   }
 
