@@ -8,8 +8,6 @@ import 'package:friskyflutter/screens/sign_in_screen.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'home_screen.dart';
 
-Widget _homeWidget = Text("hellow");
-
 Future<FirebaseUser> getUser() async {
   return await FirebaseAuth.instance.currentUser();
 }
@@ -17,18 +15,18 @@ Future<FirebaseUser> getUser() async {
 void main() {
   getUser().then((user) {
     if (user == null) {
-      _homeWidget = SignInMain();
-      runApp(MyApp());
-      return _homeWidget;
+      runApp(MyApp(SignInMain()));
     } else {
-      _homeWidget = HomeScreen();
-      runApp(MyApp());
-      return _homeWidget;
+      runApp(MyApp(HomeScreen()));
     }
   });
 }
 
 class MyApp extends StatelessWidget {
+  final Widget _homeWidget;
+
+  MyApp(this._homeWidget);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
