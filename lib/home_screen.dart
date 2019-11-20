@@ -85,9 +85,7 @@ class _HomeScreenState extends State<HomeScreen>
                               fontWeight: FontWeight.bold,
                               fontFamily: "museoM")),
                       trailing: session.isBillRequested
-                          ? SizedBox(
-                              height: 1,
-                            )
+                          ? SizedBox()
                           : OutlineButton(
                               highlightedBorderColor:
                                   FriskyColor().colorPrimary,

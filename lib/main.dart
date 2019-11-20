@@ -8,12 +8,8 @@ import 'package:friskyflutter/screens/sign_in_screen.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'home_screen.dart';
 
-Future<FirebaseUser> getUser() async {
-  return await FirebaseAuth.instance.currentUser();
-}
-
 void main() {
-  getUser().then((user) {
+  FirebaseAuth.instance.currentUser().then((user) {
     if (user == null) {
       runApp(MyApp(SignInMain()));
     } else {
