@@ -92,9 +92,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         children: <Widget>[
                           Text(
                             "Order # " +
-                                header.getRank().toString() +
+                                header.rank.toString() +
                                 " - " +
-                                header.getTime(),
+                                header.time,
                             style: TextStyle(
                                 color: FriskyColor().colorTextDark,
                                 fontSize: 14,
