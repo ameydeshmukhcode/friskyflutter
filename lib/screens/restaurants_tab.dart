@@ -22,7 +22,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
         context,
         MaterialPageRoute(
             builder: (context) => DetailsPage(
-                  resturant: restaurant,
+                  restaurant: restaurant,
                 )));
   }
 

@@ -1,27 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/size_config.dart';
 
 class DetailsPage extends StatefulWidget {
-  final DocumentSnapshot resturant;
+  final DocumentSnapshot restaurant;
 
-  const DetailsPage({this.resturant});
+  const DetailsPage({this.restaurant});
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-//  getImages() {
-//    StorageReference storageReference = FirebaseStorage.instance
-//        .ref()
-//        .child("restaurants/" + widget.resturant.documentID + "/menu");
-//    StorageFileDownloadTask downloadTask = storageReference.getData(10000).then()
-//  }
-
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -31,7 +22,7 @@ class _DetailsPageState extends State<DetailsPage> {
             floating: true,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(
-                widget.resturant.data["image"],
+                widget.restaurant.data["image"],
                 fit: BoxFit.cover,
               ),
             ),
@@ -49,28 +40,43 @@ class _DetailsPageState extends State<DetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          widget.resturant.data['name'],
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                          style: TextStyle(
-                            fontSize: SizeConfig.safeBlockVertical * 4,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          children: <Widget>[
+                            Flexible(
+                              child: Text(
+                                widget.restaurant.data['name'],
+                                style: TextStyle(
+                                    fontSize: 20, fontFamily: "museoM"),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(4),
+                              child: Text(
+                                '4.5',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontFamily: "museoM"),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            )
+                          ],
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         ),
                         Text(
-                          widget.resturant.data['address'],
+                          widget.restaurant.data['address'],
                           maxLines: 1,
-                          style: TextStyle(
-                              fontSize: SizeConfig.safeBlockVertical * 2.2),
+                          style: TextStyle(fontSize: 16, fontFamily: "museoS"),
                         ),
                         Text(
-                          widget.resturant.data['cuisine'][0] +
+                          widget.restaurant.data['cuisine'][0] +
                               ", " +
-                              widget.resturant.data['cuisine'][1],
-                          style: TextStyle(
-                              fontSize: SizeConfig.safeBlockVertical * 2.2),
+                              widget.restaurant.data['cuisine'][1],
+                          style: TextStyle(fontSize: 16, fontFamily: "museoS"),
                         ),
                       ],
                     ),
@@ -90,26 +96,22 @@ class _DetailsPageState extends State<DetailsPage> {
       padding: const EdgeInsets.all(8),
       child: Card(
         elevation: 2,
-        child: Container(
-          height: SizeConfig.safeBlockVertical * 8.5,
-          width: SizeConfig.safeBlockHorizontal * 100,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Menu",
-                      style: TextStyle(
-                        fontSize: SizeConfig.safeBlockVertical * 2.5,
-                      ),
-                      textAlign: TextAlign.center,
-                    )),
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Menu",
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                    textAlign: TextAlign.center,
+                  )),
+            ),
+          ],
         ),
       ),
     );
