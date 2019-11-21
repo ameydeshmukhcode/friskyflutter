@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen>
           child: FloatingActionButton.extended(
             onPressed: () async {
               // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
-              _openScanner();
+              _startScanner();
               // showNotification();
             },
             icon: SvgPicture.asset(
@@ -288,30 +288,27 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  getPermission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-    if (await checkForPermission()) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => QrCodeScanner()));
-    }
-  }
-
-  _openScanner() async {
-    if (await checkForPermission()) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => QrCodeScanner()));
-    } else {
-      getPermission();
-    }
-  }
-
-  Future<bool> checkForPermission() async {
-    PermissionStatus permission =
+  _startScanner() async {
+    Map<PermissionGroup, PermissionStatus> permissionMap;
+    PermissionStatus status =
         await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
-    if (permission.toString() == "PermissionStatus.granted")
-      return true;
-    else
-      return false;
+
+    switch (status) {
+      case PermissionStatus.granted:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => QrCodeScanner()));
+        break;
+      case PermissionStatus.unknown:
+      case PermissionStatus.denied:
+      case PermissionStatus.restricted:
+        permissionMap = await PermissionHandler()
+            .requestPermissions([PermissionGroup.camera]);
+        if (permissionMap[PermissionGroup.camera] == PermissionStatus.granted) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => QrCodeScanner()));
+        }
+        break;
+    }
   }
 
   Future doSomething(message) async {
