@@ -306,9 +306,77 @@ class _HomeScreenState extends State<HomeScreen>
         if (permissionMap[PermissionGroup.camera] == PermissionStatus.granted) {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => QrCodeScanner()));
+        } else if (Platform.isIOS) {
+          _showNeedCameraAlertiOS();
+        } else if (Platform.isAndroid) {
+          _showNeedCameraAlertAndroid();
         }
         break;
     }
+  }
+
+  _showNeedCameraAlertiOS() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Allow Camera",
+            style: TextStyle(
+                color: FriskyColor().colorTextDark, fontFamily: "museoM"),
+          ),
+          content: Text(
+            "Enable 'Camera' for Frisky under Settings to be able to scan QR codes.",
+            style: TextStyle(
+                color: FriskyColor().colorTextLight, fontFamily: "museoS"),
+          ),
+          actions: <Widget>[
+            FlatButton(
+                color: FriskyColor().colorPrimary,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "OK",
+                  style: TextStyle(color: Colors.white, fontFamily: "museoM"),
+                ))
+          ],
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
+
+  _showNeedCameraAlertAndroid() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Camera Needed",
+            style: TextStyle(
+                color: FriskyColor().colorTextDark, fontFamily: "museoM"),
+          ),
+          content: Text(
+            "Allow camera permission to be able to scan QR codes.",
+            style: TextStyle(
+                color: FriskyColor().colorTextLight, fontFamily: "museoS"),
+          ),
+          actions: <Widget>[
+            FlatButton(
+                color: FriskyColor().colorPrimary,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "OK",
+                  style: TextStyle(color: Colors.white, fontFamily: "museoM"),
+                ))
+          ],
+        );
+      },
+      barrierDismissible: false,
+    );
   }
 
   Future doSomething(message) async {
