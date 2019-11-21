@@ -186,7 +186,7 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - permission_handler (3.3.0):
+  - permission_handler (4.0.0):
     - Flutter
   - Protobuf (3.10.0)
   - qrcode (0.0.1):
@@ -201,7 +201,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
-  - Flutter (from `.symlinks/flutter/ios-release`)
+  - Flutter (from `.symlinks/flutter/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
@@ -253,7 +253,7 @@ EXTERNAL SOURCES:
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios-release"
+    :path: ".symlinks/flutter/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   fluttertoast:
@@ -270,7 +270,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  cloud_firestore: 187530401afa261d255791ea75580591e345fa7b
+  cloud_firestore: c6e28e89a1bf98faab7fc8fdec20dc6020799cd1
   cloud_functions: 632a5f80a5688f79ec0c7417c4943f20857726d0
   Firebase: 2d750c54cda57d5a6ae31212cfe5cc813c6be7e4
   firebase_auth: d99b993c1405096e66c58211b1cd956c23eed1c5
@@ -304,7 +304,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
+  permission_handler: 0fb88b8a3c23e31e5de45b8f1bb8b7de28cf8941
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   qrcode: 703d52352679d9b4284555e9a09c2157062f1989
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
