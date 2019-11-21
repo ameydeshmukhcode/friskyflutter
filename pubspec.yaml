@@ -38,7 +38,7 @@ dependencies:
   provider: ^3.1.0+1
   badges: ^1.1.0
   shimmer: ^1.0.1
-  permission_handler: ^3.3.0
+  permission_handler: ^4.0.0
   firebase_messaging: ^5.1.8
   flutter_local_notifications: ^0.8.4
 

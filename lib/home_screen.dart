@@ -291,7 +291,8 @@ class _HomeScreenState extends State<HomeScreen>
   getPermission() async {
     await PermissionHandler().requestPermissions([PermissionGroup.camera]);
     if (await checkForPermission()) {
-      Navigator.pushNamed(context, "/scan");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => QrCodeScanner()));
     }
   }
 
