@@ -83,97 +83,109 @@ class _VisitSummaryState extends State<VisitSummary> {
             ),
           );
         } else {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                widget.restaurantName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.black, fontSize: 20, fontFamily: "museoM"),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 8),
-              ),
-              Text(
-                formatDate(endTime.toDate(),
-                    [dd, ' ', M, ' ', yyyy, ' ', hh, ':', nn, ' ', am]),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.black, fontSize: 14, fontFamily: "museoM"),
-              ),
-              Divider(
-                indent: 8,
-                endIndent: 8,
-              ),
-              ListView.builder(
-                  padding: EdgeInsets.only(bottom: 0),
-                  itemCount: _orderItems.length,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return OrderItemWidget(
-                        _orderItems[index].name,
-                        _orderItems[index].count,
-                        _orderItems[index].total,
-                        _orderItems[index].orderStatus);
-                  }),
-              Divider(
-                indent: 8,
-                endIndent: 8,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverFillRemaining(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Text(
-                      "Order total",
-                      style: TextStyle(fontFamily: "museoS"),
+                      widget.restaurantName,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontFamily: "museoM"),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8),
                     ),
                     Text(
-                      "\u20B9 " + billAmount,
-                      style: TextStyle(fontFamily: "museoS"),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "GST",
-                      style: TextStyle(fontFamily: "museoS"),
+                      formatDate(endTime.toDate(),
+                          [dd, ' ', M, ' ', yyyy, ' ', hh, ':', nn, ' ', am]),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: "museoM"),
                     ),
-                    Text(
-                      "\u20B9 " + gst,
-                      style: TextStyle(fontFamily: "museoS"),
-                    )
-                  ],
-                ),
-              ),
-              Divider(
-                indent: 8,
-                endIndent: 8,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "Final Total",
-                      style: TextStyle(fontSize: 20, fontFamily: "museoS"),
+                    Divider(
+                      indent: 8,
+                      endIndent: 8,
                     ),
-                    Text(
-                      "\u20B9 " + amountPayable,
-                      style: TextStyle(fontSize: 20, fontFamily: "museoS"),
-                    )
+                    ListView.builder(
+                        padding: EdgeInsets.only(bottom: 0),
+                        itemCount: _orderItems.length,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return OrderItemWidget(
+                              _orderItems[index].name,
+                              _orderItems[index].count,
+                              _orderItems[index].total,
+                              _orderItems[index].orderStatus);
+                        }),
+                    Divider(
+                      indent: 8,
+                      endIndent: 8,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Order total",
+                            style: TextStyle(fontFamily: "museoS"),
+                          ),
+                          Text(
+                            "\u20B9 " + billAmount,
+                            style: TextStyle(fontFamily: "museoS"),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "GST",
+                            style: TextStyle(fontFamily: "museoS"),
+                          ),
+                          Text(
+                            "\u20B9 " + gst,
+                            style: TextStyle(fontFamily: "museoS"),
+                          )
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      indent: 8,
+                      endIndent: 8,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Final Total",
+                            style:
+                                TextStyle(fontSize: 20, fontFamily: "museoS"),
+                          ),
+                          Text(
+                            "\u20B9 " + amountPayable,
+                            style:
+                                TextStyle(fontSize: 20, fontFamily: "museoS"),
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
+              )
             ],
           );
         }
