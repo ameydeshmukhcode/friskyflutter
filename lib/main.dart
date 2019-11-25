@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(builder: (_) => Orders()),
         ],
         child: MaterialApp(
-            title: 'FriSky Flutter',
+            title: 'Frisky',
             theme: ThemeData(
               primaryColor: FriskyColor().colorPrimary,
               accentColor: FriskyColor().colorPrimary,
