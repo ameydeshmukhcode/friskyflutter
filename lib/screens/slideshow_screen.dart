@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:friskyflutter/screens/auth_checker.dart';
 
 import '../frisky_colors.dart';
 
@@ -16,6 +17,7 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
   @override
   void initState() {
     super.initState();
+    _currentPage = 0;
     _pageController.addListener(() {
       setState(() {
         _currentPage = _pageController.page.toInt();
@@ -48,7 +50,12 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
           left: 24,
           bottom: 16,
           child: FlatButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  new MaterialPageRoute(builder: (context) => AuthChecker()),
+                  (Route route) => false);
+            },
             child: Text(
               "Skip",
               style: TextStyle(
@@ -64,6 +71,10 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
           child: FlatButton(
             onPressed: () {
               if (_currentPage == 2) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    new MaterialPageRoute(builder: (context) => AuthChecker()),
+                    (Route route) => false);
               } else {
                 _pageController.animateToPage(_currentPage + 1,
                     duration: Duration(milliseconds: 300),
