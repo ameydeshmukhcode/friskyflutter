@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/screens/auth_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../frisky_colors.dart';
 
@@ -51,10 +52,7 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
           bottom: 16,
           child: FlatButton(
             onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  new MaterialPageRoute(builder: (context) => AuthChecker()),
-                  (Route route) => false);
+              _endSlideshowAndGo();
             },
             child: Text(
               "Skip",
@@ -71,10 +69,7 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
           child: FlatButton(
             onPressed: () {
               if (_currentPage == 2) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    new MaterialPageRoute(builder: (context) => AuthChecker()),
-                    (Route route) => false);
+                _endSlideshowAndGo();
               } else {
                 _pageController.animateToPage(_currentPage + 1,
                     duration: Duration(milliseconds: 300),
@@ -98,6 +93,16 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
         ),
       ],
     );
+  }
+
+  _endSlideshowAndGo() async {
+    SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    await sharedPreferences.setBool("slideshow_complete", false);
+    Navigator.pushAndRemoveUntil(
+        context,
+        new MaterialPageRoute(builder: (context) => AuthChecker()),
+            (Route route) => false);
   }
 }
 
