@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/home_screen.dart';
+import 'package:friskyflutter/screens/home_screen.dart';
 import 'package:friskyflutter/screens/sign_in_email.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

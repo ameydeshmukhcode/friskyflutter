@@ -13,8 +13,8 @@ import 'package:friskyflutter/screens/visits_tab.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-import 'frisky_colors.dart';
-import 'provider_models/session.dart';
+import '../frisky_colors.dart';
+import '../provider_models/session.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

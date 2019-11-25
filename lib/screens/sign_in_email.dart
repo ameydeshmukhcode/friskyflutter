@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:friskyflutter/home_screen.dart';
+import 'package:friskyflutter/screens/home_screen.dart';
 import 'package:friskyflutter/screens/sign_up_email.dart';
 
 class SignInEmail extends StatefulWidget {
