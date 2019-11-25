@@ -21,35 +21,34 @@ class InitWidget extends StatefulWidget {
 }
 
 class _InitWidgetState extends State<InitWidget> {
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  final FirebaseMessaging _fcmHandle = FirebaseMessaging();
+  FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   Map<dynamic, dynamic> data;
 
   @override
   void initState() {
     super.initState();
-    firebaseCloudMessagingListeners();
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    _fcmListeners();
+
     var android = new AndroidInitializationSettings('icon_first_logo');
     var iOS = new IOSInitializationSettings();
-    var initSetttings = new InitializationSettings(android, iOS);
-    flutterLocalNotificationsPlugin.initialize(initSetttings,
+    var initSettings = new InitializationSettings(android, iOS);
+    _flutterLocalNotificationsPlugin.initialize(initSettings,
         onSelectNotification: onSelectNotification);
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _checkSlideshowComplete(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.data == false) {
-          return SlideshowScreen();
-        } else {
-          return AuthChecker();
-        }
-      }
-    );
+        future: _checkSlideshowComplete(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.data == false) {
+            return SlideshowScreen();
+          } else {
+            return AuthChecker();
+          }
+        });
   }
 
   Future<bool> _checkSlideshowComplete() async {
@@ -61,46 +60,41 @@ class _InitWidgetState extends State<InitWidget> {
     }
   }
 
-  showNotification() async {
-    var android = new AndroidNotificationDetails(
-        'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
+  _showNotification() async {
+    var android = new AndroidNotificationDetails('Sessions', 'Visit Updates',
+        'Updates related to your restaurant visits',
         priority: Priority.High, importance: Importance.Max);
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android, iOS);
-    await flutterLocalNotificationsPlugin.show(
-        0, "Session Ended", "Click here to check your visit summary", platform,
-        payload: 'FRiSKY APP');
+    await _flutterLocalNotificationsPlugin.show(0, "You're done dining!",
+        "Click here to check your visit summary", platform,
+        payload: 'Frisky');
   }
 
   // ignore: missing_return
   Future onSelectNotification(String payload) {
-    print(data.toString());
-    print(data["session_id"]);
-    print(data["restaurant_id"]);
-    print(data["restaurant_name"]);
-
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => VisitSummary(
-            sessionID: data["session_id"],
-            restaurantID: data["restaurant_id"],
-            restaurantName: data["restaurant_name"],
-          )),
+                sessionID: data["session_id"],
+                restaurantID: data["restaurant_id"],
+                restaurantName: data["restaurant_name"],
+              )),
     );
   }
 
-  void iOSPermission() {
-    firebaseMessaging.requestNotificationPermissions(
+  _iOSPermissionRequest() {
+    _fcmHandle.requestNotificationPermissions(
         IosNotificationSettings(sound: true, badge: true, alert: true));
-    firebaseMessaging.onIosSettingsRegistered
+    _fcmHandle.onIosSettingsRegistered
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
   }
 
   Future<FirebaseUser> getUser() async {
-    return await _auth.currentUser();
+    return await FirebaseAuth.instance.currentUser();
   }
 
   Future<dynamic> myBackgroundMessageHandler(
@@ -108,31 +102,29 @@ class _InitWidgetState extends State<InitWidget> {
     return Future<void>.value();
   }
 
-  void firebaseCloudMessagingListeners() {
-    if (Platform.isIOS) iOSPermission();
-    getUser().then((user) {
-      Map<String, Object> userDetails = HashMap<String, Object>();
-      print(user.uid + " ye hai ID");
-      firebaseMessaging.getToken().then((token) {
+  void _fcmListeners() {
+    if (Platform.isIOS) _iOSPermissionRequest();
+
+    _fcmHandle.onTokenRefresh.listen((token) {
+      getUser().then((user) {
+        Map<String, Object> userDetails = HashMap<String, Object>();
         userDetails["firebase_instance_id"] = token;
         Firestore.instance
             .collection("users")
             .document(user.uid)
             .setData(userDetails, merge: true)
-            .then((update) {
-          print("TOKEN IS  = " + token);
-          print("instace ID UPDATED ");
-        }).catchError((error) {
-          print("instace ID Update Failed");
+            .then((update) {})
+            .catchError((error) {
+          print("instance ID upload failed");
         });
       }).catchError((error) {
-        print("error in getting token");
+        print("error in getting User");
       });
-    }).catchError((error) {
-      print("error in getting User");
+
+      print("Token refreshed");
     });
-    firebaseMessaging.configure(
-      //onBackgroundMessage: myBackgroundMessageHandler,
+
+    _fcmHandle.configure(
       onMessage: (Map<String, dynamic> message) async {
         doSomething(message);
       },
@@ -155,12 +147,12 @@ class _InitWidgetState extends State<InitWidget> {
     if (data.containsKey("end_session") && data["end_session"] == "yes") {
       // print(data.toString());
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       await sharedPreferences.setBool("session_active", false);
       await sharedPreferences.setBool("order_active", false);
       await sharedPreferences.setBool("bill_requested", false);
       print("RAJ");
-      showNotification();
+      _showNotification();
       Navigator.popUntil(
         context,
         ModalRoute.withName(Navigator.defaultRouteName),
