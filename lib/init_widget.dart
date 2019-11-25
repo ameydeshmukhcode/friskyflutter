@@ -7,8 +7,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:friskyflutter/screens/home_screen.dart';
 import 'package:friskyflutter/provider_models/session.dart';
+import 'package:friskyflutter/screens/sign_in_screen.dart';
+import 'package:friskyflutter/screens/slideshow_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,7 +26,6 @@ class _InitWidgetState extends State<InitWidget> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   Map<dynamic, dynamic> data;
 
-
   @override
   void initState() {
     super.initState();
@@ -40,7 +40,25 @@ class _InitWidgetState extends State<InitWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return HomeScreen();
+    return FutureBuilder(
+      future: _checkSlideshowComplete(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.data == false) {
+          return SlideshowScreen();
+        } else {
+          return SignInMain();
+        }
+      }
+    );
+  }
+
+  Future<bool> _checkSlideshowComplete() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.containsKey("slideshow_complete")) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   showNotification() async {
