@@ -2,12 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SlideshowScreen extends StatelessWidget {
+import '../frisky_colors.dart';
+
+class SlideshowScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _SlideshowScreenState();
+}
+
+class _SlideshowScreenState extends State<SlideshowScreen> {
+  int _currentPage;
+  PageController _pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page.toInt();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         PageView(
+          controller: _pageController,
           children: <Widget>[
             Slide(
                 "Scan QR code",
@@ -27,14 +48,41 @@ class SlideshowScreen extends StatelessWidget {
           left: 24,
           bottom: 16,
           child: FlatButton(
-            child: Text("Skip"),
+            onPressed: () {},
+            child: Text(
+              "Skip",
+              style: TextStyle(
+                  fontFamily: "museoM",
+                  fontSize: 16,
+                  color: FriskyColor().colorPrimary),
+            ),
           ),
         ),
         Positioned(
           right: 24,
           bottom: 16,
           child: FlatButton(
-            child: Text("Next"),
+            onPressed: () {
+              if (_currentPage == 2) {
+              } else {
+                _pageController.animateToPage(_currentPage + 1,
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeOutQuint);
+              }
+            },
+            child: Row(
+              children: <Widget>[
+                Text(_currentPage == 2 ? "Continue" : "Next",
+                    style: TextStyle(
+                        fontFamily: "museoM",
+                        fontSize: 16,
+                        color: FriskyColor().colorPrimary)),
+                Icon(
+                  Icons.chevron_right,
+                  color: FriskyColor().colorPrimary,
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -62,7 +110,7 @@ class Slide extends StatelessWidget {
               child: SvgPicture.asset(imagePath),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 4, bottom: 4),
+              padding: EdgeInsets.only(top: 8, bottom: 8),
               child: Text(
                 title,
                 style: TextStyle(fontFamily: "museoM", fontSize: 20),
