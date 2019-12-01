@@ -120,8 +120,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
             title: Text(
               "Signing you up",
               style: TextStyle(
-                  color: FriskyColor().colorTextDark,
-                  fontFamily: "museoL"),
+                  color: FriskyColor().colorTextDark, fontFamily: "museoL"),
             ),
             content: Wrap(
               children: <Widget>[

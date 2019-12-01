@@ -14,8 +14,7 @@ class AuthChecker extends StatelessWidget {
           } else {
             return HomeScreen();
           }
-        }
-    );
+        });
   }
 
   Future<FirebaseUser> _checkAuthStatus() async {

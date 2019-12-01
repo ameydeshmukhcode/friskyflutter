@@ -32,10 +32,12 @@ class _HomeScreenState extends State<HomeScreen>
       drawer: Visibility(
         visible: !kReleaseMode,
         child: ListView(
-          children: <Widget>[FlatButton(
-            onPressed: null,
-            child: Text("Enable Dummy Session"),
-          )],
+          children: <Widget>[
+            FlatButton(
+              onPressed: null,
+              child: Text("Enable Dummy Session"),
+            )
+          ],
         ),
       ),
       body: Consumer<Session>(builder: (context, session, child) {

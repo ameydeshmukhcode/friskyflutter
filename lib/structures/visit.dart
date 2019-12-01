@@ -7,6 +7,7 @@ class Visit {
   String restaurantName;
   Timestamp endTime;
   String totalAmount;
+
   Visit(this.sessionID, this.restaurantID, this.restaurantImage,
       this.restaurantName, this.endTime, this.totalAmount);
 }
