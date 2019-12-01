@@ -41,7 +41,7 @@ class DineTabDefault extends StatelessWidget {
               "You Haven't ordered anything yet. To get the menu and start ordering. Scan the QR code on the table.",
               style: TextStyle(
                   fontSize: 20,
-                  color: FriskyColor().colorTextLight,
+                  color: FriskyColor.colorTextLight,
                   fontFamily: "museoS"),
               textAlign: TextAlign.center,
             ),
@@ -73,12 +73,12 @@ class _DineTabActiveState extends State<DineTabActive> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        iconTheme: IconThemeData(color: FriskyColor().colorTextDark),
+        iconTheme: IconThemeData(color: FriskyColor.colorTextDark),
         title: Text(
           "You're at",
           style: TextStyle(
             fontFamily: "museoS",
-            color: FriskyColor().colorTextDark,
+            color: FriskyColor.colorTextDark,
           ),
           textAlign: TextAlign.center,
         ),
@@ -103,7 +103,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                           Session.restaurantName,
                           style: TextStyle(
                             fontFamily: "museoM",
-                            color: FriskyColor().colorTextLight,
+                            color: FriskyColor.colorTextLight,
                             fontSize: 20,
                           ),
                         ),
@@ -113,11 +113,11 @@ class _DineTabActiveState extends State<DineTabActive> {
                             'Table ' + Session.tableName,
                             style: TextStyle(
                                 fontSize: 20,
-                                color: FriskyColor().colorTextLight,
+                                color: FriskyColor.colorTextLight,
                                 fontFamily: "museoM"),
                           ),
                           decoration: BoxDecoration(
-                            color: FriskyColor().colorTableName,
+                            color: FriskyColor.colorTableName,
                             borderRadius: BorderRadius.circular(8),
                           ),
                         )
@@ -147,7 +147,7 @@ class DineTabBillRequested extends StatelessWidget {
               "Bill Requested. The waiter will\ncollect payment from you.",
               style: TextStyle(
                   fontSize: 20,
-                  color: FriskyColor().colorTextLight,
+                  color: FriskyColor.colorTextLight,
                   fontFamily: "museoS"),
               textAlign: TextAlign.center,
             ),

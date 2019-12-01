@@ -41,12 +41,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
-          iconTheme: IconThemeData(color: FriskyColor().colorTextDark),
+          iconTheme: IconThemeData(color: FriskyColor.colorTextDark),
           title: Text(
             "Your Order",
             style: TextStyle(
               fontFamily: "museoM",
-              color: FriskyColor().colorTextDark,
+              color: FriskyColor.colorTextDark,
             ),
             textAlign: TextAlign.center,
           ),
@@ -61,11 +61,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 'Table ' + widget.tableName,
                 style: TextStyle(
                     fontSize: 20,
-                    color: FriskyColor().colorTextLight,
+                    color: FriskyColor.colorTextLight,
                     fontFamily: "museoM"),
               ),
               decoration: BoxDecoration(
-                color: FriskyColor().colorTableName,
+                color: FriskyColor.colorTableName,
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
@@ -96,7 +96,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 " - " +
                                 header.time,
                             style: TextStyle(
-                                color: FriskyColor().colorTextDark,
+                                color: FriskyColor.colorTextDark,
                                 fontSize: 14,
                                 fontFamily: "museoS"),
                           ),
@@ -134,7 +134,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     "Cart Total",
                     style: TextStyle(
                         fontFamily: "museoS",
-                        color: FriskyColor().colorTextDark,
+                        color: FriskyColor.colorTextDark,
                         fontSize: 14),
                   ),
                   Text(
@@ -142,7 +142,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         Provider.of<Orders>(context, listen: true).billAmount,
                     style: TextStyle(
                         fontFamily: "museoS",
-                        color: FriskyColor().colorTextDark,
+                        color: FriskyColor.colorTextDark,
                         fontSize: 14),
                   ),
                 ],
@@ -158,14 +158,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     "GST",
                     style: TextStyle(
                         fontFamily: "museoS",
-                        color: FriskyColor().colorTextDark,
+                        color: FriskyColor.colorTextDark,
                         fontSize: 14),
                   ),
                   Text(
                     "\u20B9" + Provider.of<Orders>(context, listen: true).gst,
                     style: TextStyle(
                         fontFamily: "museoS",
-                        color: FriskyColor().colorTextDark,
+                        color: FriskyColor.colorTextDark,
                         fontSize: 14),
                   ),
                 ],
@@ -181,7 +181,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     "Final Total",
                     style: TextStyle(
                         fontFamily: "museoM",
-                        color: FriskyColor().colorTextDark,
+                        color: FriskyColor.colorTextDark,
                         fontSize: 16),
                   ),
                   Text(
@@ -203,7 +203,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   Expanded(
                     child: FlatButton(
                       padding: EdgeInsets.all(8),
-                      color: FriskyColor().colorBadge,
+                      color: FriskyColor.colorBadge,
                       onPressed: () {
                         showConfirmAlert();
                       },
@@ -225,7 +225,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   Expanded(
                     child: OutlineButton(
                       padding: EdgeInsets.all(8),
-                      highlightedBorderColor: FriskyColor().colorPrimary,
+                      highlightedBorderColor: FriskyColor.colorPrimary,
                       color: Colors.lightGreen,
                       onPressed: () {
                         Navigator.pop(context);
@@ -233,12 +233,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       child: Text(
                         "Order More",
                         style: TextStyle(
-                            color: FriskyColor().colorPrimary,
+                            color: FriskyColor.colorPrimary,
                             fontSize: 20,
                             fontFamily: "museoM"),
                       ),
                       borderSide: BorderSide(
-                        color: FriskyColor().colorPrimary,
+                        color: FriskyColor.colorPrimary,
                         width: 1,
                       ),
                       shape: RoundedRectangleBorder(
@@ -263,12 +263,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
           title: Text(
             "Clear Bill?",
             style: TextStyle(
-                color: FriskyColor().colorTextDark, fontFamily: "museoM"),
+                color: FriskyColor.colorTextDark, fontFamily: "museoM"),
           ),
           content: Text(
             "You are about to request the bill and end your session. You won\'t be able to order anymore items after you confirm.",
             style: TextStyle(
-                color: FriskyColor().colorTextLight, fontFamily: "museoS"),
+                color: FriskyColor.colorTextLight, fontFamily: "museoS"),
           ),
           actions: <Widget>[
             FlatButton(
@@ -277,10 +277,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
               },
               child: Text("Cancel",
                   style: TextStyle(
-                      color: FriskyColor().colorPrimary, fontFamily: "museoS")),
+                      color: FriskyColor.colorPrimary, fontFamily: "museoS")),
             ),
             FlatButton(
-                color: FriskyColor().colorPrimary,
+                color: FriskyColor.colorPrimary,
                 onPressed: () {
                   requestBill();
                 },
@@ -303,14 +303,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
             title: Text(
               "Requesting the Bill",
               style: TextStyle(
-                  color: FriskyColor().colorTextDark, fontFamily: "museoS"),
+                  color: FriskyColor.colorTextDark, fontFamily: "museoS"),
             ),
             content: Wrap(
               children: <Widget>[
                 Center(
                   child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
+                      FriskyColor.colorPrimary,
                     ),
                   ),
                 )

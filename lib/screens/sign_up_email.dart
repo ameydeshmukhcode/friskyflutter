@@ -40,7 +40,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                       border: OutlineInputBorder(),
                     ),
                     controller: _emailController,
-                    cursorColor: FriskyColor().colorPrimary,
+                    cursorColor: FriskyColor.colorPrimary,
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
@@ -51,7 +51,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                         border: OutlineInputBorder()),
                     obscureText: true,
                     controller: _passwordController,
-                    cursorColor: FriskyColor().colorPrimary,
+                    cursorColor: FriskyColor.colorPrimary,
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
@@ -63,7 +63,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                     ),
                     obscureText: true,
                     controller: _cpasswordController,
-                    cursorColor: FriskyColor().colorPrimary,
+                    cursorColor: FriskyColor.colorPrimary,
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   RaisedButton(
@@ -86,7 +86,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                       }
                     },
                     elevation: 2,
-                    color: FriskyColor().colorPrimary,
+                    color: FriskyColor.colorPrimary,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
@@ -120,14 +120,14 @@ class _SignUpEmailState extends State<SignUpEmail> {
             title: Text(
               "Signing you up",
               style: TextStyle(
-                  color: FriskyColor().colorTextDark, fontFamily: "museoL"),
+                  color: FriskyColor.colorTextDark, fontFamily: "museoL"),
             ),
             content: Wrap(
               children: <Widget>[
                 Center(
                   child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
+                      FriskyColor.colorPrimary,
                     ),
                   ),
                 )

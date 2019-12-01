@@ -21,7 +21,7 @@ class _OptionsScreenState extends State<OptionsScreen> {
           style: TextStyle(fontFamily: "museoM"),
         ),
         elevation: 4,
-        backgroundColor: FriskyColor().colorPrimary,
+        backgroundColor: FriskyColor.colorPrimary,
       ),
       backgroundColor: Colors.white,
       body: Column(

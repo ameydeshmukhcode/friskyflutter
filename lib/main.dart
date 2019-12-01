@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'Frisky',
             theme: ThemeData(
-              primaryColor: FriskyColor().colorPrimary,
-              accentColor: FriskyColor().colorPrimary,
+              primaryColor: FriskyColor.colorPrimary,
+              accentColor: FriskyColor.colorPrimary,
             ),
             home: InitWidget()));
   }

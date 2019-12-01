@@ -53,7 +53,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
                 ),
               ),
               FlatButton(
-                  color: FriskyColor().colorPrimary,
+                  color: FriskyColor.colorPrimary,
                   onPressed: () {
                     _initSessionCreation(data);
                   },
@@ -102,14 +102,14 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
             title: Text(
               "Retrieving the Menu",
               style: TextStyle(
-                  color: FriskyColor().colorTextDark, fontFamily: "museoM"),
+                  color: FriskyColor.colorTextDark, fontFamily: "museoM"),
             ),
             content: Wrap(
               children: <Widget>[
                 Center(
                   child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
+                      FriskyColor.colorPrimary,
                     ),
                   ),
                 )

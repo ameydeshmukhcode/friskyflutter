@@ -55,12 +55,12 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        iconTheme: IconThemeData(color: FriskyColor().colorTextDark),
+        iconTheme: IconThemeData(color: FriskyColor.colorTextDark),
         title: Text(
           "Your Cart",
           style: TextStyle(
             fontFamily: "museoM",
-            color: FriskyColor().colorTextDark,
+            color: FriskyColor.colorTextDark,
           ),
           textAlign: TextAlign.center,
         ),
@@ -78,11 +78,11 @@ class _CartScreenState extends State<CartScreen> {
               style: TextStyle(
                 fontFamily: "museoM",
                 fontSize: 20,
-                color: FriskyColor().colorTextDark,
+                color: FriskyColor.colorTextDark,
               ),
             ),
             decoration: BoxDecoration(
-              color: FriskyColor().colorTableName,
+              color: FriskyColor.colorTableName,
               borderRadius: BorderRadius.circular(8),
             ),
           )),
@@ -180,7 +180,7 @@ class _CartScreenState extends State<CartScreen> {
                   "Cart Total",
                   style: TextStyle(
                       fontFamily: "museoM",
-                      color: FriskyColor().colorTextDark,
+                      color: FriskyColor.colorTextDark,
                       fontSize: 16),
                 ),
                 Text(
@@ -197,7 +197,7 @@ class _CartScreenState extends State<CartScreen> {
               child: FlatButton(
                 padding: EdgeInsets.all(8),
                 onPressed: showConfirmAlert,
-                color: FriskyColor().colorBadge,
+                color: FriskyColor.colorBadge,
                 child: Text(
                   "Place Order",
                   style: TextStyle(
@@ -240,7 +240,7 @@ class _CartScreenState extends State<CartScreen> {
               width: 30,
               child: FlatButton(
                 padding: EdgeInsets.all(0),
-                color: FriskyColor().colorBadge,
+                color: FriskyColor.colorBadge,
                 onPressed: () {
                   Provider.of<Cart>(context, listen: true)
                       .removeFromCart(menuItem);
@@ -264,7 +264,7 @@ class _CartScreenState extends State<CartScreen> {
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: FriskyColor().colorTextLight),
+                    color: FriskyColor.colorTextLight),
               )),
             ),
             Container(
@@ -272,7 +272,7 @@ class _CartScreenState extends State<CartScreen> {
               width: 30,
               child: FlatButton(
                 padding: EdgeInsets.all(0),
-                color: FriskyColor().colorBadge,
+                color: FriskyColor.colorBadge,
                 onPressed: () {
                   Provider.of<Cart>(context, listen: true).addToCart(menuItem);
                 },
@@ -296,7 +296,7 @@ class _CartScreenState extends State<CartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Icon(Icons.shopping_cart,
-                  size: 14, color: FriskyColor().colorTextLight),
+                  size: 14, color: FriskyColor.colorTextLight),
               Padding(
                 padding: EdgeInsets.only(left: 2),
               ),
@@ -304,7 +304,7 @@ class _CartScreenState extends State<CartScreen> {
                 "In cart",
                 style: TextStyle(
                   fontFamily: "museoS",
-                  color: FriskyColor().colorTextLight,
+                  color: FriskyColor.colorTextLight,
                 ),
               ),
             ],
@@ -322,12 +322,12 @@ class _CartScreenState extends State<CartScreen> {
           title: Text(
             "Place Order",
             style: TextStyle(
-                color: FriskyColor().colorTextDark, fontFamily: "museoM"),
+                color: FriskyColor.colorTextDark, fontFamily: "museoM"),
           ),
           content: Text(
             "Send order to kitchen for prepration?",
             style: TextStyle(
-                color: FriskyColor().colorTextLight, fontFamily: "museoS"),
+                color: FriskyColor.colorTextLight, fontFamily: "museoS"),
           ),
           actions: <Widget>[
             FlatButton(
@@ -336,10 +336,10 @@ class _CartScreenState extends State<CartScreen> {
               },
               child: Text("Cancel",
                   style: TextStyle(
-                      color: FriskyColor().colorPrimary, fontFamily: "museoM")),
+                      color: FriskyColor.colorPrimary, fontFamily: "museoM")),
             ),
             FlatButton(
-                color: FriskyColor().colorPrimary,
+                color: FriskyColor.colorPrimary,
                 onPressed: () {
                   placeOrder();
                 },
@@ -362,14 +362,14 @@ class _CartScreenState extends State<CartScreen> {
             title: Text(
               "Placing Your Order",
               style: TextStyle(
-                  color: FriskyColor().colorTextDark, fontFamily: "museoM"),
+                  color: FriskyColor.colorTextDark, fontFamily: "museoM"),
             ),
             content: Wrap(
               children: <Widget>[
                 Center(
                   child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
+                      FriskyColor.colorPrimary,
                     ),
                   ),
                 )

@@ -109,7 +109,7 @@ class _VisitsTabState extends State<VisitsTab>
             return Center(
               child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
-                  FriskyColor().colorPrimary,
+                  FriskyColor.colorPrimary,
                 ),
               ),
             );
@@ -125,7 +125,7 @@ class _VisitsTabState extends State<VisitsTab>
                         "You do not have any visits yet!",
                         style: TextStyle(
                             fontSize: 20,
-                            color: FriskyColor().colorTextLight,
+                            color: FriskyColor.colorTextLight,
                             fontFamily: "museoS"),
                         textAlign: TextAlign.center,
                       ),

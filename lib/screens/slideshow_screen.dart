@@ -59,7 +59,7 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
               style: TextStyle(
                   fontFamily: "museoM",
                   fontSize: 16,
-                  color: FriskyColor().colorPrimary),
+                  color: FriskyColor.colorPrimary),
             ),
           ),
         ),
@@ -82,10 +82,10 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
                     style: TextStyle(
                         fontFamily: "museoM",
                         fontSize: 16,
-                        color: FriskyColor().colorPrimary)),
+                        color: FriskyColor.colorPrimary)),
                 Icon(
                   Icons.chevron_right,
-                  color: FriskyColor().colorPrimary,
+                  color: FriskyColor.colorPrimary,
                 ),
               ],
             ),

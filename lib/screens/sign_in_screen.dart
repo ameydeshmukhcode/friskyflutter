@@ -52,7 +52,7 @@ class _SignInMainState extends State<SignInMain> {
                       style: TextStyle(
                         fontFamily: "museoM",
                         fontSize: 20,
-                        color: FriskyColor().colorPrimary,
+                        color: FriskyColor.colorPrimary,
                       )),
                 ],
               ),
@@ -61,7 +61,7 @@ class _SignInMainState extends State<SignInMain> {
           Padding(
             padding: EdgeInsets.fromLTRB(24, 4, 24, 0),
             child: RaisedButton(
-              color: FriskyColor().colorPrimary,
+              color: FriskyColor.colorPrimary,
               padding: EdgeInsets.all(8),
               shape: StadiumBorder(),
               elevation: 2,
@@ -102,7 +102,7 @@ class _SignInMainState extends State<SignInMain> {
               style: TextStyle(
                 fontFamily: "museoS",
                 fontSize: 14,
-                color: FriskyColor().colorTextDark,
+                color: FriskyColor.colorTextDark,
               ),
             ),
           ),
@@ -119,14 +119,14 @@ class _SignInMainState extends State<SignInMain> {
             title: Text(
               "Signing you in",
               style: TextStyle(
-                  fontFamily: "museoL", color: FriskyColor().colorTextDark),
+                  fontFamily: "museoL", color: FriskyColor.colorTextDark),
             ),
             content: Wrap(
               children: <Widget>[
                 Center(
                   child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
+                      FriskyColor.colorPrimary,
                     ),
                   ),
                 )

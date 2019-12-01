@@ -39,7 +39,7 @@ class _SignInEmailState extends State<SignInEmail> {
                   style: TextStyle(fontFamily: "museoS", fontSize: 16),
                   decoration: InputDecoration(
                       labelText: 'Email', border: OutlineInputBorder()),
-                  cursorColor: FriskyColor().colorPrimary,
+                  cursorColor: FriskyColor.colorPrimary,
                 ),
                 Padding(padding: EdgeInsets.only(top: 8)),
                 TextField(
@@ -50,7 +50,7 @@ class _SignInEmailState extends State<SignInEmail> {
                       focusColor: Colors.black,
                       border: OutlineInputBorder()),
                   obscureText: true,
-                  cursorColor: FriskyColor().colorPrimary,
+                  cursorColor: FriskyColor.colorPrimary,
                 ),
                 Container(
                   child: Align(
@@ -87,7 +87,7 @@ class _SignInEmailState extends State<SignInEmail> {
                     }
                   },
                   elevation: 2,
-                  color: FriskyColor().colorPrimary,
+                  color: FriskyColor.colorPrimary,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 8, right: 16),
@@ -167,7 +167,7 @@ class _SignInEmailState extends State<SignInEmail> {
               "Signing you in",
               style: TextStyle(
                 fontFamily: "museoL",
-                color: FriskyColor().colorTextDark,
+                color: FriskyColor.colorTextDark,
               ),
             ),
             content: Wrap(
@@ -175,7 +175,7 @@ class _SignInEmailState extends State<SignInEmail> {
                 Center(
                   child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
+                      FriskyColor.colorPrimary,
                     ),
                   ),
                 )

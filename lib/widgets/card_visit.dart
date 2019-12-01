@@ -55,7 +55,7 @@ class VisitWidget extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           softWrap: true,
                           style: TextStyle(
-                              color: FriskyColor().colorTextLight,
+                              color: FriskyColor.colorTextLight,
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               fontFamily: "museoM"),
@@ -67,7 +67,7 @@ class VisitWidget extends StatelessWidget {
                           "Visited On ",
                           maxLines: 1,
                           style: TextStyle(
-                              color: FriskyColor().colorTextLight,
+                              color: FriskyColor.colorTextLight,
                               fontSize: 12,
                               fontFamily: "museoS"),
                         ),
@@ -76,7 +76,7 @@ class VisitWidget extends StatelessWidget {
                           maxLines: 1,
                           style: TextStyle(
                               fontSize: 12,
-                              color: FriskyColor().colorTextLight,
+                              color: FriskyColor.colorTextLight,
                               fontWeight: FontWeight.bold,
                               fontFamily: "museoS"),
                         ),
@@ -88,14 +88,14 @@ class VisitWidget extends StatelessWidget {
                           maxLines: 1,
                           style: TextStyle(
                               fontSize: 12,
-                              color: FriskyColor().colorTextLight,
+                              color: FriskyColor.colorTextLight,
                               fontFamily: "museoS"),
                         ),
                         Text(
                           "\u20B9 " + totalAmount,
                           style: TextStyle(
                               fontSize: 12,
-                              color: FriskyColor().colorTextLight,
+                              color: FriskyColor.colorTextLight,
                               fontWeight: FontWeight.bold,
                               fontFamily: "museoS"),
                         ),

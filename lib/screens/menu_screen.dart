@@ -142,7 +142,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     "You're at",
                     style: TextStyle(
                       fontFamily: "museoM",
-                      color: FriskyColor().colorTextDark,
+                      color: FriskyColor.colorTextDark,
                     ),
                   ),
                   backgroundColor: Colors.white,
@@ -161,7 +161,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               Text(
                                 widget.restaurantName,
                                 style: TextStyle(
-                                    color: FriskyColor().colorTextLight,
+                                    color: FriskyColor.colorTextLight,
                                     fontSize: 20,
                                     fontFamily: "museoM"),
                               ),
@@ -171,11 +171,11 @@ class _MenuScreenState extends State<MenuScreen> {
                                   'Table ' + widget.tableName,
                                   style: TextStyle(
                                       fontSize: 20,
-                                      color: FriskyColor().colorTextLight,
+                                      color: FriskyColor.colorTextLight,
                                       fontFamily: "museoM"),
                                 ),
                                 decoration: BoxDecoration(
-                                  color: FriskyColor().colorTableName,
+                                  color: FriskyColor.colorTableName,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               )
@@ -190,7 +190,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               "Menu",
                               style: TextStyle(
                                 fontFamily: "museoM",
-                                color: FriskyColor().colorTextLight,
+                                color: FriskyColor.colorTextLight,
                                 fontSize: 16,
                               ),
                             ),
@@ -208,7 +208,7 @@ class _MenuScreenState extends State<MenuScreen> {
             : Center(
                 child: CircularProgressIndicator(
                   valueColor: new AlwaysStoppedAnimation<Color>(
-                    FriskyColor().colorPrimary,
+                    FriskyColor.colorPrimary,
                   ),
                 ),
               ));
@@ -223,7 +223,7 @@ class _MenuScreenState extends State<MenuScreen> {
               alignment: Alignment.center,
               child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
-                  FriskyColor().colorPrimary,
+                  FriskyColor.colorPrimary,
                 ),
               ),
             );
@@ -256,7 +256,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           menuCategory.name,
                           style: TextStyle(
                             fontFamily: "museoM",
-                            color: FriskyColor().colorTextLight,
+                            color: FriskyColor.colorTextLight,
                             fontSize: 16,
                           ),
                         ),
@@ -372,7 +372,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: Text(
                     "You have items in the cart",
                     style: TextStyle(
-                        color: FriskyColor().colorSnackBarText,
+                        color: FriskyColor.colorSnackBarText,
                         fontSize: 14,
                         fontFamily: "museoM"),
                   ),
@@ -399,7 +399,7 @@ class _MenuScreenState extends State<MenuScreen> {
               ],
             ),
             decoration: BoxDecoration(
-                color: FriskyColor().colorSnackBar,
+                color: FriskyColor.colorSnackBar,
                 borderRadius: BorderRadius.circular(6)),
           ),
         ),
@@ -419,7 +419,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: Text(
                       "You have orders",
                       style: TextStyle(
-                          color: FriskyColor().colorSnackBarText,
+                          color: FriskyColor.colorSnackBarText,
                           fontSize: 14,
                           fontFamily: "museoM"),
                     ),
@@ -450,7 +450,7 @@ class _MenuScreenState extends State<MenuScreen> {
               ],
             ),
             decoration: BoxDecoration(
-                color: FriskyColor().colorSnackBar,
+                color: FriskyColor.colorSnackBar,
                 borderRadius: BorderRadius.circular(6)),
           ),
         ),
@@ -470,7 +470,7 @@ class _MenuScreenState extends State<MenuScreen> {
             width: 30,
             child: FlatButton(
               padding: EdgeInsets.all(0),
-              color: FriskyColor().colorBadge,
+              color: FriskyColor.colorBadge,
               onPressed: () {
                 Provider.of<Cart>(context, listen: true)
                     .removeFromCart(menuItem);
@@ -494,7 +494,7 @@ class _MenuScreenState extends State<MenuScreen> {
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: FriskyColor().colorTextDark),
+                  color: FriskyColor.colorTextDark),
             )),
           ),
           Container(
@@ -502,7 +502,7 @@ class _MenuScreenState extends State<MenuScreen> {
             width: 30,
             child: FlatButton(
               padding: EdgeInsets.all(0),
-              color: FriskyColor().colorBadge,
+              color: FriskyColor.colorBadge,
               onPressed: () {
                 Provider.of<Cart>(context, listen: true).addToCart(menuItem);
               },
@@ -529,7 +529,7 @@ class _MenuScreenState extends State<MenuScreen> {
         child: FlatButton(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          color: FriskyColor().colorBadge,
+          color: FriskyColor.colorBadge,
           onPressed: () {
             Provider.of<Cart>(context, listen: true).addToCart(menuItem);
           },

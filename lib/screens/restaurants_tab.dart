@@ -57,7 +57,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
           IconButton(
               tooltip: "Options",
               icon: Icon(Icons.settings),
-              color: FriskyColor().colorPrimary,
+              color: FriskyColor.colorPrimary,
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => OptionsScreen()));
@@ -82,7 +82,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
             return Center(
               child: CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(
-                  FriskyColor().colorPrimary,
+                  FriskyColor.colorPrimary,
                 ),
               ),
             );

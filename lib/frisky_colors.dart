@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class FriskyColor {
-  MaterialColor colorPrimary = MaterialColor(0xFFff5c5c, color);
-  MaterialColor colorTextDark = MaterialColor(0xFF707070, color);
-  MaterialColor colorTextLight = MaterialColor(0xFF757575, color);
-  MaterialColor colorBadge = MaterialColor(0xFF49D852, color);
-  MaterialColor colorTableName = MaterialColor(0xFFD7D7D7, color);
-  MaterialColor colorSnackBar = MaterialColor(0xFF333333, color);
-  MaterialColor colorSnackBarText = MaterialColor(0xFFE4E4E4, color);
-  MaterialColor colorSnackBarButton = MaterialColor(0xFF4C3838, color);
+  static const MaterialColor colorPrimary = MaterialColor(0xFFff5c5c, color);
+  static const MaterialColor colorTextDark = MaterialColor(0xFF707070, color);
+  static const MaterialColor colorTextLight = MaterialColor(0xFF757575, color);
+  static const MaterialColor colorBadge = MaterialColor(0xFF49D852, color);
+  static const MaterialColor colorTableName = MaterialColor(0xFFD7D7D7, color);
+  static const MaterialColor colorSnackBar = MaterialColor(0xFF333333, color);
+  static const MaterialColor colorSnackBarText = MaterialColor(0xFFE4E4E4, color);
+  static const MaterialColor colorSnackBarButton = MaterialColor(0xFF4C3838, color);
 }
 
-Map<int, Color> color = {
+const Map<int, Color> color = {
   50: Color.fromRGBO(136, 14, 79, .1),
   100: Color.fromRGBO(136, 14, 79, .2),
   200: Color.fromRGBO(136, 14, 79, .3),

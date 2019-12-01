@@ -74,7 +74,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                 Center(
                   child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                      FriskyColor().colorPrimary,
+                      FriskyColor.colorPrimary,
                     ),
                   ),
                 ),

@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen>
                             : ("Currently at"),
                         style: TextStyle(
                             fontSize: 14,
-                            color: FriskyColor().colorTextLight,
+                            color: FriskyColor.colorTextLight,
                             fontFamily: "museoS"),
                       ),
                       subtitle: Text(
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen>
                           ? SizedBox()
                           : OutlineButton(
                               highlightedBorderColor:
-                                  FriskyColor().colorPrimary,
+                                  FriskyColor.colorPrimary,
                               color: Colors.lightGreen,
                               onPressed: () {
                                 Navigator.push(
@@ -91,11 +91,11 @@ class _HomeScreenState extends State<HomeScreen>
                               child: Text(
                                 "Menu",
                                 style: TextStyle(
-                                    color: FriskyColor().colorPrimary,
+                                    color: FriskyColor.colorPrimary,
                                     fontFamily: "museoM"),
                               ),
                               borderSide: BorderSide(
-                                color: FriskyColor().colorPrimary,
+                                color: FriskyColor.colorPrimary,
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(4),
@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen>
               "Scan QR Code",
               style: TextStyle(fontFamily: "museoM"),
             ),
-            backgroundColor: FriskyColor().colorPrimary,
+            backgroundColor: FriskyColor.colorPrimary,
           ),
         );
       }),
@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen>
           icon: Consumer<Session>(builder: (context, session, child) {
             return Badge(
               child: Icon(Icons.restaurant),
-              badgeColor: FriskyColor().colorBadge,
+              badgeColor: FriskyColor.colorBadge,
               elevation: 0,
               position: BadgePosition.topRight(right: -7, top: -6),
               showBadge: session.isSessionActive,
@@ -225,16 +225,16 @@ class _HomeScreenState extends State<HomeScreen>
           title: Text(
             "Allow Camera",
             style: TextStyle(
-                color: FriskyColor().colorTextDark, fontFamily: "museoM"),
+                color: FriskyColor.colorTextDark, fontFamily: "museoM"),
           ),
           content: Text(
             "Enable 'Camera' for Frisky under Settings to be able to scan QR codes.",
             style: TextStyle(
-                color: FriskyColor().colorTextLight, fontFamily: "museoS"),
+                color: FriskyColor.colorTextLight, fontFamily: "museoS"),
           ),
           actions: <Widget>[
             FlatButton(
-                color: FriskyColor().colorPrimary,
+                color: FriskyColor.colorPrimary,
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -257,16 +257,16 @@ class _HomeScreenState extends State<HomeScreen>
           title: Text(
             "Camera Needed",
             style: TextStyle(
-                color: FriskyColor().colorTextDark, fontFamily: "museoM"),
+                color: FriskyColor.colorTextDark, fontFamily: "museoM"),
           ),
           content: Text(
             "Allow camera permission to be able to scan QR codes.",
             style: TextStyle(
-                color: FriskyColor().colorTextLight, fontFamily: "museoS"),
+                color: FriskyColor.colorTextLight, fontFamily: "museoS"),
           ),
           actions: <Widget>[
             FlatButton(
-                color: FriskyColor().colorPrimary,
+                color: FriskyColor.colorPrimary,
                 onPressed: () {
                   Navigator.pop(context);
                 },
