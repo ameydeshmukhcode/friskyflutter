@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/structures/order_item.dart';
-import 'package:friskyflutter/structures/order_status.dart';
 import 'package:friskyflutter/widgets/card_order_item.dart';
 import '../frisky_colors.dart';
 

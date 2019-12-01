@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/structures/order_status.dart';
+import 'package:friskyflutter/structures/order_item.dart';
 
 class OrderItemWidget extends StatelessWidget {
   final String name;
