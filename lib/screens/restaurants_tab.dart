@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/screens/options.dart';
 
 import '../frisky_colors.dart';
 import 'restaurants_details_screen.dart';
@@ -54,8 +53,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
               icon: Icon(Icons.person),
               color: FriskyColor.colorTextDark,
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => OptionsScreen()));
+                Scaffold.of(context).openEndDrawer();
               })
         ],
       ),

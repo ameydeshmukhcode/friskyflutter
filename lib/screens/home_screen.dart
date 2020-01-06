@@ -29,16 +29,25 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Visibility(
-        visible: !kReleaseMode,
-        child: ListView(
-          children: <Widget>[
-            FlatButton(
-              onPressed: null,
-              child: Text("Enable Dummy Session"),
-            )
-          ],
-        ),
+      drawerEdgeDragWidth: 0,
+      endDrawer: Container(
+        color: Colors.white,
+        child: Column(
+            // Important: Remove any padding from the ListView.
+            children: <Widget>[
+              DrawerHeader(
+                child: Icon(
+                  Icons.person,
+                ),
+              ),
+              Visibility(
+                visible: !kReleaseMode,
+                child: FlatButton(
+                  onPressed: null,
+                  child: Text("Enable Dummy Session"),
+                ),
+              )
+            ]),
       ),
       body: Consumer<Session>(builder: (context, session, child) {
         return Stack(
@@ -75,8 +84,7 @@ class _HomeScreenState extends State<HomeScreen>
                       trailing: session.isBillRequested
                           ? SizedBox()
                           : OutlineButton(
-                              highlightedBorderColor:
-                                  FriskyColor.colorPrimary,
+                              highlightedBorderColor: FriskyColor.colorPrimary,
                               color: Colors.lightGreen,
                               onPressed: () {
                                 Navigator.push(
