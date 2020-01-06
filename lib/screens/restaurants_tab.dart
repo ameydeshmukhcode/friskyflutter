@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/screens/options.dart';
 
 import '../frisky_colors.dart';
@@ -49,15 +48,11 @@ class _RestaurantsTabState extends State<RestaurantsTab>
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Padding(
-          padding: EdgeInsets.only(top: 8, bottom: 8),
-          child: SvgPicture.asset('images/logo_text.svg'),
-        ),
         actions: <Widget>[
           IconButton(
               tooltip: "Options",
-              icon: Icon(Icons.settings),
-              color: FriskyColor.colorPrimary,
+              icon: Icon(Icons.person),
+              color: FriskyColor.colorTextDark,
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => OptionsScreen()));
@@ -91,89 +86,90 @@ class _RestaurantsTabState extends State<RestaurantsTab>
                 itemCount: snapshot.data.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-                    child: Card(
-                        margin: EdgeInsets.all(0),
-                        elevation: 2,
-                        child: InkWell(
-                          onTap: () {
-                            navigateToDetails(snapshot.data[index]);
-                          },
-                          child: Container(
-                            height: 80,
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Image.network(
-                                    snapshot.data[index].data['image'],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Expanded(
-                                    child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          snapshot.data[index].data['name'],
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: "museoM"),
-                                        ),
-                                        Text(
-                                          snapshot.data[index].data['address'],
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: "museoS"),
-                                        ),
-                                        Text(
-                                          snapshot.data[index].data['cuisine']
-                                                  [0] +
-                                              ", " +
-                                              snapshot.data[index]
-                                                  .data['cuisine'][1],
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: "museoS"),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                color: Colors.green),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(4),
-                                              child: Text(
-                                                "4.5",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontFamily: "museoL"),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ))
-                              ],
+                  return InkWell(
+                    onTap: () {
+                      navigateToDetails(snapshot.data[index]);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+                      height: 120,
+                      child: Row(
+                        children: <Widget>[
+                          AspectRatio(
+                            aspectRatio: 1.25,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                snapshot.data[index].data['image'],
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        )),
+                          Expanded(
+                              child: Container(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        snapshot.data[index].data['name'],
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data[index].data['address'],
+                                        maxLines: 1,
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      Text(
+                                        snapshot.data[index].data['cuisine']
+                                                [0] +
+                                            ", " +
+                                            snapshot.data[index].data['cuisine']
+                                                [1],
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          color: Colors.green),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(4),
+                                        child: Text(
+                                          "4.5",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ))
+                        ],
+                      ),
+                    ),
                   );
                 });
           }
