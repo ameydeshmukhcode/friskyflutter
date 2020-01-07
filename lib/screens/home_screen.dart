@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:badges/badges.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,6 +16,7 @@ import 'package:provider/provider.dart';
 
 import '../frisky_colors.dart';
 import '../provider_models/session.dart';
+import 'sign_in_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -33,20 +35,59 @@ class _HomeScreenState extends State<HomeScreen>
       endDrawer: Container(
         color: Colors.white,
         child: Column(
-            // Important: Remove any padding from the ListView.
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              DrawerHeader(
-                child: Icon(
-                  Icons.person,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: () {},
+                    child: Container(
+                      width: 200,
+                      padding: EdgeInsets.only(
+                          left: 8, top: 64, right: 8, bottom: 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(Icons.person),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16),
+                            child: Text(
+                              "Name",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  NavigationDrawerButton("Location"),
+                  NavigationDrawerButton("Payments"),
+                  NavigationDrawerButton("Order History"),
+                  NavigationDrawerButton("Settings"),
+                  NavigationDrawerButton("About"),
+                  Visibility(
+                    visible: !kReleaseMode,
+                    child: NavigationDrawerButton("Enable Dummy Session"),
+                  ),
+                ],
               ),
-              Visibility(
-                visible: !kReleaseMode,
-                child: FlatButton(
-                  onPressed: null,
-                  child: Text("Enable Dummy Session"),
+              FlatButton(
+                color: FriskyColor.colorPrimary,
+                child: Container(
+                  width: 200,
+                  padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                  child: Center(
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                  ),
                 ),
-              )
+                onPressed: _signOut,
+              ),
             ]),
       ),
       body: Consumer<Session>(builder: (context, session, child) {
@@ -286,6 +327,35 @@ class _HomeScreenState extends State<HomeScreen>
         );
       },
       barrierDismissible: false,
+    );
+  }
+
+  _signOut() async {
+    FirebaseAuth.instance.signOut();
+    Navigator.pushAndRemoveUntil(
+        context,
+        new MaterialPageRoute(builder: (context) => SignInMain()),
+        (Route route) => false);
+  }
+}
+
+class NavigationDrawerButton extends StatelessWidget {
+  final String text;
+
+  NavigationDrawerButton(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: () {},
+      child: Container(
+        width: 200,
+        padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
     );
   }
 }
