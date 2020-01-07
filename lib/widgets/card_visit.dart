@@ -19,94 +19,90 @@ class VisitWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 100,
-        padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-        child: Card(
-          margin: EdgeInsets.all(0),
-          elevation: 2,
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => VisitSummary(
-                          sessionID: sessionID,
-                          restaurantID: restaurantID,
-                          restaurantName: restaurantName,
-                        )),
-              );
-            },
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Image.network(restaurantImage, fit: BoxFit.cover),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => VisitSummary(
+                    sessionID: sessionID,
+                    restaurantID: restaurantID,
+                    restaurantName: restaurantName,
+                  )),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+        height: 120,
+        child: Row(
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 1.25,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  restaurantImage,
+                  fit: BoxFit.cover,
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          restaurantName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                          style: TextStyle(
-                              color: FriskyColor.colorTextLight,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "museoM"),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 4),
-                        ),
-                        Text(
-                          "Visited On ",
-                          maxLines: 1,
-                          style: TextStyle(
-                              color: FriskyColor.colorTextLight,
-                              fontSize: 12,
-                              fontFamily: "museoS"),
-                        ),
-                        Text(
-                          _getFormattedTimestamp(endTime),
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: FriskyColor.colorTextLight,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "museoS"),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 4),
-                        ),
-                        Text(
-                          "Total Amount",
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: FriskyColor.colorTextLight,
-                              fontFamily: "museoS"),
-                        ),
-                        Text(
-                          "\u20B9 " + totalAmount,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: FriskyColor.colorTextLight,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "museoS"),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        ));
+            Expanded(
+                child: Container(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      restaurantName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 4),
+                    ),
+                    Text(
+                      "Visited On ",
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: FriskyColor.colorTextLight,
+                          fontSize: 12,
+                          fontFamily: "museoS"),
+                    ),
+                    Text(
+                      _getFormattedTimestamp(endTime),
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 4),
+                    ),
+                    Text(
+                      "Total Amount",
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: FriskyColor.colorTextLight,
+                          fontFamily: "museoS"),
+                    ),
+                    Text(
+                      "\u20B9 " + totalAmount,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+            ))
+          ],
+        ),
+      ),
+    );
   }
 
   _getFormattedTimestamp(Timestamp timestamp) {
