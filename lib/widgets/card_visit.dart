@@ -32,7 +32,7 @@ class VisitWidget extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+        padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
         height: 120,
         child: Row(
           children: <Widget>[
@@ -49,7 +49,7 @@ class VisitWidget extends StatelessWidget {
             Expanded(
                 child: Container(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +60,7 @@ class VisitWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -78,7 +78,7 @@ class VisitWidget extends StatelessWidget {
                     Text(
                       _getFormattedTimestamp(endTime),
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 14),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 4),

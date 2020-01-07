@@ -89,7 +89,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
                       navigateToDetails(snapshot.data[index]);
                     },
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+                      padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
                       height: 120,
                       child: Row(
                         children: <Widget>[
@@ -106,7 +106,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
                           Expanded(
                               child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -123,14 +123,14 @@ class _RestaurantsTabState extends State<RestaurantsTab>
                                         overflow: TextOverflow.ellipsis,
                                         softWrap: true,
                                         style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                       Text(
                                         snapshot.data[index].data['address'],
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 16),
+                                        style: TextStyle(fontSize: 14),
                                       ),
                                       Text(
                                         snapshot.data[index].data['cuisine']
