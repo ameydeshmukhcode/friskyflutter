@@ -14,17 +14,19 @@ class _DineTabState extends State<DineTab> {
   @override
   Widget build(BuildContext context) {
     // ignore: missing_return
-    return Scaffold(body: Consumer<Session>(builder: (context, session, child) {
-      if (!session.isSessionActive) {
-        return DineTabDefault();
-      } else {
-        if (session.isBillRequested) {
-          return DineTabBillRequested();
-        } else {
-          return DineTabActive();
-        }
-      }
-    }));
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Consumer<Session>(builder: (context, session, child) {
+          if (!session.isSessionActive) {
+            return DineTabDefault();
+          } else {
+            if (session.isBillRequested) {
+              return DineTabBillRequested();
+            } else {
+              return DineTabActive();
+            }
+          }
+        }));
   }
 }
 
@@ -36,9 +38,9 @@ class DineTabDefault extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: EdgeInsets.only(left: 32, right: 32),
             child: Text(
-              "You Haven't ordered anything yet. To get the menu and start ordering. Scan the QR code on the table.",
+              "You haven't ordered anything yet. To get the menu and start ordering. Scan the QR code on the table.",
               style: TextStyle(
                   fontSize: 20,
                   color: FriskyColor.colorTextLight,
