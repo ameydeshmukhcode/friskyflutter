@@ -35,11 +35,9 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
           return AlertDialog(
             title: Text(
               "Start new Session?",
-              style: TextStyle(fontFamily: "museoM"),
             ),
             content: Text(
               "Start new session to:\n- Browse the Menu\n- Place Orders\n- Get Order and Bill update",
-              style: TextStyle(fontFamily: "museoS"),
             ),
             actions: <Widget>[
               FlatButton(
@@ -49,7 +47,6 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
                 },
                 child: Text(
                   "Cancel",
-                  style: TextStyle(fontFamily: "museoS"),
                 ),
               ),
               FlatButton(
@@ -59,7 +56,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
                   },
                   child: Text(
                     "Start",
-                    style: TextStyle(color: Colors.white, fontFamily: "museoS"),
+                    style: TextStyle(color: Colors.white),
                   ))
             ],
           );
@@ -78,7 +75,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
             centerTitle: true,
             title: Text(
               "Scan QR Code",
-              style: TextStyle(fontFamily: "museoM", fontSize: 20),
+              style: TextStyle(fontSize: 20),
             ),
           ),
           body: Center(
@@ -101,8 +98,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
         return AlertDialog(
             title: Text(
               "Retrieving the Menu",
-              style: TextStyle(
-                  color: FriskyColor.colorTextDark, fontFamily: "museoM"),
+              style: TextStyle(color: FriskyColor.colorTextDark),
             ),
             content: Wrap(
               children: <Widget>[

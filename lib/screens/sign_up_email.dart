@@ -33,7 +33,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
               child: Column(
                 children: <Widget>[
                   TextField(
-                    style: TextStyle(fontFamily: "museoS", fontSize: 16),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Email',
                       focusColor: Colors.black,
@@ -44,7 +44,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
-                    style: TextStyle(fontFamily: "museoS", fontSize: 16),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                         labelText: 'Password',
                         focusColor: Colors.black,
@@ -55,7 +55,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
-                    style: TextStyle(fontFamily: "museoS", fontSize: 16),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Confirm Password',
                       focusColor: Colors.black,
@@ -74,10 +74,8 @@ class _SignUpEmailState extends State<SignUpEmail> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text("Sign Up",
-                            style: TextStyle(
-                                fontFamily: "museoM",
-                                fontSize: 20,
-                                color: Colors.white)),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ],
                     ),
                     onPressed: () {
@@ -95,7 +93,6 @@ class _SignUpEmailState extends State<SignUpEmail> {
                         _errorMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontFamily: "museoS",
                           fontSize: 14,
                           color: Colors.red,
                         ),
@@ -119,8 +116,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
         return AlertDialog(
             title: Text(
               "Signing you up",
-              style: TextStyle(
-                  color: FriskyColor.colorTextDark, fontFamily: "museoL"),
+              style: TextStyle(color: FriskyColor.colorTextDark),
             ),
             content: Wrap(
               children: <Widget>[

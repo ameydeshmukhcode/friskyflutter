@@ -141,7 +141,6 @@ class _MenuScreenState extends State<MenuScreen> {
                   title: Text(
                     "You're at",
                     style: TextStyle(
-                      fontFamily: "museoM",
                       color: FriskyColor.colorTextDark,
                     ),
                   ),
@@ -162,8 +161,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 widget.restaurantName,
                                 style: TextStyle(
                                     color: FriskyColor.colorTextLight,
-                                    fontSize: 20,
-                                    fontFamily: "museoM"),
+                                    fontSize: 20),
                               ),
                               Container(
                                 padding: EdgeInsets.all(8),
@@ -171,8 +169,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                   'Table ' + widget.tableName,
                                   style: TextStyle(
                                       fontSize: 20,
-                                      color: FriskyColor.colorTextLight,
-                                      fontFamily: "museoM"),
+                                      color: FriskyColor.colorTextLight),
                                 ),
                                 decoration: BoxDecoration(
                                   color: FriskyColor.colorTableName,
@@ -189,7 +186,6 @@ class _MenuScreenState extends State<MenuScreen> {
                             child: Text(
                               "Menu",
                               style: TextStyle(
-                                fontFamily: "museoM",
                                 color: FriskyColor.colorTextLight,
                                 fontSize: 16,
                               ),
@@ -255,7 +251,6 @@ class _MenuScreenState extends State<MenuScreen> {
                         child: Text(
                           menuCategory.name,
                           style: TextStyle(
-                            fontFamily: "museoM",
                             color: FriskyColor.colorTextLight,
                             fontSize: 16,
                           ),
@@ -283,24 +278,19 @@ class _MenuScreenState extends State<MenuScreen> {
                                       child: Padding(
                                         padding:
                                             EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                        child: Text(menuItem.name,
-                                            style: TextStyle(
-                                                fontFamily: "museoS")),
+                                        child: Text(menuItem.name),
                                       ),
                                     )
                                   ],
                                 ),
                                 Text(
                                   "\u20B9 " + menuItem.price.toString(),
-                                  style: TextStyle(
-                                      color: Colors.red, fontFamily: "museoS"),
+                                  style: TextStyle(color: Colors.red),
                                 ),
                                 Padding(
                                     padding: EdgeInsets.only(
                                         top: 2, right: 4, bottom: 2),
-                                    child: Text(menuItem.description,
-                                        style:
-                                            TextStyle(fontFamily: "museoS"))),
+                                    child: Text(menuItem.description)),
                               ],
                             ),
                           ),
@@ -334,7 +324,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
             label: Text(
               "Category",
-              style: TextStyle(color: Colors.white, fontFamily: "museoM"),
+              style: TextStyle(color: Colors.white),
             ),
             onPressed: null,
           ),
@@ -344,7 +334,6 @@ class _MenuScreenState extends State<MenuScreen> {
                 value: menuCategory,
                 child: Text(
                   menuCategory.name,
-                  style: TextStyle(fontFamily: "museoS"),
                 ),
               );
             }).toList();
@@ -372,9 +361,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: Text(
                     "You have items in the cart",
                     style: TextStyle(
-                        color: FriskyColor.colorSnackBarText,
-                        fontSize: 14,
-                        fontFamily: "museoM"),
+                        color: FriskyColor.colorSnackBarText, fontSize: 14),
                   ),
                 )),
                 Padding(
@@ -419,9 +406,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: Text(
                       "You have orders",
                       style: TextStyle(
-                          color: FriskyColor.colorSnackBarText,
-                          fontSize: 14,
-                          fontFamily: "museoM"),
+                          color: FriskyColor.colorSnackBarText, fontSize: 14),
                     ),
                   ),
                 ),
@@ -441,10 +426,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       },
                       child: Text(
                         "Show",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: "museoL"),
+                        style: TextStyle(color: Colors.black, fontSize: 14),
                       )),
                 ),
               ],

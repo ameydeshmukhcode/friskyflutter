@@ -50,7 +50,6 @@ class _SignInMainState extends State<SignInMain> {
                   ),
                   Text("Use Google Account",
                       style: TextStyle(
-                        fontFamily: "museoM",
                         fontSize: 20,
                         color: FriskyColor.colorPrimary,
                       )),
@@ -77,10 +76,7 @@ class _SignInMainState extends State<SignInMain> {
                     padding: EdgeInsets.all(4),
                   ),
                   Text("Use Email Address",
-                      style: TextStyle(
-                          fontFamily: "museoM",
-                          fontSize: 20,
-                          color: Colors.white)),
+                      style: TextStyle(fontSize: 20, color: Colors.white)),
                 ],
               ),
               onPressed: () {
@@ -100,7 +96,6 @@ class _SignInMainState extends State<SignInMain> {
               "By signing in, you\'re agreeing to our Terms and Privacy Policy",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: "museoS",
                 fontSize: 14,
                 color: FriskyColor.colorTextDark,
               ),
@@ -118,8 +113,7 @@ class _SignInMainState extends State<SignInMain> {
         return AlertDialog(
             title: Text(
               "Signing you in",
-              style: TextStyle(
-                  fontFamily: "museoL", color: FriskyColor.colorTextDark),
+              style: TextStyle(color: FriskyColor.colorTextDark),
             ),
             content: Wrap(
               children: <Widget>[

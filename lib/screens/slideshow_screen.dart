@@ -56,10 +56,7 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
             },
             child: Text(
               "Skip",
-              style: TextStyle(
-                  fontFamily: "museoM",
-                  fontSize: 16,
-                  color: FriskyColor.colorPrimary),
+              style: TextStyle(fontSize: 16, color: FriskyColor.colorPrimary),
             ),
           ),
         ),
@@ -80,9 +77,7 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
               children: <Widget>[
                 Text(_currentPage == 2 ? "Continue" : "Next",
                     style: TextStyle(
-                        fontFamily: "museoM",
-                        fontSize: 16,
-                        color: FriskyColor.colorPrimary)),
+                        fontSize: 16, color: FriskyColor.colorPrimary)),
                 Icon(
                   Icons.chevron_right,
                   color: FriskyColor.colorPrimary,
@@ -128,12 +123,12 @@ class Slide extends StatelessWidget {
               padding: EdgeInsets.only(top: 8, bottom: 8),
               child: Text(
                 title,
-                style: TextStyle(fontFamily: "museoM", fontSize: 20),
+                style: TextStyle(fontSize: 20),
               ),
             ),
             Text(
               description,
-              style: TextStyle(fontFamily: "museoS", fontSize: 18),
+              style: TextStyle(fontSize: 18),
             )
           ],
         ),

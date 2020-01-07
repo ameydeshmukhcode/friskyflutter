@@ -107,9 +107,7 @@ class _HomeScreenState extends State<HomeScreen>
                             ? ("Bill Requested")
                             : ("Currently at"),
                         style: TextStyle(
-                            fontSize: 14,
-                            color: FriskyColor.colorTextLight,
-                            fontFamily: "museoS"),
+                            fontSize: 14, color: FriskyColor.colorTextLight),
                       ),
                       subtitle: Text(
                           session.isBillRequested
@@ -119,9 +117,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   " - Table " +
                                   session.tableName),
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "museoM")),
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                       trailing: session.isBillRequested
                           ? SizedBox()
                           : OutlineButton(
@@ -139,9 +135,8 @@ class _HomeScreenState extends State<HomeScreen>
                               },
                               child: Text(
                                 "Menu",
-                                style: TextStyle(
-                                    color: FriskyColor.colorPrimary,
-                                    fontFamily: "museoM"),
+                                style:
+                                    TextStyle(color: FriskyColor.colorPrimary),
                               ),
                               borderSide: BorderSide(
                                 color: FriskyColor.colorPrimary,
@@ -175,7 +170,6 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             label: Text(
               "Scan QR Code",
-              style: TextStyle(fontFamily: "museoM"),
             ),
             backgroundColor: FriskyColor.colorPrimary,
           ),
@@ -207,7 +201,6 @@ class _HomeScreenState extends State<HomeScreen>
           icon: Icon(Icons.home),
           title: Text(
             "Home",
-            style: TextStyle(fontFamily: "museoL"),
           ),
         ),
         BottomNavigationBarItem(
@@ -222,7 +215,6 @@ class _HomeScreenState extends State<HomeScreen>
           }),
           title: Text(
             "Dine",
-            style: TextStyle(fontFamily: "museoL"),
           ),
         ),
         BottomNavigationBarItem(
@@ -231,7 +223,6 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           title: Text(
             "Visits",
-            style: TextStyle(fontFamily: "museoL"),
           ),
         ),
       ],
@@ -273,13 +264,11 @@ class _HomeScreenState extends State<HomeScreen>
         return AlertDialog(
           title: Text(
             "Allow Camera",
-            style: TextStyle(
-                color: FriskyColor.colorTextDark, fontFamily: "museoM"),
+            style: TextStyle(color: FriskyColor.colorTextDark),
           ),
           content: Text(
             "Enable 'Camera' for Frisky under Settings to be able to scan QR codes.",
-            style: TextStyle(
-                color: FriskyColor.colorTextLight, fontFamily: "museoS"),
+            style: TextStyle(color: FriskyColor.colorTextLight),
           ),
           actions: <Widget>[
             FlatButton(
@@ -289,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen>
                 },
                 child: Text(
                   "OK",
-                  style: TextStyle(color: Colors.white, fontFamily: "museoM"),
+                  style: TextStyle(color: Colors.white),
                 ))
           ],
         );
@@ -305,13 +294,11 @@ class _HomeScreenState extends State<HomeScreen>
         return AlertDialog(
           title: Text(
             "Camera Needed",
-            style: TextStyle(
-                color: FriskyColor.colorTextDark, fontFamily: "museoM"),
+            style: TextStyle(color: FriskyColor.colorTextDark),
           ),
           content: Text(
             "Allow camera permission to be able to scan QR codes.",
-            style: TextStyle(
-                color: FriskyColor.colorTextLight, fontFamily: "museoS"),
+            style: TextStyle(color: FriskyColor.colorTextLight),
           ),
           actions: <Widget>[
             FlatButton(
@@ -321,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen>
                 },
                 child: Text(
                   "OK",
-                  style: TextStyle(color: Colors.white, fontFamily: "museoM"),
+                  style: TextStyle(color: Colors.white),
                 ))
           ],
         );

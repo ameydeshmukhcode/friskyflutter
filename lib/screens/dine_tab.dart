@@ -41,10 +41,7 @@ class DineTabDefault extends StatelessWidget {
             padding: EdgeInsets.only(left: 32, right: 32),
             child: Text(
               "You haven't ordered anything yet. To get the menu and start ordering. Scan the QR code on the table.",
-              style: TextStyle(
-                  fontSize: 20,
-                  color: FriskyColor.colorTextLight,
-                  fontFamily: "museoS"),
+              style: TextStyle(fontSize: 20, color: FriskyColor.colorTextLight),
               textAlign: TextAlign.center,
             ),
           ),
@@ -79,7 +76,6 @@ class _DineTabActiveState extends State<DineTabActive> {
         title: Text(
           "You're at",
           style: TextStyle(
-            fontFamily: "museoS",
             color: FriskyColor.colorTextDark,
           ),
           textAlign: TextAlign.center,
@@ -104,7 +100,6 @@ class _DineTabActiveState extends State<DineTabActive> {
                         Text(
                           Session.restaurantName,
                           style: TextStyle(
-                            fontFamily: "museoM",
                             color: FriskyColor.colorTextLight,
                             fontSize: 20,
                           ),
@@ -115,8 +110,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                             'Table ' + Session.tableName,
                             style: TextStyle(
                                 fontSize: 20,
-                                color: FriskyColor.colorTextLight,
-                                fontFamily: "museoM"),
+                                color: FriskyColor.colorTextLight),
                           ),
                           decoration: BoxDecoration(
                             color: FriskyColor.colorTableName,
@@ -147,10 +141,7 @@ class DineTabBillRequested extends StatelessWidget {
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Text(
               "Bill Requested. The waiter will\ncollect payment from you.",
-              style: TextStyle(
-                  fontSize: 20,
-                  color: FriskyColor.colorTextLight,
-                  fontFamily: "museoS"),
+              style: TextStyle(fontSize: 20, color: FriskyColor.colorTextLight),
               textAlign: TextAlign.center,
             ),
           ),

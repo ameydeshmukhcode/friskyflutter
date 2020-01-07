@@ -59,7 +59,6 @@ class _CartScreenState extends State<CartScreen> {
         title: Text(
           "Your Cart",
           style: TextStyle(
-            fontFamily: "museoM",
             color: FriskyColor.colorTextDark,
           ),
           textAlign: TextAlign.center,
@@ -76,7 +75,6 @@ class _CartScreenState extends State<CartScreen> {
             child: Text(
               'Table ' + widget.tableName,
               style: TextStyle(
-                fontFamily: "museoM",
                 fontSize: 20,
                 color: FriskyColor.colorTextDark,
               ),
@@ -115,13 +113,10 @@ class _CartScreenState extends State<CartScreen> {
                                   Flexible(
                                     child: Padding(
                                       padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                      child: Text(
-                                          Provider.of<Cart>(context,
-                                                  listen: true)
-                                              .cartList[index]
-                                              .name,
-                                          style:
-                                              TextStyle(fontFamily: "museoS")),
+                                      child: Text(Provider.of<Cart>(context,
+                                              listen: true)
+                                          .cartList[index]
+                                          .name),
                                     ),
                                   )
                                 ],
@@ -132,7 +127,6 @@ class _CartScreenState extends State<CartScreen> {
                                         .cartList[index]
                                         .price
                                         .toString(),
-                                style: TextStyle(fontFamily: "museoS"),
                               ),
                               Padding(
                                   padding: EdgeInsets.only(
@@ -148,9 +142,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       .cartList[index]
                                                       .count)
                                               .toString(),
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontFamily: "museoS"))),
+                                      style: TextStyle(color: Colors.red))),
                             ],
                           ),
                         ),
@@ -178,16 +170,13 @@ class _CartScreenState extends State<CartScreen> {
               children: <Widget>[
                 Text(
                   "Cart Total",
-                  style: TextStyle(
-                      fontFamily: "museoM",
-                      color: FriskyColor.colorTextDark,
-                      fontSize: 16),
+                  style:
+                      TextStyle(color: FriskyColor.colorTextDark, fontSize: 16),
                 ),
                 Text(
                   "\u20B9" +
                       Provider.of<Cart>(context, listen: true).total.toString(),
-                  style: TextStyle(
-                      fontFamily: "museoM", color: Colors.red, fontSize: 16),
+                  style: TextStyle(color: Colors.red, fontSize: 16),
                 ),
               ],
             ),
@@ -200,8 +189,7 @@ class _CartScreenState extends State<CartScreen> {
                 color: FriskyColor.colorBadge,
                 child: Text(
                   "Place Order",
-                  style: TextStyle(
-                      fontFamily: "museoM", fontSize: 20, color: Colors.white),
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(8),
@@ -303,7 +291,6 @@ class _CartScreenState extends State<CartScreen> {
               Text(
                 "In cart",
                 style: TextStyle(
-                  fontFamily: "museoS",
                   color: FriskyColor.colorTextLight,
                 ),
               ),
@@ -321,13 +308,11 @@ class _CartScreenState extends State<CartScreen> {
         return AlertDialog(
           title: Text(
             "Place Order",
-            style: TextStyle(
-                color: FriskyColor.colorTextDark, fontFamily: "museoM"),
+            style: TextStyle(color: FriskyColor.colorTextDark),
           ),
           content: Text(
             "Send order to kitchen for prepration?",
-            style: TextStyle(
-                color: FriskyColor.colorTextLight, fontFamily: "museoS"),
+            style: TextStyle(color: FriskyColor.colorTextLight),
           ),
           actions: <Widget>[
             FlatButton(
@@ -335,8 +320,7 @@ class _CartScreenState extends State<CartScreen> {
                 Navigator.pop(context);
               },
               child: Text("Cancel",
-                  style: TextStyle(
-                      color: FriskyColor.colorPrimary, fontFamily: "museoM")),
+                  style: TextStyle(color: FriskyColor.colorPrimary)),
             ),
             FlatButton(
                 color: FriskyColor.colorPrimary,
@@ -345,7 +329,7 @@ class _CartScreenState extends State<CartScreen> {
                 },
                 child: Text(
                   "OK",
-                  style: TextStyle(color: Colors.white, fontFamily: "museoM"),
+                  style: TextStyle(color: Colors.white),
                 ))
           ],
         );
@@ -361,8 +345,7 @@ class _CartScreenState extends State<CartScreen> {
         return AlertDialog(
             title: Text(
               "Placing Your Order",
-              style: TextStyle(
-                  color: FriskyColor.colorTextDark, fontFamily: "museoM"),
+              style: TextStyle(color: FriskyColor.colorTextDark),
             ),
             content: Wrap(
               children: <Widget>[

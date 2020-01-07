@@ -36,7 +36,7 @@ class _SignInEmailState extends State<SignInEmail> {
               children: <Widget>[
                 TextField(
                   controller: _emailController,
-                  style: TextStyle(fontFamily: "museoS", fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
                       labelText: 'Email', border: OutlineInputBorder()),
                   cursorColor: FriskyColor.colorPrimary,
@@ -44,7 +44,7 @@ class _SignInEmailState extends State<SignInEmail> {
                 Padding(padding: EdgeInsets.only(top: 8)),
                 TextField(
                   controller: _passwordController,
-                  style: TextStyle(fontFamily: "museoS", fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
                       labelText: 'Password',
                       focusColor: Colors.black,
@@ -60,7 +60,6 @@ class _SignInEmailState extends State<SignInEmail> {
                       child: Text("Forgot password?",
                           textAlign: TextAlign.end,
                           style: TextStyle(
-                            fontFamily: "museoM",
                             color: Colors.black,
                             fontSize: 14,
                           )),
@@ -75,10 +74,7 @@ class _SignInEmailState extends State<SignInEmail> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text("Sign In",
-                          style: TextStyle(
-                              fontFamily: "museoM",
-                              fontSize: 20,
-                              color: Colors.white)),
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
                     ],
                   ),
                   onPressed: () {
@@ -105,7 +101,6 @@ class _SignInEmailState extends State<SignInEmail> {
                           _errorMessage,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: "museoS",
                             fontSize: 14,
                             color: Colors.red,
                           ),
@@ -124,10 +119,7 @@ class _SignInEmailState extends State<SignInEmail> {
                 children: <Widget>[
                   Text(
                     "Don't have an account?",
-                    style: TextStyle(
-                        fontFamily: "museoS",
-                        fontSize: 16,
-                        color: Colors.white),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 4),
@@ -142,7 +134,6 @@ class _SignInEmailState extends State<SignInEmail> {
                     child: Text(
                       "Sign up",
                       style: TextStyle(
-                        fontFamily: "museoM",
                         color: Colors.white,
                         fontSize: 16,
                       ),
@@ -166,7 +157,6 @@ class _SignInEmailState extends State<SignInEmail> {
             title: Text(
               "Signing you in",
               style: TextStyle(
-                fontFamily: "museoL",
                 color: FriskyColor.colorTextDark,
               ),
             ),

@@ -71,9 +71,7 @@ class VisitWidget extends StatelessWidget {
                       "Visited On ",
                       maxLines: 1,
                       style: TextStyle(
-                          color: FriskyColor.colorTextLight,
-                          fontSize: 12,
-                          fontFamily: "museoS"),
+                          color: FriskyColor.colorTextLight, fontSize: 12),
                     ),
                     Text(
                       _getFormattedTimestamp(endTime),
@@ -87,9 +85,7 @@ class VisitWidget extends StatelessWidget {
                       "Total Amount",
                       maxLines: 1,
                       style: TextStyle(
-                          fontSize: 12,
-                          color: FriskyColor.colorTextLight,
-                          fontFamily: "museoS"),
+                          fontSize: 12, color: FriskyColor.colorTextLight),
                     ),
                     Text(
                       "\u20B9 " + totalAmount,

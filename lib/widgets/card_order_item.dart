@@ -30,21 +30,20 @@ class OrderItemWidget extends StatelessWidget {
                       padding: EdgeInsets.only(left: 4),
                     ),
                     Flexible(
-                      child: Text(name, style: TextStyle(fontFamily: "museoS")),
+                      child: Text(name),
                     )
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Text("x" + count.toString(),
-                        style: TextStyle(fontFamily: "museoS")),
+                    Text("x" + count.toString()),
                     Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
-                    Text("Item total ", style: TextStyle(fontFamily: "museoS")),
+                    Text("Item total "),
                     Text(
                       "\u20B9 " + total.toString(),
-                      style: TextStyle(color: Colors.red, fontFamily: "museoS"),
+                      style: TextStyle(color: Colors.red),
                     )
                   ],
                 )
@@ -63,8 +62,7 @@ class OrderItemWidget extends StatelessWidget {
               ),
               Text(
                 _getStatusString(status),
-                style: TextStyle(
-                    color: _getStatusColor(status), fontFamily: "museoS"),
+                style: TextStyle(color: _getStatusColor(status)),
               )
             ],
           )

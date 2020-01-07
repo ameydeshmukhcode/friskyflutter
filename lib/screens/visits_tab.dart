@@ -124,9 +124,7 @@ class _VisitsTabState extends State<VisitsTab>
                       child: Text(
                         "You do not have any visits yet!",
                         style: TextStyle(
-                            fontSize: 20,
-                            color: FriskyColor.colorTextLight,
-                            fontFamily: "museoS"),
+                            fontSize: 20, color: FriskyColor.colorTextLight),
                         textAlign: TextAlign.center,
                       ),
                     ),

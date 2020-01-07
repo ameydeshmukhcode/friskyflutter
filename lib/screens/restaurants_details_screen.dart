@@ -45,8 +45,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             Flexible(
                               child: Text(
                                 widget.restaurant.data['name'],
-                                style: TextStyle(
-                                    fontSize: 20, fontFamily: "museoM"),
+                                style: TextStyle(fontSize: 20),
                               ),
                             ),
                             Container(
@@ -54,9 +53,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               child: Text(
                                 '4.5',
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontFamily: "museoM"),
+                                    fontSize: 14, color: Colors.white),
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.green,
@@ -70,13 +67,13 @@ class _DetailsPageState extends State<DetailsPage> {
                         Text(
                           widget.restaurant.data['address'],
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: "museoS"),
+                          style: TextStyle(fontSize: 16),
                         ),
                         Text(
                           widget.restaurant.data['cuisine'][0] +
                               ", " +
                               widget.restaurant.data['cuisine'][1],
-                          style: TextStyle(fontSize: 16, fontFamily: "museoS"),
+                          style: TextStyle(fontSize: 16),
                         ),
                       ],
                     ),

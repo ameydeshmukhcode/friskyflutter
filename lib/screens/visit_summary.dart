@@ -49,7 +49,7 @@ class _VisitSummaryState extends State<VisitSummary> {
         centerTitle: true,
         title: Text(
           "Visit Summary",
-          style: TextStyle(color: Colors.black, fontFamily: "museoM"),
+          style: TextStyle(color: Colors.black),
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -93,8 +93,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: "museoM"),
+                          fontSize: 20),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 8),
@@ -105,8 +104,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: "museoM"),
+                          fontSize: 14),
                     ),
                     Divider(
                       indent: 8,
@@ -135,11 +133,9 @@ class _VisitSummaryState extends State<VisitSummary> {
                         children: <Widget>[
                           Text(
                             "Order total",
-                            style: TextStyle(fontFamily: "museoS"),
                           ),
                           Text(
                             "\u20B9 " + billAmount,
-                            style: TextStyle(fontFamily: "museoS"),
                           )
                         ],
                       ),
@@ -151,11 +147,9 @@ class _VisitSummaryState extends State<VisitSummary> {
                         children: <Widget>[
                           Text(
                             "GST",
-                            style: TextStyle(fontFamily: "museoS"),
                           ),
                           Text(
                             "\u20B9 " + gst,
-                            style: TextStyle(fontFamily: "museoS"),
                           )
                         ],
                       ),
@@ -172,12 +166,12 @@ class _VisitSummaryState extends State<VisitSummary> {
                           Text(
                             "Final Total",
                             style:
-                                TextStyle(fontSize: 20, fontFamily: "museoS"),
+                                TextStyle(fontSize: 20),
                           ),
                           Text(
                             "\u20B9 " + amountPayable,
                             style:
-                                TextStyle(fontSize: 20, fontFamily: "museoS"),
+                                TextStyle(fontSize: 20),
                           )
                         ],
                       ),
