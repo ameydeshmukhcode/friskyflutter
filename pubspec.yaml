@@ -89,16 +89,6 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  fonts:
-    - family: museoS
-      fonts:
-        - asset: fonts/museosans300.otf
-    - family: museoM
-      fonts:
-        - asset: fonts/museosans500.otf
-    - family: museoL
-      fonts:
-        - asset: fonts/museosans700.otf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
