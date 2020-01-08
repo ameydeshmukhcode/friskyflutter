@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
                     child: Container(
                       width: 200,
                       padding: EdgeInsets.only(
-                          left: 8, top: 64, right: 8, bottom: 8),
+                          left: 8, top: 64, right: 8, bottom: 16),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
