@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:friskyflutter/widgets/bottom_sheet_restaurant.dart';
 
 import '../frisky_colors.dart';
-import 'restaurants_details_screen.dart';
 
 class RestaurantsTab extends StatefulWidget {
   @override
@@ -15,13 +15,25 @@ class _RestaurantsTabState extends State<RestaurantsTab>
   bool get wantKeepAlive => true;
   Future _restaurantList;
 
-  navigateToDetails(DocumentSnapshot restaurant) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DetailsPage(
-                  restaurant: restaurant,
-                )));
+  _showRestaurantDetails(DocumentSnapshot restaurant) {
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16))),
+            child: RestaurantDetails(
+                restaurant.data["image"],
+                restaurant.data['name'],
+                restaurant.data['address'],
+                restaurant.data['cuisine'][0] +
+                    ", " +
+                    restaurant.data['cuisine'][1]),
+          );
+        });
   }
 
   @override
@@ -86,7 +98,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      navigateToDetails(snapshot.data[index]);
+                      _showRestaurantDetails(snapshot.data[index]);
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -155,7 +167,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
                                           "4.5",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 20,
+                                              fontSize: 18,
                                               fontWeight: FontWeight.w700),
                                         ),
                                       ),
