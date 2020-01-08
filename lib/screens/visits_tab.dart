@@ -122,7 +122,7 @@ class _VisitsTabState extends State<VisitsTab>
                     Padding(
                       padding: EdgeInsets.only(left: 16, right: 16),
                       child: Text(
-                        "You do not have any visits yet!",
+                        "You do not have any visits yet.",
                         style: TextStyle(
                             fontSize: 20, color: FriskyColor.colorTextLight),
                         textAlign: TextAlign.center,
