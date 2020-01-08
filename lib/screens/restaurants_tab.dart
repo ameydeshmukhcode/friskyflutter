@@ -50,7 +50,7 @@ class _RestaurantsTabState extends State<RestaurantsTab>
         actions: <Widget>[
           IconButton(
               tooltip: "Options",
-              icon: Icon(Icons.person),
+              icon: Icon(Icons.settings),
               color: FriskyColor.colorTextDark,
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();
