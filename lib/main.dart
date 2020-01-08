@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primaryColor: FriskyColor.colorPrimary,
               accentColor: FriskyColor.colorPrimary,
+              canvasColor: Colors.transparent
             ),
             home: InitWidget()));
   }
