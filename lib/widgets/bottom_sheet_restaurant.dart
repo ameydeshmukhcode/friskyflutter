@@ -34,7 +34,7 @@ class RestaurantDetails extends StatelessWidget {
                     Flexible(
                       child: Text(
                         name,
-                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                       ),
                     ),
                     Container(
@@ -42,7 +42,7 @@ class RestaurantDetails extends StatelessWidget {
                       child: Text(
                         '4.5',
                         style: TextStyle(
-                            fontSize: 32,
+                            fontSize: 24,
                             color: Colors.white,
                             fontWeight: FontWeight.w700),
                       ),
