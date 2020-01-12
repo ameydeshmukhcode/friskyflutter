@@ -148,8 +148,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           style: TextStyle(
                               color: FriskyColor.colorPrimary,
                               fontSize: 24,
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'Table ' + widget.tableName,
@@ -162,6 +161,13 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ),
                   backgroundColor: Colors.white,
+                  actions: <Widget>[
+                    IconButton(
+                        tooltip: "Search Menu",
+                        icon: Icon(Icons.search),
+                        color: FriskyColor.colorTextDark,
+                        onPressed: () {})
+                  ],
                 ),
                 backgroundColor: Colors.white,
                 body: Column(
