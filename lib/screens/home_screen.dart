@@ -38,71 +38,73 @@ class _HomeScreenState extends State<HomeScreen>
       drawerEdgeDragWidth: 0,
       endDrawer: Container(
         color: Colors.white,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  FlatButton(
-                    onPressed: () {},
-                    child: Container(
-                      width: 200,
-                      padding: EdgeInsets.only(
-                          left: 8, top: 64, right: 8, bottom: 16),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(Icons.person),
-                          Padding(
-                            padding: EdgeInsets.only(left: 16),
-                            child: Text(
-                              "Name",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  NavigationDrawerButton("Location"),
-                  NavigationDrawerButton("Payments"),
-                  NavigationDrawerButton("Order History"),
-                  NavigationDrawerButton("Settings"),
-                  NavigationDrawerButton("About"),
-                  Visibility(
-                    visible: !kReleaseMode,
-                    child: FlatButton(
-                      onPressed: _createUserSession,
+        child: Consumer<Session>(builder: (context, session, child) {
+          return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    FlatButton(
+                      onPressed: () {},
                       child: Container(
                         width: 200,
-                        padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
-                        child: Text(
-                          "Enable Dummy Session",
-                          style: TextStyle(fontSize: 16),
+                        padding: EdgeInsets.only(
+                            left: 8, top: 64, right: 8, bottom: 16),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Icon(Icons.person),
+                            Padding(
+                              padding: EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Name",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              FlatButton(
-                color: FriskyColor.colorPrimary,
-                child: Container(
-                  width: 200,
-                  padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  child: Center(
-                    child: Text(
-                      "Logout",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    NavigationDrawerButton("Location"),
+                    NavigationDrawerButton("Payments"),
+                    NavigationDrawerButton("Order History"),
+                    NavigationDrawerButton("Settings"),
+                    NavigationDrawerButton("About"),
+                    Visibility(
+                      visible: !kReleaseMode && !session.isSessionActive,
+                      child: FlatButton(
+                        onPressed: _createUserSession,
+                        child: Container(
+                          width: 200,
+                          padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+                          child: Text(
+                            "Enable Dummy Session",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                FlatButton(
+                  color: FriskyColor.colorPrimary,
+                  child: Container(
+                    width: 200,
+                    padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                    child: Center(
+                      child: Text(
+                        "Logout",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
                     ),
                   ),
+                  onPressed: _signOut,
                 ),
-                onPressed: _signOut,
-              ),
-            ]),
+              ]);
+        }),
       ),
       body: Consumer<Session>(builder: (context, session, child) {
         return Stack(
