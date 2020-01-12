@@ -86,7 +86,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                           Session.restaurantName,
                           style: TextStyle(
                             color: FriskyColor.colorPrimary,
-                            fontSize: 32,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold
                           ),
                         ),
@@ -94,7 +94,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                           'Table ' + Session.tableName,
                           style: TextStyle(
                             color: FriskyColor.colorPrimary,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                       ],

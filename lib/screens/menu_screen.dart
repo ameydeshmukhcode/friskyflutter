@@ -138,10 +138,27 @@ class _MenuScreenState extends State<MenuScreen> {
                   centerTitle: true,
                   elevation: 0,
                   iconTheme: IconThemeData(color: Colors.black),
-                  title: Text(
-                    "You're at",
-                    style: TextStyle(
-                      color: FriskyColor.colorTextDark,
+                  title: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          widget.restaurantName,
+                          style: TextStyle(
+                              color: FriskyColor.colorPrimary,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                          'Table ' + widget.tableName,
+                          style: TextStyle(
+                            color: FriskyColor.colorPrimary,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   backgroundColor: Colors.white,
@@ -154,30 +171,6 @@ class _MenuScreenState extends State<MenuScreen> {
                       color: Colors.white,
                       child: Column(
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Text(
-                                widget.restaurantName,
-                                style: TextStyle(
-                                    color: FriskyColor.colorTextLight,
-                                    fontSize: 20),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'Table ' + widget.tableName,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: FriskyColor.colorTextLight),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: FriskyColor.colorTableName,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              )
-                            ],
-                          ),
                           Divider(
                             thickness: 1,
                           ),
