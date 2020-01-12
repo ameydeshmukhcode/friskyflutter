@@ -1,6 +1,8 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:badges/badges.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ import 'package:friskyflutter/screens/menu_screen.dart';
 import 'package:friskyflutter/screens/visits_tab.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../frisky_colors.dart';
 import '../provider_models/session.dart';
@@ -26,6 +29,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
+  String sessionID, restaurantID, restaurantName, tableID, tableName;
   List<Widget> _pages = [RestaurantsTab(), DineTab(), VisitsTab()];
 
   @override
@@ -70,7 +74,17 @@ class _HomeScreenState extends State<HomeScreen>
                   NavigationDrawerButton("About"),
                   Visibility(
                     visible: !kReleaseMode,
-                    child: NavigationDrawerButton("Enable Dummy Session"),
+                    child: FlatButton(
+                      onPressed: _createUserSession,
+                      child: Container(
+                        width: 200,
+                        padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+                        child: Text(
+                          "Enable Dummy Session",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -95,59 +109,65 @@ class _HomeScreenState extends State<HomeScreen>
           children: <Widget>[
             _pages[_currentIndex],
             Visibility(
-                visible: session.isSessionActive,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Material(
+              visible: session.isSessionActive,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Material(
                     elevation: 4,
-                    color: Colors.white,
-                    child: ListTile(
-                      title: Text(
-                        session.isBillRequested
-                            ? ("Bill Requested")
-                            : ("Currently at"),
-                        style: TextStyle(
-                            fontSize: 14, color: FriskyColor.colorTextLight),
-                      ),
-                      subtitle: Text(
-                          session.isBillRequested
-                              ? ("Bill Amount to Be Paid - " +
-                                  session.totalAmount)
-                              : (session.restaurantName +
-                                  " - Table " +
-                                  session.tableName),
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      trailing: session.isBillRequested
-                          ? SizedBox()
-                          : OutlineButton(
-                              highlightedBorderColor: FriskyColor.colorPrimary,
-                              color: Colors.lightGreen,
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MenuScreen(
-                                            session.restaurantName,
-                                            session.tableName,
-                                            session.sessionID,
-                                            session.restaurantID)));
-                              },
-                              child: Text(
-                                "Menu",
-                                style:
-                                    TextStyle(color: FriskyColor.colorPrimary),
-                              ),
-                              borderSide: BorderSide(
-                                color: FriskyColor.colorPrimary,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(4),
-                              ),
+                    color: FriskyColor.colorPrimary,
+                    child: InkWell(
+                      splashColor: Colors.black12,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MenuScreen(
+                                    session.restaurantName,
+                                    session.tableName,
+                                    session.sessionID,
+                                    session.restaurantID)));
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  session.isBillRequested
+                                      ? ("Bill Requested")
+                                      : (session.restaurantName),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                    session.isBillRequested
+                                        ? ("Bill Amount to Be Paid - " +
+                                            session.totalAmount)
+                                        : ("Table " + session.tableName),
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.white)),
+                              ],
                             ),
-                    ),
-                  ),
-                ))
+                            Visibility(
+                              visible: !session.isBillRequested,
+                              child: FlatButton(
+                                color: Colors.white,
+                                onPressed: () {},
+                                child: Text("Menu"),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
+              ),
+            )
           ],
         );
       }),
@@ -323,6 +343,39 @@ class _HomeScreenState extends State<HomeScreen>
         context,
         new MaterialPageRoute(builder: (context) => SignInMain()),
         (Route route) => false);
+  }
+
+  _createUserSession() async {
+    Map<String, Object> userdata = new HashMap<String, Object>();
+    userdata["restaurant"] = "6mB4DZdwKHC5xe0sBZ0V";
+    userdata["table"] = "SIZYb4BOoCfwHEt8fMck";
+    await CloudFunctions.instance
+        .getHttpsCallable(functionName: "createUserSession")
+        .call(userdata)
+        .then((getData) async {
+      Map<String, dynamic> resultData = Map<String, dynamic>.from(getData.data);
+      restaurantName = resultData["restaurant_name"];
+      tableName = resultData["table_name"];
+      sessionID = resultData["session_id"];
+      await _setPreferences();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MenuScreen(
+                  restaurantName, tableName, sessionID, restaurantID)));
+    }, onError: (error) {});
+  }
+
+  _setPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool("session_active", true);
+    await sharedPreferences.setString("restaurant_id", restaurantID);
+    await sharedPreferences.setString("session_id", sessionID);
+    await sharedPreferences.setString("table_id", tableID);
+    await sharedPreferences.setString("table_name", tableName);
+    await sharedPreferences.setString("restaurant_name", restaurantName);
+    Provider.of<Session>(context).getStatus();
+    return;
   }
 }
 
