@@ -69,64 +69,42 @@ class _DineTabActiveState extends State<DineTabActive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        iconTheme: IconThemeData(color: FriskyColor.colorTextDark),
-        title: Text(
-          "You're at",
-          style: TextStyle(
-            color: FriskyColor.colorTextDark,
-          ),
-          textAlign: TextAlign.center,
-        ),
         backgroundColor: Colors.white,
-      ),
-      backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          Consumer<Session>(
-            // ignore: non_constant_identifier_names
-            builder: (context, Session, child) {
-              return Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                color: Colors.white,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+        body: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Consumer<Session>(
+                // ignore: non_constant_identifier_names
+                builder: (context, Session, child) {
+                  return Container(
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
                           Session.restaurantName,
                           style: TextStyle(
-                            color: FriskyColor.colorTextLight,
-                            fontSize: 20,
+                            color: FriskyColor.colorPrimary,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            'Table ' + Session.tableName,
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: FriskyColor.colorTextLight),
+                        Text(
+                          'Table ' + Session.tableName,
+                          style: TextStyle(
+                            color: FriskyColor.colorPrimary,
+                            fontSize: 18,
                           ),
-                          decoration: BoxDecoration(
-                            color: FriskyColor.colorTableName,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        )
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
