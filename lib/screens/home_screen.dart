@@ -115,59 +115,67 @@ class _HomeScreenState extends State<HomeScreen>
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Material(
-                    elevation: 4,
-                    color: FriskyColor.colorPrimary,
-                    child: InkWell(
-                      splashColor: Colors.black12,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MenuScreen(
-                                    session.restaurantName,
-                                    session.tableName,
-                                    session.sessionID,
-                                    session.restaurantID)));
-                      },
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                  elevation: 4,
+                  color: FriskyColor.colorPrimary,
+                  child: InkWell(
+                    splashColor: Colors.black12,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MenuScreen(
+                                  session.restaurantName,
+                                  session.tableName,
+                                  session.sessionID,
+                                  session.restaurantID)));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                session.isBillRequested
+                                    ? ("Bill Requested")
+                                    : (session.restaurantName),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                  session.isBillRequested
+                                      ? ("Bill Amount to Be Paid - " +
+                                          session.totalAmount)
+                                      : ("Table " + session.tableName),
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.white)),
+                            ],
+                          ),
+                          Visibility(
+                            visible: !session.isBillRequested,
+                            child: Row(
                               children: <Widget>[
                                 Text(
-                                  session.isBillRequested
-                                      ? ("Bill Requested")
-                                      : (session.restaurantName),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                  "Menu",
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                                Text(
-                                    session.isBillRequested
-                                        ? ("Bill Amount to Be Paid - " +
-                                            session.totalAmount)
-                                        : ("Table " + session.tableName),
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.white)),
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.white,
+                                )
                               ],
                             ),
-                            Visibility(
-                              visible: !session.isBillRequested,
-                              child: FlatButton(
-                                color: Colors.white,
-                                onPressed: () {},
-                                child: Text("Menu"),
-                              ),
-                            )
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ),
             )
           ],
