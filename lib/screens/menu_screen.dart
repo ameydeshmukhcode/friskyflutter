@@ -188,6 +188,9 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _menuItemsList() {
+    var _cartProvider = Provider.of<Cart>(context, listen: true);
+    var _ordersProvider = Provider.of<Orders>(context, listen: true);
+
     return FutureBuilder(
         future: _finalMenuList,
         builder: (context, snapshot) {
@@ -203,16 +206,13 @@ class _MenuScreenState extends State<MenuScreen> {
           } else {
             return Flexible(
               child: ListView.builder(
-                  padding: (Provider.of<Cart>(context, listen: true)
-                              .cartList
-                              .isNotEmpty ||
-                          Provider.of<Orders>(context, listen: true)
-                              .isOrderActive)
+                  padding: (_cartProvider.cartList.isNotEmpty ||
+                          _ordersProvider.isOrderActive)
                       ? EdgeInsets.only(
-                          bottom: 150,
+                          bottom: 50,
                         )
                       : EdgeInsets.only(
-                          bottom: 75,
+                          bottom: 20,
                         ),
                   controller: _scrollController,
                   itemCount: _menuList.length,
@@ -224,7 +224,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       MenuCategory menuCategory = _menuList[index];
                       return Center(
                           child: Padding(
-                        padding: EdgeInsets.all(4),
+                        padding: EdgeInsets.all(8),
                         child: Text(
                           menuCategory.name,
                           style: TextStyle(
@@ -236,7 +236,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     }
                     MenuItem menuItem = _menuList[index];
                     return Padding(
-                      padding: EdgeInsets.fromLTRB(24, 4, 24, 4),
+                      padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
                       child: Row(
                         children: <Widget>[
                           Flexible(
@@ -258,7 +258,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                         child: Text(
                                           menuItem.name,
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w800),
+                                              fontWeight: FontWeight.w600),
                                         ),
                                       ),
                                     )
@@ -280,9 +280,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             ),
                           ),
                           Center(
-                            child: (Provider.of<Cart>(context, listen: true)
-                                    .cartList
-                                    .contains(menuItem))
+                            child: _cartProvider.cartList.contains(menuItem)
                                 ? _cartButtons(menuItem)
                                 : _addButton(menuItem),
                           )
@@ -296,88 +294,101 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _simplePopup() {
+    var _cartProvider = Provider.of<Cart>(context, listen: true);
+    var _ordersProvider = Provider.of<Orders>(context, listen: true);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        PopupMenuButton<MenuCategory>(
-          child: FloatingActionButton.extended(
-            icon: Icon(
-              Icons.restaurant,
-              color: Colors.white,
-              size: 20,
-            ),
-            label: Text(
-              "Category",
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: null,
-          ),
-          itemBuilder: (BuildContext context) {
-            return _categoryList.map((MenuCategory menuCategory) {
-              return PopupMenuItem<MenuCategory>(
-                value: menuCategory,
-                child: Text(
-                  menuCategory.name,
+//        PopupMenuButton<MenuCategory>(
+//          child: FloatingActionButton.extended(
+//            icon: Icon(
+//              Icons.restaurant,
+//              color: Colors.white,
+//              size: 20,
+//            ),
+//            label: Text(
+//              "Category",
+//              style: TextStyle(color: Colors.white),
+//            ),
+//            onPressed: null,
+//          ),
+//          itemBuilder: (BuildContext context) {
+//            return _categoryList.map((MenuCategory menuCategory) {
+//              return PopupMenuItem<MenuCategory>(
+//                value: menuCategory,
+//                child: Text(
+//                  menuCategory.name,
+//                ),
+//              );
+//            }).toList();
+//          },
+//          onSelected: (category) {
+//            MenuCategory menuCategory = category;
+//            int a = _menuList.indexOf(menuCategory);
+//            _scrollController.animateTo(a.toDouble() * 65,
+//                duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+//          },
+//        ),
+        Visibility(
+          visible: _cartProvider.cartList.isNotEmpty,
+          child: Container(
+              margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
+              decoration: BoxDecoration(
+                  color: FriskyColor.colorPrimary,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Material(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CartScreen(widget.tableName)));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                        child: Text(
+                          _cartProvider.itemCount.toString() +
+                              " Items | \u20B9" +
+                              _cartProvider.total.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 16, top: 8, bottom: 8),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "View Cart",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              );
-            }).toList();
-          },
-          onSelected: (category) {
-            MenuCategory menuCategory = category;
-            int a = _menuList.indexOf(menuCategory);
-            _scrollController.animateTo(a.toDouble() * 65,
-                duration: Duration(milliseconds: 300), curve: Curves.easeIn);
-          },
+              )),
         ),
         Visibility(
           visible:
-              (Provider.of<Cart>(context, listen: true).cartList.isNotEmpty),
-          child: Container(
-            padding: EdgeInsets.all(4),
-            margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                    child: Center(
-                  child: Text(
-                    "You have items in the cart",
-                    style: TextStyle(
-                        color: FriskyColor.colorSnackBarText, fontSize: 14),
-                  ),
-                )),
-                Padding(
-                  padding: EdgeInsets.only(right: 8),
-                  child: FlatButton(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(4.0),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CartScreen(widget.tableName)));
-                      },
-                      child: Text(
-                        "View",
-                        style: TextStyle(color: Colors.black, fontSize: 14),
-                      )),
-                )
-              ],
-            ),
-            decoration: BoxDecoration(
-                color: FriskyColor.colorSnackBar,
-                borderRadius: BorderRadius.circular(6)),
-          ),
-        ),
-        Visibility(
-          visible: (Provider.of<Cart>(context, listen: true).cartList.isEmpty &&
-              Provider.of<Orders>(context, listen: true).isOrderActive),
+              _cartProvider.cartList.isEmpty && _ordersProvider.isOrderActive,
           child: Container(
             padding: EdgeInsets.all(4),
             margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
@@ -426,6 +437,8 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _cartButtons(MenuItem menuItem) {
+    var _cartProvider = Provider.of<Cart>(context, listen: true);
+
     return Center(
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -440,8 +453,7 @@ class _MenuScreenState extends State<MenuScreen> {
               padding: EdgeInsets.all(0),
               color: FriskyColor.colorBadge,
               onPressed: () {
-                Provider.of<Cart>(context, listen: true)
-                    .removeFromCart(menuItem);
+                _cartProvider.removeFromCart(menuItem);
               },
               child: Icon(
                 Icons.remove,
@@ -463,7 +475,7 @@ class _MenuScreenState extends State<MenuScreen> {
               elevation: 1,
               child: Center(
                 child: Text(
-                  Provider.of<Cart>(context, listen: true).getCount(menuItem),
+                  _cartProvider.getCount(menuItem),
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -480,7 +492,7 @@ class _MenuScreenState extends State<MenuScreen> {
               padding: EdgeInsets.all(0),
               color: FriskyColor.colorBadge,
               onPressed: () {
-                Provider.of<Cart>(context, listen: true).addToCart(menuItem);
+                _cartProvider.addToCart(menuItem);
               },
               child: Icon(
                 Icons.add,

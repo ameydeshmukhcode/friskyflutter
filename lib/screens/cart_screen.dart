@@ -382,7 +382,7 @@ class _CartScreenState extends State<CartScreen> {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       await sharedPreferences.setBool("order_active", true);
-      Provider.of<Cart>(context, listen: false).clearCart();
+      Provider.of<Cart>(context, listen: false).clearList();
       Provider.of<Orders>(context, listen: false).getOrderStatus();
       orderPlaced = true;
       Navigator.pop(context);

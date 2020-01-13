@@ -5,13 +5,17 @@ class Cart extends ChangeNotifier {
   List<MenuItem> cartList = new List();
   String _name = "";
   int _cartTotal = 0;
+  int _totalItems = 0;
+
   String get itemName => _name;
   int get total => _cartTotal;
+  int get itemCount => _totalItems;
+
   String getCount(MenuItem menuItem) {
     return cartList[getIndex(menuItem)].count.toString();
   }
 
-  countTotal() {
+  _countTotal() {
     _cartTotal = 0;
     for (int i = 0; i < cartList.length; i++) {
       _cartTotal = _cartTotal + (cartList[i].price * cartList[i].count);
@@ -19,21 +23,7 @@ class Cart extends ChangeNotifier {
   }
 
   clearList() {
-    print("list before clear");
-    printList();
     cartList.removeRange(0, cartList.length);
-    print("list after clear");
-    printList();
-    notifyListeners();
-  }
-
-  void clearCart() {
-    for (int i = cartList.length - 1; i >= 0; i--) {
-      cartList[i].count = 0;
-      cartList.removeAt(i);
-      print("inside clearCArt " + i.toString());
-      printList();
-    }
     notifyListeners();
   }
 
@@ -45,16 +35,15 @@ class Cart extends ChangeNotifier {
     if (!cartList.contains(menuItem)) {
       cartList.add(menuItem);
       cartList[getIndex(menuItem)].incrementCount();
-      countTotal();
+      _countTotal();
+      _totalItems++;
       notifyListeners();
     } else {
       cartList[getIndex(menuItem)].incrementCount();
-      countTotal();
+      _countTotal();
+      _totalItems++;
       notifyListeners();
     }
-    //  printMenuList();
-    printList();
-    printMenuList();
   }
 
   void removeFromCart(MenuItem menuItem) {
@@ -63,33 +52,20 @@ class Cart extends ChangeNotifier {
       cartList[getIndex(menuItem)].decrementCount();
       cartList.removeAt(getIndex(menuItem));
       print("item removed succesfully");
-      countTotal();
+      _totalItems--;
+      _countTotal();
       notifyListeners();
     } else {
       if (cartList[getIndex(menuItem)].count > 0) {
         cartList[getIndex(menuItem)].decrementCount();
-        countTotal();
+        _countTotal();
+        _totalItems--;
         notifyListeners();
       } else {
         print("Itam Count Zero Order Something");
-        countTotal();
+        _countTotal();
         notifyListeners();
       }
     }
-    // printMenuList();
-    printList();
-    printMenuList();
-  }
-
-  void printMenuList() {
-    print("ITEM NAME            Quantity");
-    cartList.forEach((f) {
-      print(f.name + "         " + f.count.toString());
-    });
-  }
-
-  printList() {
-    if (cartList.isEmpty) print("List IS EMPTY");
-    print(cartList.toString());
   }
 }
