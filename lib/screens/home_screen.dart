@@ -37,7 +37,11 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       drawerEdgeDragWidth: 0,
       endDrawer: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8))),
         child: Consumer<Session>(builder: (context, session, child) {
           return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 "Name",
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                    fontSize: 18, fontWeight: FontWeight.w400),
                               ),
                             )
                           ],
@@ -97,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen>
                     child: Center(
                       child: Text(
                         "Logout",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -403,7 +407,7 @@ class NavigationDrawerButton extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
         child: Text(
           text,
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
         ),
       ),
     );
