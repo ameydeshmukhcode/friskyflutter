@@ -170,31 +170,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   ],
                 ),
                 backgroundColor: Colors.white,
-                body: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(left: 16, right: 16),
-                      color: Colors.white,
-                      child: Column(
-                        children: <Widget>[
-                          Divider(
-                            thickness: 1,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Text(
-                              "Menu",
-                              style: TextStyle(
-                                color: FriskyColor.colorTextLight,
-                                fontSize: 16,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    _menuItemsList(),
-                  ],
+                body: Flex(
+                  direction: Axis.vertical,
+                  children: <Widget>[_menuItemsList()],
                 ),
                 floatingActionButton: _simplePopup(),
                 floatingActionButtonLocation:
@@ -277,19 +255,27 @@ class _MenuScreenState extends State<MenuScreen> {
                                       child: Padding(
                                         padding:
                                             EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                        child: Text(menuItem.name),
+                                        child: Text(
+                                          menuItem.name,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800),
+                                        ),
                                       ),
                                     )
                                   ],
                                 ),
                                 Text(
                                   "\u20B9 " + menuItem.price.toString(),
-                                  style: TextStyle(color: Colors.red),
+                                  style: TextStyle(fontWeight: FontWeight.w500),
                                 ),
                                 Padding(
                                     padding: EdgeInsets.only(
                                         top: 2, right: 4, bottom: 2),
-                                    child: Text(menuItem.description)),
+                                    child: Text(
+                                      menuItem.description,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                    )),
                               ],
                             ),
                           ),
@@ -449,7 +435,7 @@ class _MenuScreenState extends State<MenuScreen> {
           Container(
             height: 30,
             width: 30,
-            child: FlatButton(
+            child: MaterialButton(
               padding: EdgeInsets.all(0),
               color: FriskyColor.colorBadge,
               onPressed: () {
@@ -462,26 +448,33 @@ class _MenuScreenState extends State<MenuScreen> {
                 color: Colors.white,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomLeft: Radius.circular(8)),
               ),
             ),
           ),
           Container(
             height: 30,
             width: 30,
-            child: Center(
+            child: Material(
+              color: Colors.white,
+              elevation: 2,
+              child: Center(
                 child: Text(
-              Provider.of<Cart>(context, listen: true).getCount(menuItem),
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: FriskyColor.colorTextDark),
-            )),
+                  Provider.of<Cart>(context, listen: true).getCount(menuItem),
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: FriskyColor.colorTextDark),
+                ),
+              ),
+            ),
           ),
           Container(
             height: 30,
             width: 30,
-            child: FlatButton(
+            child: MaterialButton(
               padding: EdgeInsets.all(0),
               color: FriskyColor.colorBadge,
               onPressed: () {
@@ -493,7 +486,9 @@ class _MenuScreenState extends State<MenuScreen> {
                 color: Colors.white,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(8),
+                    bottomRight: Radius.circular(8)),
               ),
             ),
           ),
@@ -507,9 +502,8 @@ class _MenuScreenState extends State<MenuScreen> {
       child: Container(
         height: 30,
         width: 90,
-        child: FlatButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        child: MaterialButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           color: FriskyColor.colorBadge,
           onPressed: () {
             Provider.of<Cart>(context, listen: true).addToCart(menuItem);
