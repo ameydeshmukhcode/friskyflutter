@@ -77,7 +77,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                 // ignore: non_constant_identifier_names
                 builder: (context, Session, child) {
                   return Container(
-                    padding: EdgeInsets.only(left: 16, right: 16),
+                    padding: EdgeInsets.all(16),
                     color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
