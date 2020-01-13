@@ -433,9 +433,10 @@ class _MenuScreenState extends State<MenuScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            height: 30,
-            width: 30,
+            height: 26,
+            width: 26,
             child: MaterialButton(
+              elevation: 1,
               padding: EdgeInsets.all(0),
               color: FriskyColor.colorBadge,
               onPressed: () {
@@ -455,11 +456,11 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           Container(
-            height: 30,
-            width: 30,
+            height: 26,
+            width: 26,
             child: Material(
               color: Colors.white,
-              elevation: 2,
+              elevation: 1,
               child: Center(
                 child: Text(
                   Provider.of<Cart>(context, listen: true).getCount(menuItem),
@@ -472,9 +473,10 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           Container(
-            height: 30,
-            width: 30,
+            height: 26,
+            width: 26,
             child: MaterialButton(
+              elevation: 1,
               padding: EdgeInsets.all(0),
               color: FriskyColor.colorBadge,
               onPressed: () {
@@ -500,30 +502,20 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget _addButton(MenuItem menuItem) {
     return Center(
       child: Container(
-        height: 30,
-        width: 90,
+        height: 26,
+        width: 78,
         child: MaterialButton(
+          elevation: 1,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           color: FriskyColor.colorBadge,
           onPressed: () {
             Provider.of<Cart>(context, listen: true).addToCart(menuItem);
           },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                "Add",
-                style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 4),
-              ),
-              Icon(
-                Icons.add,
-                size: 20,
-                color: Colors.white,
-              ),
-            ],
+          child: Center(
+            child: Text(
+              "Add",
+              style: TextStyle(color: Colors.white, fontSize: 14),
+            ),
           ),
         ),
       ),
