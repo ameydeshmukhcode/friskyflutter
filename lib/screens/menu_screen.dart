@@ -266,7 +266,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 ),
                                 Text(
                                   "\u20B9 " + menuItem.price.toString(),
-                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                  style: TextStyle(fontWeight: FontWeight.w400),
                                 ),
                                 Padding(
                                     padding: EdgeInsets.only(
@@ -466,7 +466,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   Provider.of<Cart>(context, listen: true).getCount(menuItem),
                   style: TextStyle(
                       fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                       color: FriskyColor.colorTextDark),
                 ),
               ),
