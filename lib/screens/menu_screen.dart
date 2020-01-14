@@ -172,7 +172,19 @@ class _MenuScreenState extends State<MenuScreen> {
                 backgroundColor: Colors.white,
                 body: Flex(
                   direction: Axis.vertical,
-                  children: <Widget>[_menuItemsList()],
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+                        margin: EdgeInsets.only(bottom: 8),
+                        decoration: BoxDecoration(
+                            color: FriskyColor.colorTableName,
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        child: Text("Menu"),
+                      ),
+                    ),
+                    _menuItemsList()
+                  ],
                 ),
                 floatingActionButton: _simplePopup(),
                 floatingActionButtonLocation:
@@ -208,8 +220,8 @@ class _MenuScreenState extends State<MenuScreen> {
               child: ListView.builder(
                   padding: (_cartProvider.cartList.isNotEmpty ||
                           _ordersProvider.isOrderActive)
-                      ? EdgeInsets.only(bottom: 50, top: 16)
-                      : EdgeInsets.only(bottom: 20, top: 16),
+                      ? EdgeInsets.only(bottom: 50, top: 8)
+                      : EdgeInsets.only(bottom: 20, top: 8),
                   controller: _scrollController,
                   itemCount: _menuList.length,
                   scrollDirection: Axis.vertical,
@@ -221,12 +233,11 @@ class _MenuScreenState extends State<MenuScreen> {
                       return Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 8, 8, 8),
+                            padding: EdgeInsets.fromLTRB(24, 4, 8, 4),
                             child: Text(
                               menuCategory.name,
                               style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
+                                  fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ));
                     }
