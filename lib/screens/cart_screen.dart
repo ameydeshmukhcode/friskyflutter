@@ -51,17 +51,34 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var _cartProvider = Provider.of<Cart>(context, listen: true);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        iconTheme: IconThemeData(color: FriskyColor.colorTextDark),
-        title: Text(
-          "Your Cart",
-          style: TextStyle(
-            color: FriskyColor.colorTextDark,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Your Cart",
+                style: TextStyle(
+                    color: FriskyColor.colorPrimary,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'Table ' + widget.tableName,
+                style: TextStyle(
+                  color: FriskyColor.colorPrimary,
+                  fontSize: 14,
+                ),
+              ),
+            ],
           ),
-          textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.white,
       ),
@@ -69,34 +86,12 @@ class _CartScreenState extends State<CartScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
-              child: Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
-              'Table ' + widget.tableName,
-              style: TextStyle(
-                fontSize: 20,
-                color: FriskyColor.colorTextDark,
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: FriskyColor.colorTableName,
-              borderRadius: BorderRadius.circular(8),
-            ),
-          )),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-            child: Divider(
-              thickness: 1,
-            ),
-          ),
           Flexible(
             child: ListView.builder(
-                itemCount:
-                    Provider.of<Cart>(context, listen: true).cartList.length,
+                itemCount: _cartProvider.cartList.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.fromLTRB(24, 4, 24, 4),
+                    padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
                     child: Row(
                       children: <Widget>[
                         Flexible(
@@ -113,43 +108,46 @@ class _CartScreenState extends State<CartScreen> {
                                   Flexible(
                                     child: Padding(
                                       padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                      child: Text(Provider.of<Cart>(context,
-                                              listen: true)
-                                          .cartList[index]
-                                          .name),
+                                      child: Text(
+                                          _cartProvider.cartList[index].name,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600)),
                                     ),
                                   )
                                 ],
                               ),
                               Text(
-                                "\u20B9 " +
-                                    Provider.of<Cart>(context, listen: true)
-                                        .cartList[index]
-                                        .price
+                                "\u20B9" +
+                                    _cartProvider.cartList[index].price
                                         .toString(),
+                                style: TextStyle(fontWeight: FontWeight.w400),
                               ),
                               Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 2, right: 4, bottom: 2),
-                                  child: Text(
-                                      "Item Total: \u20B9 " +
-                                          (Provider.of<Cart>(context,
-                                                          listen: true)
-                                                      .cartList[index]
-                                                      .price *
-                                                  Provider.of<Cart>(context,
-                                                          listen: true)
-                                                      .cartList[index]
-                                                      .count)
-                                              .toString(),
-                                      style: TextStyle(color: Colors.red))),
+                                padding: EdgeInsets.only(
+                                    top: 2, right: 4, bottom: 2),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text("Item Total: ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w400)),
+                                    Text(
+                                        "\u20B9" +
+                                            (_cartProvider
+                                                        .cartList[index].price *
+                                                    _cartProvider
+                                                        .cartList[index].count)
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.red))
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
                         Center(
-                          child: cartButtons(
-                              Provider.of<Cart>(context, listen: false)
-                                  .cartList[index]),
+                          child: cartButtons(_cartProvider.cartList[index]),
                         )
                       ],
                     ),
@@ -163,7 +161,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24),
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -181,20 +179,76 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
           ),
-          Padding(
-              padding: EdgeInsets.only(left: 24, right: 24, bottom: 8),
-              child: FlatButton(
-                padding: EdgeInsets.all(8),
-                onPressed: showConfirmAlert,
-                color: FriskyColor.colorBadge,
-                child: Text(
-                  "Place Order",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            child: Material(
+              borderRadius: BorderRadius.circular(8),
+              color: FriskyColor.colorPrimary,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          "Place Order",
+                          style: TextStyle(color: FriskyColor.colorTextDark),
+                        ),
+                        content: Text(
+                          "Send order to kitchen for prepration?",
+                          style: TextStyle(color: FriskyColor.colorTextLight),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Cancel",
+                                style:
+                                    TextStyle(color: FriskyColor.colorPrimary)),
+                          ),
+                          FlatButton(
+                              color: FriskyColor.colorPrimary,
+                              onPressed: () {
+                                placeOrder();
+                              },
+                              child: Text(
+                                "OK",
+                                style: TextStyle(color: Colors.white),
+                              ))
+                        ],
+                      );
+                    },
+                    barrierDismissible: false,
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 16, top: 8, bottom: 8),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Send to Kitchen",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Icon(
+                            Icons.chevron_right,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(8),
-                ),
-              ))
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -216,7 +270,10 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget cartButtons(MenuItem menuItem) {
+    var _cartProvider = Provider.of<Cart>(context, listen: true);
+
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Row(
           mainAxisSize: MainAxisSize.min,
@@ -224,14 +281,14 @@ class _CartScreenState extends State<CartScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: 30,
-              width: 30,
-              child: FlatButton(
+              height: 26,
+              width: 26,
+              child: MaterialButton(
+                elevation: 1,
                 padding: EdgeInsets.all(0),
                 color: FriskyColor.colorBadge,
                 onPressed: () {
-                  Provider.of<Cart>(context, listen: true)
-                      .removeFromCart(menuItem);
+                  _cartProvider.removeFromCart(menuItem);
                 },
                 child: Icon(
                   Icons.remove,
@@ -239,30 +296,38 @@ class _CartScreenState extends State<CartScreen> {
                   color: Colors.white,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(50),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8)),
                 ),
               ),
             ),
             Container(
-              height: 30,
-              width: 30,
-              child: Center(
+              height: 26,
+              width: 26,
+              child: Material(
+                color: Colors.white,
+                elevation: 1,
+                child: Center(
                   child: Text(
-                Provider.of<Cart>(context, listen: true).getCount(menuItem),
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: FriskyColor.colorTextLight),
-              )),
+                    _cartProvider.getCount(menuItem),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: FriskyColor.colorTextDark),
+                  ),
+                ),
+              ),
             ),
             Container(
-              height: 30,
-              width: 30,
-              child: FlatButton(
+              height: 26,
+              width: 26,
+              child: MaterialButton(
+                elevation: 1,
                 padding: EdgeInsets.all(0),
                 color: FriskyColor.colorBadge,
                 onPressed: () {
-                  Provider.of<Cart>(context, listen: true).addToCart(menuItem);
+                  _cartProvider.addToCart(menuItem);
                 },
                 child: Icon(
                   Icons.add,
@@ -270,7 +335,9 @@ class _CartScreenState extends State<CartScreen> {
                   color: Colors.white,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(50),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8)),
                 ),
               ),
             ),
@@ -298,43 +365,6 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  showConfirmAlert() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Place Order",
-            style: TextStyle(color: FriskyColor.colorTextDark),
-          ),
-          content: Text(
-            "Send order to kitchen for prepration?",
-            style: TextStyle(color: FriskyColor.colorTextLight),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Cancel",
-                  style: TextStyle(color: FriskyColor.colorPrimary)),
-            ),
-            FlatButton(
-                color: FriskyColor.colorPrimary,
-                onPressed: () {
-                  placeOrder();
-                },
-                child: Text(
-                  "OK",
-                  style: TextStyle(color: Colors.white),
-                ))
-          ],
-        );
-      },
-      barrierDismissible: false,
     );
   }
 
