@@ -88,6 +88,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Flexible(
             child: ListView.builder(
+                padding: EdgeInsets.only(top: 16),
                 itemCount: _cartProvider.cartList.length,
                 itemBuilder: (context, index) {
                   return Padding(

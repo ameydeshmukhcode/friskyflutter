@@ -208,12 +208,8 @@ class _MenuScreenState extends State<MenuScreen> {
               child: ListView.builder(
                   padding: (_cartProvider.cartList.isNotEmpty ||
                           _ordersProvider.isOrderActive)
-                      ? EdgeInsets.only(
-                          bottom: 50,
-                        )
-                      : EdgeInsets.only(
-                          bottom: 20,
-                        ),
+                      ? EdgeInsets.only(bottom: 50, top: 16)
+                      : EdgeInsets.only(bottom: 20, top: 16),
                   controller: _scrollController,
                   itemCount: _menuList.length,
                   scrollDirection: Axis.vertical,
@@ -222,17 +218,17 @@ class _MenuScreenState extends State<MenuScreen> {
                     if (_menuList[index].toString() ==
                         "Instance of 'MenuCategory'") {
                       MenuCategory menuCategory = _menuList[index];
-                      return Center(
+                      return Align(
+                          alignment: Alignment.centerLeft,
                           child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          menuCategory.name,
-                          style: TextStyle(
-                            color: FriskyColor.colorTextLight,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ));
+                            padding: EdgeInsets.fromLTRB(24, 8, 8, 8),
+                            child: Text(
+                              menuCategory.name,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ));
                     }
                     MenuItem menuItem = _menuList[index];
                     return Padding(
