@@ -154,7 +154,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           'Table ' + widget.tableName,
                           style: TextStyle(
                             color: FriskyColor.colorPrimary,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -335,10 +335,9 @@ class _MenuScreenState extends State<MenuScreen> {
           visible: _cartProvider.cartList.isNotEmpty,
           child: Container(
               margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
-              decoration: BoxDecoration(
-                  color: FriskyColor.colorPrimary,
-                  borderRadius: BorderRadius.circular(8)),
               child: Material(
+                borderRadius: BorderRadius.circular(8),
+                color: FriskyColor.colorPrimary,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8),
                   onTap: () {
