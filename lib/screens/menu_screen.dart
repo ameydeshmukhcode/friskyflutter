@@ -481,7 +481,7 @@ class _MenuScreenState extends State<MenuScreen> {
               elevation: 1,
               child: Center(
                 child: Text(
-                  _cartProvider.getCount(menuItem),
+                  _cartProvider.getCount(menuItem).toString(),
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,

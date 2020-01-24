@@ -311,7 +311,7 @@ class _CartScreenState extends State<CartScreen> {
                 elevation: 1,
                 child: Center(
                   child: Text(
-                    _cartProvider.getCount(menuItem),
+                    _cartProvider.getCount(menuItem).toString(),
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,

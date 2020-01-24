@@ -11,15 +11,8 @@ class Cart extends ChangeNotifier {
   int get total => _cartTotal;
   int get itemCount => _totalItems;
 
-  String getCount(MenuItem menuItem) {
-    return cartList[getIndex(menuItem)].count.toString();
-  }
-
-  _countTotal() {
-    _cartTotal = 0;
-    for (int i = 0; i < cartList.length; i++) {
-      _cartTotal = _cartTotal + (cartList[i].price * cartList[i].count);
-    }
+  int getCount(MenuItem menuItem) {
+    return cartList[getIndex(menuItem)].count;
   }
 
   clearList() {
@@ -35,12 +28,12 @@ class Cart extends ChangeNotifier {
     if (!cartList.contains(menuItem)) {
       cartList.add(menuItem);
       cartList[getIndex(menuItem)].incrementCount();
-      _countTotal();
+      _cartTotal += menuItem.price;
       _totalItems++;
       notifyListeners();
     } else {
       cartList[getIndex(menuItem)].incrementCount();
-      _countTotal();
+      _cartTotal += menuItem.price;
       _totalItems++;
       notifyListeners();
     }
@@ -53,17 +46,17 @@ class Cart extends ChangeNotifier {
       cartList.removeAt(getIndex(menuItem));
       print("item removed succesfully");
       _totalItems--;
-      _countTotal();
+      _cartTotal -= menuItem.price;
       notifyListeners();
     } else {
       if (cartList[getIndex(menuItem)].count > 0) {
         cartList[getIndex(menuItem)].decrementCount();
-        _countTotal();
+        _cartTotal -= menuItem.price;
         _totalItems--;
         notifyListeners();
       } else {
         print("Itam Count Zero Order Something");
-        _countTotal();
+        _cartTotal -= menuItem.price;
         notifyListeners();
       }
     }
