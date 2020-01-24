@@ -397,15 +397,15 @@ class _CartScreenState extends State<CartScreen> {
   placeOrder() async {
     Navigator.pop(context);
     showOrderPlacing();
-    HashMap<String, int> orderlist = new HashMap<String, int>();
+    HashMap<String, int> orderList = new HashMap<String, int>();
     Map<String, Object> data = new HashMap<String, Object>();
     for (int i = 0;
         i < Provider.of<Cart>(context, listen: true).cartList.length;
         i++) {
       MenuItem item = Provider.of<Cart>(context, listen: true).cartList[i];
-      orderlist[item.id] = item.count;
+      orderList[item.id] = item.count;
     }
-    data["order"] = orderlist;
+    data["order"] = orderList;
     await cloudFunctions
         .getHttpsCallable(functionName: "placeOrder")
         .call(data)
