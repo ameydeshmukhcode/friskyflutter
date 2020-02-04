@@ -130,7 +130,7 @@ class _MenuScreenState extends State<MenuScreen> {
     return WillPopScope(
         onWillPop: () {
           Navigator.pop(context);
-          return Provider.of<Cart>(context, listen: true).clearList();
+          return Provider.of<Cart>(context, listen: true).clearCartAndOrders();
         },
         child: !_isLoading
             ? Scaffold(
@@ -190,12 +190,12 @@ class _MenuScreenState extends State<MenuScreen> {
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerFloat,
               )
-            : Center(
-                child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                    FriskyColor.colorPrimary,
+            : Scaffold(
+                body: Container(
+                  child: SvgPicture.asset(
+                    'images/state_graphics/state_dummy_menu.svg'
                   ),
-                ),
+                )
               ));
   }
 
@@ -481,7 +481,7 @@ class _MenuScreenState extends State<MenuScreen> {
               elevation: 1,
               child: Center(
                 child: Text(
-                  _cartProvider.getCount(menuItem).toString(),
+                  _cartProvider.getItemCount(menuItem).toString(),
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,

@@ -311,7 +311,7 @@ class _CartScreenState extends State<CartScreen> {
                 elevation: 1,
                 child: Center(
                   child: Text(
-                    _cartProvider.getCount(menuItem).toString(),
+                    _cartProvider.getItemCount(menuItem).toString(),
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -420,7 +420,7 @@ class _CartScreenState extends State<CartScreen> {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       await sharedPreferences.setBool("order_active", true);
-      Provider.of<Cart>(context, listen: false).clearList();
+      Provider.of<Cart>(context, listen: false).clearCartAndOrders();
       Provider.of<Orders>(context, listen: false).getOrderStatus();
       orderPlaced = true;
       Navigator.pop(context);

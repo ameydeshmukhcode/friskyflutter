@@ -15,11 +15,13 @@ class Cart extends ChangeNotifier {
   int get total => _cartTotal;
   int get itemCount => _totalItems;
 
-  int getCount(MenuItem menuItem) {
-    return cartList[getIndex(menuItem)].count;
+  // Used to show current count in menu and cart
+  int getItemCount(MenuItem menuItem) {
+    return cartList[_getIndex(menuItem)].count;
   }
 
-  clearList() {
+  // clears cart and resets values
+  clearCartAndOrders() {
     cartList.removeRange(0, cartList.length);
     orderList.clear();
     _cartTotal = 0;
@@ -27,20 +29,20 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-  int getIndex(MenuItem menuItem) {
-    return cartList.indexOf(menuItem);
-  }
-
   void addToCart(MenuItem menuItem) {
     if (!cartList.contains(menuItem)) {
+
+      // Add new item to cart
       cartList.add(menuItem);
-      cartList[getIndex(menuItem)].incrementCount();
+      cartList[_getIndex(menuItem)].incrementCount();
       orderList[menuItem.id] = 1;
       _cartTotal += menuItem.price;
       _totalItems++;
       notifyListeners();
     } else {
-      cartList[getIndex(menuItem)].incrementCount();
+
+      // Or increment count of item in cart
+      cartList[_getIndex(menuItem)].incrementCount();
       orderList[menuItem.id]++;
       _cartTotal += menuItem.price;
       _totalItems++;
@@ -49,17 +51,21 @@ class Cart extends ChangeNotifier {
   }
 
   void removeFromCart(MenuItem menuItem) {
-    if (cartList[getIndex(menuItem)].count == 1) {
-      cartList[getIndex(menuItem)].decrementCount();
-      cartList.removeAt(getIndex(menuItem));
+    if (cartList[_getIndex(menuItem)].count == 1) {
+
+      // Remove item from cart when count is 1
+      cartList[_getIndex(menuItem)].decrementCount();
+      cartList.removeAt(_getIndex(menuItem));
       orderList[menuItem.id]--;
       orderList.remove(menuItem.id);
       _totalItems--;
       _cartTotal -= menuItem.price;
       notifyListeners();
     } else {
-      if (cartList[getIndex(menuItem)].count > 0) {
-        cartList[getIndex(menuItem)].decrementCount();
+
+      // Or just decrement count by 1
+      if (cartList[_getIndex(menuItem)].count > 0) {
+        cartList[_getIndex(menuItem)].decrementCount();
         orderList[menuItem.id]--;
         _cartTotal -= menuItem.price;
         _totalItems--;
@@ -69,5 +75,9 @@ class Cart extends ChangeNotifier {
         notifyListeners();
       }
     }
+  }
+
+  int _getIndex(MenuItem menuItem) {
+    return cartList.indexOf(menuItem);
   }
 }
