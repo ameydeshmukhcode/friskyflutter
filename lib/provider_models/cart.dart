@@ -2,12 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
 
 class Cart extends ChangeNotifier {
-  List<MenuItem> cartList = new List();
-  String _name = "";
+
+  // This is sent to placeOrder
+  Map<String, int> orderList = {};
+
+  // Using this for UI
+  List<MenuItem> cartList = [];
+
   int _cartTotal = 0;
   int _totalItems = 0;
 
-  String get itemName => _name;
   int get total => _cartTotal;
   int get itemCount => _totalItems;
 
@@ -17,6 +21,9 @@ class Cart extends ChangeNotifier {
 
   clearList() {
     cartList.removeRange(0, cartList.length);
+    orderList.clear();
+    _cartTotal = 0;
+    _totalItems = 0;
     notifyListeners();
   }
 
@@ -28,11 +35,13 @@ class Cart extends ChangeNotifier {
     if (!cartList.contains(menuItem)) {
       cartList.add(menuItem);
       cartList[getIndex(menuItem)].incrementCount();
+      orderList[menuItem.id] = 1;
       _cartTotal += menuItem.price;
       _totalItems++;
       notifyListeners();
     } else {
       cartList[getIndex(menuItem)].incrementCount();
+      orderList[menuItem.id]++;
       _cartTotal += menuItem.price;
       _totalItems++;
       notifyListeners();
@@ -40,22 +49,22 @@ class Cart extends ChangeNotifier {
   }
 
   void removeFromCart(MenuItem menuItem) {
-    print("remov item count " + menuItem.count.toString());
     if (cartList[getIndex(menuItem)].count == 1) {
       cartList[getIndex(menuItem)].decrementCount();
       cartList.removeAt(getIndex(menuItem));
-      print("item removed succesfully");
+      orderList[menuItem.id]--;
+      orderList.remove(menuItem.id);
       _totalItems--;
       _cartTotal -= menuItem.price;
       notifyListeners();
     } else {
       if (cartList[getIndex(menuItem)].count > 0) {
         cartList[getIndex(menuItem)].decrementCount();
+        orderList[menuItem.id]--;
         _cartTotal -= menuItem.price;
         _totalItems--;
         notifyListeners();
       } else {
-        print("Itam Count Zero Order Something");
         _cartTotal -= menuItem.price;
         notifyListeners();
       }

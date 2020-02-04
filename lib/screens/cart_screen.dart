@@ -397,15 +397,22 @@ class _CartScreenState extends State<CartScreen> {
   placeOrder() async {
     Navigator.pop(context);
     showOrderPlacing();
-    HashMap<String, int> orderList = new HashMap<String, int>();
+
+    // TODO: find why this doesn't work (causes error code 429 in placeOrder)
+    //  HashMap<String, int> orderList = new HashMap<String, int>();
+    //  Map<String, Object> data = new HashMap<String, Object>();
+    //  for (int i = 0;
+    //      i < Provider.of<Cart>(context, listen: true).cartList.length;
+    //      i++) {
+    //    MenuItem item = Provider.of<Cart>(context, listen: true).cartList[i];
+    //    orderList[item.id] = item.count;
+    //  }
+
+    var cartProvider = Provider.of<Cart>(context, listen: true);
+
     Map<String, Object> data = new HashMap<String, Object>();
-    for (int i = 0;
-        i < Provider.of<Cart>(context, listen: true).cartList.length;
-        i++) {
-      MenuItem item = Provider.of<Cart>(context, listen: true).cartList[i];
-      orderList[item.id] = item.count;
-    }
-    data["order"] = orderList;
+    data["order"] = cartProvider.orderList;
+
     await cloudFunctions
         .getHttpsCallable(functionName: "placeOrder")
         .call(data)
