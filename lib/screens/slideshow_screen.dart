@@ -92,7 +92,7 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
 
   _endSlideshowAndGo() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.setBool("slideshow_complete", false);
+    await sharedPreferences.setBool("slideshow_complete", true);
     Navigator.pushAndRemoveUntil(
         context,
         new MaterialPageRoute(builder: (context) => AuthChecker()),
