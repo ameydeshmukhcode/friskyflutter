@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
+import 'package:friskyflutter/provider_models/session.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../frisky_colors.dart';
 import 'package:friskyflutter/structures/order_header.dart';
@@ -321,8 +322,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         context,
         ModalRoute.withName(Navigator.defaultRouteName),
       );
-      // Navigator.popUntil(context,ModalRoute.withName('/homepage'));
-      print("BILL CLEARD");
+      Provider.of<Session>(context, listen: true).isBillRequested = true;
     }).catchError((error) {
       Navigator.pop(context);
       print(error.toString());
