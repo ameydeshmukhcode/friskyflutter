@@ -106,14 +106,16 @@ class _HomeScreenState extends State<HomeScreen>
                   child: InkWell(
                     splashColor: Colors.black12,
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MenuScreen(
-                                  session.restaurantName,
-                                  session.tableName,
-                                  session.sessionID,
-                                  session.restaurantID)));
+                      if (!session.isBillRequested) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MenuScreen(
+                                    session.restaurantName,
+                                    session.tableName,
+                                    session.sessionID,
+                                    session.restaurantID)));
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
