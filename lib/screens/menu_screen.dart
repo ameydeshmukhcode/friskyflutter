@@ -192,11 +192,9 @@ class _MenuScreenState extends State<MenuScreen> {
               )
             : Scaffold(
                 body: Container(
-                  child: SvgPicture.asset(
-                    'images/state_graphics/state_dummy_menu.svg'
-                  ),
-                )
-              ));
+                child: SvgPicture.asset(
+                    'images/state_graphics/state_dummy_menu.svg'),
+              )));
   }
 
   Widget _menuItemsList() {
@@ -396,47 +394,54 @@ class _MenuScreenState extends State<MenuScreen> {
           visible:
               _cartProvider.cartList.isEmpty && _ordersProvider.isOrderActive,
           child: Container(
-            padding: EdgeInsets.all(4),
-            margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "You have orders",
-                      style: TextStyle(
-                          color: FriskyColor.colorSnackBarText, fontSize: 14),
-                    ),
+              margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
+              child: Material(
+                borderRadius: BorderRadius.circular(8),
+                color: FriskyColor.colorPrimary,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                OrdersScreen(widget.tableName)));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                        child: Text(
+                          "You have orders",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 16, top: 8, bottom: 8),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Show",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 8),
-                  child: FlatButton(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(4.0),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    OrdersScreen(widget.tableName)));
-                      },
-                      child: Text(
-                        "Show",
-                        style: TextStyle(color: Colors.black, fontSize: 14),
-                      )),
-                ),
-              ],
-            ),
-            decoration: BoxDecoration(
-                color: FriskyColor.colorSnackBar,
-                borderRadius: BorderRadius.circular(6)),
-          ),
+              )),
         ),
       ],
     );
