@@ -19,11 +19,11 @@ class Session extends ChangeNotifier {
       isSessionActive = false;
       // isBillRequested =false;
       //print("SESSION = " + isSessionActive.toString());
-      await sharedPreferences.setString("restaurant_id", " ");
-      await sharedPreferences.setString("session_id", " ");
-      await sharedPreferences.setString("table_id", " ");
-      await sharedPreferences.setString("table_name", " ");
-      await sharedPreferences.setString("restaurant_name", " ");
+      await sharedPreferences.remove("restaurant_id");
+      await sharedPreferences.remove("session_id");
+      await sharedPreferences.remove("table_id");
+      await sharedPreferences.remove("table_name");
+      await sharedPreferences.remove("restaurant_name");
       notifyListeners();
     } else {
       //totalAmount = (sharedPreferences.getString("total_Amount").isNotEmpty)?sharedPreferences.getString("total_Amount"):"0";
