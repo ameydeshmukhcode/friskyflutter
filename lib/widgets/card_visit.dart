@@ -103,6 +103,6 @@ class VisitWidget extends StatelessWidget {
 
   _getFormattedTimestamp(Timestamp timestamp) {
     return formatDate(
-        timestamp.toDate(), [dd, ' ', M, ' ', yyyy, ' ', hh, ':', nn, '', am]);
+        timestamp.toDate(), [dd, ' ', M, ' ', yyyy, ' ', hh, ':', nn, ' ', am]);
   }
 }
