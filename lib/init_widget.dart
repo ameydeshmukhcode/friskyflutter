@@ -161,6 +161,6 @@ class _InitWidgetState extends State<InitWidget> {
     } else {
       print("Session not ENDED");
     }
-    Provider.of<Session>(context, listen: false).getStatus();
+    Provider.of<Session>(context, listen: false).updateSessionStatus();
   }
 }

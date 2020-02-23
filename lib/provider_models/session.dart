@@ -10,7 +10,8 @@ class Session extends ChangeNotifier {
   String sessionID = " ";
   String restaurantID = " ";
   String totalAmount = "0";
-  Future getStatus() async {
+
+  Future updateSessionStatus() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     isSessionActive = sharedPreferences.getBool("session_active");
     // isBillRequested = sharedPreferences.getBool("bill_requested");
