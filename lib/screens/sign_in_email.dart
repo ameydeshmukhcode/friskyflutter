@@ -229,11 +229,11 @@ class _SignInEmailState extends State<SignInEmail> {
         _setErrorMessage("Invalid email entered.\nEnter a valid email.");
         break;
       case "ERROR_WRONG_PASSWORD":
-        _setErrorMessage("Incorrect password entered");
+        _setErrorMessage("Incorrect password entered.");
         break;
       case "ERROR_USER_NOT_FOUND":
         _setErrorMessage(
-            "Account with this email doesn\'t exist. Sign up first.");
+            "Account with this email doesn\'t exist.\nSign up first.");
         break;
       default:
         _setErrorMessage("Something went wrong.\nTry again.");
@@ -244,9 +244,7 @@ class _SignInEmailState extends State<SignInEmail> {
   _resetPassword() async {
     try {
       await _auth.sendPasswordResetEmail(email: _emailController.text);
-      Fluttertoast.showToast(
-          msg: "Password reset link sent to your email.",
-          toastLength: Toast.LENGTH_LONG);
+      _setErrorMessage("Password reset link sent to your email.");
     } catch (e) {
       _showError(e);
     }
@@ -259,7 +257,7 @@ class _SignInEmailState extends State<SignInEmail> {
         _errorMessage = "";
       });
       Fluttertoast.showToast(
-          msg: "Verification link send to your email.",
+          msg: "Verification Email Sent",
           toastLength: Toast.LENGTH_LONG);
       return _authResult.user.uid;
     } catch (e) {

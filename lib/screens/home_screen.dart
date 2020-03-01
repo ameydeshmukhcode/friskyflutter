@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
                               ),
                               Text(
                                   session.isBillRequested
-                                      ? ("Bill Amount to Be Paid - " +
+                                      ? ("Bill Amount to Be Paid - \u20B9" +
                                           session.totalAmount)
                                       : ("Table " + session.tableName),
                                   style: TextStyle(
@@ -171,9 +171,9 @@ class _HomeScreenState extends State<HomeScreen>
       }),
       floatingActionButton: Consumer<Session>(
           // ignore: non_constant_identifier_names
-          builder: (context, Session, child) {
+          builder: (context, session, child) {
         return Visibility(
-          visible: !Session.isSessionActive,
+          visible: !session.isSessionActive,
           child: FloatingActionButton.extended(
             onPressed: () async {
               // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);

@@ -20,12 +20,20 @@ class OrdersScreen extends StatefulWidget {
 
 class _OrdersScreenState extends State<OrdersScreen> {
   List<Object> mOrderList = new List<Object>();
+  var _ordersProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _ordersProvider = Provider.of<Orders>(context, listen: true);
+  }
+
   getListLength() {
-    if (Provider.of<Orders>(context, listen: true).mOrderList.length == 0) {
-      Provider.of<Orders>(context, listen: true).fetchData();
+    if (_ordersProvider.ordersList.length == 0) {
+      _ordersProvider.fetchData();
       return 0;
     } else {
-      return Provider.of<Orders>(context, listen: true).mOrderList.length;
+      return _ordersProvider.ordersList.length;
     }
   }
 
@@ -34,9 +42,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context);
-
-        Provider.of<Orders>(context, listen: true).resetOrdersList();
-        return Provider.of<Orders>(context, listen: true).resetBill();
+        _ordersProvider.resetOrdersList();
+        return _ordersProvider.resetBill();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -78,14 +85,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   padding: EdgeInsets.all(0),
                   itemCount: getListLength(),
                   itemBuilder: (context, index) {
-                    if (Provider.of<Orders>(context, listen: true)
-                            .mOrderList[index]
-                            .toString() ==
-                        "Instance of 'OrderHeader'") {
-                      OrderHeader header =
-                          Provider.of<Orders>(context, listen: true)
-                                  .mOrderList[index] ??
-                              OrderHeader(" ", 0);
+                    if (_ordersProvider.ordersList[index] is OrderHeader) {
+                      OrderHeader header = _ordersProvider.ordersList[index] ??
+                          OrderHeader(" ", 0);
                       return Column(
                         children: <Widget>[
                           Text(
@@ -105,10 +107,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         ],
                       );
                     } else {
-                      OrderItem item =
-                          Provider.of<Orders>(context, listen: true)
-                                  .mOrderList[index] ??
-                              OrderItem("", "", 0, 0);
+                      OrderItem item = _ordersProvider.ordersList[index] ??
+                          OrderItem("", "", 0, 0);
                       return OrderItemWidget(
                           item.name, item.count, item.total, item.orderStatus);
                     }
@@ -132,8 +132,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         color: FriskyColor.colorTextDark, fontSize: 14),
                   ),
                   Text(
-                    "\u20B9" +
-                        Provider.of<Orders>(context, listen: true).billAmount,
+                    "\u20B9" + _ordersProvider.billAmount,
                     style: TextStyle(
                         color: FriskyColor.colorTextDark, fontSize: 14),
                   ),
@@ -152,7 +151,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         color: FriskyColor.colorTextDark, fontSize: 14),
                   ),
                   Text(
-                    "\u20B9" + Provider.of<Orders>(context, listen: true).gst,
+                    "\u20B9" + _ordersProvider.gst,
                     style: TextStyle(
                         color: FriskyColor.colorTextDark, fontSize: 14),
                   ),
@@ -171,9 +170,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         color: FriskyColor.colorTextDark, fontSize: 16),
                   ),
                   Text(
-                    "\u20B9" +
-                        Provider.of<Orders>(context, listen: true)
-                            .amountPayable,
+                    "\u20B9" + _ordersProvider.amountPayable,
                     style: TextStyle(color: Colors.red, fontSize: 16),
                   ),
                 ],
@@ -302,10 +299,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
     showBillClearing();
     CloudFunctions cloudFunctions = CloudFunctions.instance;
     SharedPreferences sp = await SharedPreferences.getInstance();
+
     Map<String, Object> data = new HashMap<String, Object>();
     data["restaurant"] = sp.getString("restaurant_id");
     data["table"] = sp.getString("table_id");
     data["session"] = sp.getString("session_id");
+
     await cloudFunctions
         .getHttpsCallable(functionName: "requestBill")
         .call(data)
@@ -313,11 +312,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
       sp.setBool("bill_requested", true);
       sp.setString(
           "total_Amount",
-          Provider.of<Orders>(context, listen: true).amountPayable.isEmpty
+          _ordersProvider.amountPayable.isEmpty
               ? "0"
-              : Provider.of<Orders>(context, listen: true).amountPayable);
-      Provider.of<Orders>(context, listen: true).resetOrdersList();
-      Provider.of<Orders>(context, listen: true).resetBill();
+              : _ordersProvider.amountPayable);
+      _ordersProvider.resetOrdersList();
+      _ordersProvider.resetBill();
       Navigator.popUntil(
         context,
         ModalRoute.withName(Navigator.defaultRouteName),
