@@ -31,7 +31,7 @@ class _InitWidgetState extends State<InitWidget> {
     super.initState();
     _fcmListeners();
 
-    var android = new AndroidInitializationSettings('logo');
+    var android = new AndroidInitializationSettings('icon_notif');
     var iOS = new IOSInitializationSettings();
     var initSettings = new InitializationSettings(android, iOS);
     _flutterLocalNotificationsPlugin.initialize(initSettings,
