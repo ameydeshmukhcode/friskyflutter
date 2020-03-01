@@ -56,7 +56,15 @@ class _SignInEmailState extends State<SignInEmail> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: FlatButton(
-                      onPressed: _resetPassword,
+                      onPressed: () {
+                        if (_emailController.text.compareTo("") == 0) {
+                          Fluttertoast.showToast(
+                              msg: "Enter email",
+                              toastLength: Toast.LENGTH_SHORT);
+                        } else {
+                          _resetPassword();
+                        }
+                      },
                       child: Text("Forgot password?",
                           textAlign: TextAlign.end,
                           style: TextStyle(
@@ -257,8 +265,7 @@ class _SignInEmailState extends State<SignInEmail> {
         _errorMessage = "";
       });
       Fluttertoast.showToast(
-          msg: "Verification Email Sent",
-          toastLength: Toast.LENGTH_LONG);
+          msg: "Verification Email Sent", toastLength: Toast.LENGTH_LONG);
       return _authResult.user.uid;
     } catch (e) {
       _setErrorMessage(
