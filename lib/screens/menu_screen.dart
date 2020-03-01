@@ -225,7 +225,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    if (_menuList[index] is MenuCategory) {
+                    if (_menuList[index].toString() ==
+                        "Instance of 'MenuCategory'") {
                       MenuCategory menuCategory = _menuList[index];
                       return Align(
                           alignment: Alignment.centerLeft,

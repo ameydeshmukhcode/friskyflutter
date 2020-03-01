@@ -205,11 +205,11 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
   _setPreferences() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setBool("session_active", true);
-    await sharedPreferences.setString("session_id", sessionID);
     await sharedPreferences.setString("restaurant_id", restaurantID);
-    await sharedPreferences.setString("restaurant_name", restaurantName);
+    await sharedPreferences.setString("session_id", sessionID);
     await sharedPreferences.setString("table_id", tableID);
     await sharedPreferences.setString("table_name", tableName);
+    await sharedPreferences.setString("restaurant_name", restaurantName);
     Provider.of<Session>(context).updateSessionStatus();
     return;
   }
