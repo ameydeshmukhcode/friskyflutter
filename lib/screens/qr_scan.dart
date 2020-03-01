@@ -32,34 +32,42 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              "Start new Session?",
-            ),
-            content: Text(
-              "Start new session to:\n- Browse the Menu\n- Place Orders\n- Get Order and Bill update",
-            ),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _captureController.resume();
-                },
-                child: Text(
-                  "Cancel",
+          return WillPopScope(
+              onWillPop: () {
+                Navigator.pop(context);
+                _captureController.resume();
+                return;
+              },
+              child: AlertDialog(
+                title: Text(
+                  "Start new Session?",
                 ),
-              ),
-              FlatButton(
-                  color: FriskyColor.colorPrimary,
-                  onPressed: () {
-                    _initSessionCreation(data);
-                  },
-                  child: Text(
-                    "Start",
-                    style: TextStyle(color: Colors.white),
-                  ))
-            ],
-          );
+                content: Text(
+                  "Start new session to:\n- Browse the Menu\n- Place Orders\n- Get Order and Bill update",
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    splashColor: Colors.black12,
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _captureController.resume();
+                    },
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: FriskyColor.colorPrimary),
+                    ),
+                  ),
+                  FlatButton(
+                      color: FriskyColor.colorPrimary,
+                      onPressed: () {
+                        _initSessionCreation(data);
+                      },
+                      child: Text(
+                        "Start",
+                        style: TextStyle(color: Colors.white),
+                      ))
+                ],
+              ));
         },
         barrierDismissible: false,
       );
