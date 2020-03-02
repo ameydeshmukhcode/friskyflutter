@@ -67,6 +67,43 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ],
             ),
           ),
+          actions: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 14, right: 16, bottom: 14),
+              child: Material(
+                borderRadius: BorderRadius.circular(2),
+                color: FriskyColor.colorBadge,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(2),
+                  onTap: () {
+                    showConfirmAlert();
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Text(
+                          "Clear Bill",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 2, right: 2),
+                        child: Icon(
+                          Icons.chevron_right,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,
