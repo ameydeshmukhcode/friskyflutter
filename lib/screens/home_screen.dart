@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
                               ),
                               Text(
                                   session.isBillRequested
-                                      ? ("Bill Amount to Be Paid - " +
+                                      ? ("Bill Amount to Be Paid - \u20B9" +
                                           session.totalAmount)
                                       : ("Table " + session.tableName),
                                   style: TextStyle(
