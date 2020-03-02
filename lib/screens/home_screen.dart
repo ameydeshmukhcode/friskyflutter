@@ -150,7 +150,10 @@ class _HomeScreenState extends State<HomeScreen>
                               children: <Widget>[
                                 Text(
                                   "Menu",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 Icon(
                                   Icons.chevron_right,
