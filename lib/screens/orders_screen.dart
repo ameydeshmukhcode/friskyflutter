@@ -250,11 +250,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
           ),
           actions: <Widget>[
             FlatButton(
+              splashColor: Colors.black12,
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Cancel",
-                  style: TextStyle(color: FriskyColor.colorPrimary)),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: FriskyColor.colorPrimary),
+              ),
             ),
             FlatButton(
                 color: FriskyColor.colorPrimary,
