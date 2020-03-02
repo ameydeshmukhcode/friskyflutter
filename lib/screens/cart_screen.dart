@@ -155,33 +155,8 @@ class _CartScreenState extends State<CartScreen> {
                   );
                 }),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-            child: Divider(
-              thickness: 1,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  "Cart Total",
-                  style:
-                      TextStyle(color: FriskyColor.colorTextDark, fontSize: 16),
-                ),
-                Text(
-                  "\u20B9" +
-                      Provider.of<Cart>(context, listen: true).total.toString(),
-                  style: TextStyle(color: Colors.red, fontSize: 16),
-                ),
-              ],
-            ),
-          ),
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
             child: Material(
               borderRadius: BorderRadius.circular(8),
               color: FriskyColor.colorPrimary,
@@ -225,14 +200,24 @@ class _CartScreenState extends State<CartScreen> {
                   );
                 },
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                      child: Text(
+                        "Cart Total: \u20B9" + _cartProvider.total.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.only(right: 16, top: 8, bottom: 8),
                       child: Row(
                         children: <Widget>[
                           Text(
-                            "Send to Kitchen",
+                            "Send to kitchen",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
