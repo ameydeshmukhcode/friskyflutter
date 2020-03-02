@@ -128,73 +128,78 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () {
-          Navigator.pop(context);
-          return Provider.of<Cart>(context, listen: true).clearCartAndOrders();
-        },
-        child: !_isLoading
-            ? Scaffold(
-                appBar: AppBar(
-                  centerTitle: true,
-                  elevation: 0,
-                  iconTheme: IconThemeData(color: Colors.black),
-                  title: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          widget.restaurantName,
-                          style: TextStyle(
-                              color: FriskyColor.colorPrimary,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Table ' + widget.tableName,
-                          style: TextStyle(
+      onWillPop: () {
+        Navigator.pop(context);
+        return Provider.of<Cart>(context, listen: true).clearCartAndOrders();
+      },
+      child: !_isLoading
+          ? Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                elevation: 0,
+                iconTheme: IconThemeData(color: Colors.black),
+                title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        widget.restaurantName,
+                        style: TextStyle(
                             color: FriskyColor.colorPrimary,
-                            fontSize: 14,
-                          ),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Table ' + widget.tableName,
+                        style: TextStyle(
+                          color: FriskyColor.colorPrimary,
+                          fontSize: 14,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  backgroundColor: Colors.white,
-                  actions: <Widget>[
-                    IconButton(
-                        tooltip: "Search Menu",
-                        icon: Icon(Icons.search),
-                        color: FriskyColor.colorTextDark,
-                        onPressed: () {})
-                  ],
                 ),
                 backgroundColor: Colors.white,
-                body: Flex(
-                  direction: Axis.vertical,
-                  children: <Widget>[
-                    Center(
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-                        margin: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                            color: FriskyColor.colorTableName,
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        child: Text("Menu"),
-                      ),
+                actions: <Widget>[
+                  IconButton(
+                      tooltip: "Search Menu",
+                      icon: Icon(Icons.search),
+                      color: FriskyColor.colorTextDark,
+                      onPressed: () {})
+                ],
+              ),
+              backgroundColor: Colors.white,
+              body: Flex(
+                direction: Axis.vertical,
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+                      margin: EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                          color: FriskyColor.colorTableName,
+                          borderRadius: BorderRadius.all(Radius.circular(4))),
+                      child: Text("Menu"),
                     ),
-                    _menuItemsList()
-                  ],
-                ),
-                floatingActionButton: _simplePopup(),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerFloat,
-              )
-            : Scaffold(
-                body: Container(
+                  ),
+                  _menuItemsList()
+                ],
+              ),
+              floatingActionButton: _simplePopup(),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+            )
+          : Scaffold(
+              body: SafeArea(
                 child: SvgPicture.asset(
-                    'images/state_graphics/state_dummy_menu.svg'),
-              )));
+                  'images/state_graphics/state_dummy_menu.svg',
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.topCenter,
+                ),
+              ),
+            ),
+    );
   }
 
   Widget _menuItemsList() {
