@@ -30,20 +30,21 @@ class OrderItemWidget extends StatelessWidget {
                       padding: EdgeInsets.only(left: 4),
                     ),
                     Flexible(
-                      child: Text(name),
+                      child: Text(name, style: TextStyle(fontSize: 16),),
                     )
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Text("x" + count.toString()),
+                    Text("x" + count.toString(),
+                        style: TextStyle(fontSize: 12)),
                     Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
-                    Text("Item total "),
+                    Text("Item total ", style: TextStyle(fontSize: 12)),
                     Text(
                       "\u20B9 " + total.toString(),
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(color: Colors.red, fontSize: 12),
                     )
                   ],
                 )
