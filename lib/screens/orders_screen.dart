@@ -31,84 +31,69 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var _ordersProvider = Provider.of<Orders>(context, listen: true);
+
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context);
 
-        Provider.of<Orders>(context, listen: true).resetOrdersList();
-        return Provider.of<Orders>(context, listen: true).resetBill();
+        _ordersProvider.resetOrdersList();
+        return _ordersProvider.resetBill();
       },
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
-          iconTheme: IconThemeData(color: FriskyColor.colorTextDark),
-          title: Text(
-            "Your Order",
-            style: TextStyle(
-              color: FriskyColor.colorTextDark,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Your Orders",
+                  style: TextStyle(
+                      color: FriskyColor.colorPrimary,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'Table ' + widget.tableName,
+                  style: TextStyle(
+                    color: FriskyColor.colorPrimary,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
             ),
-            textAlign: TextAlign.center,
           ),
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,
         body: Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                'Table ' + widget.tableName,
-                style:
-                    TextStyle(fontSize: 20, color: FriskyColor.colorTextLight),
-              ),
-              decoration: BoxDecoration(
-                color: FriskyColor.colorTableName,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
             Flexible(
               child: ListView.builder(
                   padding: EdgeInsets.all(0),
                   itemCount: getListLength(),
                   itemBuilder: (context, index) {
-                    if (Provider.of<Orders>(context, listen: true)
-                            .mOrderList[index]
-                            .toString() ==
-                        "Instance of 'OrderHeader'") {
-                      OrderHeader header =
-                          Provider.of<Orders>(context, listen: true)
-                                  .mOrderList[index] ??
-                              OrderHeader(" ", 0);
-                      return Column(
-                        children: <Widget>[
-                          Text(
-                            "Order # " +
-                                header.rank.toString() +
-                                " - " +
-                                header.time,
-                            style: TextStyle(
-                                color: FriskyColor.colorTextDark, fontSize: 14),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 32, right: 32),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          )
-                        ],
+                    if (_ordersProvider.mOrderList[index] is OrderHeader) {
+                      OrderHeader header = _ordersProvider.mOrderList[index] ??
+                          OrderHeader(" ", 0);
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(24, 16, 24, 0),
+                        child: Text(
+                          "Order #" +
+                              header.rank.toString() +
+                              " - " +
+                              header.time,
+                          style: TextStyle(
+                              color: FriskyColor.colorTextDark, fontSize: 12),
+                        ),
                       );
                     } else {
-                      OrderItem item =
-                          Provider.of<Orders>(context, listen: true)
-                                  .mOrderList[index] ??
-                              OrderItem("", "", 0, 0);
+                      OrderItem item = _ordersProvider.mOrderList[index] ??
+                          OrderItem("", "", 0, 0);
                       return OrderItemWidget(
                           item.name, item.count, item.total, item.orderStatus);
                     }
@@ -127,13 +112,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Cart Total",
+                    "Total",
                     style: TextStyle(
                         color: FriskyColor.colorTextDark, fontSize: 14),
                   ),
                   Text(
-                    "\u20B9" +
-                        Provider.of<Orders>(context, listen: true).billAmount,
+                    "\u20B9" + _ordersProvider.billAmount,
                     style: TextStyle(
                         color: FriskyColor.colorTextDark, fontSize: 14),
                   ),
@@ -152,7 +136,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         color: FriskyColor.colorTextDark, fontSize: 14),
                   ),
                   Text(
-                    "\u20B9" + Provider.of<Orders>(context, listen: true).gst,
+                    "\u20B9" + _ordersProvider.gst,
                     style: TextStyle(
                         color: FriskyColor.colorTextDark, fontSize: 14),
                   ),
@@ -171,9 +155,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         color: FriskyColor.colorTextDark, fontSize: 16),
                   ),
                   Text(
-                    "\u20B9" +
-                        Provider.of<Orders>(context, listen: true)
-                            .amountPayable,
+                    "\u20B9" + _ordersProvider.amountPayable,
                     style: TextStyle(color: Colors.red, fontSize: 16),
                   ),
                 ],
