@@ -160,7 +160,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(24, 2, 24, 2),
+              padding: EdgeInsets.fromLTRB(24, 2, 24, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -179,56 +179,43 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 24, right: 24, bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                    child: FlatButton(
-                      padding: EdgeInsets.all(8),
-                      color: FriskyColor.colorBadge,
-                      onPressed: () {
-                        showConfirmAlert();
-                      },
-                      child: Text(
-                        "Clear Bill",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(8),
-                      ),
-                    ),
+            Container(
+              padding: EdgeInsets.all(16),
+              child: Material(
+                borderRadius: BorderRadius.circular(8),
+                color: FriskyColor.colorPrimary,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 16, top: 8, bottom: 8),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Back to menu",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8),
-                  ),
-                  Expanded(
-                    child: OutlineButton(
-                      padding: EdgeInsets.all(8),
-                      highlightedBorderColor: FriskyColor.colorPrimary,
-                      color: Colors.lightGreen,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Order More",
-                        style: TextStyle(
-                            color: FriskyColor.colorPrimary, fontSize: 20),
-                      ),
-                      borderSide: BorderSide(
-                        color: FriskyColor.colorPrimary,
-                        width: 1,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
