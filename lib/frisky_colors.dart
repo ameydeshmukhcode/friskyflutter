@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FriskyColor {
-  static const MaterialColor colorPrimary = MaterialColor(0xFFff5c5c, color);
-  static const MaterialColor colorTextDark = MaterialColor(0xFF707070, color);
-  static const MaterialColor colorTextLight = MaterialColor(0xFF757575, color);
+  static const MaterialColor colorPrimary = MaterialColor(0xFFFF5C5C, color);
+  static const MaterialColor colorTextDark = MaterialColor(0xFF222222, color);
+  static const MaterialColor colorTextLight = MaterialColor(0xFF666666, color);
   static const MaterialColor colorBadge = MaterialColor(0xFF49D852, color);
   static const MaterialColor colorTableName = MaterialColor(0xFFD7D7D7, color);
   static const MaterialColor colorSnackBar = MaterialColor(0xFF333333, color);
