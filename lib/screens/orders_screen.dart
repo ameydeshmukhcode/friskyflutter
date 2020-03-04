@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -307,6 +308,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   requestBill() async {
+    var _ordersProvider = Provider.of<Orders>(context, listen: true);
+    var _sessionProvider = Provider.of<Session>(context, listen: true);
+
     Navigator.pop(context);
     showBillClearing();
     CloudFunctions cloudFunctions = CloudFunctions.instance;
@@ -322,18 +326,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
       sp.setBool("bill_requested", true);
       sp.setString(
           "total_Amount",
-          Provider.of<Orders>(context, listen: true).amountPayable.isEmpty
+          _ordersProvider.amountPayable.isEmpty
               ? "0"
-              : Provider.of<Orders>(context, listen: true).amountPayable);
-      Provider.of<Orders>(context, listen: true).resetOrdersList();
-      Provider.of<Orders>(context, listen: true).resetBill();
+              : _ordersProvider.amountPayable);
+      _ordersProvider.resetOrdersList();
+      _ordersProvider.resetBill();
       Navigator.popUntil(
         context,
         ModalRoute.withName(Navigator.defaultRouteName),
       );
-      Provider.of<Session>(context, listen: true).isBillRequested = true;
+      _sessionProvider.isBillRequested = true;
+      _sessionProvider.updateSessionStatus();
     }).catchError((error) {
       Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");
       print(error.toString());
     });
   }
