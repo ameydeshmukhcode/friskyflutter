@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:friskyflutter/frisky_colors.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 
 class RestaurantDetails extends StatelessWidget {
   final String image;
@@ -34,7 +36,10 @@ class RestaurantDetails extends StatelessWidget {
                     Flexible(
                       child: Text(
                         name,
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            fontFamily: "Varela",
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -42,9 +47,10 @@ class RestaurantDetails extends StatelessWidget {
                       child: Text(
                         '4.5',
                         style: TextStyle(
+                            fontFamily: "Varela",
                             fontSize: 24,
                             color: Colors.white,
-                            fontWeight: FontWeight.w700),
+                            fontWeight: FontWeight.bold),
                       ),
                       decoration: BoxDecoration(
                         color: Colors.green,
@@ -58,12 +64,12 @@ class RestaurantDetails extends StatelessWidget {
                 Text(
                   address,
                   maxLines: 1,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: "Varela",
+                  ),
                 ),
-                Text(
-                  cuisine,
-                  style: TextStyle(fontSize: 20),
-                ),
+                FAText(cuisine, 20, FriskyColor.colorTextLight),
               ],
             ))
       ],

@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/screens/menu_screen.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode/qrcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,12 +40,12 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
                 return;
               },
               child: AlertDialog(
-                title: Text(
-                  "Start new Session?",
-                ),
-                content: Text(
-                  "Start new session to:\n- Browse the Menu\n- Place Orders\n- Get Order and Bill update",
-                ),
+                title:
+                    FAText("Start new Session?", 20, FriskyColor.colorTextDark),
+                content: FAText(
+                    "Start new session to:\n- Browse the Menu\n- Place Orders\n- Get Order and Bill update",
+                    14,
+                    FriskyColor.colorTextLight),
                 actions: <Widget>[
                   FlatButton(
                     splashColor: Colors.black12,
@@ -52,20 +53,15 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
                       Navigator.pop(context);
                       _captureController.resume();
                     },
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(color: FriskyColor.colorPrimary),
-                    ),
+                    child: FAText("Cancel", 14, FriskyColor.colorPrimary),
                   ),
                   FlatButton(
-                      color: FriskyColor.colorPrimary,
-                      onPressed: () {
-                        _initSessionCreation(data);
-                      },
-                      child: Text(
-                        "Start",
-                        style: TextStyle(color: Colors.white),
-                      ))
+                    color: FriskyColor.colorPrimary,
+                    onPressed: () {
+                      _initSessionCreation(data);
+                    },
+                    child: FAText("Start", 14, Colors.white),
+                  )
                 ],
               ));
         },
@@ -79,12 +75,10 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
+            elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            title: Text(
-              "Scan QR Code",
-              style: TextStyle(fontSize: 20),
-            ),
+            title: FAText("Scan QR Code", 20, FriskyColor.colorTextDark),
           ),
           body: Center(
             child: AspectRatio(
@@ -104,10 +98,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: Text(
-              "Retrieving the Menu",
-              style: TextStyle(color: FriskyColor.colorTextDark),
-            ),
+            title: FAText("Retrieving the Menu", 20, FriskyColor.colorTextDark),
             content: Wrap(
               children: <Widget>[
                 Center(

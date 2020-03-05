@@ -3,6 +3,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/structures/order_item.dart';
 import 'package:friskyflutter/widgets/card_order_item.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import '../frisky_colors.dart';
 
 class VisitSummary extends StatefulWidget {
@@ -47,10 +48,7 @@ class _VisitSummaryState extends State<VisitSummary> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          "Visit Summary",
-          style: TextStyle(color: Colors.black),
-        ),
+        title: FAText("Visit Summary", 20, Colors.black),
         elevation: 0,
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.black),
@@ -92,6 +90,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                       widget.restaurantName,
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          fontFamily: "Varela",
                           color: Colors.black,
                           fontSize: 20),
                     ),
@@ -103,6 +102,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                           [dd, ' ', M, ' ', yyyy, ' ', hh, ':', nn, ' ', am]),
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          fontFamily: "Varela",
                           color: Colors.black,
                           fontSize: 14),
                     ),
@@ -131,12 +131,9 @@ class _VisitSummaryState extends State<VisitSummary> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            "Order total",
-                          ),
-                          Text(
-                            "\u20B9 " + billAmount,
-                          )
+                          FAText("Order total", 14, FriskyColor.colorTextLight),
+                          FAText("\u20B9 " + billAmount, 14,
+                              FriskyColor.colorTextLight)
                         ],
                       ),
                     ),
@@ -145,34 +142,20 @@ class _VisitSummaryState extends State<VisitSummary> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            "GST",
-                          ),
-                          Text(
-                            "\u20B9 " + gst,
-                          )
+                          FAText("GST", 14, FriskyColor.colorTextLight),
+                          FAText(
+                              "\u20B9 " + gst, 14, FriskyColor.colorTextLight)
                         ],
                       ),
-                    ),
-                    Divider(
-                      indent: 8,
-                      endIndent: 8,
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 16, right: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            "Final Total",
-                            style:
-                                TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            "\u20B9 " + amountPayable,
-                            style:
-                                TextStyle(fontSize: 20),
-                          )
+                          FAText("Final Total", 20, FriskyColor.colorTextDark),
+                          FAText("\u20B9 " + amountPayable, 20,
+                              FriskyColor.colorTextDark)
                         ],
                       ),
                     ),

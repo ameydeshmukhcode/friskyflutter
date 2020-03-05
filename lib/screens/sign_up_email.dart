@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 
 import '../frisky_colors.dart';
 
@@ -33,7 +34,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
               child: Column(
                 children: <Widget>[
                   TextField(
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontFamily: "Varela", fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Email',
                       focusColor: Colors.black,
@@ -44,7 +45,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontFamily: "Varela", fontSize: 16),
                     decoration: InputDecoration(
                         labelText: 'Password',
                         focusColor: Colors.black,
@@ -55,7 +56,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 8)),
                   TextField(
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontFamily: "Varela", fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Confirm Password',
                       focusColor: Colors.black,
@@ -73,9 +74,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("Sign Up",
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                        FAText("Sign Up", 20, Colors.white),
                       ],
                     ),
                     onPressed: () {
@@ -93,6 +92,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
                         _errorMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(
+                          fontFamily: "Varela",
                           fontSize: 14,
                           color: Colors.red,
                         ),
@@ -114,10 +114,7 @@ class _SignUpEmailState extends State<SignUpEmail> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: Text(
-              "Signing you up",
-              style: TextStyle(color: FriskyColor.colorTextDark),
-            ),
+            title: FAText("Signing you up", 20, FriskyColor.colorTextDark),
             content: Wrap(
               children: <Widget>[
                 Center(

@@ -9,6 +9,7 @@ import 'package:friskyflutter/screens/cart_screen.dart';
 import 'package:friskyflutter/structures/diet_type.dart';
 import 'package:friskyflutter/structures/menu_category.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 
 import '../frisky_colors.dart';
@@ -135,7 +136,6 @@ class _MenuScreenState extends State<MenuScreen> {
       child: !_isLoading
           ? Scaffold(
               appBar: AppBar(
-                centerTitle: true,
                 elevation: 0,
                 iconTheme: IconThemeData(color: Colors.black),
                 title: Align(
@@ -146,16 +146,15 @@ class _MenuScreenState extends State<MenuScreen> {
                       Text(
                         widget.restaurantName,
                         style: TextStyle(
+                            fontFamily: "Varela",
                             color: FriskyColor.colorPrimary,
-                            fontSize: 24,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
-                      Text(
+                      FAText(
                         'Table ' + widget.tableName,
-                        style: TextStyle(
-                          color: FriskyColor.colorPrimary,
-                          fontSize: 14,
-                        ),
+                        14,
+                        FriskyColor.colorPrimary,
                       ),
                     ],
                   ),
@@ -180,7 +179,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       decoration: BoxDecoration(
                           color: FriskyColor.colorTableName,
                           borderRadius: BorderRadius.all(Radius.circular(4))),
-                      child: Text("Menu"),
+                      child: FAText("Menu", 14, FriskyColor.colorTextDark),
                     ),
                   ),
                   _menuItemsList()
@@ -239,7 +238,9 @@ class _MenuScreenState extends State<MenuScreen> {
                             child: Text(
                               menuCategory.name,
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
+                                  fontFamily: "Varela",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ));
                     }
@@ -264,27 +265,20 @@ class _MenuScreenState extends State<MenuScreen> {
                                       child: Padding(
                                         padding:
                                             EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                        child: Text(
-                                          menuItem.name,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600),
-                                        ),
+                                        child: FAText(menuItem.name, 14,
+                                            FriskyColor.colorTextDark),
                                       ),
                                     )
                                   ],
                                 ),
-                                Text(
-                                  "\u20B9 " + menuItem.price.toString(),
-                                  style: TextStyle(fontWeight: FontWeight.w400),
-                                ),
+                                FAText("\u20B9 " + menuItem.price.toString(),
+                                    14, FriskyColor.colorTextDark),
                                 Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 2, right: 4, bottom: 2),
-                                    child: Text(
-                                      menuItem.description,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w300),
-                                    )),
+                                  padding: EdgeInsets.only(
+                                      top: 2, right: 4, bottom: 2),
+                                  child: FAText(menuItem.description, 12,
+                                      FriskyColor.colorTextLight),
+                                ),
                               ],
                             ),
                           ),
@@ -368,7 +362,9 @@ class _MenuScreenState extends State<MenuScreen> {
                               " Items | \u20B9" +
                               _cartProvider.total.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                              fontFamily: "Varela",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                       ),
                       Padding(
@@ -378,6 +374,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             Text(
                               "View Cart",
                               style: TextStyle(
+                                fontFamily: "Varela",
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -421,7 +418,9 @@ class _MenuScreenState extends State<MenuScreen> {
                         child: Text(
                           "You have orders",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                              fontFamily: "Varela",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                       ),
                       Padding(
@@ -431,6 +430,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             Text(
                               "Show",
                               style: TextStyle(
+                                fontFamily: "Varela",
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -489,13 +489,8 @@ class _MenuScreenState extends State<MenuScreen> {
               color: Colors.white,
               elevation: 1,
               child: Center(
-                child: Text(
-                  _cartProvider.getItemCount(menuItem).toString(),
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: FriskyColor.colorTextDark),
-                ),
+                child: FAText(_cartProvider.getItemCount(menuItem).toString(),
+                    14, FriskyColor.colorTextDark),
               ),
             ),
           ),
@@ -539,10 +534,7 @@ class _MenuScreenState extends State<MenuScreen> {
             Provider.of<Cart>(context, listen: true).addToCart(menuItem);
           },
           child: Center(
-            child: Text(
-              "Add",
-              style: TextStyle(color: Colors.white, fontSize: 14),
-            ),
+            child: FAText("Add", 14, Colors.white),
           ),
         ),
       ),

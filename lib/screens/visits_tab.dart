@@ -24,13 +24,13 @@ class _VisitsTabState extends State<VisitsTab>
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   var sessionId;
-  var resname;
-  var endtime;
-  var totalamount;
-  var imgurl;
-  var resid;
+  var restaurantID;
+  var restaurantName;
+  var endTime;
+  var totalAmount;
+  var imagePath;
 
-  Future _visitslist;
+  Future _visitsListFuture;
   bool isLoading = true;
   bool isEmpty = false;
 
@@ -42,7 +42,7 @@ class _VisitsTabState extends State<VisitsTab>
   @override
   void initState() {
     this.getUser().whenComplete(() {
-      _visitslist = this.getVisits().whenComplete(() {
+      _visitsListFuture = this.getVisits().whenComplete(() {
         setState(() {
           print("inside set state");
           if (VisitsList.isNotEmpty) {
@@ -74,16 +74,16 @@ class _VisitsTabState extends State<VisitsTab>
       for (i = 0; i < data.documents.length; i++) {
         if (data.documents[i].data.containsKey("amount_payable")) {
           sessionId = data.documents[i].documentID;
-          endtime = await data.documents[i]["end_time"];
-          totalamount = await data.documents[i]["amount_payable"];
+          endTime = await data.documents[i]["end_time"];
+          totalAmount = await data.documents[i]["amount_payable"];
           var img = data.documents[i].reference.parent().parent();
           await img.get().then((f) async {
-            imgurl = await f.data["image"];
-            resname = await f.data["name"];
-            resid = f.documentID;
+            imagePath = await f.data["image"];
+            restaurantName = await f.data["name"];
+            restaurantID = f.documentID;
           }).then((f) async {
-            VisitsList.add(
-                Visit(sessionId, resid, imgurl, resname, endtime, totalamount));
+            VisitsList.add(Visit(sessionId, restaurantID, imagePath,
+                restaurantName, endTime, totalAmount));
           });
         }
       }
@@ -103,7 +103,7 @@ class _VisitsTabState extends State<VisitsTab>
 
   Widget _visitsList() {
     return FutureBuilder(
-        future: _visitslist,
+        future: _visitsListFuture,
         builder: (context, snapshot) {
           if (isLoading == true) {
             return Center(
@@ -124,7 +124,9 @@ class _VisitsTabState extends State<VisitsTab>
                       child: Text(
                         "You do not have any visits yet.",
                         style: TextStyle(
-                            fontSize: 20, color: FriskyColor.colorTextLight),
+                            fontFamily: "Varela",
+                            fontSize: 20,
+                            color: FriskyColor.colorTextLight),
                         textAlign: TextAlign.center,
                       ),
                     ),

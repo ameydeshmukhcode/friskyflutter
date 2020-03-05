@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../frisky_colors.dart';
 import 'package:friskyflutter/structures/order_header.dart';
@@ -43,7 +44,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
           title: Align(
@@ -54,16 +54,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 Text(
                   "Your Orders",
                   style: TextStyle(
+                      fontFamily: "Varela",
                       color: FriskyColor.colorPrimary,
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
+                FAText(
                   'Table ' + widget.tableName,
-                  style: TextStyle(
-                    color: FriskyColor.colorPrimary,
-                    fontSize: 14,
-                  ),
+                  14,
+                  FriskyColor.colorPrimary,
                 ),
               ],
             ),
@@ -83,13 +82,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 8),
-                        child: Text(
-                          "Clear Bill",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: FAText("Bill", 14, Colors.white),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 2, right: 2),
@@ -120,14 +113,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           OrderHeader(" ", 0);
                       return Padding(
                         padding: EdgeInsets.fromLTRB(24, 16, 24, 0),
-                        child: Text(
-                          "Order #" +
-                              header.rank.toString() +
-                              " - " +
-                              header.time,
-                          style: TextStyle(
-                              color: FriskyColor.colorTextDark, fontSize: 12),
-                        ),
+                        child: FAText(
+                            "Order #" +
+                                header.rank.toString() +
+                                " - " +
+                                header.time,
+                            12,
+                            FriskyColor.colorTextLight),
                       );
                     } else {
                       OrderItem item = _ordersProvider.mOrderList[index] ??
@@ -149,16 +141,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    "Total",
-                    style: TextStyle(
-                        color: FriskyColor.colorTextDark, fontSize: 14),
-                  ),
-                  Text(
-                    "\u20B9" + _ordersProvider.billAmount,
-                    style: TextStyle(
-                        color: FriskyColor.colorTextDark, fontSize: 14),
-                  ),
+                  FAText("Total", 14, FriskyColor.colorTextLight),
+                  FAText("\u20B9" + _ordersProvider.billAmount, 14,
+                      FriskyColor.colorTextLight),
                 ],
               ),
             ),
@@ -168,16 +153,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    "GST",
-                    style: TextStyle(
-                        color: FriskyColor.colorTextDark, fontSize: 14),
-                  ),
-                  Text(
-                    "\u20B9" + _ordersProvider.gst,
-                    style: TextStyle(
-                        color: FriskyColor.colorTextDark, fontSize: 14),
-                  ),
+                  FAText("GST", 14, FriskyColor.colorTextLight),
+                  FAText("\u20B9" + _ordersProvider.gst, 14,
+                      FriskyColor.colorTextLight),
                 ],
               ),
             ),
@@ -187,15 +165,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    "Final Total",
-                    style: TextStyle(
-                        color: FriskyColor.colorTextDark, fontSize: 16),
-                  ),
-                  Text(
-                    "\u20B9" + _ordersProvider.amountPayable,
-                    style: TextStyle(color: Colors.red, fontSize: 16),
-                  ),
+                  FAText("Final Total", 16, FriskyColor.colorTextDark),
+                  FAText("\u20B9" + _ordersProvider.amountPayable, 16,
+                      FriskyColor.colorTextDark),
                 ],
               ),
             ),
@@ -220,6 +192,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             Text(
                               "Back to menu",
                               style: TextStyle(
+                                fontFamily: "Varela",
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -247,34 +220,25 @@ class _OrdersScreenState extends State<OrdersScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "Clear Bill?",
-            style: TextStyle(color: FriskyColor.colorTextDark),
-          ),
-          content: Text(
-            "You are about to request the bill and end your session. You won\'t be able to order anymore items after you confirm.",
-            style: TextStyle(color: FriskyColor.colorTextLight),
-          ),
+          title: FAText("Clear Bill?", 20, FriskyColor.colorTextDark),
+          content: FAText(
+              "You are about to request the bill and end your session. You won\'t be able to order anymore items after you confirm.",
+              14,
+              FriskyColor.colorTextLight),
           actions: <Widget>[
             FlatButton(
               splashColor: Colors.black12,
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
-                "Cancel",
-                style: TextStyle(color: FriskyColor.colorPrimary),
-              ),
+              child: FAText("Cancel", 14, FriskyColor.colorPrimary),
             ),
             FlatButton(
                 color: FriskyColor.colorPrimary,
                 onPressed: () {
                   requestBill();
                 },
-                child: Text(
-                  "Clear",
-                  style: TextStyle(color: Colors.white),
-                ))
+                child: FAText("Clear", 14, Colors.white),)
           ],
         );
       },
@@ -287,10 +251,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: Text(
-              "Requesting the Bill",
-              style: TextStyle(color: FriskyColor.colorTextDark),
-            ),
+            title: FAText("Requesting the Bill", 20, FriskyColor.colorTextDark),
             content: Wrap(
               children: <Widget>[
                 Center(

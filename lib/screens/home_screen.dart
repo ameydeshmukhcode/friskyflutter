@@ -10,6 +10,7 @@ import 'package:friskyflutter/screens/qr_scan.dart';
 import 'package:friskyflutter/screens/restaurants_tab.dart';
 import 'package:friskyflutter/screens/menu_screen.dart';
 import 'package:friskyflutter/screens/visits_tab.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -57,12 +58,8 @@ class _HomeScreenState extends State<HomeScreen>
                             Icon(Icons.person),
                             Padding(
                               padding: EdgeInsets.only(left: 16),
-                              child: Text(
-                                "Name",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w400),
-                              ),
+                              child:
+                                  FAText("Name", 18, FriskyColor.colorTextDark),
                             )
                           ],
                         ),
@@ -81,10 +78,7 @@ class _HomeScreenState extends State<HomeScreen>
                     width: 200,
                     padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
                     child: Center(
-                      child: Text(
-                        "Logout",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      child: FAText("Logout", 16, Colors.white),
                     ),
                   ),
                   onPressed: _signOut,
@@ -131,17 +125,18 @@ class _HomeScreenState extends State<HomeScreen>
                                     ? ("Bill Requested")
                                     : (session.restaurantName),
                                 style: TextStyle(
+                                    fontFamily: "Varela",
                                     fontSize: 16,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
-                              Text(
+                              FAText(
                                   session.isBillRequested
                                       ? ("Bill Amount to Be Paid - \u20B9" +
                                           session.totalAmount)
                                       : ("Table " + session.tableName),
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.white)),
+                                  14,
+                                  Colors.white),
                             ],
                           ),
                           Visibility(
@@ -151,6 +146,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 Text(
                                   "Menu",
                                   style: TextStyle(
+                                    fontFamily: "Varela",
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -189,9 +185,7 @@ class _HomeScreenState extends State<HomeScreen>
               width: 20,
               color: Colors.white,
             ),
-            label: Text(
-              "Scan QR Code",
-            ),
+            label: FAText("Scan QR Code", 14, Colors.white),
             backgroundColor: FriskyColor.colorPrimary,
           ),
         );
@@ -220,9 +214,7 @@ class _HomeScreenState extends State<HomeScreen>
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          title: Text(
-            "Home",
-          ),
+          title: FAText("Home", 14, FriskyColor.colorPrimary),
         ),
         BottomNavigationBarItem(
           icon: Consumer<Session>(builder: (context, session, child) {
@@ -234,17 +226,13 @@ class _HomeScreenState extends State<HomeScreen>
               showBadge: session.isSessionActive,
             );
           }),
-          title: Text(
-            "Dine",
-          ),
+          title: FAText("Dine", 14, FriskyColor.colorPrimary),
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.receipt,
           ),
-          title: Text(
-            "Visits",
-          ),
+          title: FAText("Visits", 14, FriskyColor.colorPrimary),
         ),
       ],
       backgroundColor: Colors.white,
@@ -283,24 +271,19 @@ class _HomeScreenState extends State<HomeScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "Allow Camera",
-            style: TextStyle(color: FriskyColor.colorTextDark),
-          ),
-          content: Text(
-            "Enable 'Camera' for Frisky under Settings to be able to scan QR codes.",
-            style: TextStyle(color: FriskyColor.colorTextLight),
-          ),
+          title: FAText("Allow Camera", 20, FriskyColor.colorTextDark),
+          content: FAText(
+              "Enable 'Camera' for Frisky under Settings to be able to scan QR codes.",
+              14,
+              FriskyColor.colorTextLight),
           actions: <Widget>[
             FlatButton(
-                color: FriskyColor.colorPrimary,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "OK",
-                  style: TextStyle(color: Colors.white),
-                ))
+              color: FriskyColor.colorPrimary,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: FAText("OK", 14, Colors.white),
+            )
           ],
         );
       },
@@ -313,24 +296,19 @@ class _HomeScreenState extends State<HomeScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "Camera Needed",
-            style: TextStyle(color: FriskyColor.colorTextDark),
-          ),
-          content: Text(
-            "Allow camera permission to be able to scan QR codes.",
-            style: TextStyle(color: FriskyColor.colorTextLight),
-          ),
+          title: FAText("Camera Needed", 20, FriskyColor.colorTextDark),
+          content: FAText(
+              "Allow camera permission to be able to scan QR codes.",
+              14,
+              FriskyColor.colorTextLight),
           actions: <Widget>[
             FlatButton(
-                color: FriskyColor.colorPrimary,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "OK",
-                  style: TextStyle(color: Colors.white),
-                ))
+              color: FriskyColor.colorPrimary,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: FAText("OK", 14, Colors.white),
+            )
           ],
         );
       },
@@ -359,10 +337,7 @@ class NavigationDrawerButton extends StatelessWidget {
       child: Container(
         width: 200,
         padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-        ),
+        child: FAText(text, 16, FriskyColor.colorTextDark),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/provider_models/session.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 
 import '../frisky_colors.dart';
@@ -41,7 +42,10 @@ class DineTabDefault extends StatelessWidget {
             padding: EdgeInsets.only(left: 32, right: 32),
             child: Text(
               "You haven't ordered anything yet. To get the menu and start ordering. Scan the QR code on the table.",
-              style: TextStyle(fontSize: 20, color: FriskyColor.colorTextLight),
+              style: TextStyle(
+                  fontFamily: "Varela",
+                  fontSize: 20,
+                  color: FriskyColor.colorTextLight),
               textAlign: TextAlign.center,
             ),
           ),
@@ -85,17 +89,15 @@ class _DineTabActiveState extends State<DineTabActive> {
                         Text(
                           Session.restaurantName,
                           style: TextStyle(
-                            color: FriskyColor.colorPrimary,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold
-                          ),
+                              fontFamily: "Varela",
+                              color: FriskyColor.colorPrimary,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         ),
-                        Text(
+                        FAText(
                           'Table ' + Session.tableName,
-                          style: TextStyle(
-                            color: FriskyColor.colorPrimary,
-                            fontSize: 14,
-                          ),
+                          14,
+                          FriskyColor.colorPrimary,
                         ),
                       ],
                     ),
@@ -119,7 +121,10 @@ class DineTabBillRequested extends StatelessWidget {
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Text(
               "Bill Requested. The waiter will\ncollect payment from you.",
-              style: TextStyle(fontSize: 20, color: FriskyColor.colorTextLight),
+              style: TextStyle(
+                  fontFamily: "Varela",
+                  fontSize: 20,
+                  color: FriskyColor.colorTextLight),
               textAlign: TextAlign.center,
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:friskyflutter/frisky_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:friskyflutter/screens/home_screen.dart';
 import 'package:friskyflutter/screens/sign_up_email.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 
 class SignInEmail extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _SignInEmailState extends State<SignInEmail> {
               children: <Widget>[
                 TextField(
                   controller: _emailController,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontFamily: "Varela", fontSize: 16),
                   decoration: InputDecoration(
                       labelText: 'Email', border: OutlineInputBorder()),
                   cursorColor: FriskyColor.colorPrimary,
@@ -44,7 +45,7 @@ class _SignInEmailState extends State<SignInEmail> {
                 Padding(padding: EdgeInsets.only(top: 8)),
                 TextField(
                   controller: _passwordController,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontFamily: "Varela", fontSize: 16),
                   decoration: InputDecoration(
                       labelText: 'Password',
                       focusColor: Colors.black,
@@ -68,6 +69,7 @@ class _SignInEmailState extends State<SignInEmail> {
                       child: Text("Forgot password?",
                           textAlign: TextAlign.end,
                           style: TextStyle(
+                            fontFamily: "Varela",
                             color: Colors.black,
                             fontSize: 14,
                           )),
@@ -81,8 +83,7 @@ class _SignInEmailState extends State<SignInEmail> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Sign In",
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      FAText("Sign In", 20, Colors.white),
                     ],
                   ),
                   onPressed: () {
@@ -109,6 +110,7 @@ class _SignInEmailState extends State<SignInEmail> {
                           _errorMessage,
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                            fontFamily: "Varela",
                             fontSize: 14,
                             color: Colors.red,
                           ),
@@ -125,10 +127,7 @@ class _SignInEmailState extends State<SignInEmail> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    "Don't have an account?",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
+                  FAText("Don't have an account?", 16, Colors.white),
                   Padding(
                     padding: EdgeInsets.only(left: 4),
                   ),
@@ -139,13 +138,7 @@ class _SignInEmailState extends State<SignInEmail> {
                         MaterialPageRoute(builder: (context) => SignUpEmail()),
                       );
                     },
-                    child: Text(
-                      "Sign up",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
+                    child: FAText("Sign up", 16, Colors.white),
                   ),
                 ],
               ),
@@ -162,12 +155,7 @@ class _SignInEmailState extends State<SignInEmail> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: Text(
-              "Signing you in",
-              style: TextStyle(
-                color: FriskyColor.colorTextDark,
-              ),
-            ),
+            title: FAText("Signing you in", 20, FriskyColor.colorTextDark),
             content: Wrap(
               children: <Widget>[
                 Center(

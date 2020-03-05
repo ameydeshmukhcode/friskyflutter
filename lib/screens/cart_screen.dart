@@ -7,6 +7,7 @@ import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/structures/diet_type.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,7 +56,6 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
         title: Align(
@@ -66,16 +66,15 @@ class _CartScreenState extends State<CartScreen> {
               Text(
                 "Your Cart",
                 style: TextStyle(
+                    fontFamily: "Varela",
                     color: FriskyColor.colorPrimary,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
-              Text(
+              FAText(
                 'Table ' + widget.tableName,
-                style: TextStyle(
-                  color: FriskyColor.colorPrimary,
-                  fontSize: 14,
-                ),
+                14,
+                FriskyColor.colorPrimary,
               ),
             ],
           ),
@@ -109,38 +108,37 @@ class _CartScreenState extends State<CartScreen> {
                                   Flexible(
                                     child: Padding(
                                       padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                      child: Text(
+                                      child: FAText(
                                           _cartProvider.cartList[index].name,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600)),
+                                          14,
+                                          FriskyColor.colorTextDark),
                                     ),
                                   )
                                 ],
                               ),
-                              Text(
-                                "\u20B9" +
-                                    _cartProvider.cartList[index].price
-                                        .toString(),
-                                style: TextStyle(fontWeight: FontWeight.w400),
-                              ),
+                              FAText(
+                                  "\u20B9" +
+                                      _cartProvider.cartList[index].price
+                                          .toString(),
+                                  12,
+                                  FriskyColor.colorTextLight),
                               Padding(
                                 padding: EdgeInsets.only(
                                     top: 2, right: 4, bottom: 2),
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    Text("Item Total: ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400)),
-                                    Text(
+                                    FAText("Item Total: ", 12,
+                                        FriskyColor.colorTextLight),
+                                    FAText(
                                         "\u20B9" +
                                             (_cartProvider
                                                         .cartList[index].price *
                                                     _cartProvider
                                                         .cartList[index].count)
                                                 .toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.red))
+                                        14,
+                                        Colors.red),
                                   ],
                                 ),
                               ),
@@ -167,34 +165,26 @@ class _CartScreenState extends State<CartScreen> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text(
-                          "Place Order",
-                          style: TextStyle(color: FriskyColor.colorTextDark),
-                        ),
-                        content: Text(
-                          "Send order to kitchen for prepration?",
-                          style: TextStyle(color: FriskyColor.colorTextLight),
-                        ),
+                        title: FAText(
+                            "Place Order", 20, FriskyColor.colorTextDark),
+                        content: FAText("Send order to kitchen for prepration?",
+                            14, FriskyColor.colorTextLight),
                         actions: <Widget>[
                           FlatButton(
                             splashColor: Colors.black12,
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(color: FriskyColor.colorPrimary),
-                            ),
+                            child:
+                                FAText("Cancel", 14, FriskyColor.colorPrimary),
                           ),
                           FlatButton(
-                              color: FriskyColor.colorPrimary,
-                              onPressed: () {
-                                placeOrder();
-                              },
-                              child: Text(
-                                "OK",
-                                style: TextStyle(color: Colors.white),
-                              ))
+                            color: FriskyColor.colorPrimary,
+                            onPressed: () {
+                              placeOrder();
+                            },
+                            child: FAText("OK", 14, Colors.white),
+                          )
                         ],
                       );
                     },
@@ -211,7 +201,9 @@ class _CartScreenState extends State<CartScreen> {
                       child: Text(
                         "Cart Total: \u20B9" + _cartProvider.total.toString(),
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
+                            fontFamily: "Varela",
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
                     Padding(
@@ -221,6 +213,7 @@ class _CartScreenState extends State<CartScreen> {
                           Text(
                             "Send to kitchen",
                             style: TextStyle(
+                              fontFamily: "Varela",
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -297,13 +290,8 @@ class _CartScreenState extends State<CartScreen> {
                 color: Colors.white,
                 elevation: 1,
                 child: Center(
-                  child: Text(
-                    _cartProvider.getItemCount(menuItem).toString(),
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: FriskyColor.colorTextDark),
-                  ),
+                  child: FAText(_cartProvider.getItemCount(menuItem).toString(),
+                      14, FriskyColor.colorTextDark),
                 ),
               ),
             ),
@@ -339,16 +327,11 @@ class _CartScreenState extends State<CartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Icon(Icons.shopping_cart,
-                  size: 14, color: FriskyColor.colorTextLight),
+                  size: 12, color: FriskyColor.colorTextLight),
               Padding(
                 padding: EdgeInsets.only(left: 2),
               ),
-              Text(
-                "In cart",
-                style: TextStyle(
-                  color: FriskyColor.colorTextLight,
-                ),
-              ),
+              FAText("In cart", 12, FriskyColor.colorTextLight),
             ],
           ),
         ),
@@ -361,10 +344,7 @@ class _CartScreenState extends State<CartScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: Text(
-              "Placing Your Order",
-              style: TextStyle(color: FriskyColor.colorTextDark),
-            ),
+            title: FAText("Placing Your Order", 20, FriskyColor.colorTextDark),
             content: Wrap(
               children: <Widget>[
                 Center(

@@ -3,6 +3,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:friskyflutter/screens/visit_summary.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 
 import '../frisky_colors.dart';
 
@@ -60,37 +61,23 @@ class VisitWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
+                          fontFamily: "Varela",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: FriskyColor.colorTextDark),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 4),
                     ),
-                    Text(
-                      "Visited On ",
-                      maxLines: 1,
-                      style: TextStyle(
-                          color: FriskyColor.colorTextLight, fontSize: 12),
-                    ),
-                    Text(
-                      _getFormattedTimestamp(endTime),
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 14),
-                    ),
+                    FAText("Visited On ", 12, FriskyColor.colorTextLight),
+                    FAText(_getFormattedTimestamp(endTime), 14,
+                        FriskyColor.colorTextLight),
                     Padding(
                       padding: EdgeInsets.only(top: 4),
                     ),
-                    Text(
-                      "Total Amount",
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 12, color: FriskyColor.colorTextLight),
-                    ),
-                    Text(
-                      "\u20B9 " + totalAmount,
-                      style: TextStyle(fontSize: 14),
-                    ),
+                    FAText("Total Amount", 12, FriskyColor.colorTextLight),
+                    FAText("\u20B9 " + totalAmount, 14,
+                        FriskyColor.colorTextLight),
                   ],
                 ),
               ),

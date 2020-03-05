@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/screens/auth_checker.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../frisky_colors.dart';
@@ -47,16 +48,16 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
                 'images/state_graphics/slide_summary.svg')
           ],
         ),
-        Positioned(
-          left: 24,
-          bottom: 16,
-          child: FlatButton(
-            onPressed: () {
-              _endSlideshowAndGo();
-            },
-            child: Text(
-              "Skip",
-              style: TextStyle(fontSize: 16, color: FriskyColor.colorPrimary),
+        Visibility(
+          visible: _currentPage < 2,
+          child: Positioned(
+            left: 24,
+            bottom: 16,
+            child: FlatButton(
+              onPressed: () {
+                _endSlideshowAndGo();
+              },
+              child: FAText("Skip", 18, FriskyColor.colorPrimary),
             ),
           ),
         ),
@@ -75,9 +76,8 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
             },
             child: Row(
               children: <Widget>[
-                Text(_currentPage == 2 ? "Continue" : "Next",
-                    style: TextStyle(
-                        fontSize: 16, color: FriskyColor.colorPrimary)),
+                FAText(_currentPage == 2 ? "Continue" : "Next", 18,
+                    FriskyColor.colorPrimary),
                 Icon(
                   Icons.chevron_right,
                   color: FriskyColor.colorPrimary,
@@ -121,15 +121,9 @@ class Slide extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 8, bottom: 8),
-              child: Text(
-                title,
-                style: TextStyle(fontSize: 20),
-              ),
+              child: FAText(title, 20, FriskyColor.colorTextDark),
             ),
-            Text(
-              description,
-              style: TextStyle(fontSize: 18),
-            )
+            FAText(description, 18, FriskyColor.colorTextLight)
           ],
         ),
       ),

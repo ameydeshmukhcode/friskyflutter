@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:friskyflutter/frisky_colors.dart';
+
+import 'text_fa.dart';
 
 class RestaurantCard extends StatelessWidget {
   final String image, name, address, cuisine;
@@ -41,19 +44,20 @@ class RestaurantCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         softWrap: true,
                         style: TextStyle(
+                          fontFamily: "Varela",
                           fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         address,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Varela",
+                        ),
                       ),
-                      Text(
-                        cuisine,
-                        style: TextStyle(fontSize: 14),
-                      ),
+                      FAText(cuisine, 14, FriskyColor.colorTextLight),
                     ],
                   ),
                   Align(
@@ -68,8 +72,9 @@ class RestaurantCard extends StatelessWidget {
                           "4.5",
                           style: TextStyle(
                               color: Colors.white,
+                              fontFamily: "Varela",
                               fontSize: 18,
-                              fontWeight: FontWeight.w700),
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),

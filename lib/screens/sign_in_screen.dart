@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/screens/home_screen.dart';
 import 'package:friskyflutter/screens/sign_in_email.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInMain extends StatefulWidget {
@@ -48,11 +49,7 @@ class _SignInMainState extends State<SignInMain> {
                   Padding(
                     padding: EdgeInsets.all(4),
                   ),
-                  Text("Use Google Account",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: FriskyColor.colorPrimary,
-                      )),
+                  FAText("Use Google Account", 20, FriskyColor.colorPrimary),
                 ],
               ),
             ),
@@ -75,8 +72,7 @@ class _SignInMainState extends State<SignInMain> {
                   Padding(
                     padding: EdgeInsets.all(4),
                   ),
-                  Text("Use Email Address",
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                  FAText("Use Email Address", 20, Colors.white),
                 ],
               ),
               onPressed: () {
@@ -91,11 +87,12 @@ class _SignInMainState extends State<SignInMain> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(56, 8, 56, 8),
+            padding: EdgeInsets.fromLTRB(56, 8, 56, 24),
             child: Text(
               "By signing in, you\'re agreeing to our Terms and Privacy Policy",
               textAlign: TextAlign.center,
               style: TextStyle(
+                fontFamily: "Varela",
                 fontSize: 14,
                 color: FriskyColor.colorTextDark,
               ),
@@ -111,10 +108,7 @@ class _SignInMainState extends State<SignInMain> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: Text(
-              "Signing you in",
-              style: TextStyle(color: FriskyColor.colorTextDark),
-            ),
+            title: FAText("Signing you in", 20, FriskyColor.colorTextDark),
             content: Wrap(
               children: <Widget>[
                 Center(

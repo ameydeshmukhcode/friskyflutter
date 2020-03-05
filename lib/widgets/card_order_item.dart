@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/structures/order_item.dart';
+import 'package:friskyflutter/widgets/text_fa.dart';
 
 class OrderItemWidget extends StatelessWidget {
   final String name;
@@ -30,22 +32,19 @@ class OrderItemWidget extends StatelessWidget {
                       padding: EdgeInsets.only(left: 4),
                     ),
                     Flexible(
-                      child: Text(name, style: TextStyle(fontSize: 16),),
+                      child: FAText(name, 16, FriskyColor.colorTextDark),
                     )
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Text("x" + count.toString(),
-                        style: TextStyle(fontSize: 12)),
+                    FAText(
+                        "x" + count.toString(), 12, FriskyColor.colorTextLight),
                     Padding(
                       padding: EdgeInsets.only(left: 4),
                     ),
-                    Text("Item total ", style: TextStyle(fontSize: 12)),
-                    Text(
-                      "\u20B9 " + total.toString(),
-                      style: TextStyle(color: Colors.red, fontSize: 12),
-                    )
+                    FAText("Item total ", 12, FriskyColor.colorTextLight),
+                    FAText("\u20B9 " + total.toString(), 12, Colors.red)
                   ],
                 )
               ],
@@ -61,10 +60,7 @@ class OrderItemWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: 4),
               ),
-              Text(
-                _getStatusString(status),
-                style: TextStyle(color: _getStatusColor(status)),
-              )
+              FAText(_getStatusString(status), 14, _getStatusColor(status))
             ],
           )
         ],
