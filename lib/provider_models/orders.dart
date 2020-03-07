@@ -14,11 +14,8 @@ class Orders extends ChangeNotifier {
   String billAmount = "0";
 
   fetchData() async {
-    print("insdie fetech data");
     await getOrders().then((a) async {
-      print("insdie fetech data get orders");
       await getBillDetails().then((a) {
-        print("inside fetch data bill details");
         notifyListeners();
       });
     });
@@ -37,12 +34,9 @@ class Orders extends ChangeNotifier {
         .listen((snaps) {
       print(snaps.documentChanges.length);
       if (snaps.documentChanges.isNotEmpty) {
-        print("insde not empty doc changes");
         updateList(snaps);
         notifyListeners();
-        print("list updated");
       } else {
-        print("else doc not chnages");
         updateList(snaps);
         notifyListeners();
       }
