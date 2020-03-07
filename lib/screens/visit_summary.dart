@@ -131,8 +131,8 @@ class _VisitSummaryState extends State<VisitSummary> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          FAText("Order total", 14, FriskyColor.colorTextLight),
-                          FAText("\u20B9 " + billAmount, 14,
+                          FAText("Item total", 16, FriskyColor.colorTextLight),
+                          FAText("\u20B9 " + billAmount, 16,
                               FriskyColor.colorTextLight)
                         ],
                       ),
@@ -142,9 +142,9 @@ class _VisitSummaryState extends State<VisitSummary> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          FAText("GST", 14, FriskyColor.colorTextLight),
+                          FAText("Taxes", 16, FriskyColor.colorTextLight),
                           FAText(
-                              "\u20B9 " + gst, 14, FriskyColor.colorTextLight)
+                              "\u20B9 " + gst, 16, FriskyColor.colorTextLight)
                         ],
                       ),
                     ),
@@ -153,7 +153,7 @@ class _VisitSummaryState extends State<VisitSummary> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          FAText("Final Total", 20, FriskyColor.colorTextDark),
+                          FAText("Total", 20, FriskyColor.colorTextDark),
                           FAText("\u20B9 " + amountPayable, 20,
                               FriskyColor.colorTextDark)
                         ],

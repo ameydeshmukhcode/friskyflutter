@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/structures/diet_type.dart';
@@ -128,7 +129,7 @@ class _CartScreenState extends State<CartScreen> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    FAText("Item Total: ", 12,
+                                    FAText("Item total: ", 12,
                                         FriskyColor.colorTextLight),
                                     FAText(
                                         "\u20B9" +
@@ -166,8 +167,8 @@ class _CartScreenState extends State<CartScreen> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: FAText(
-                            "Place Order", 20, FriskyColor.colorTextDark),
-                        content: FAText("Send order to kitchen for prepration?",
+                            "Place order", 20, FriskyColor.colorTextDark),
+                        content: FAText("Send order to kitchen for preparation?",
                             14, FriskyColor.colorTextLight),
                         actions: <Widget>[
                           FlatButton(
@@ -199,7 +200,7 @@ class _CartScreenState extends State<CartScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
                       child: Text(
-                        "Cart Total: \u20B9" + _cartProvider.total.toString(),
+                        "Cart total: \u20B9" + _cartProvider.total.toString(),
                         style: TextStyle(
                             fontFamily: "Varela",
                             fontWeight: FontWeight.bold,
@@ -344,7 +345,7 @@ class _CartScreenState extends State<CartScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: FAText("Placing Your Order", 20, FriskyColor.colorTextDark),
+            title: FAText("Placing your order", 20, FriskyColor.colorTextDark),
             content: Wrap(
               children: <Widget>[
                 Center(
@@ -393,6 +394,7 @@ class _CartScreenState extends State<CartScreen> {
       Navigator.pop(context);
     }).catchError((error) {
       Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");
       print(error.toString());
     });
   }

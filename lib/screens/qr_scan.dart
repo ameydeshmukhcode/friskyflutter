@@ -41,9 +41,9 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
               },
               child: AlertDialog(
                 title:
-                    FAText("Start new Session?", 20, FriskyColor.colorTextDark),
+                    FAText("Start new session?", 20, FriskyColor.colorTextDark),
                 content: FAText(
-                    "Start new session to:\n- Browse the Menu\n- Place Orders\n- Get Order and Bill update",
+                    "Start new session to:\n- Browse the Menu\n- Place orders\n- Get order and bill updates",
                     14,
                     FriskyColor.colorTextLight),
                 actions: <Widget>[
@@ -78,7 +78,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            title: FAText("Scan QR Code", 20, FriskyColor.colorTextDark),
+            title: FAText("Scan QR code", 20, FriskyColor.colorTextDark),
           ),
           body: Center(
             child: AspectRatio(
@@ -141,7 +141,6 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
           _updateOnSessionStartFail();
           _showInvalidToast();
         }
-        print("after if  data null hai ");
       });
     }
   }
@@ -176,7 +175,10 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
           _updateOnSessionStartFail();
         }
       },
-    );
+    ).catchError((error) {
+      Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");
+      print(error.toString());
+    });
   }
 
   _createUserSession() async {

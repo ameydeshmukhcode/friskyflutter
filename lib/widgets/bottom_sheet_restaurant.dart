@@ -38,7 +38,7 @@ class RestaurantDetails extends StatelessWidget {
                         name,
                         style: TextStyle(
                             fontFamily: "Varela",
-                            fontSize: 24,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -48,7 +48,7 @@ class RestaurantDetails extends StatelessWidget {
                         '4.5',
                         style: TextStyle(
                             fontFamily: "Varela",
-                            fontSize: 24,
+                            fontSize: 20,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
                       ),
@@ -65,11 +65,12 @@ class RestaurantDetails extends StatelessWidget {
                   address,
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 20,
+                    color: FriskyColor.colorTextLight,
+                    fontSize: 18,
                     fontFamily: "Varela",
                   ),
                 ),
-                FAText(cuisine, 20, FriskyColor.colorTextLight),
+                FAText(cuisine, 18, FriskyColor.colorTextLight),
               ],
             ))
       ],

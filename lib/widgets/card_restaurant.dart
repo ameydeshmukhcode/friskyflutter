@@ -55,6 +55,7 @@ class RestaurantCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                           fontFamily: "Varela",
+                          color: FriskyColor.colorTextLight
                         ),
                       ),
                       FAText(cuisine, 14, FriskyColor.colorTextLight),
@@ -73,7 +74,7 @@ class RestaurantCard extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: "Varela",
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
                       ),

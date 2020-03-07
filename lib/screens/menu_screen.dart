@@ -372,7 +372,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         child: Row(
                           children: <Widget>[
                             Text(
-                              "View Cart",
+                              "View cart",
                               style: TextStyle(
                                 fontFamily: "Varela",
                                 color: Colors.white,

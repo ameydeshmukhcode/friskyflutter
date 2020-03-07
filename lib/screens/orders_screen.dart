@@ -22,12 +22,15 @@ class OrdersScreen extends StatefulWidget {
 
 class _OrdersScreenState extends State<OrdersScreen> {
   List<Object> mOrderList = new List<Object>();
+
   getListLength() {
-    if (Provider.of<Orders>(context, listen: true).mOrderList.length == 0) {
-      Provider.of<Orders>(context, listen: true).fetchData();
+    var _ordersProvider = Provider.of<Orders>(context, listen: true);
+
+    if (_ordersProvider.mOrderList.length == 0) {
+      _ordersProvider.fetchData();
       return 0;
     } else {
-      return Provider.of<Orders>(context, listen: true).mOrderList.length;
+      return _ordersProvider.mOrderList.length;
     }
   }
 
@@ -141,7 +144,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  FAText("Total", 14, FriskyColor.colorTextLight),
+                  FAText("Item total", 14, FriskyColor.colorTextLight),
                   FAText("\u20B9" + _ordersProvider.billAmount, 14,
                       FriskyColor.colorTextLight),
                 ],
@@ -153,7 +156,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  FAText("GST", 14, FriskyColor.colorTextLight),
+                  FAText("Taxes", 14, FriskyColor.colorTextLight),
                   FAText("\u20B9" + _ordersProvider.gst, 14,
                       FriskyColor.colorTextLight),
                 ],
@@ -165,7 +168,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  FAText("Final Total", 16, FriskyColor.colorTextDark),
+                  FAText("Total", 16, FriskyColor.colorTextDark),
                   FAText("\u20B9" + _ordersProvider.amountPayable, 16,
                       FriskyColor.colorTextDark),
                 ],
@@ -220,7 +223,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: FAText("Clear Bill?", 20, FriskyColor.colorTextDark),
+          title: FAText("Clear bill", 20, FriskyColor.colorTextDark),
           content: FAText(
               "You are about to request the bill and end your session. You won\'t be able to order anymore items after you confirm.",
               14,

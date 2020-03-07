@@ -69,13 +69,13 @@ class VisitWidget extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 4),
                     ),
-                    FAText("Visited On ", 12, FriskyColor.colorTextLight),
+                    FAText("Visited On ", 14, FriskyColor.colorTextLight),
                     FAText(_getFormattedTimestamp(endTime), 14,
                         FriskyColor.colorTextLight),
                     Padding(
                       padding: EdgeInsets.only(top: 4),
                     ),
-                    FAText("Total Amount", 12, FriskyColor.colorTextLight),
+                    FAText("Total", 14, FriskyColor.colorTextLight),
                     FAText("\u20B9 " + totalAmount, 14,
                         FriskyColor.colorTextLight),
                   ],

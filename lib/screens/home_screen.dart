@@ -65,9 +65,6 @@ class _HomeScreenState extends State<HomeScreen>
                         ),
                       ),
                     ),
-                    NavigationDrawerButton("Location"),
-                    NavigationDrawerButton("Payments"),
-                    NavigationDrawerButton("Order History"),
                     NavigationDrawerButton("Settings"),
                     NavigationDrawerButton("About"),
                   ],
@@ -122,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen>
                             children: <Widget>[
                               Text(
                                 session.isBillRequested
-                                    ? ("Bill Requested")
+                                    ? ("Bill requested")
                                     : (session.restaurantName),
                                 style: TextStyle(
                                     fontFamily: "Varela",
@@ -132,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen>
                               ),
                               FAText(
                                   session.isBillRequested
-                                      ? ("Bill Amount to Be Paid - \u20B9" +
+                                      ? ("Bill amount to be paid: \u20B9" +
                                           session.totalAmount)
                                       : ("Table " + session.tableName),
                                   14,
@@ -185,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen>
               width: 20,
               color: Colors.white,
             ),
-            label: FAText("Scan QR Code", 14, Colors.white),
+            label: FAText("Scan QR code", 14, Colors.white),
             backgroundColor: FriskyColor.colorPrimary,
           ),
         );
@@ -271,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: FAText("Allow Camera", 20, FriskyColor.colorTextDark),
+          title: FAText("Allow camera", 20, FriskyColor.colorTextDark),
           content: FAText(
               "Enable 'Camera' for Frisky under Settings to be able to scan QR codes.",
               14,
@@ -296,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: FAText("Camera Needed", 20, FriskyColor.colorTextDark),
+          title: FAText("Camera needed", 20, FriskyColor.colorTextDark),
           content: FAText(
               "Allow camera permission to be able to scan QR codes.",
               14,
