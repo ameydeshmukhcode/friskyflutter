@@ -30,9 +30,20 @@ class Session extends ChangeNotifier {
       tableID = sharedPreferences.getString("table_id");
       sessionID = sharedPreferences.getString("session_id");
       restaurantID = sharedPreferences.getString("restaurant_id");
-      if (isBillRequested == true) {
-        totalAmount = sharedPreferences.getString("total_Amount");
-      }
+      notifyListeners();
+      getBillStatus();
+    }
+  }
+
+  Future getBillStatus() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    isBillRequested = sharedPreferences.getBool("bill_requested");
+    if (isBillRequested == null || isBillRequested == false) {
+      isBillRequested = false;
+      notifyListeners();
+    } else {
+      totalAmount = sharedPreferences.getString("total_Amount");
+      isBillRequested = true;
       notifyListeners();
     }
   }
