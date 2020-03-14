@@ -58,6 +58,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
                   FlatButton(
                     color: FriskyColor.colorPrimary,
                     onPressed: () {
+                      Navigator.pop(context);
                       _initSessionCreation(data);
                     },
                     child: FAText("Start", 14, Colors.white),

@@ -176,9 +176,6 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: Container(
                       padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                       margin: EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
-                          color: FriskyColor.colorTableName,
-                          borderRadius: BorderRadius.all(Radius.circular(4))),
                       child: FAText("Menu", 14, FriskyColor.colorTextDark),
                     ),
                   ),

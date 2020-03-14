@@ -48,7 +48,7 @@ class RestaurantDetails extends StatelessWidget {
                         '4.5',
                         style: TextStyle(
                             fontFamily: "Varela",
-                            fontSize: 20,
+                            fontSize: 16,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
                       ),

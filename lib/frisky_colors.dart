@@ -5,10 +5,6 @@ class FriskyColor {
   static const MaterialColor colorTextDark = MaterialColor(0xFF222222, color);
   static const MaterialColor colorTextLight = MaterialColor(0xFF666666, color);
   static const MaterialColor colorBadge = MaterialColor(0xFF49D852, color);
-  static const MaterialColor colorTableName = MaterialColor(0xFFD7D7D7, color);
-  static const MaterialColor colorSnackBar = MaterialColor(0xFF333333, color);
-  static const MaterialColor colorSnackBarText = MaterialColor(0xFFE4E4E4, color);
-  static const MaterialColor colorSnackBarButton = MaterialColor(0xFF4C3838, color);
 }
 
 const Map<int, Color> color = {

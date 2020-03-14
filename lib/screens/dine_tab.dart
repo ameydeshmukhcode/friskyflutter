@@ -120,7 +120,7 @@ class DineTabBillRequested extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Text(
-              "Bill Requested. The waiter will collect payment from you.",
+              "Bill requested. The waiter will collect payment from you.",
               style: TextStyle(
                   fontFamily: "Varela",
                   fontSize: 20,
