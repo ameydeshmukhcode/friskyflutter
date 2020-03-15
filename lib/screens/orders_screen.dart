@@ -239,7 +239,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             FlatButton(
                 color: FriskyColor.colorPrimary,
                 onPressed: () {
-                  requestBill();
+                  _requestBill();
                 },
                 child: FAText("Clear", 14, Colors.white),)
           ],
@@ -271,7 +271,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     );
   }
 
-  requestBill() async {
+  _requestBill() async {
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
     var _sessionProvider = Provider.of<Session>(context, listen: true);
 
