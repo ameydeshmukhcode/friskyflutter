@@ -32,7 +32,6 @@ class Orders extends ChangeNotifier {
         .orderBy("timestamp", descending: true)
         .snapshots()
         .listen((snaps) {
-      print(snaps.documentChanges.length);
       if (snaps.documentChanges.isNotEmpty) {
         updateList(snaps);
         notifyListeners();
@@ -66,9 +65,6 @@ class Orders extends ChangeNotifier {
     amountPayable = data["amount_payable"] ?? "0";
     gst = data["gst"] ?? "0";
     billAmount = data["bill_amount"] ?? "0";
-    print(billAmount);
-    print(gst);
-    print(amountPayable);
   }
 
   resetBill() {

@@ -178,7 +178,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
       },
     ).catchError((error) {
       Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");
-      print(error.toString());
+      print("Error _checkIfTableOccupied" + error.toString());
     });
   }
 

@@ -213,7 +213,7 @@ class _SignInEmailState extends State<SignInEmail> {
         _setErrorMessage(_verifyEmailMessage);
       }
     } catch (e) {
-      print(e.toString());
+      print("Error _signIn" + e.toString());
       Navigator.pop(context);
       _showError(e);
     }

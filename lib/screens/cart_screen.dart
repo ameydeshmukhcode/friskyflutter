@@ -182,7 +182,7 @@ class _CartScreenState extends State<CartScreen> {
                           FlatButton(
                             color: FriskyColor.colorPrimary,
                             onPressed: () {
-                              placeOrder();
+                              _placeOrder();
                             },
                             child: FAText("OK", 14, Colors.white),
                           )
@@ -362,7 +362,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  placeOrder() async {
+  _placeOrder() async {
     Navigator.pop(context);
     showOrderPlacing();
 
@@ -395,7 +395,7 @@ class _CartScreenState extends State<CartScreen> {
     }).catchError((error) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");
-      print(error.toString());
+      print("Error _placeOrder" + error.toString());
     });
   }
 }

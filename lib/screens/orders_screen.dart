@@ -304,7 +304,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     }).catchError((error) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");
-      print(error.toString());
+      print("Error _requestBill" + error.toString());
     });
   }
 }

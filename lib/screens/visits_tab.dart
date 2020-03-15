@@ -36,7 +36,7 @@ class _VisitsTabState extends State<VisitsTab>
 
   Future getUser() async {
     firebaseUser = await _auth.currentUser();
-    print(firebaseUser.uid.toString());
+    print("Firebase user id " + firebaseUser.uid.toString());
   }
 
   @override
@@ -44,15 +44,11 @@ class _VisitsTabState extends State<VisitsTab>
     this.getUser().whenComplete(() {
       _visitsListFuture = this.getVisits().whenComplete(() {
         setState(() {
-          print("inside set state");
           if (VisitsList.isNotEmpty) {
-            print("inside set state if");
             isLoading = false;
           } else {
-            print("inside set state else");
             isLoading = false;
             isEmpty = true;
-            print("length  = " + VisitsList.length.toString());
           }
         });
       });

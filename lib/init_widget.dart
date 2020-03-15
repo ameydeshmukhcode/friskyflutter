@@ -115,10 +115,10 @@ class _InitWidgetState extends State<InitWidget> {
             .setData(userDetails, merge: true)
             .then((update) {})
             .catchError((error) {
-          print("instance ID upload failed");
+          print("Instance ID upload failed: " + error.toString());
         });
       }).catchError((error) {
-        print("error in getting User");
+        print("Error in getUser " + error.toString());
       });
 
       print("Token refreshed");
@@ -126,40 +126,34 @@ class _InitWidgetState extends State<InitWidget> {
 
     _fcmHandle.configure(
       onMessage: (Map<String, dynamic> message) async {
+        print('onMessage $message');
         doSomething(message);
       },
       onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
+        print('onResume $message');
         doSomething(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
+        print('onLaunch $message');
         doSomething(message);
       },
     );
   }
 
   Future doSomething(message) async {
-    print('on message $message');
-    //print("in mess " + message["data"]);
     data = message["data"];
-    print(data.toString());
+    print("Notification Data "+ data.toString());
     if (data.containsKey("end_session") && data["end_session"] == "yes") {
-      // print(data.toString());
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       await sharedPreferences.setBool("session_active", false);
       await sharedPreferences.setBool("order_active", false);
       await sharedPreferences.setBool("bill_requested", false);
-      print("RAJ");
       _showNotification();
       Navigator.popUntil(
         context,
         ModalRoute.withName(Navigator.defaultRouteName),
       );
-      print("Session ENDED");
-    } else {
-      print("Session not ENDED");
     }
     Provider.of<Session>(context, listen: false).updateSessionStatus();
   }
