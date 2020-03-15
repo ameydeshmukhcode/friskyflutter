@@ -128,10 +128,12 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var _cartProvider = Provider.of<Cart>(context, listen: true);
+
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context);
-        return Provider.of<Cart>(context, listen: true).clearCartAndOrders();
+        return _cartProvider.clearCartAndOrders();
       },
       child: !_isLoading
           ? Scaffold(
@@ -162,10 +164,13 @@ class _MenuScreenState extends State<MenuScreen> {
                 backgroundColor: Colors.white,
                 actions: <Widget>[
                   IconButton(
-                      tooltip: "Search Menu",
-                      icon: Icon(Icons.search),
-                      color: FriskyColor.colorTextDark,
-                      onPressed: () {})
+                    tooltip: "Clear cart",
+                    icon: Icon(Icons.clear_all),
+                    color: Colors.black,
+                    onPressed: () {
+                      _cartProvider.clearCartAndOrders();
+                    },
+                  )
                 ],
               ),
               backgroundColor: Colors.white,
@@ -336,6 +341,7 @@ class _MenuScreenState extends State<MenuScreen> {
           child: Container(
               margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
               child: Material(
+                elevation: 4,
                 borderRadius: BorderRadius.circular(8),
                 color: FriskyColor.colorPrimary,
                 child: InkWell(
@@ -394,6 +400,7 @@ class _MenuScreenState extends State<MenuScreen> {
           child: Container(
               margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
               child: Material(
+                elevation: 4,
                 borderRadius: BorderRadius.circular(8),
                 color: FriskyColor.colorPrimary,
                 child: InkWell(
