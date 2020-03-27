@@ -53,8 +53,6 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _cartProvider = Provider.of<Cart>(context, listen: true);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -83,156 +81,183 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Flexible(
-            child: ListView.builder(
-                padding: EdgeInsets.only(top: 16),
-                itemCount: _cartProvider.cartList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
+      body: _cartList(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _sendToKitchenLayout(),
+    );
+  }
+
+  _cartList() {
+    var _cartProvider = Provider.of<Cart>(context, listen: true);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Flexible(
+          child: ListView.builder(
+              padding: EdgeInsets.only(top: 16),
+              itemCount: _cartProvider.cartList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  height: 10,
+                                  width: 10,
+                                ),
+                                Flexible(
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
+                                    child: FAText(
+                                        _cartProvider.cartList[index].name,
+                                        14,
+                                        FriskyColor.colorTextDark),
+                                  ),
+                                )
+                              ],
+                            ),
+                            FAText(
+                                "\u20B9" +
+                                    _cartProvider.cartList[index].price
+                                        .toString(),
+                                12,
+                                FriskyColor.colorTextLight),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: 2, right: 4, bottom: 2),
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Container(
-                                    height: 10,
-                                    width: 10,
-                                  ),
-                                  Flexible(
-                                    child: Padding(
-                                      padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                      child: FAText(
-                                          _cartProvider.cartList[index].name,
-                                          14,
-                                          FriskyColor.colorTextDark),
-                                    ),
-                                  )
+                                  FAText("Item total: ", 12,
+                                      FriskyColor.colorTextLight),
+                                  FAText(
+                                      "\u20B9" +
+                                          (_cartProvider.cartList[index].price *
+                                                  _cartProvider
+                                                      .cartList[index].count)
+                                              .toString(),
+                                      14,
+                                      Colors.red),
                                 ],
                               ),
-                              FAText(
-                                  "\u20B9" +
-                                      _cartProvider.cartList[index].price
-                                          .toString(),
-                                  12,
-                                  FriskyColor.colorTextLight),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: 2, right: 4, bottom: 2),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    FAText("Item total: ", 12,
-                                        FriskyColor.colorTextLight),
-                                    FAText(
-                                        "\u20B9" +
-                                            (_cartProvider
-                                                        .cartList[index].price *
-                                                    _cartProvider
-                                                        .cartList[index].count)
-                                                .toString(),
-                                        14,
-                                        Colors.red),
-                                  ],
-                                ),
-                              ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: cartButtons(_cartProvider.cartList[index]),
+                      )
+                    ],
+                  ),
+                );
+              }),
+        ),
+      ],
+    );
+  }
+
+  _sendToKitchenLayout() {
+    var _cartProvider = Provider.of<Cart>(context, listen: true);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+          child: TextField(
+            minLines: 1,
+            maxLines: 5,
+            style: TextStyle(fontFamily: "Varela", fontSize: 14),
+            decoration: InputDecoration(
+                labelText: 'Add cooking instructions here', border: OutlineInputBorder()),
+            cursorColor: FriskyColor.colorPrimary,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+          child: Material(
+            borderRadius: BorderRadius.circular(8),
+            color: FriskyColor.colorPrimary,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(8),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title:
+                          FAText("Place order", 20, FriskyColor.colorTextDark),
+                      content: FAText("Send order to kitchen for preparation?",
+                          14, FriskyColor.colorTextLight),
+                      actions: <Widget>[
+                        FlatButton(
+                          splashColor: Colors.black12,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: FAText("Cancel", 14, FriskyColor.colorPrimary),
+                        ),
+                        FlatButton(
+                          color: FriskyColor.colorPrimary,
+                          onPressed: () {
+                            _placeOrder();
+                          },
+                          child: FAText("OK", 14, Colors.white),
+                        )
+                      ],
+                    );
+                  },
+                  barrierDismissible: false,
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                    child: Text(
+                      "Cart total: \u20B9" + _cartProvider.total.toString(),
+                      style: TextStyle(
+                          fontFamily: "Varela",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 16, top: 8, bottom: 8),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "Send to kitchen",
+                          style: TextStyle(
+                            fontFamily: "Varela",
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Center(
-                          child: cartButtons(_cartProvider.cartList[index]),
+                        Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
                         )
                       ],
                     ),
-                  );
-                }),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: Material(
-              borderRadius: BorderRadius.circular(8),
-              color: FriskyColor.colorPrimary,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(8),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: FAText(
-                            "Place order", 20, FriskyColor.colorTextDark),
-                        content: FAText("Send order to kitchen for preparation?",
-                            14, FriskyColor.colorTextLight),
-                        actions: <Widget>[
-                          FlatButton(
-                            splashColor: Colors.black12,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child:
-                                FAText("Cancel", 14, FriskyColor.colorPrimary),
-                          ),
-                          FlatButton(
-                            color: FriskyColor.colorPrimary,
-                            onPressed: () {
-                              _placeOrder();
-                            },
-                            child: FAText("OK", 14, Colors.white),
-                          )
-                        ],
-                      );
-                    },
-                    barrierDismissible: false,
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-                      child: Text(
-                        "Cart total: \u20B9" + _cartProvider.total.toString(),
-                        style: TextStyle(
-                            fontFamily: "Varela",
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 16, top: 8, bottom: 8),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            "Send to kitchen",
-                            style: TextStyle(
-                              fontFamily: "Varela",
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Icon(
-                            Icons.chevron_right,
-                            color: Colors.white,
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
