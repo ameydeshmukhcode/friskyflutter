@@ -2,8 +2,10 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:badges/badges.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,6 +34,13 @@ class _HomeScreenState extends State<HomeScreen>
   int _currentIndex = 0;
   String sessionID, restaurantID, restaurantName, tableID, tableName;
   List<Widget> _pages = [RestaurantsTab(), DineTab(), VisitsTab()];
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<Session>(context, listen: false).updateSessionStatus();
+    _checkForProfileSetup();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,12 +207,6 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<Session>(context, listen: false).updateSessionStatus();
-  }
-
   Widget _bottomNavBar() {
     return BottomNavigationBar(
       elevation: 4,
@@ -367,6 +370,38 @@ class _HomeScreenState extends State<HomeScreen>
         context,
         new MaterialPageRoute(builder: (context) => SignInMain()),
         (Route route) => false);
+  }
+
+  _checkForProfileSetup() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool profileSetup = false;
+    FirebaseAuth.instance.currentUser().then((user) async {
+      await Firestore.instance
+          .collection("users")
+          .document(user.uid)
+          .get()
+          .then((userDoc) async {
+        if (userDoc.exists) {
+          if (userDoc.data.containsKey("profile_setup_complete")) {
+            profileSetup = userDoc.data["profile_setup_complete"];
+            if (profileSetup) {
+              sharedPreferences.setString("u_name", userDoc.data["name"]);
+              sharedPreferences.setString("u_bio", userDoc.data["bio"]);
+              StorageReference storage = FirebaseStorage.instance.ref();
+              storage
+                  .child("profile_images")
+                  .child(user.uid)
+                  .getDownloadURL()
+                  .then((url) {
+                print(url);
+                sharedPreferences.setString("u_image", url);
+              });
+            }
+          }
+          sharedPreferences.setBool("profile_setup_complete", profileSetup);
+        }
+      });
+    });
   }
 }
 
