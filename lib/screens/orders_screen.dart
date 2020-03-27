@@ -175,7 +175,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 32),
               child: Material(
                 borderRadius: BorderRadius.circular(8),
                 color: FriskyColor.colorPrimary,
