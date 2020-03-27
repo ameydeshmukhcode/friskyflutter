@@ -339,7 +339,7 @@ class _MenuScreenState extends State<MenuScreen> {
         Visibility(
           visible: _cartProvider.cartList.isNotEmpty,
           child: Container(
-              margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
+              margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
               child: Material(
                 elevation: 4,
                 borderRadius: BorderRadius.circular(8),
@@ -398,7 +398,7 @@ class _MenuScreenState extends State<MenuScreen> {
           visible:
               _cartProvider.cartList.isEmpty && _ordersProvider.isOrderActive,
           child: Container(
-              margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
+              margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
               child: Material(
                 elevation: 4,
                 borderRadius: BorderRadius.circular(8),
