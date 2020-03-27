@@ -1,7 +1,10 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:badges/badges.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/provider_models/session.dart';
@@ -13,6 +16,7 @@ import 'package:friskyflutter/screens/visits_tab.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../frisky_colors.dart';
 import '../provider_models/session.dart';
@@ -172,9 +176,11 @@ class _HomeScreenState extends State<HomeScreen>
           visible: !Session.isSessionActive,
           child: FloatingActionButton.extended(
             onPressed: () async {
-              // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
-              _startScanner();
-              // showNotification();
+              if (kReleaseMode) {
+                _startScanner();
+              } else {
+                _startDummySession();
+              }
             },
             icon: SvgPicture.asset(
               'images/icons/ic_scan_qr.svg',
@@ -261,6 +267,48 @@ class _HomeScreenState extends State<HomeScreen>
         }
         break;
     }
+  }
+
+  _startDummySession() async {
+    Map<String, Object> userdata = new HashMap<String, Object>();
+    userdata["restaurant"] = "6mB4DZdwKHC5xe0sBZ0V";
+    userdata["table"] = "RQGAzjaLXYSMsR5Kbs63";
+    await CloudFunctions.instance
+        .getHttpsCallable(functionName: "createUserSession")
+        .call(userdata)
+        .then((getData) async {
+      Map<String, dynamic> resultData = Map<String, dynamic>.from(getData.data);
+      await _setPreferences(
+          restaurantName: resultData["restaurant_name"],
+          tableName: resultData["table_name"],
+          sessionID: resultData["session_id"]);
+      _showMenu(
+          restaurantName: resultData["restaurant_name"],
+          tableName: resultData["table_name"],
+          sessionID: resultData["session_id"]);
+    }, onError: (error) {
+      print(error);
+    });
+  }
+
+  _setPreferences({restaurantName, tableName, sessionID}) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool("session_active", true);
+    await sharedPreferences.setString("restaurant_id", "6mB4DZdwKHC5xe0sBZ0V");
+    await sharedPreferences.setString("table_id", "RQGAzjaLXYSMsR5Kbs63");
+    await sharedPreferences.setString("session_id", sessionID);
+    await sharedPreferences.setString("table_name", tableName);
+    await sharedPreferences.setString("restaurant_name", restaurantName);
+    Provider.of<Session>(context).updateSessionStatus();
+    return;
+  }
+
+  _showMenu({restaurantName, tableName, sessionID}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MenuScreen(
+                restaurantName, tableName, sessionID, "6mB4DZdwKHC5xe0sBZ0V")));
   }
 
   _showNeedCameraAlertiOS() {
