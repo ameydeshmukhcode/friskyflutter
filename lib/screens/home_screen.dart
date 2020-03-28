@@ -46,56 +46,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       drawerEdgeDragWidth: 0,
-      endDrawer: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8))),
-        child: Consumer<Session>(builder: (context, session, child) {
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    FlatButton(
-                      onPressed: () {},
-                      child: Container(
-                        width: 200,
-                        padding: EdgeInsets.only(
-                            left: 8, top: 64, right: 8, bottom: 16),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Icon(Icons.person),
-                            Padding(
-                              padding: EdgeInsets.only(left: 16),
-                              child:
-                                  FAText("Name", 18, FriskyColor.colorTextDark),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    NavigationDrawerButton("Settings"),
-                    NavigationDrawerButton("About"),
-                  ],
-                ),
-                FlatButton(
-                  color: FriskyColor.colorPrimary,
-                  child: Container(
-                    width: 200,
-                    padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
-                    child: Center(
-                      child: FAText("Logout", 16, Colors.white),
-                    ),
-                  ),
-                  onPressed: _signOut,
-                ),
-              ]);
-        }),
-      ),
+      endDrawer: _endDrawer(),
       body: Consumer<Session>(builder: (context, session, child) {
         return Stack(
           children: <Widget>[
@@ -402,6 +353,58 @@ class _HomeScreenState extends State<HomeScreen>
         }
       });
     });
+  }
+
+  _endDrawer() {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))),
+      child: Consumer<Session>(builder: (context, session, child) {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: () {},
+                    child: Container(
+                      width: 200,
+                      padding: EdgeInsets.only(
+                          left: 8, top: 64, right: 8, bottom: 16),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(Icons.person),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16),
+                            child:
+                                FAText("Name", 18, FriskyColor.colorTextDark),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  NavigationDrawerButton("Settings"),
+                  NavigationDrawerButton("About"),
+                ],
+              ),
+              FlatButton(
+                color: FriskyColor.colorPrimary,
+                child: Container(
+                  width: 200,
+                  padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                  child: Center(
+                    child: FAText("Logout", 16, Colors.white),
+                  ),
+                ),
+                onPressed: _signOut,
+              ),
+            ]);
+      }),
+    );
   }
 }
 
