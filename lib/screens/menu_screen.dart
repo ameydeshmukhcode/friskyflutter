@@ -140,27 +140,7 @@ class _MenuScreenState extends State<MenuScreen> {
               appBar: AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: Colors.black),
-                title: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        widget.restaurantName,
-                        style: TextStyle(
-                            fontFamily: "Varela",
-                            color: FriskyColor.colorPrimary,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      FAText(
-                        'Table ' + widget.tableName,
-                        14,
-                        FriskyColor.colorPrimary,
-                      ),
-                    ],
-                  ),
-                ),
+                title: _appBarTitle(),
                 backgroundColor: Colors.white,
                 actions: <Widget>[
                   IconButton(
@@ -192,14 +172,49 @@ class _MenuScreenState extends State<MenuScreen> {
                   FloatingActionButtonLocation.centerFloat,
             )
           : Scaffold(
-              body: SafeArea(
-                child: SvgPicture.asset(
-                  'images/state_graphics/state_dummy_menu.svg',
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.topCenter,
+              appBar: AppBar(
+                centerTitle: false,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                title: _appBarTitle(),
+              ),
+              body: Container(
+                color: Colors.white,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      FriskyColor.colorPrimary,
+                    ),
+                  ),
                 ),
               ),
             ),
+    );
+  }
+
+  Widget _appBarTitle() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              widget.restaurantName,
+              style: TextStyle(
+                  fontFamily: "Varela",
+                  color: FriskyColor.colorPrimary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            FAText(
+              'Table ' + widget.tableName,
+              14,
+              FriskyColor.colorPrimary,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
