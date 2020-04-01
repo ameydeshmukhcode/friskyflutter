@@ -4,11 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Session extends ChangeNotifier {
   bool isSessionActive = false;
   bool isBillRequested = false;
-  String restaurantName = " ";
-  String tableName = " ";
-  String tableID = " ";
-  String sessionID = " ";
-  String restaurantID = " ";
+  String restaurantName = "";
+  String tableName = "";
+  String tableID = "";
+  String sessionID = "";
+  String restaurantID = "";
   String totalAmount = "0";
 
   Future updateSessionStatus() async {
