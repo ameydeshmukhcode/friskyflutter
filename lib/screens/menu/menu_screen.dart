@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/screens/cart_screen.dart';
+import 'package:friskyflutter/screens/menu/cart_screen.dart';
 import 'package:friskyflutter/structures/diet_type.dart';
 import 'package:friskyflutter/structures/menu_category.dart';
 import 'package:friskyflutter/structures/menu_item.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 
-import '../frisky_colors.dart';
+import '../../frisky_colors.dart';
 import 'orders_screen.dart';
 
 class MenuScreen extends StatefulWidget {

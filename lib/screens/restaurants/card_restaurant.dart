@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 
-import 'text_fa.dart';
+import '../../widgets/text_fa.dart';
 
 class RestaurantCard extends StatelessWidget {
   final String image, name, address, cuisine;

@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:friskyflutter/screens/visit_summary.dart';
+import 'package:friskyflutter/screens/visits/visit_summary.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 
-import '../frisky_colors.dart';
+import '../../frisky_colors.dart';
 
 class VisitWidget extends StatelessWidget {
   final String sessionID,

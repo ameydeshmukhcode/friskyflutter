@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/widgets/bottom_sheet_restaurant.dart';
-import 'package:friskyflutter/widgets/card_restaurant.dart';
+import 'package:friskyflutter/screens/restaurants/card_restaurant.dart';
 
-import '../frisky_colors.dart';
+import '../../frisky_colors.dart';
+import 'bottom_sheet_restaurant.dart';
 
 class RestaurantsTab extends StatefulWidget {
   @override

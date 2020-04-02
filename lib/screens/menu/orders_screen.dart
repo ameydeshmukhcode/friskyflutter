@@ -7,10 +7,10 @@ import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../frisky_colors.dart';
+import '../../frisky_colors.dart';
 import 'package:friskyflutter/structures/order_header.dart';
 import 'package:friskyflutter/structures/order_item.dart';
-import 'package:friskyflutter/widgets/card_order_item.dart';
+import 'package:friskyflutter/screens/menu/card_order_item.dart';
 import 'package:provider/provider.dart';
 
 class OrdersScreen extends StatefulWidget {

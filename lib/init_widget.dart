@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/auth_checker.dart';
+import 'package:friskyflutter/screens/auth/auth_checker.dart';
 import 'package:friskyflutter/screens/slideshow_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'screens/visit_summary.dart';
+import 'screens/visits/visit_summary.dart';
 
 class InitWidget extends StatefulWidget {
   @override
@@ -143,7 +143,7 @@ class _InitWidgetState extends State<InitWidget> {
   Future doSomething(message) async {
     data = message["data"];
     print("Notification Data "+ data.toString());
-    if (data.containsKey("end_session") && data["end_session"] == "yes") {
+    if (data.containsKey("end_session") && data["end_session"] == true) {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       await sharedPreferences.setBool("session_active", false);

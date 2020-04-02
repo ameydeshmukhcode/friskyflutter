@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'package:friskyflutter/screens/home_screen.dart';
-import 'package:friskyflutter/screens/sign_in_screen.dart';
+import 'package:friskyflutter/screens/home/home_screen.dart';
+import 'package:friskyflutter/screens/auth/sign_in_screen.dart';
 
 class AuthChecker extends StatelessWidget {
   @override

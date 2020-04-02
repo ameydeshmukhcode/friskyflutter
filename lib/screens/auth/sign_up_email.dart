@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 
-import '../frisky_colors.dart';
+import '../../frisky_colors.dart';
 
 class SignUpEmail extends StatefulWidget {
   @override

@@ -12,7 +12,7 @@ import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../frisky_colors.dart';
+import '../../frisky_colors.dart';
 import 'orders_screen.dart';
 
 class CartScreen extends StatefulWidget {
