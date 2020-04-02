@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen>
   int _currentIndex = 0;
   String sessionID, restaurantID, restaurantName, tableID, tableName;
   List<Widget> _pages = [RestaurantsTab(), DineTab(), VisitsTab()];
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   @override
   void initState() {
@@ -45,7 +46,22 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _drawerKey,
       drawerEdgeDragWidth: 0,
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        actions: <Widget>[
+          IconButton(
+              tooltip: "Options",
+              icon: Icon(Icons.settings),
+              color: FriskyColor.colorTextDark,
+              onPressed: () {
+                _drawerKey.currentState.openEndDrawer();
+              })
+        ],
+      ),
       endDrawer: _endDrawer(),
       body: Consumer<Session>(builder: (context, session, child) {
         return Stack(

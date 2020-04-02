@@ -56,20 +56,6 @@ class _RestaurantsTabState extends State<RestaurantsTab>
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          IconButton(
-              tooltip: "Options",
-              icon: Icon(Icons.settings),
-              color: FriskyColor.colorTextDark,
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              })
-        ],
-      ),
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
