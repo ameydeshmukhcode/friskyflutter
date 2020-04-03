@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen>
           children: <Widget>[
             _pages[_currentIndex],
             Visibility(
-              visible: session.isSessionActive,
+              visible: (session.isSessionActive) && (_currentIndex != 1),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Material(
