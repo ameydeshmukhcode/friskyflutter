@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 class Orders extends ChangeNotifier {
   bool isOrderActive = false;
   bool isLoading = true;
-  List<Object> mOrderList = new List<Object>();
+  List<Object> ordersList = new List<Object>();
   String amountPayable = "0";
   String gst = "0";
   String billAmount = "0";
@@ -22,7 +22,7 @@ class Orders extends ChangeNotifier {
   }
 
   Future getOrders() async {
-    mOrderList.removeRange(0, mOrderList.length);
+    ordersList.removeRange(0, ordersList.length);
     SharedPreferences sp = await SharedPreferences.getInstance();
     Firestore.instance
         .collection("restaurants")
@@ -75,19 +75,19 @@ class Orders extends ChangeNotifier {
   }
 
   resetOrdersList() {
-    mOrderList.clear();
+    ordersList.clear();
     notifyListeners();
   }
 
   updateList(snaps) {
-    mOrderList.clear();
+    ordersList.clear();
     int docRank = snaps.documents.length;
     for (DocumentSnapshot documentSnapshot in snaps.documents) {
       Map<dynamic, dynamic> orderData = documentSnapshot.data["items"];
       String orderTime = formatDate(documentSnapshot.data["timestamp"].toDate(),
           [hh, ':', nn, ' ', am]).toString();
       OrderHeader orderHeader = new OrderHeader(orderTime, docRank);
-      mOrderList.add(orderHeader);
+      ordersList.add(orderHeader);
       for (int i = 0; i < orderData.length; i++) {
         String itemID = orderData.keys.elementAt(i).toString();
         Map<dynamic, dynamic> itemData = orderData.values.elementAt(i);
@@ -105,7 +105,7 @@ class Orders extends ChangeNotifier {
         } else if (itemData["status"].toString().compareTo("cancelled") == 0) {
           orderItem.orderStatus = OrderStatus.cancelled;
         }
-        mOrderList.add(orderItem);
+        ordersList.add(orderItem);
       }
       docRank--;
     }

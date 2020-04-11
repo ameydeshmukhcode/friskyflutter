@@ -52,7 +52,7 @@ class DineTabDefault extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 32, top: 16, right: 32),
+            padding: EdgeInsets.only(left: 32, top: 8, right: 32),
             child: AspectRatio(
               aspectRatio: 1,
               child: SvgPicture.asset(
@@ -190,7 +190,7 @@ class DineTabBillRequested extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 32, top: 16, right: 32),
+            padding: EdgeInsets.only(left: 32, top: 8, right: 32),
             child: AspectRatio(
               aspectRatio: 1,
               child: SvgPicture.asset(

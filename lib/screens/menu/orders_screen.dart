@@ -26,11 +26,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
   getListLength() {
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
 
-    if (_ordersProvider.mOrderList.length == 0) {
+    if (_ordersProvider.ordersList.length == 0) {
       _ordersProvider.fetchData();
       return 0;
     } else {
-      return _ordersProvider.mOrderList.length;
+      return _ordersProvider.ordersList.length;
     }
   }
 
@@ -111,8 +111,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   padding: EdgeInsets.all(0),
                   itemCount: getListLength(),
                   itemBuilder: (context, index) {
-                    if (_ordersProvider.mOrderList[index] is OrderHeader) {
-                      OrderHeader header = _ordersProvider.mOrderList[index] ??
+                    if (_ordersProvider.ordersList[index] is OrderHeader) {
+                      OrderHeader header = _ordersProvider.ordersList[index] ??
                           OrderHeader(" ", 0);
                       return Padding(
                         padding: EdgeInsets.fromLTRB(24, 16, 24, 0),
@@ -125,7 +125,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             FriskyColor.colorTextLight),
                       );
                     } else {
-                      OrderItem item = _ordersProvider.mOrderList[index] ??
+                      OrderItem item = _ordersProvider.ordersList[index] ??
                           OrderItem("", "", 0, 0);
                       return OrderItemWidget(
                           item.name, item.count, item.total, item.orderStatus);
