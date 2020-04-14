@@ -143,7 +143,7 @@ class _InitWidgetState extends State<InitWidget> {
   Future doSomething(message) async {
     data = message["data"];
     print("Notification Data "+ data.toString());
-    if (data.containsKey("end_session") && data["end_session"] == true) {
+    if (data.containsKey("end_session") && data["end_session"] == "yes") {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       await sharedPreferences.setBool("session_active", false);
