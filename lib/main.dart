@@ -1,6 +1,7 @@
 import 'package:friskyflutter/init_widget.dart';
 import 'package:friskyflutter/provider_models/cart.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
+import 'package:friskyflutter/provider_models/profile.dart';
 import 'package:friskyflutter/provider_models/session.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          ChangeNotifierProvider(create: (_) => Profile()),
           ChangeNotifierProvider(create: (_) => Session()),
           ChangeNotifierProvider(create: (_) => Cart()),
           ChangeNotifierProvider(create: (_) => Orders()),
