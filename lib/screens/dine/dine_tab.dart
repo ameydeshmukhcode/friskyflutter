@@ -5,8 +5,8 @@ import 'package:friskyflutter/provider_models/session.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 
-import '../frisky_colors.dart';
-import 'menu/menu_screen.dart';
+import '../../frisky_colors.dart';
+import '../menu/menu_screen.dart';
 
 class DineTab extends StatefulWidget {
   @override

@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/dine_tab.dart';
+import 'package:friskyflutter/screens/dine/dine_tab.dart';
 import 'package:friskyflutter/screens/qr_scan.dart';
 import 'package:friskyflutter/screens/restaurants/restaurants_tab.dart';
 import 'package:friskyflutter/screens/menu/menu_screen.dart';
