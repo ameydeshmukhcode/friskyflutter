@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/auth/auth_checker.dart';
-import 'package:friskyflutter/screens/slideshow_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,28 +34,18 @@ class _InitWidgetState extends State<InitWidget> {
     var initSettings = new InitializationSettings(android, iOS);
     _flutterLocalNotificationsPlugin.initialize(initSettings,
         onSelectNotification: onSelectNotification);
+
+    SharedPreferences.getInstance().then((prefs) =>
+        prefs.containsKey("slideshow_complete")
+            ? Navigator.of(context)
+                .pushNamedAndRemoveUntil('sign_in', (Route route) => false)
+            : Navigator.of(context)
+                .pushNamedAndRemoveUntil('slideshow', (Route route) => false));
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _checkSlideshowComplete(),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (snapshot.data == false) {
-            return SlideshowScreen();
-          } else {
-            return AuthChecker();
-          }
-        });
-  }
-
-  Future<bool> _checkSlideshowComplete() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.containsKey("slideshow_complete")) {
-      return true;
-    } else {
-      return false;
-    }
+    return Container();
   }
 
   _showNotification() async {
@@ -142,7 +130,7 @@ class _InitWidgetState extends State<InitWidget> {
 
   Future doSomething(message) async {
     data = message["data"];
-    print("Notification Data "+ data.toString());
+    print("Notification Data " + data.toString());
     if (data.containsKey("end_session") && data["end_session"] == "yes") {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -150,10 +138,8 @@ class _InitWidgetState extends State<InitWidget> {
       await sharedPreferences.setBool("order_active", false);
       await sharedPreferences.setBool("bill_requested", false);
       _showNotification();
-      Navigator.popUntil(
-        context,
-        ModalRoute.withName(Navigator.defaultRouteName),
-      );
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('home', (Route route) => false);
     }
     Provider.of<Session>(context, listen: false).updateSessionStatus();
   }

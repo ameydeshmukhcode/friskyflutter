@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:friskyflutter/screens/home/home_screen.dart';
-import 'package:friskyflutter/screens/auth/sign_up_email.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 
 class SignInEmail extends StatefulWidget {
@@ -133,10 +131,7 @@ class _SignInEmailState extends State<SignInEmail> {
                   ),
                   FlatButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpEmail()),
-                      );
+                      Navigator.of(context).pushNamed('sign_up_email');
                     },
                     child: FAText("Sign up", 16, Colors.white),
                   ),
@@ -204,10 +199,8 @@ class _SignInEmailState extends State<SignInEmail> {
       _authResult = await _auth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       if (_authResult.user.isEmailVerified) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-            (Route route) => false);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('home', (Route route) => false);
       } else {
         Navigator.pop(context);
         _setErrorMessage(_verifyEmailMessage);

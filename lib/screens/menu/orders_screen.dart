@@ -237,11 +237,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
               child: FAText("Cancel", 14, FriskyColor.colorPrimary),
             ),
             FlatButton(
-                color: FriskyColor.colorPrimary,
-                onPressed: () {
-                  _requestBill();
-                },
-                child: FAText("Clear", 14, Colors.white),)
+              color: FriskyColor.colorPrimary,
+              onPressed: () {
+                _requestBill();
+              },
+              child: FAText("Clear", 14, Colors.white),
+            )
           ],
         );
       },
@@ -295,12 +296,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
               : _ordersProvider.amountPayable);
       _ordersProvider.resetOrdersList();
       _ordersProvider.resetBill();
-      Navigator.popUntil(
-        context,
-        ModalRoute.withName(Navigator.defaultRouteName),
-      );
       _sessionProvider.isBillRequested = true;
       _sessionProvider.updateSessionStatus();
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('home', (Route route) => false);
     }).catchError((error) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");

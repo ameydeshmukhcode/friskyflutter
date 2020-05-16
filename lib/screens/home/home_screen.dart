@@ -22,7 +22,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../frisky_colors.dart';
 import '../../provider_models/session.dart';
-import '../auth/sign_in_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -333,10 +332,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   _signOut() async {
     FirebaseAuth.instance.signOut();
-    Navigator.pushAndRemoveUntil(
-        context,
-        new MaterialPageRoute(builder: (context) => SignInMain()),
-        (Route route) => false);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('sign_in', (Route route) => false);
   }
 
   _checkForProfileSetup() async {

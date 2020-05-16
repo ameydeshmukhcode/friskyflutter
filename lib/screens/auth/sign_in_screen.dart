@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/screens/home/home_screen.dart';
-import 'package:friskyflutter/screens/auth/sign_in_email.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,6 +13,16 @@ class SignInMain extends StatefulWidget {
 class _SignInMainState extends State<SignInMain> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _auth.currentUser().then((user) => user != null
+        ? Navigator.of(context)
+            .pushNamedAndRemoveUntil('home', (Route route) => false)
+        : false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +84,7 @@ class _SignInMainState extends State<SignInMain> {
                 ],
               ),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SignInEmail();
-                    },
-                  ),
-                );
+                Navigator.of(context).pushNamed('sign_in_email');
               },
             ),
           ),
@@ -137,10 +139,8 @@ class _SignInMainState extends State<SignInMain> {
       );
       final FirebaseUser user =
           (await _auth.signInWithCredential(credential)).user;
-      Navigator.pushAndRemoveUntil(
-          context,
-          new MaterialPageRoute(builder: (context) => HomeScreen()),
-          (Route route) => false);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('home', (Route route) => false);
       return user;
     } catch (e) {
       Navigator.pop(context);

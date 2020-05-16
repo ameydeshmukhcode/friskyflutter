@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:friskyflutter/screens/auth/auth_checker.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -93,10 +92,8 @@ class _SlideshowScreenState extends State<SlideshowScreen> {
   _endSlideshowAndGo() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setBool("slideshow_complete", true);
-    Navigator.pushAndRemoveUntil(
-        context,
-        new MaterialPageRoute(builder: (context) => AuthChecker()),
-        (Route route) => false);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('sign_in', (Route route) => false);
   }
 }
 
