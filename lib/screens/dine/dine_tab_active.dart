@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
@@ -77,10 +78,10 @@ class _DineTabActiveState extends State<DineTabActive> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                Icon(
-                                  Icons.restaurant_menu,
-                                  size: 50,
-                                  color: Colors.white,
+                                SvgPicture.asset(
+                                  'images/icons/ic_menu_dine.svg',
+                                  height: 50,
+                                  width: 50,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
