@@ -175,6 +175,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _bottomNavBar() {
     return BottomNavigationBar(
+      selectedItemColor: FriskyColor.colorPrimary,
+      unselectedItemColor: Colors.black,
       elevation: 4,
       onTap: (index) {
         setState(() {
@@ -182,29 +184,36 @@ class _HomeScreenState extends State<HomeScreen>
         });
       },
       currentIndex: _currentIndex,
-      showUnselectedLabels: false,
+      showUnselectedLabels: true,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: FAText("Home", 14, FriskyColor.colorPrimary),
+          icon: SvgPicture.asset(
+            'images/icons/ic_home.svg',
+            height: 20,
+          ),
+          title: Text("Home")
         ),
         BottomNavigationBarItem(
           icon: Consumer<Session>(builder: (context, session, child) {
             return Badge(
-              child: Icon(Icons.restaurant),
+              child: SvgPicture.asset(
+                'images/icons/ic_dine.svg',
+                height: 20,
+              ),
               badgeColor: FriskyColor.colorBadge,
               elevation: 0,
               position: BadgePosition.topRight(right: -7, top: -6),
               showBadge: session.isSessionActive,
             );
           }),
-          title: FAText("Dine", 14, FriskyColor.colorPrimary),
+          title: Text("Dine")
         ),
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.receipt,
+          icon: SvgPicture.asset(
+            'images/icons/ic_visits.svg',
+            height: 20,
           ),
-          title: FAText("Visits", 14, FriskyColor.colorPrimary),
+          title: Text("Visits")
         ),
       ],
       backgroundColor: Colors.white,
