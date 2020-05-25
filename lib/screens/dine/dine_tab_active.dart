@@ -80,8 +80,8 @@ class _DineTabActiveState extends State<DineTabActive> {
                               children: <Widget>[
                                 SvgPicture.asset(
                                   'images/icons/ic_menu_dine.svg',
-                                  height: 50,
-                                  width: 50,
+                                  height: 75,
+                                  width: 75,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,10 +105,80 @@ class _DineTabActiveState extends State<DineTabActive> {
                       ),
                     ),
                   ),
+                  Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        FAText("The restaurant recommends...", 20,
+                            FriskyColor.colorPrimary),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(color: Colors.black12),
+                          height: 160,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            //shrinkWrap: true,
+                            children: <Widget>[
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile()
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               );
             },
           ),
         ));
+  }
+}
+
+class MenuItemTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 160,
+      width: 116,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Material(
+              elevation: 2,
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                height: 96,
+                width: 96,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+            ),
+            Container(
+              height: 26,
+              width: 80,
+              child: MaterialButton(
+                elevation: 1,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                color: FriskyColor.colorBadge,
+                onPressed: () {},
+                child: Center(
+                  child: FAText("Add", 14, Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
