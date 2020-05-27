@@ -41,7 +41,7 @@ dependencies:
 
   qrcode: ^1.0.2
 
-  flutter_svg: ^0.14.1
+  flutter_svg: ^0.17.3+1
   date_format: ^1.0.6
   badges: ^1.1.0
 
