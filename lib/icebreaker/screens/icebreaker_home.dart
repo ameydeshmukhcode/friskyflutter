@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 
@@ -7,11 +10,15 @@ class IceBreakerHome extends StatefulWidget {
 }
 
 class _IceBreakerHomeState extends State<IceBreakerHome> {
+  bool value = false;
+
   @override
   Widget build(BuildContext context) {
     var height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     var width = MediaQuery.of(context).size.width;
+
+    var Selected;
 
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
@@ -34,17 +41,59 @@ class _IceBreakerHomeState extends State<IceBreakerHome> {
 
   Widget iceBreakerAppBar(dynamic height, dynamic width) => Container(
         height: height * 0.07,
-        child: Placeholder(),
+        child: Padding(
+          padding: EdgeInsets.only(left: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[customSwitch(h1, w2)],
+          ),
+        ),
+      );
+  double h1 = 35.0;
+  static double w2 = 70.0;
+  double AnimationValue = w2 * 0.5;
+  Widget customSwitch(dynamic h, dynamic w) => SizedBox(
+        child: InkWell(
+          onTap: () {
+            AnimationValue = (AnimationValue == 0) ? w / 2 : 0;
+            setState(() {});
+          },
+          child: Stack(children: [
+            Container(
+              height: h,
+              width: w,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xFFF0F0F0)),
+            ),
+            AnimatedPositioned(
+              height: h,
+              width: w / 2,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.red,
+                ),
+              ),
+              duration: Duration(seconds: 1),
+              curve: Curves.ease,
+              right: AnimationValue,
+            ),
+          ]),
+        ),
       );
 
   Widget profilesWheel(dynamic height, dynamic width) => Container(
-        child: ListWheelScrollView(
+        child: ListWheelScrollView.useDelegate(
           itemExtent: height * 0.83 * 0.8,
           diameterRatio: 4,
           onSelectedItemChanged: (item) {
             print(item.toString());
           },
-          children: List.generate(10, (index) => profileWidget(height, width)),
+          childDelegate: ListWheelChildLoopingListDelegate(
+              children:
+                  List.generate(10, (index) => profileWidget(height, width))),
         ),
       );
 
