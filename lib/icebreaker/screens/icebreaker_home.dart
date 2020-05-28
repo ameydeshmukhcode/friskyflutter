@@ -46,34 +46,45 @@ class _IceBreakerHomeState extends State<IceBreakerHome> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[customSwitch(h1, w2)],
+            children: <Widget>[customSwitch(40.00)],
           ),
         ),
       );
   double h1 = 35.0;
   static double w2 = 70.0;
   double AnimationValue = w2 * 0.5;
-  Widget customSwitch(dynamic h, dynamic w) => SizedBox(
+  Widget customSwitch(
+    dynamic size,
+  ) =>
+      SizedBox(
         child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
           onTap: () {
-            AnimationValue = (AnimationValue == 0) ? w / 2 : 0;
+            AnimationValue = (AnimationValue == 0) ? size * 2 / 2 : 0;
             setState(() {});
           },
           child: Stack(children: [
             Container(
-              height: h,
-              width: w,
+              height: size,
+              width: size * 2,
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Color(0xFFF0F0F0)),
             ),
             AnimatedPositioned(
-              height: h,
-              width: w / 2,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.red,
+              height: size,
+              width: size * 2 / 2,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.red,
+                  ),
                 ),
               ),
               duration: Duration(seconds: 1),
