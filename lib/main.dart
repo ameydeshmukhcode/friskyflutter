@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 
+import 'icebreaker/screens/icebreaker_home.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -30,14 +32,15 @@ class MyApp extends StatelessWidget {
               primaryColor: FriskyColor.colorPrimary,
               accentColor: FriskyColor.colorPrimary,
               canvasColor: Colors.transparent),
-          initialRoute: 'init',
+          initialRoute: 'icebreaker_home',
           routes: {
             'init': (context) => InitWidget(),
             'slideshow': (context) => SlideshowScreen(),
             'sign_in': (context) => SignInMain(),
             'sign_in_email': (context) => SignInEmail(),
             'sign_up_email': (context) => SignUpEmail(),
-            'home': (context) => HomeScreen()
+            'home': (context) => HomeScreen(),
+            'icebreaker_home': (context) => IceBreakerHome(),
           },
         ));
   }
