@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 
 class IceBreakerHome extends StatefulWidget {
@@ -75,15 +76,47 @@ class _IceBreakerHomeState extends State<IceBreakerHome> {
                   borderRadius: BorderRadius.circular(10),
                   color: Color(0xFFF0F0F0)),
             ),
+            Positioned(
+              right: 0,
+              child: Container(
+                height: size,
+                width: size,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  //    color: Colors.pink
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              child: Container(
+                height: size,
+                width: size,
+                child: SvgPicture.asset(
+                  'images/icons/colored-tools-and-utensils.svg',
+                ),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  //    color: Colors.indigo,
+                ),
+              ),
+            ),
             AnimatedPositioned(
               height: size,
               width: size * 2 / 2,
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Container(
+                  child: SvgPicture.asset(
+                    (AnimationValue == 0)
+                        ? 'images/icons/tools-and-utensils-colored.svg'
+                        : 'images/icons/colored-tools-and-utensils.svg',
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: Colors.red,
+                    color: Colors.white,
                   ),
                 ),
               ),
