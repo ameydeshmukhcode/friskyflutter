@@ -187,63 +187,46 @@ class _HomeScreenState extends State<HomeScreen>
       showUnselectedLabels: true,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            'images/icons/ic_home.svg',
-            height: 20,
-          ),
-          title: Text("Home")
-        ),
+            icon: SvgPicture.asset(
+              'images/icons/ic_home.svg',
+              height: 20,
+            ),
+            title: Text("Home")),
         BottomNavigationBarItem(
-          icon: Consumer<Session>(builder: (context, session, child) {
-            return Badge(
-              child: SvgPicture.asset(
-                'images/icons/ic_dine.svg',
-                height: 20,
-              ),
-              badgeColor: FriskyColor.colorBadge,
-              elevation: 0,
-              position: BadgePosition.topRight(right: -7, top: -6),
-              showBadge: session.isSessionActive,
-            );
-          }),
-          title: Text("Dine")
-        ),
+            icon: Consumer<Session>(builder: (context, session, child) {
+              return Badge(
+                child: SvgPicture.asset(
+                  'images/icons/ic_dine.svg',
+                  height: 20,
+                ),
+                badgeColor: FriskyColor.colorBadge,
+                elevation: 0,
+                position: BadgePosition.topRight(right: -7, top: -6),
+                showBadge: session.isSessionActive,
+              );
+            }),
+            title: Text("Dine")),
         BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            'images/icons/ic_visits.svg',
-            height: 20,
-          ),
-          title: Text("Visits")
-        ),
+            icon: SvgPicture.asset(
+              'images/icons/ic_visits.svg',
+              height: 20,
+            ),
+            title: Text("Visits")),
       ],
       backgroundColor: Colors.white,
     );
   }
 
   _startScanner() async {
-    Map<PermissionGroup, PermissionStatus> permissionMap;
-    PermissionStatus status =
-        await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
-
-    switch (status) {
-      case PermissionStatus.granted:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => QrCodeScanner()));
-        break;
-      case PermissionStatus.unknown:
-      case PermissionStatus.denied:
-      case PermissionStatus.restricted:
-        permissionMap = await PermissionHandler()
-            .requestPermissions([PermissionGroup.camera]);
-        if (permissionMap[PermissionGroup.camera] == PermissionStatus.granted) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => QrCodeScanner()));
-        } else if (Platform.isIOS) {
-          _showNeedCameraAlertiOS();
-        } else if (Platform.isAndroid) {
-          _showNeedCameraAlertAndroid();
-        }
-        break;
+    if (await Permission.camera.request().isGranted) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => QrCodeScanner()));
+    } else {
+      if (Platform.isIOS) {
+        _showNeedCameraAlertiOS();
+      } else if (Platform.isAndroid) {
+        _showNeedCameraAlertAndroid();
+      }
     }
   }
 
