@@ -92,7 +92,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: [BoxShadow(color: Colors.grey)],
+                  boxShadow: [BoxShadow(color: Color(0xFF7E7D7D))],
                   color: Colors.white,
                 ),
               ),

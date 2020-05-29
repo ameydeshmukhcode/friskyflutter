@@ -46,7 +46,7 @@ class _IceBreakerHomeState extends State<IceBreakerHome> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             CustomSwitch(
-              size: 40.0,
+              size: height * 0.06,
               value: true,
             ),
             Container(
