@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/parser.dart';
 import 'package:friskyflutter/icebreaker/screens/widgets/custom_switch.dart';
 
 class IceBreakerHome extends StatefulWidget {
