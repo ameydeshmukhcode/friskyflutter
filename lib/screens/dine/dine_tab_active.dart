@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
@@ -77,10 +78,10 @@ class _DineTabActiveState extends State<DineTabActive> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                Icon(
-                                  Icons.restaurant_menu,
-                                  size: 50,
-                                  color: Colors.white,
+                                SvgPicture.asset(
+                                  'images/icons/ic_menu_dine.svg',
+                                  height: 75,
+                                  width: 75,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,10 +105,80 @@ class _DineTabActiveState extends State<DineTabActive> {
                       ),
                     ),
                   ),
+                  Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        FAText("The restaurant recommends...", 20,
+                            FriskyColor.colorPrimary),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(color: Colors.black12),
+                          height: 160,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            //shrinkWrap: true,
+                            children: <Widget>[
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile()
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               );
             },
           ),
         ));
+  }
+}
+
+class MenuItemTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 160,
+      width: 116,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Material(
+              elevation: 2,
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                height: 96,
+                width: 96,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+            ),
+            Container(
+              height: 26,
+              width: 80,
+              child: MaterialButton(
+                elevation: 1,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                color: FriskyColor.colorBadge,
+                onPressed: () {},
+                child: Center(
+                  child: FAText("Add", 14, Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
