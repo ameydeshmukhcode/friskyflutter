@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friskyflutter/icebreaker/screens/widgets/custom_switch.dart';
 
@@ -36,26 +38,28 @@ class _IceBreakerHomeState extends State<IceBreakerHome> {
   }
 
   Widget iceBreakerAppBar(dynamic height, dynamic width) => Container(
-        height: height * 0.07,
-        child: Padding(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              CustomSwitch(
-                size: 45.0,
-                value: true,
-              ),
-              RawMaterialButton(
-                onPressed: () {},
-                elevation: 0,
-                fillColor: Color(0xFFF0F0F0),
-                child: SvgPicture.asset("images/icons/profile_icon.svg"),
-                shape: CircleBorder(),
-              )
-            ],
-          ),
+        height: height * 0.1,
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            CustomSwitch(
+              size: 40.0,
+              value: true,
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFF0F0F0),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                height: 50,
+                width: 50,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SvgPicture.asset("images/icons/profile_icon.svg"),
+                )),
+          ],
         ),
       );
 
