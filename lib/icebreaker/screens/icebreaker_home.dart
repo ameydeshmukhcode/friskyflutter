@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
+import 'package:flutter_svg/parser.dart';
+import 'package:friskyflutter/icebreaker/screens/widgets/custom_switch.dart';
 
 class IceBreakerHome extends StatefulWidget {
   @override
@@ -18,8 +16,6 @@ class _IceBreakerHomeState extends State<IceBreakerHome> {
     var height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     var width = MediaQuery.of(context).size.width;
-
-    var Selected;
 
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
@@ -43,88 +39,24 @@ class _IceBreakerHomeState extends State<IceBreakerHome> {
   Widget iceBreakerAppBar(dynamic height, dynamic width) => Container(
         height: height * 0.07,
         child: Padding(
-          padding: EdgeInsets.only(left: 16),
+          padding: EdgeInsets.only(left: 16, right: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[customSwitch(40.00)],
+            children: <Widget>[
+              CustomSwitch(
+                size: 45.0,
+                value: true,
+              ),
+              RawMaterialButton(
+                onPressed: () {},
+                elevation: 0,
+                fillColor: Color(0xFFF0F0F0),
+                child: SvgPicture.asset("images/icons/profile_icon.svg"),
+                shape: CircleBorder(),
+              )
+            ],
           ),
-        ),
-      );
-  double h1 = 35.0;
-  static double w2 = 70.0;
-  double AnimationValue = w2 * 0.5;
-  Widget customSwitch(
-    dynamic size,
-  ) =>
-      SizedBox(
-        child: InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          focusColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          onTap: () {
-            AnimationValue = (AnimationValue == 0) ? size * 2 / 2 : 0;
-            setState(() {});
-          },
-          child: Stack(children: [
-            Container(
-              height: size,
-              width: size * 2,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color(0xFFF0F0F0)),
-            ),
-            Positioned(
-              right: 0,
-              child: Container(
-                height: size,
-                width: size,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  //    color: Colors.pink
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              child: Container(
-                height: size,
-                width: size,
-                child: SvgPicture.asset(
-                  'images/icons/colored-tools-and-utensils.svg',
-                ),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  //    color: Colors.indigo,
-                ),
-              ),
-            ),
-            AnimatedPositioned(
-              height: size,
-              width: size * 2 / 2,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  child: SvgPicture.asset(
-                    (AnimationValue == 0)
-                        ? 'images/icons/tools-and-utensils-colored.svg'
-                        : 'images/icons/colored-tools-and-utensils.svg',
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              duration: Duration(seconds: 1),
-              curve: Curves.ease,
-              right: AnimationValue,
-            ),
-          ]),
         ),
       );
 
