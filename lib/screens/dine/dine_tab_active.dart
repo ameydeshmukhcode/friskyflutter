@@ -1,70 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:friskyflutter/frisky_colors.dart';
 import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:friskyflutter/provider_models/session.dart';
+import 'package:friskyflutter/screens/menu/menu_screen.dart';
 import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
-
-import '../frisky_colors.dart';
-import 'menu/menu_screen.dart';
-
-class DineTab extends StatefulWidget {
-  @override
-  _DineTabState createState() => _DineTabState();
-}
-
-class _DineTabState extends State<DineTab> {
-  @override
-  Widget build(BuildContext context) {
-    // ignore: missing_return
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Consumer<Session>(builder: (context, session, child) {
-          if (!session.isSessionActive) {
-            return DineTabDefault();
-          } else {
-            if (session.isBillRequested) {
-              return DineTabBillRequested();
-            } else {
-              return DineTabActive();
-            }
-          }
-        }));
-  }
-}
-
-class DineTabDefault extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 32, right: 32),
-            child: Text(
-              "You haven't ordered anything yet. To get the menu and start ordering. Scan the QR code on the table.",
-              style: TextStyle(
-                  fontFamily: "Varela",
-                  fontSize: 20,
-                  color: FriskyColor.colorTextLight),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 32, top: 8, right: 32),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: SvgPicture.asset(
-                'images/state_graphics/state_scan_qr.svg',
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class DineTabActive extends StatefulWidget {
   @override
@@ -136,10 +78,10 @@ class _DineTabActiveState extends State<DineTabActive> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                Icon(
-                                  Icons.restaurant_menu,
-                                  size: 50,
-                                  color: Colors.white,
+                                SvgPicture.asset(
+                                  'images/icons/ic_menu_dine.svg',
+                                  height: 75,
+                                  width: 75,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -163,6 +105,34 @@ class _DineTabActiveState extends State<DineTabActive> {
                       ),
                     ),
                   ),
+                  Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        FAText("The restaurant recommends...", 20,
+                            FriskyColor.colorPrimary),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(color: Colors.black12),
+                          height: 160,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            //shrinkWrap: true,
+                            children: <Widget>[
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile(),
+                              MenuItemTile()
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               );
             },
@@ -171,34 +141,43 @@ class _DineTabActiveState extends State<DineTabActive> {
   }
 }
 
-class DineTabBillRequested extends StatelessWidget {
+class MenuItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Text(
-              "Bill requested. The waiter will collect payment from you.",
-              style: TextStyle(
-                  fontFamily: "Varela",
-                  fontSize: 20,
-                  color: FriskyColor.colorTextLight),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 32, top: 8, right: 32),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: SvgPicture.asset(
-                'images/state_graphics/state_bill_requested.svg',
+    return Container(
+      height: 160,
+      width: 116,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Material(
+              elevation: 2,
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                height: 96,
+                width: 96,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
               ),
             ),
-          ),
-        ],
+            Container(
+              height: 26,
+              width: 80,
+              child: MaterialButton(
+                elevation: 1,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                color: FriskyColor.colorBadge,
+                onPressed: () {},
+                child: Center(
+                  child: FAText("Add", 14, Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

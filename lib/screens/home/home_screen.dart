@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/dine_tab.dart';
+import 'package:friskyflutter/screens/dine/dine_tab.dart';
 import 'package:friskyflutter/screens/qr_scan.dart';
 import 'package:friskyflutter/screens/restaurants/restaurants_tab.dart';
 import 'package:friskyflutter/screens/menu/menu_screen.dart';
@@ -22,7 +22,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../frisky_colors.dart';
 import '../../provider_models/session.dart';
-import '../auth/sign_in_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -176,6 +175,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _bottomNavBar() {
     return BottomNavigationBar(
+      selectedItemColor: FriskyColor.colorPrimary,
+      unselectedItemColor: Colors.black,
       elevation: 4,
       onTap: (index) {
         setState(() {
@@ -183,59 +184,49 @@ class _HomeScreenState extends State<HomeScreen>
         });
       },
       currentIndex: _currentIndex,
-      showUnselectedLabels: false,
+      showUnselectedLabels: true,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: FAText("Home", 14, FriskyColor.colorPrimary),
-        ),
+            icon: SvgPicture.asset(
+              'images/icons/ic_home.svg',
+              height: 20,
+            ),
+            title: Text("Home")),
         BottomNavigationBarItem(
-          icon: Consumer<Session>(builder: (context, session, child) {
-            return Badge(
-              child: Icon(Icons.restaurant),
-              badgeColor: FriskyColor.colorBadge,
-              elevation: 0,
-              position: BadgePosition.topRight(right: -7, top: -6),
-              showBadge: session.isSessionActive,
-            );
-          }),
-          title: FAText("Dine", 14, FriskyColor.colorPrimary),
-        ),
+            icon: Consumer<Session>(builder: (context, session, child) {
+              return Badge(
+                child: SvgPicture.asset(
+                  'images/icons/ic_dine.svg',
+                  height: 20,
+                ),
+                badgeColor: FriskyColor.colorBadge,
+                elevation: 0,
+                position: BadgePosition.topRight(right: -7, top: -6),
+                showBadge: session.isSessionActive,
+              );
+            }),
+            title: Text("Dine")),
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.receipt,
-          ),
-          title: FAText("Visits", 14, FriskyColor.colorPrimary),
-        ),
+            icon: SvgPicture.asset(
+              'images/icons/ic_visits.svg',
+              height: 20,
+            ),
+            title: Text("Visits")),
       ],
       backgroundColor: Colors.white,
     );
   }
 
   _startScanner() async {
-    Map<PermissionGroup, PermissionStatus> permissionMap;
-    PermissionStatus status =
-        await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
-
-    switch (status) {
-      case PermissionStatus.granted:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => QrCodeScanner()));
-        break;
-      case PermissionStatus.unknown:
-      case PermissionStatus.denied:
-      case PermissionStatus.restricted:
-        permissionMap = await PermissionHandler()
-            .requestPermissions([PermissionGroup.camera]);
-        if (permissionMap[PermissionGroup.camera] == PermissionStatus.granted) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => QrCodeScanner()));
-        } else if (Platform.isIOS) {
-          _showNeedCameraAlertiOS();
-        } else if (Platform.isAndroid) {
-          _showNeedCameraAlertAndroid();
-        }
-        break;
+    if (await Permission.camera.request().isGranted) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => QrCodeScanner()));
+    } else {
+      if (Platform.isIOS) {
+        _showNeedCameraAlertiOS();
+      } else if (Platform.isAndroid) {
+        _showNeedCameraAlertAndroid();
+      }
     }
   }
 
@@ -333,10 +324,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   _signOut() async {
     FirebaseAuth.instance.signOut();
-    Navigator.pushAndRemoveUntil(
-        context,
-        new MaterialPageRoute(builder: (context) => SignInMain()),
-        (Route route) => false);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('sign_in', (Route route) => false);
   }
 
   _checkForProfileSetup() async {
