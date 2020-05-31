@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:friskyflutter/structures/visit.dart';
-import 'package:friskyflutter/screens/visits/card_visit.dart';
 
+import 'card_visit.dart';
 import '../../frisky_colors.dart';
+import '../../structures/visit.dart';
 
 // ignore: non_constant_identifier_names
 List<Visit> VisitsList = List<Visit>();

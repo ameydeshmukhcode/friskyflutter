@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:friskyflutter/structures/menu_item.dart';
+
+import '../structures/menu_item.dart';
 
 class Cart extends ChangeNotifier {
 

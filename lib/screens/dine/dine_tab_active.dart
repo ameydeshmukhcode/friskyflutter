@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/menu/menu_screen.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
+
+import '../menu/menu_screen.dart';
+import '../../frisky_colors.dart';
+import '../../provider_models/session.dart';
+import '../../provider_models/orders.dart';
+import '../../widgets/text_fa.dart';
 
 class DineTabActive extends StatefulWidget {
   @override

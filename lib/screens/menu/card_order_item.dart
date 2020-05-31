@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/structures/order_item.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
+
+import '../../frisky_colors.dart';
+import '../../structures/order_item.dart';
+import '../../widgets/text_fa.dart';
 
 class OrderItemWidget extends StatelessWidget {
   final String name;

@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import '../../frisky_colors.dart';
+import '../../widgets/text_fa.dart';
 
 class SignInMain extends StatefulWidget {
   @override

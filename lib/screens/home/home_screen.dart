@@ -9,19 +9,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/dine/dine_tab.dart';
-import 'package:friskyflutter/screens/qr_scan.dart';
-import 'package:friskyflutter/screens/restaurants/restaurants_tab.dart';
-import 'package:friskyflutter/screens/menu/menu_screen.dart';
-import 'package:friskyflutter/screens/visits/visits_tab.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../qr_scan.dart';
+import '../dine/dine_tab.dart';
+import '../menu/menu_screen.dart';
+import '../restaurants/restaurants_tab.dart';
+import '../visits/visits_tab.dart';
 import '../../frisky_colors.dart';
 import '../../provider_models/session.dart';
+import '../../widgets/text_fa.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

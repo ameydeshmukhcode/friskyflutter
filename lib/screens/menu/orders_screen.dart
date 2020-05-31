@@ -3,15 +3,16 @@ import 'dart:collection';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../frisky_colors.dart';
-import 'package:friskyflutter/structures/order_header.dart';
-import 'package:friskyflutter/structures/order_item.dart';
-import 'package:friskyflutter/screens/menu/card_order_item.dart';
 import 'package:provider/provider.dart';
+
+import 'card_order_item.dart';
+import '../../frisky_colors.dart';
+import '../../provider_models/orders.dart';
+import '../../provider_models/session.dart';
+import '../../structures/order_header.dart';
+import '../../structures/order_item.dart';
+import '../../widgets/text_fa.dart';
 
 class OrdersScreen extends StatefulWidget {
   final String tableName;

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:friskyflutter/frisky_colors.dart';
+
+import '../../frisky_colors.dart';
 
 class DineTabDefault extends StatelessWidget {
   @override

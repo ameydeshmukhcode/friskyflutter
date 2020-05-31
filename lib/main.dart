@@ -1,15 +1,16 @@
-import 'package:friskyflutter/init_widget.dart';
-import 'package:friskyflutter/provider_models/cart.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/auth/sign_in_email.dart';
-import 'package:friskyflutter/screens/auth/sign_in_screen.dart';
-import 'package:friskyflutter/screens/auth/sign_up_email.dart';
-import 'package:friskyflutter/screens/home/home_screen.dart';
-import 'package:friskyflutter/screens/slideshow_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/frisky_colors.dart';
+
+import 'frisky_colors.dart';
+import 'init_widget.dart';
+import 'provider_models/cart.dart';
+import 'provider_models/orders.dart';
+import 'provider_models/session.dart';
+import 'screens/auth/sign_in_email.dart';
+import 'screens/auth/sign_in_screen.dart';
+import 'screens/auth/sign_up_email.dart';
+import 'screens/home/home_screen.dart';
+import 'screens/slideshow_screen.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../frisky_colors.dart';
+import '../widgets/text_fa.dart';
 
 class SlideshowScreen extends StatefulWidget {
   @override

@@ -3,17 +3,17 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:friskyflutter/provider_models/cart.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/screens/menu/cart_screen.dart';
-import 'package:friskyflutter/structures/diet_type.dart';
-import 'package:friskyflutter/structures/menu_category.dart';
-import 'package:friskyflutter/structures/menu_item.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 
-import '../../frisky_colors.dart';
+import 'cart_screen.dart';
 import 'orders_screen.dart';
+import '../../frisky_colors.dart';
+import '../../provider_models/cart.dart';
+import '../../provider_models/orders.dart';
+import '../../structures/diet_type.dart';
+import '../../structures/menu_category.dart';
+import '../../structures/menu_item.dart';
+import '../../widgets/text_fa.dart';
 
 class MenuScreen extends StatefulWidget {
   final String restaurantName, tableName, sessionID, restaurantID;
