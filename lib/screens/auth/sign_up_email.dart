@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 
 import '../../frisky_colors.dart';
+import '../../widgets/text_fa.dart';
 
 class SignUpEmail extends StatefulWidget {
   @override

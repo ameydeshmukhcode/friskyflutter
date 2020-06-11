@@ -4,16 +4,16 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:friskyflutter/provider_models/cart.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/structures/diet_type.dart';
-import 'package:friskyflutter/structures/menu_item.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../frisky_colors.dart';
 import 'orders_screen.dart';
+import '../../frisky_colors.dart';
+import '../../provider_models/cart.dart';
+import '../../provider_models/orders.dart';
+import '../../structures/diet_type.dart';
+import '../../structures/menu_item.dart';
+import '../../widgets/text_fa.dart';
 
 class CartScreen extends StatefulWidget {
   final String tableName;
@@ -177,7 +177,8 @@ class _CartScreenState extends State<CartScreen> {
             maxLines: 5,
             style: TextStyle(fontFamily: "Varela", fontSize: 14),
             decoration: InputDecoration(
-                labelText: 'Add cooking instructions here', border: OutlineInputBorder()),
+                labelText: 'Add cooking instructions here',
+                border: OutlineInputBorder()),
             cursorColor: FriskyColor.colorPrimary,
           ),
         ),
@@ -401,10 +402,10 @@ class _CartScreenState extends State<CartScreen> {
     //    orderList[item.id] = item.count;
     //  }
 
-    var cartProvider = Provider.of<Cart>(context, listen: true);
+    var _cartProvider = Provider.of<Cart>(context, listen: false);
 
     Map<String, Object> data = new HashMap<String, Object>();
-    data["order"] = cartProvider.orderList;
+    data["order"] = _cartProvider.orderList;
 
     await cloudFunctions
         .getHttpsCallable(functionName: "placeOrder")
@@ -413,14 +414,18 @@ class _CartScreenState extends State<CartScreen> {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       await sharedPreferences.setBool("order_active", true);
-      Provider.of<Cart>(context, listen: false).clearCartAndOrders();
+      _cartProvider.clearCartAndOrders();
       Provider.of<Orders>(context, listen: false).getOrderStatus();
       orderPlaced = true;
       Navigator.pop(context);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OrdersScreen(widget.tableName)));
     }).catchError((error) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");
-      print("Error _placeOrder" + error.toString());
+      print("Error _placeOrder " + error.toString());
     });
   }
 }

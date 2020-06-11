@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:friskyflutter/frisky_colors.dart';
 
+import '../../frisky_colors.dart';
 import '../../widgets/text_fa.dart';
 
 class RestaurantCard extends StatelessWidget {

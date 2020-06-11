@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:friskyflutter/provider_models/session.dart';
 import 'package:provider/provider.dart';
 
 import 'dine_tab_active.dart';
 import 'dine_tab_bill_requested.dart';
 import 'dine_tab_default.dart';
+import '../../provider_models/session.dart';
 
 class DineTab extends StatefulWidget {
   @override

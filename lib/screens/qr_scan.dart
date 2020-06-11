@@ -4,13 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/menu/menu_screen.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode/qrcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'menu/menu_screen.dart';
+import '../frisky_colors.dart';
+import '../provider_models/session.dart';
+import '../widgets/text_fa.dart';
 
 class QrCodeScanner extends StatefulWidget {
   @override

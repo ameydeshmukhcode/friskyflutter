@@ -3,17 +3,17 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:friskyflutter/provider_models/cart.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/screens/menu/cart_screen.dart';
-import 'package:friskyflutter/structures/diet_type.dart';
-import 'package:friskyflutter/structures/menu_category.dart';
-import 'package:friskyflutter/structures/menu_item.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
 
-import '../../frisky_colors.dart';
+import 'cart_screen.dart';
 import 'orders_screen.dart';
+import '../../frisky_colors.dart';
+import '../../provider_models/cart.dart';
+import '../../provider_models/orders.dart';
+import '../../structures/diet_type.dart';
+import '../../structures/menu_category.dart';
+import '../../structures/menu_item.dart';
+import '../../widgets/text_fa.dart';
 
 class MenuScreen extends StatefulWidget {
   final String restaurantName, tableName, sessionID, restaurantID;
@@ -128,7 +128,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _cartProvider = Provider.of<Cart>(context, listen: true);
+    var _cartProvider = Provider.of<Cart>(context, listen: false);
 
     return WillPopScope(
       onWillPop: () {
@@ -321,36 +321,6 @@ class _MenuScreenState extends State<MenuScreen> {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-//        PopupMenuButton<MenuCategory>(
-//          child: FloatingActionButton.extended(
-//            icon: Icon(
-//              Icons.restaurant,
-//              color: Colors.white,
-//              size: 20,
-//            ),
-//            label: Text(
-//              "Category",
-//              style: TextStyle(color: Colors.white),
-//            ),
-//            onPressed: null,
-//          ),
-//          itemBuilder: (BuildContext context) {
-//            return _categoryList.map((MenuCategory menuCategory) {
-//              return PopupMenuItem<MenuCategory>(
-//                value: menuCategory,
-//                child: Text(
-//                  menuCategory.name,
-//                ),
-//              );
-//            }).toList();
-//          },
-//          onSelected: (category) {
-//            MenuCategory menuCategory = category;
-//            int a = _menuList.indexOf(menuCategory);
-//            _scrollController.animateTo(a.toDouble() * 65,
-//                duration: Duration(milliseconds: 300), curve: Curves.easeIn);
-//          },
-//        ),
         Visibility(
           visible: _cartProvider.cartList.isNotEmpty,
           child: Container(
@@ -471,7 +441,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _cartButtons(MenuItem menuItem) {
-    var _cartProvider = Provider.of<Cart>(context, listen: true);
+    var _cartProvider = Provider.of<Cart>(context, listen: false);
 
     return Center(
       child: Row(
@@ -550,7 +520,7 @@ class _MenuScreenState extends State<MenuScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           color: FriskyColor.colorBadge,
           onPressed: () {
-            Provider.of<Cart>(context, listen: true).addToCart(menuItem);
+            Provider.of<Cart>(context, listen: false).addToCart(menuItem);
           },
           child: Center(
             child: FAText("Add", 14, Colors.white),

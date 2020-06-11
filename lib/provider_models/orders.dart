@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
-import 'package:friskyflutter/structures/order_header.dart';
-import 'package:friskyflutter/structures/order_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
+
+import '../structures/order_header.dart';
+import '../structures/order_item.dart';
 
 class Orders extends ChangeNotifier {
   bool isOrderActive = false;

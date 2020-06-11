@@ -1,4 +1,5 @@
 enum DietType { NONE, VEG, NON_VEG, EGG }
+
 DietType getDietTypeFromString(String type) {
   switch (type) {
     case "NONE":

@@ -7,10 +7,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:friskyflutter/provider_models/session.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'provider_models/session.dart';
 import 'screens/visits/visit_summary.dart';
 
 class InitWidget extends StatefulWidget {

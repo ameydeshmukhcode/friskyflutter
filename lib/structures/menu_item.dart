@@ -1,7 +1,5 @@
-library com.frisky.icebreaker.core.structures;
-
-import 'package:friskyflutter/structures/base_item.dart';
-import 'package:friskyflutter/structures/diet_type.dart';
+import 'base_item.dart';
+import 'diet_type.dart';
 
 class MenuItem extends BaseItem {
   String description;

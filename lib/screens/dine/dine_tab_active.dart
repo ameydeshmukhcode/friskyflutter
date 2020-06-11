@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:friskyflutter/frisky_colors.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
-import 'package:friskyflutter/provider_models/session.dart';
-import 'package:friskyflutter/screens/menu/menu_screen.dart';
-import 'package:friskyflutter/widgets/text_fa.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../menu/menu_screen.dart';
+import '../../frisky_colors.dart';
+import '../../provider_models/session.dart';
+import '../../provider_models/orders.dart';
+import '../../widgets/text_fa.dart';
 
 class DineTabActive extends StatefulWidget {
   @override
@@ -14,6 +17,8 @@ class DineTabActive extends StatefulWidget {
 }
 
 class _DineTabActiveState extends State<DineTabActive> {
+  String restaurantID;
+
   @override
   Widget build(BuildContext context) {
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
@@ -115,21 +120,47 @@ class _DineTabActiveState extends State<DineTabActive> {
                           padding: EdgeInsets.only(top: 16),
                         ),
                         Container(
-                          decoration: BoxDecoration(color: Colors.black12),
-                          height: 160,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            //shrinkWrap: true,
-                            children: <Widget>[
-                              MenuItemTile(),
-                              MenuItemTile(),
-                              MenuItemTile(),
-                              MenuItemTile(),
-                              MenuItemTile(),
-                              MenuItemTile()
-                            ],
-                          ),
-                        ),
+                            decoration: BoxDecoration(color: Colors.black12),
+                            height: 160,
+                            child: FutureBuilder(
+                                future: _getRecommendedItems(),
+                                builder: (context, snapshot) {
+                                  // ignore: missing_return
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                          FriskyColor.colorPrimary,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return ListView.builder(
+                                        itemCount: snapshot.data.length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return MenuItemTile(
+                                              snapshot.data[index].data['name'],
+                                              snapshot
+                                                  .data[index].data['cost']);
+                                        });
+                                  }
+                                })
+                            // ListView(
+//                            scrollDirection: Axis.horizontal,
+//                            //shrinkWrap: true,
+//                            children: <Widget>[
+//                              MenuItemTile(),
+//                              MenuItemTile(),
+//                              MenuItemTile(),
+//                              MenuItemTile(),
+//                              MenuItemTile(),
+//                              MenuItemTile()
+//                            ],
+//                          ),
+                            ),
                       ],
                     ),
                   ),
@@ -139,9 +170,27 @@ class _DineTabActiveState extends State<DineTabActive> {
           ),
         ));
   }
+
+  Future _getRecommendedItems() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot querySnapshot = await firestore
+        .collection("restaurants")
+        .document(await SharedPreferences.getInstance()
+            .then((prefs) => prefs.getString("restaurant_id")))
+        .collection("items")
+        .where('recommended', isEqualTo: true)
+        .orderBy('name')
+        .getDocuments();
+    return querySnapshot.documents;
+  }
 }
 
 class MenuItemTile extends StatelessWidget {
+  final String name;
+  final String cost;
+
+  MenuItemTile(this.name, this.cost);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -157,6 +206,26 @@ class MenuItemTile extends StatelessWidget {
               child: Container(
                 height: 96,
                 width: 96,
+                child: Center(
+                  child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontFamily: "Varela"),
+                          ),
+                          Text(
+                            "\u20B9 " + cost,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontFamily: "Varela"),
+                          )
+                        ],
+                      )),
+                ),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),
