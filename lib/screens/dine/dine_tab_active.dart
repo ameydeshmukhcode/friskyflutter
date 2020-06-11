@@ -176,7 +176,7 @@ class _DineTabActiveState extends State<DineTabActive> {
     QuerySnapshot querySnapshot = await firestore
         .collection("restaurants")
         .document(await SharedPreferences.getInstance()
-        .then((prefs) => prefs.getString("restaurant_id")))
+            .then((prefs) => prefs.getString("restaurant_id")))
         .collection("items")
         .where('recommended', isEqualTo: true)
         .orderBy('name')

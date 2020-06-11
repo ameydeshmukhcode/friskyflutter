@@ -259,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen>
     await sharedPreferences.setString("session_id", sessionID);
     await sharedPreferences.setString("table_name", tableName);
     await sharedPreferences.setString("restaurant_name", restaurantName);
-    Provider.of<Session>(context).updateSessionStatus();
+    Provider.of<Session>(context, listen: false).updateSessionStatus();
     return;
   }
 

@@ -164,7 +164,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(24, 2, 24, 0),
+              padding: EdgeInsets.fromLTRB(24, 2, 24, 32),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,44 +173,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   FAText("\u20B9" + _ordersProvider.amountPayable, 16,
                       FriskyColor.colorTextDark),
                 ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(16, 16, 16, 32),
-              child: Material(
-                borderRadius: BorderRadius.circular(8),
-                color: FriskyColor.colorPrimary,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(8),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(right: 16, top: 8, bottom: 8),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              "Back to menu",
-                              style: TextStyle(
-                                fontFamily: "Varela",
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Icon(
-                              Icons.chevron_right,
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
               ),
             ),
           ],
