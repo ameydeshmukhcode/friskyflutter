@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -262,7 +263,8 @@ class _MenuScreenState extends State<MenuScreen> {
                           ));
                     }
                     MenuItem menuItem = _menuList[index];
-                    return Padding(
+                    print(menuItem.name+" is "+menuItem.available.toString());
+                    return menuItem.available ?Padding(
                       padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
                       child: Row(
                         children: <Widget>[
@@ -306,7 +308,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           )
                         ],
                       ),
-                    );
+                    ) : SizedBox.shrink();
                   }),
             );
           }
