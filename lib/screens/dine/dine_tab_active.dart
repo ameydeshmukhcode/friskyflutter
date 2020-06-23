@@ -32,7 +32,7 @@ class _DineTabActiveState extends State<DineTabActive> {
               return Column(
                 children: <Widget>[
                   TableInfoWidget(Session: Session,),
-                  ordersProvider.isOrderActive ? LastOrdersWidget():StartOrderWidget(Session: Session,),
+                  !ordersProvider.isOrderActive ? LastOrdersWidget(Session: Session):StartOrderWidget(Session: Session,),
                   Container(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -113,9 +113,9 @@ class _DineTabActiveState extends State<DineTabActive> {
 }
 
 class LastOrdersWidget extends StatelessWidget {
-  const LastOrdersWidget({
-    Key key,
-  }) : super(key: key);
+  final Session;
+
+  const LastOrdersWidget({Key key, this.Session}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -144,24 +144,38 @@ class LastOrdersWidget extends StatelessWidget {
              child:  Material(
                borderRadius: BorderRadius.circular(8),
                color: FriskyColor.colorBadge,
-               child: Padding(
-                 padding: const EdgeInsets.all(16.0),
-                 child: Column(
-                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                   children: [
+               child: InkWell(
+                 onTap: () {
+                   if (!Session.isBillRequested) {
+                     Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                             builder: (context) => MenuScreen(
+                                 Session.restaurantName,
+                                 Session.tableName,
+                                 Session.sessionID,
+                                 Session.restaurantID)));
+                   }
+                 },
+                 child: Padding(
+                   padding: const EdgeInsets.all(16.0),
+                   child: Column(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
              SvgPicture.asset(
-                     'images/icons/ic_menu_dine.svg',
-                     height: 75,
-                     width: 75,
+                       'images/icons/ic_menu_dine.svg',
+                       height: 75,
+                       width: 75,
              ),
-                     Padding(
-                       padding: const EdgeInsets.only(top:8.0),
-                       child: FAText(
-                           "Order More",
-                           18,
-                           Colors.white),
-                     ),
+                       Padding(
+                         padding: const EdgeInsets.only(top:8.0),
+                         child: FAText(
+                             "Order More",
+                             18,
+                             Colors.white),
+                       ),
            ],
+                   ),
                  ),
                ),
              ),),
