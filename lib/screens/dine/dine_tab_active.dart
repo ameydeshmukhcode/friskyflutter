@@ -22,7 +22,7 @@ class _DineTabActiveState extends State<DineTabActive> {
   @override
   Widget build(BuildContext context) {
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
-    _ordersProvider.fetchData();
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -59,7 +59,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                       ],
                     ),
                   ),
-                  _ordersProvider.isOrderActive ?orderActive():Container(
+                  Container(
                     padding: EdgeInsets.all(16),
                     child: Material(
                       borderRadius: BorderRadius.circular(8),
@@ -131,7 +131,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                                     return Center(
                                       child: CircularProgressIndicator(
                                         valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
+                                        new AlwaysStoppedAnimation<Color>(
                                           FriskyColor.colorPrimary,
                                         ),
                                       ),
@@ -148,7 +148,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                                         });
                                   }
                                 })
-                            // ListView(
+                          // ListView(
 //                            scrollDirection: Axis.horizontal,
 //                            //shrinkWrap: true,
 //                            children: <Widget>[
@@ -160,7 +160,7 @@ class _DineTabActiveState extends State<DineTabActive> {
 //                              MenuItemTile()
 //                            ],
 //                          ),
-                            ),
+                        ),
                       ],
                     ),
                   ),
@@ -176,7 +176,7 @@ class _DineTabActiveState extends State<DineTabActive> {
     QuerySnapshot querySnapshot = await firestore
         .collection("restaurants")
         .document(await SharedPreferences.getInstance()
-            .then((prefs) => prefs.getString("restaurant_id")))
+        .then((prefs) => prefs.getString("restaurant_id")))
         .collection("items")
         .where('recommended', isEqualTo: true)
         .orderBy('name')
@@ -250,15 +250,4 @@ class MenuItemTile extends StatelessWidget {
       ),
     );
   }
-}
-
-
-Widget orderActive()
- {
-  return Container(
-    color: Colors.pink,
-    width: 75,
-    height: 75,
-
-  );
 }
