@@ -410,6 +410,7 @@ class _CartScreenState extends State<CartScreen> {
       await sharedPreferences.setBool("order_active", true);
       _cartProvider.clearCartAndOrders();
       Provider.of<Orders>(context, listen: false).getOrderStatus();
+      Provider.of<Orders>(context, listen: false).isOrderActive = true;
       orderPlaced = true;
       Future.delayed(Duration.zero, () =>  Navigator.pop(context));
       Future.delayed(Duration.zero, () =>   Navigator.pushReplacement(
