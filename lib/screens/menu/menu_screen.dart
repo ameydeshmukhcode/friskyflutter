@@ -56,7 +56,6 @@ class _MenuScreenState extends State<MenuScreen> {
       await getItems();
     });
   }
-
   Future getItems() async {
     await firestore
         .collection("restaurants")
@@ -101,7 +100,6 @@ class _MenuScreenState extends State<MenuScreen> {
       await setupMenu();
     });
   }
-
   Future setupMenu() async {
     Provider.of<Orders>(context, listen: false).getOrderStatus();
     _menuList.clear();
@@ -132,9 +130,10 @@ class _MenuScreenState extends State<MenuScreen> {
     var _cartProvider = Provider.of<Cart>(context, listen: false);
 
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async{
         Navigator.pop(context);
-        return _cartProvider.clearCartAndOrders();
+       _cartProvider.clearCartAndOrders();
+       return true;
       },
       child: !_isLoading
           ? Scaffold(
@@ -263,7 +262,6 @@ class _MenuScreenState extends State<MenuScreen> {
                           ));
                     }
                     MenuItem menuItem = _menuList[index];
-                    print(menuItem.name+" is "+menuItem.available.toString());
                     return menuItem.available ?Padding(
                       padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
                       child: Row(
@@ -382,8 +380,7 @@ class _MenuScreenState extends State<MenuScreen> {
               )),
         ),
         Visibility(
-          visible:
-              _cartProvider.cartList.isEmpty && _ordersProvider.isOrderActive,
+          visible: _cartProvider.cartList.isEmpty && _ordersProvider.isOrderActive,
           child: Container(
               margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
               child: Material(

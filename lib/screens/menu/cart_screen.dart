@@ -40,11 +40,10 @@ class _CartScreenState extends State<CartScreen> {
     if (Provider.of<Cart>(context, listen: true).cartList.isEmpty) {
       if (orderPlaced) {
         orderPlaced = false;
-
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => OrdersScreen(widget.tableName)));
+//        Navigator.pushReplacement(
+//            context,
+//            MaterialPageRoute(
+//                builder: (context) => OrdersScreen(widget.tableName)));
       } else {
         Navigator.pop(context);
       }
@@ -89,7 +88,6 @@ class _CartScreenState extends State<CartScreen> {
 
   _cartList() {
     var _cartProvider = Provider.of<Cart>(context, listen: true);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -166,7 +164,6 @@ class _CartScreenState extends State<CartScreen> {
 
   _sendToKitchenLayout() {
     var _cartProvider = Provider.of<Cart>(context, listen: true);
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -391,7 +388,6 @@ class _CartScreenState extends State<CartScreen> {
   _placeOrder() async {
     Navigator.pop(context);
     showOrderPlacing();
-
     // TODO: find why this doesn't work (causes error code 429 in placeOrder)
     //  HashMap<String, int> orderList = new HashMap<String, int>();
     //  Map<String, Object> data = new HashMap<String, Object>();
@@ -403,10 +399,8 @@ class _CartScreenState extends State<CartScreen> {
     //  }
 
     var _cartProvider = Provider.of<Cart>(context, listen: false);
-
     Map<String, Object> data = new HashMap<String, Object>();
     data["order"] = _cartProvider.orderList;
-
     await cloudFunctions
         .getHttpsCallable(functionName: "placeOrder")
         .call(data)
@@ -417,11 +411,12 @@ class _CartScreenState extends State<CartScreen> {
       _cartProvider.clearCartAndOrders();
       Provider.of<Orders>(context, listen: false).getOrderStatus();
       orderPlaced = true;
-      Navigator.pop(context);
-      Navigator.pushReplacement(
+      Future.delayed(Duration.zero, () =>  Navigator.pop(context));
+      Future.delayed(Duration.zero, () =>   Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => OrdersScreen(widget.tableName)));
+              builder: (context) => OrdersScreen(widget.tableName))));
+
     }).catchError((error) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");

@@ -22,7 +22,7 @@ class _DineTabActiveState extends State<DineTabActive> {
   @override
   Widget build(BuildContext context) {
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
-
+    _ordersProvider.fetchData();
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -59,7 +59,7 @@ class _DineTabActiveState extends State<DineTabActive> {
                       ],
                     ),
                   ),
-                  Container(
+                  _ordersProvider.isOrderActive ?orderActive():Container(
                     padding: EdgeInsets.all(16),
                     child: Material(
                       borderRadius: BorderRadius.circular(8),
@@ -250,4 +250,15 @@ class MenuItemTile extends StatelessWidget {
       ),
     );
   }
+}
+
+
+Widget orderActive()
+ {
+  return Container(
+    color: Colors.pink,
+    width: 75,
+    height: 75,
+
+  );
 }
