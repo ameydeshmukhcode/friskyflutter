@@ -158,8 +158,10 @@ class _DineTabActiveState extends State<DineTabActive> {
 }
 
 class LastOrdersWidget extends StatelessWidget {
+  // ignore: non_constant_identifier_names
   final Session;
 
+  // ignore: non_constant_identifier_names
   const LastOrdersWidget({Key key, this.Session}) : super(key: key);
 
   @override
@@ -247,6 +249,7 @@ class LastOrdersWidget extends StatelessWidget {
 class StartOrderWidget extends StatelessWidget {
   // ignore: non_constant_identifier_names
   final Session;
+  // ignore: non_constant_identifier_names
   const StartOrderWidget({Key key,this.Session}) : super(key: key);
 
   @override
@@ -305,7 +308,9 @@ class StartOrderWidget extends StatelessWidget {
 
 class TableInfoWidget extends StatelessWidget {
 
+  // ignore: non_constant_identifier_names
   final Session;
+  // ignore: non_constant_identifier_names
   const TableInfoWidget({Key key, this.Session}) : super(key: key);
 
   @override
