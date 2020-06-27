@@ -406,18 +406,18 @@ class _CartScreenState extends State<CartScreen> {
         .call(data)
         .then((result) async {
       SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       await sharedPreferences.setBool("order_active", true);
       _cartProvider.clearCartAndOrders();
-      Provider.of<Orders>(context, listen: false).getOrderStatus();
       Provider.of<Orders>(context, listen: false).isOrderActive = true;
       orderPlaced = true;
-      Future.delayed(Duration.zero, () =>  Navigator.pop(context));
-      Future.delayed(Duration.zero, () =>   Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => OrdersScreen(widget.tableName))));
-
+      Future.delayed(Duration.zero, () => Navigator.pop(context));
+      Future.delayed(
+          Duration.zero,
+          () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => OrdersScreen(widget.tableName))));
     }).catchError((error) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Something went wrong.\nTry again.");

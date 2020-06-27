@@ -236,9 +236,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   _requestBill() async {
-    var _ordersProvider = Provider.of<Orders>(context, listen: true);
-    var _sessionProvider = Provider.of<Session>(context, listen: true);
-
+    var _ordersProvider = Provider.of<Orders>(context, listen: false);
+    var _sessionProvider = Provider.of<Session>(context, listen: false);
     Navigator.pop(context);
     showBillClearing();
     CloudFunctions cloudFunctions = CloudFunctions.instance;

@@ -118,9 +118,11 @@ class Orders extends ChangeNotifier {
     if (isOrderActive == null || isOrderActive == false) {
       isOrderActive = false;
       notifyListeners();
+      return false;
     } else {
       isOrderActive = true;
       notifyListeners();
+      return true;
     }
   }
 }

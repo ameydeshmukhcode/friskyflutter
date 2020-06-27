@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:friskyflutter/structures/order_item.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +21,13 @@ class DineTabActive extends StatefulWidget {
 class _DineTabActiveState extends State<DineTabActive> {
   String restaurantID;
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     var ordersProvider = Provider.of<Orders>(context, listen: true);
@@ -119,66 +127,80 @@ class LastOrdersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var ordersProvider = Provider.of<Orders>(context, listen: true);
     return Container(
        padding: const EdgeInsets.all(16.0),
+       height: 170,
+       width: double.maxFinite,
        child: Row(
          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          crossAxisAlignment: CrossAxisAlignment.center,
          children: <Widget>[
-           Column(
-             mainAxisAlignment: MainAxisAlignment.start,
-             children: <Widget>[
-               FAText("Last ordered items..", 20,
-                   FriskyColor.colorPrimary),
-               FAText("Chicken Biryani", 20,
-                   FriskyColor.colorTextLight),
-               FAText("Chicken Biryani", 20,
-                   FriskyColor.colorTextLight),
-               FAText("Chicken Biryani", 20,
-                   FriskyColor.colorTextLight),
-
-             ],
-           ),
-           Container(
-
-             child:  Material(
-               borderRadius: BorderRadius.circular(8),
-               color: FriskyColor.colorBadge,
-               child: InkWell(
-                 onTap: () {
-                   if (!Session.isBillRequested) {
-                     Navigator.push(
-                         context,
-                         MaterialPageRoute(
-                             builder: (context) => MenuScreen(
-                                 Session.restaurantName,
-                                 Session.tableName,
-                                 Session.sessionID,
-                                 Session.restaurantID)));
-                   }
-                 },
-                 child: Padding(
-                   padding: const EdgeInsets.all(16.0),
-                   child: Column(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-             SvgPicture.asset(
-                       'images/icons/ic_menu_dine.svg',
-                       height: 75,
-                       width: 75,
+           Flexible(
+             flex: 1,
+             child: Column(
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.center,
+               children: <Widget>[
+                 FAText("Last Orderd Item", 20,
+                     FriskyColor.colorPrimary),
+                 Flexible(
+                   child: ListView.builder(itemCount: ordersProvider.ordersList.length,
+                     itemBuilder: (BuildContext context, int index) {
+                       if (ordersProvider.ordersList[index] is OrderItem){
+                         OrderItem item = ordersProvider.ordersList[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(item.name,  style: TextStyle(fontFamily: "Varela", fontSize:16, color: FriskyColor.colorTextDark),textAlign: TextAlign.center,maxLines: 1,),
+                        );
+                       }
+                       return Container();
+                     },),
+                 ),
+               ],
              ),
-                       Padding(
-                         padding: const EdgeInsets.only(top:8.0),
-                         child: FAText(
-                             "Order More",
-                             18,
-                             Colors.white),
-                       ),
-           ],
+           ),
+           Flexible(
+             flex: 1,
+             child: Container(
+               child:  Material(
+                 borderRadius: BorderRadius.circular(8),
+                 color: FriskyColor.colorBadge,
+                 child: InkWell(
+                   onTap: () {
+                     if (!Session.isBillRequested) {
+                       Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                               builder: (context) => MenuScreen(
+                                   Session.restaurantName,
+                                   Session.tableName,
+                                   Session.sessionID,
+                                   Session.restaurantID)));
+                     }
+                   },
+                   child: Padding(
+                     padding: const EdgeInsets.all(16.0),
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+               SvgPicture.asset(
+                         'images/icons/ic_menu_dine.svg',
+                         width: 75,
+               ),
+                         Padding(
+                           padding: const EdgeInsets.only(top:8.0),
+                           child: FAText(
+                               "Order More",
+                               18,
+                               Colors.white),
+                         ),
+             ],
+                     ),
                    ),
                  ),
-               ),
-             ),),
+               ),),
+           ),
          ],
        ),
      );

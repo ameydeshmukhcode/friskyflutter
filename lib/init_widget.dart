@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,11 +25,34 @@ class _InitWidgetState extends State<InitWidget> {
       FlutterLocalNotificationsPlugin();
   Map<dynamic, dynamic> data;
 
+
+
+
+  _fetchData()async{
+    var _ordersProvider = Provider.of<Orders>(context, listen: false);
+   bool isOrderActive = await _ordersProvider.getOrderStatus();
+   print("Order Active "+isOrderActive.toString());
+   if(isOrderActive){
+     _ordersProvider.fetchData();
+   }
+//    if (_ordersProvider.ordersList.length == 0) {
+//      _ordersProvider.fetchData();
+//      print("orders = 0");
+//      return 0;
+//    } else {
+//      print("orders >0" +_ordersProvider.ordersList.toString());
+//      return _ordersProvider.ordersList.length;
+//
+//    }
+
+  }
+
+
   @override
   void initState() {
     super.initState();
     _fcmListeners();
-
+    _fetchData();
     var android = new AndroidInitializationSettings('icon_notif');
     var iOS = new IOSInitializationSettings();
     var initSettings = new InitializationSettings(android, iOS);
