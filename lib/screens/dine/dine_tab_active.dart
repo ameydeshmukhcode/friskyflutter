@@ -37,49 +37,52 @@ class _DineTabActiveState extends State<DineTabActive> {
           child: Consumer<Session>(
             // ignore: non_constant_identifier_names
             builder: (context, Session, child) {
-              return Column(
-                children: <Widget>[
-                  TableInfoWidget(Session: Session,),
-                  ordersProvider.isOrderActive ? LastOrdersWidget(Session: Session):StartOrderWidget(Session: Session,),
-                  Container(
+              return Stack(
+                children: [
+                  SingleChildScrollView(
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        FAText("The restaurant recommends...", 20,
-                            FriskyColor.colorPrimary),
-                        Padding(
-                          padding: EdgeInsets.only(top: 16),
-                        ),
+                        TableInfoWidget(Session: Session,),
+                        ordersProvider.isOrderActive ? LastOrdersWidget(Session: Session):StartOrderWidget(Session: Session,),
                         Container(
-                            decoration: BoxDecoration(color: Colors.black12),
-                            height: 160,
-                            child: FutureBuilder(
-                                future: _getRecommendedItems(),
-                                builder: (context, snapshot) {
-                                  // ignore: missing_return
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        valueColor:
-                                        new AlwaysStoppedAnimation<Color>(
-                                          FriskyColor.colorPrimary,
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    return ListView.builder(
-                                        itemCount: snapshot.data.length,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) {
-                                          return MenuItemTile(
-                                              snapshot.data[index].data['name'],
-                                              snapshot
-                                                  .data[index].data['cost']);
-                                        });
-                                  }
-                                })
-                          // ListView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              FAText("The restaurant recommends...", 20,
+                                  FriskyColor.colorPrimary),
+                              Padding(
+                                padding: EdgeInsets.only(top: 16),
+                              ),
+                              Container(
+                                  decoration: BoxDecoration(color: Colors.black12),
+                                  height: 160,
+                                  child: FutureBuilder(
+                                      future: _getRecommendedItems(),
+                                      builder: (context, snapshot) {
+                                        // ignore: missing_return
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                                FriskyColor.colorPrimary,
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return ListView.builder(
+                                              itemCount: snapshot.data.length,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder: (context, index) {
+                                                return MenuItemTile(
+                                                    snapshot.data[index].data['name'],
+                                                    snapshot
+                                                        .data[index].data['cost']);
+                                              });
+                                        }
+                                      })
+                                // ListView(
 //                            scrollDirection: Axis.horizontal,
 //                            //shrinkWrap: true,
 //                            children: <Widget>[
@@ -91,15 +94,49 @@ class _DineTabActiveState extends State<DineTabActive> {
 //                              MenuItemTile()
 //                            ],
 //                          ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  Visibility(
+                    visible: ordersProvider.isOrderActive,
+                    child: Align(
+                      alignment:Alignment.bottomCenter,
+                      child: Container(
+                         height: 100,
+
+                        width: double.maxFinite,
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              FAText("Your bill so far....",18,FriskyColor.colorPrimary),
+                              FAText("\u20B9" +ordersProvider.billAmount,24,FriskyColor.colorTextDark),
+                              FAText("(Click here to View Details)",10,FriskyColor.colorTextLight),
+
+                            ],
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               );
             },
           ),
-        ));
+        ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 100),
+        child: FloatingActionButton(onPressed: (){},
+          backgroundColor: Colors.white,
+          elevation: 10,
+          child: Icon(Icons.person,color: FriskyColor.colorTextLight,),
+        ),
+      ),
+    );
   }
 
 
