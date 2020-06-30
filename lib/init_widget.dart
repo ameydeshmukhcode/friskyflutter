@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'provider_models/session.dart';
+import 'provider_models/orders.dart';
 import 'screens/visits/visit_summary.dart';
 
 class InitWidget extends StatefulWidget {
@@ -24,11 +25,20 @@ class _InitWidgetState extends State<InitWidget> {
       FlutterLocalNotificationsPlugin();
   Map<dynamic, dynamic> data;
 
+  _fetchData() async {
+    var _ordersProvider = Provider.of<Orders>(context, listen: false);
+    bool isOrderActive = await _ordersProvider.getOrderStatus();
+    print("Order Active " + isOrderActive.toString());
+    if (isOrderActive) {
+      _ordersProvider.fetchData();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _fcmListeners();
-
+    _fetchData();
     var android = new AndroidInitializationSettings('icon_notif');
     var iOS = new IOSInitializationSettings();
     var initSettings = new InitializationSettings(android, iOS);

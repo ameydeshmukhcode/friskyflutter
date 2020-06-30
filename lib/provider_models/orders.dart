@@ -16,8 +16,8 @@ class Orders extends ChangeNotifier {
 
   fetchData() async {
     await getOrders().then((a) async {
-      await getBillDetails().then((a) {
-        notifyListeners();
+      await getBillDetails().then((a) async {
+        getOrderStatus().then((value) async => notifyListeners());
       });
     });
   }
@@ -118,9 +118,11 @@ class Orders extends ChangeNotifier {
     if (isOrderActive == null || isOrderActive == false) {
       isOrderActive = false;
       notifyListeners();
+      return false;
     } else {
       isOrderActive = true;
       notifyListeners();
+      return true;
     }
   }
 }

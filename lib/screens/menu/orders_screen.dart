@@ -26,7 +26,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   getListLength() {
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
-
     if (_ordersProvider.ordersList.length == 0) {
       _ordersProvider.fetchData();
       return 0;
@@ -38,13 +37,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
-
     return WillPopScope(
-      onWillPop: () {
-        Navigator.pop(context);
-
+      onWillPop: () async {
         _ordersProvider.resetOrdersList();
-        return _ordersProvider.resetBill();
+        _ordersProvider.resetBill();
+        Navigator.pop(context);
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -236,9 +234,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   _requestBill() async {
-    var _ordersProvider = Provider.of<Orders>(context, listen: true);
-    var _sessionProvider = Provider.of<Session>(context, listen: true);
-
+    var _ordersProvider = Provider.of<Orders>(context, listen: false);
+    var _sessionProvider = Provider.of<Session>(context, listen: false);
     Navigator.pop(context);
     showBillClearing();
     CloudFunctions cloudFunctions = CloudFunctions.instance;
