@@ -55,6 +55,7 @@ class _MenuScreenState extends State<MenuScreen> {
       await getItems();
     });
   }
+
   Future getItems() async {
     await firestore
         .collection("restaurants")
@@ -99,6 +100,7 @@ class _MenuScreenState extends State<MenuScreen> {
       await setupMenu();
     });
   }
+
   Future setupMenu() async {
     Provider.of<Orders>(context, listen: false).getOrderStatus();
     _menuList.clear();
@@ -129,10 +131,10 @@ class _MenuScreenState extends State<MenuScreen> {
     var _cartProvider = Provider.of<Cart>(context, listen: false);
 
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         Navigator.pop(context);
-       _cartProvider.clearCartAndOrders();
-       return true;
+        _cartProvider.clearCartAndOrders();
+        return true;
       },
       child: !_isLoading
           ? Scaffold(
@@ -261,51 +263,58 @@ class _MenuScreenState extends State<MenuScreen> {
                           ));
                     }
                     MenuItem menuItem = _menuList[index];
-                    return menuItem.available ?Padding(
-                      padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
-                      child: Row(
-                        children: <Widget>[
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    return menuItem.available
+                        ? Padding(
+                            padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+                            child: Row(
                               children: <Widget>[
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 10,
-                                      width: 10,
-                                      child: _typeIcon(menuItem),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                        child: FAText(menuItem.name, 14,
-                                            FriskyColor.colorTextDark),
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            height: 10,
+                                            width: 10,
+                                            child: _typeIcon(menuItem),
+                                          ),
+                                          Flexible(
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  4, 2, 4, 2),
+                                              child: FAText(menuItem.name, 14,
+                                                  FriskyColor.colorTextDark),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
+                                      FAText(
+                                          "\u20B9 " + menuItem.price.toString(),
+                                          14,
+                                          FriskyColor.colorTextDark),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 2, right: 4, bottom: 2),
+                                        child: FAText(menuItem.description, 12,
+                                            FriskyColor.colorTextLight),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                FAText("\u20B9 " + menuItem.price.toString(),
-                                    14, FriskyColor.colorTextDark),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 2, right: 4, bottom: 2),
-                                  child: FAText(menuItem.description, 12,
-                                      FriskyColor.colorTextLight),
-                                ),
+                                Center(
+                                  child:
+                                      _cartProvider.cartList.contains(menuItem)
+                                          ? _cartButtons(menuItem)
+                                          : _addButton(menuItem),
+                                )
                               ],
                             ),
-                          ),
-                          Center(
-                            child: _cartProvider.cartList.contains(menuItem)
-                                ? _cartButtons(menuItem)
-                                : _addButton(menuItem),
                           )
-                        ],
-                      ),
-                    ) : SizedBox.shrink();
+                        : SizedBox.shrink();
                   }),
             );
           }
@@ -379,7 +388,8 @@ class _MenuScreenState extends State<MenuScreen> {
               )),
         ),
         Visibility(
-          visible: _cartProvider.cartList.isEmpty && _ordersProvider.isOrderActive,
+          visible:
+              _cartProvider.cartList.isEmpty && _ordersProvider.isOrderActive,
           child: Container(
               margin: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
               child: Material(

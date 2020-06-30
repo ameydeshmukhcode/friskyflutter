@@ -7,11 +7,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:friskyflutter/provider_models/orders.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'provider_models/session.dart';
+import 'provider_models/orders.dart';
 import 'screens/visits/visit_summary.dart';
 
 class InitWidget extends StatefulWidget {
@@ -25,28 +25,14 @@ class _InitWidgetState extends State<InitWidget> {
       FlutterLocalNotificationsPlugin();
   Map<dynamic, dynamic> data;
 
-
-
-
-  _fetchData()async{
+  _fetchData() async {
     var _ordersProvider = Provider.of<Orders>(context, listen: false);
-   bool isOrderActive = await _ordersProvider.getOrderStatus();
-   print("Order Active "+isOrderActive.toString());
-   if(isOrderActive){
-     _ordersProvider.fetchData();
-   }
-//    if (_ordersProvider.ordersList.length == 0) {
-//      _ordersProvider.fetchData();
-//      print("orders = 0");
-//      return 0;
-//    } else {
-//      print("orders >0" +_ordersProvider.ordersList.toString());
-//      return _ordersProvider.ordersList.length;
-//
-//    }
-
+    bool isOrderActive = await _ordersProvider.getOrderStatus();
+    print("Order Active " + isOrderActive.toString());
+    if (isOrderActive) {
+      _ordersProvider.fetchData();
+    }
   }
-
 
   @override
   void initState() {

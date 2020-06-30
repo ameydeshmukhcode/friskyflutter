@@ -406,7 +406,7 @@ class _CartScreenState extends State<CartScreen> {
         .call(data)
         .then((result) async {
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       await sharedPreferences.setBool("order_active", true);
       _cartProvider.clearCartAndOrders();
       Provider.of<Orders>(context, listen: false).isOrderActive = true;

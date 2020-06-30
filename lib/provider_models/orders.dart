@@ -16,7 +16,7 @@ class Orders extends ChangeNotifier {
 
   fetchData() async {
     await getOrders().then((a) async {
-      await getBillDetails().then((a) async{
+      await getBillDetails().then((a) async {
         getOrderStatus().then((value) async => notifyListeners());
       });
     });

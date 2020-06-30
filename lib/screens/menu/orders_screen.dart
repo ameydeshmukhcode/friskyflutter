@@ -34,13 +34,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         _ordersProvider.resetOrdersList();
         _ordersProvider.resetBill();
         Navigator.pop(context);
