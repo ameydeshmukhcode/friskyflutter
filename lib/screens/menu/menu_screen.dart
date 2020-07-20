@@ -140,6 +140,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     var _cartProvider = Provider.of<Cart>(context, listen: false);
+
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);
@@ -148,41 +149,31 @@ class _MenuScreenState extends State<MenuScreen> {
       },
       child: !_isLoading
           ? Scaffold(
-              appBar: AppBar(
-                elevation: 0,
-                iconTheme: IconThemeData(color: Colors.black),
-                title: _isSearching ?_searchBar():_appBarTitle(),
-                backgroundColor: Colors.white,
-                actions: <Widget>[
-                 _isSearching ? IconButton( tooltip: "Cancel",
-                   icon: Icon(Icons.cancel),
-                   color: Colors.black,
-                   onPressed: () {
-                     //_cartProvider.clearCartAndOrders();
-                     _isSearching = false;
-                     filter="";
-                     controller.clear();
-                     setState(() {
-
-                     });
-                   },) : IconButton(
-                    tooltip: "Search",
-                    icon: Icon(Icons.search),
-                    color: Colors.black,
-                    onPressed: () {
-                      //_cartProvider.clearCartAndOrders();
-                      _isSearching = true;
-                      setState(() {
-
-                      });
-                    },
-                  )
-                ],
-              ),
-              backgroundColor: Colors.white,
+            backgroundColor: Colors.white,
               body: Flex(
                 direction: Axis.vertical,
                 children: <Widget>[
+               !_isSearching?  AppBar(
+                    elevation: 0,
+                    iconTheme: IconThemeData(color: Colors.black),
+                    title: _appBarTitle(),
+                    backgroundColor: Colors.white,
+                    actions: <Widget>[
+                   IconButton(
+                        tooltip: "Search",
+                        icon: Icon(Icons.search),
+                        color: Colors.black,
+                        onPressed: () {
+                          //_cartProvider.clearCartAndOrders();
+                          _isSearching = true;
+                          setState(() {
+
+                          });
+                        },
+                      )
+                    ],
+                  )
+                 : _searchBar(),
                   Center(
                     child: Container(
                       padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -619,21 +610,57 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
   Widget _searchBar(){
-    return PreferredSize(
-      child:  TextField(
-        controller: controller,
-        decoration: new InputDecoration(
-            border: new OutlineInputBorder(
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(10.0),
-              ),
-            ),
-            filled: false,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          height: MediaQuery.of(context).padding.top,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: (){
+                _isSearching = false;
+                filter="";
+                controller.clear();
+                setState(() {
 
-            hintStyle: new TextStyle(color: Colors.grey),
-            hintText: "Search Here",
-           ),
-      )
+                });
+              },
+            ),
+            Spacer(),
+            FAText(
+              'Search in Menu',
+              16,
+              FriskyColor.colorPrimary,
+            ),
+            Spacer(),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TextField(
+            cursorColor: FriskyColor.colorPrimary,
+            controller: controller,
+            decoration:InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(50.0),
+                  ),
+                  borderSide: BorderSide.none
+                ),
+              contentPadding: EdgeInsets.all(16),
+              filled: true,
+              fillColor: Color(0xffF0F0F0),
+                hintStyle: new TextStyle(color: FriskyColor.colorTextLight),
+                hintText: "Enter Dish",
+               ),
+          ),
+        ),
+      ],
     );
   }
   _typeIcon(MenuItem menuItem) {
