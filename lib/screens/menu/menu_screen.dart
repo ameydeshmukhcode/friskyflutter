@@ -280,7 +280,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   itemBuilder: (context, index) {
                     if (_menuList[index] is MenuCategory) {
                       MenuCategory menuCategory = _menuList[index];
-                      return Align(
+                      return !_isSearching ? Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(24, 4, 8, 4),
@@ -291,7 +291,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
                             ),
-                          ));
+                          )):SizedBox.shrink();
                     }
                     MenuItem menuItem = _menuList[index];
                     return menuItem.available
@@ -530,7 +530,6 @@ class _MenuScreenState extends State<MenuScreen> {
       ],
     );
   }
-
   Widget _cartButtons(MenuItem menuItem) {
     var _cartProvider = Provider.of<Cart>(context, listen: false);
 
@@ -600,7 +599,6 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
     );
   }
-
   Widget _addButton(MenuItem menuItem) {
     return Center(
       child: Container(
@@ -638,7 +636,6 @@ class _MenuScreenState extends State<MenuScreen> {
       )
     );
   }
-
   _typeIcon(MenuItem menuItem) {
     if (menuItem.dietType == DietType.NONE) {
       return SvgPicture.asset("images/icons/veg.svg");
