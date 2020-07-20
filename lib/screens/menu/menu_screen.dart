@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +35,11 @@ class _MenuScreenState extends State<MenuScreen> {
   List<dynamic> _menuList = List<dynamic>();
   HashMap<String, int> _categoryOrderMap = HashMap<String, int>();
   bool _isLoading = true;
+  bool _isSearching = false;
   ScrollController _scrollController;
   Future _finalMenuList;
+  TextEditingController controller = new TextEditingController();
+  String filter;
 
   Future getMenuData() async {
     await firestore
@@ -121,7 +125,14 @@ class _MenuScreenState extends State<MenuScreen> {
       setState(() {
         _isLoading = false;
       });
+
     });
+    controller.addListener(() {
+      setState(() {
+        filter = controller.text;
+      });
+    });
+
     _scrollController = new ScrollController();
     super.initState();
   }
@@ -129,7 +140,6 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     var _cartProvider = Provider.of<Cart>(context, listen: false);
-
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);
@@ -141,15 +151,30 @@ class _MenuScreenState extends State<MenuScreen> {
               appBar: AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: Colors.black),
-                title: _appBarTitle(),
+                title: _isSearching ?_searchBar():_appBarTitle(),
                 backgroundColor: Colors.white,
                 actions: <Widget>[
-                  IconButton(
-                    tooltip: "Clear cart",
-                    icon: Icon(Icons.clear_all),
+                 _isSearching ? IconButton( tooltip: "Cancel",
+                   icon: Icon(Icons.cancel),
+                   color: Colors.black,
+                   onPressed: () {
+                     //_cartProvider.clearCartAndOrders();
+                     _isSearching = false;
+                     filter="";
+                     controller.clear();
+                     setState(() {
+
+                     });
+                   },) : IconButton(
+                    tooltip: "Search",
+                    icon: Icon(Icons.search),
                     color: Colors.black,
                     onPressed: () {
-                      _cartProvider.clearCartAndOrders();
+                      //_cartProvider.clearCartAndOrders();
+                      _isSearching = true;
+                      setState(() {
+
+                      });
                     },
                   )
                 ],
@@ -191,6 +216,12 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   Widget _appBarTitle() {
@@ -264,7 +295,8 @@ class _MenuScreenState extends State<MenuScreen> {
                     }
                     MenuItem menuItem = _menuList[index];
                     return menuItem.available
-                        ? Padding(
+                        ?
+                    filter == null || filter == ""? Padding(
                             padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
                             child: Row(
                               children: <Widget>[
@@ -313,7 +345,58 @@ class _MenuScreenState extends State<MenuScreen> {
                                 )
                               ],
                             ),
+                          ):menuItem.name.toLowerCase().contains(filter.toLowerCase()) ?
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      child: _typeIcon(menuItem),
+                                    ),
+                                    Flexible(
+                                      child: Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            4, 2, 4, 2),
+                                        child: FAText(menuItem.name, 14,
+                                            FriskyColor.colorTextDark),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                FAText(
+                                    "\u20B9 " + menuItem.price.toString(),
+                                    14,
+                                    FriskyColor.colorTextDark),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 2, right: 4, bottom: 2),
+                                  child: FAText(menuItem.description, 12,
+                                      FriskyColor.colorTextLight),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Center(
+                            child:
+                            _cartProvider.cartList.contains(menuItem)
+                                ? _cartButtons(menuItem)
+                                : _addButton(menuItem),
                           )
+                        ],
+                      ),
+                    ):
+                    SizedBox.shrink()
                         : SizedBox.shrink();
                   }),
             );
@@ -535,6 +618,24 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ),
       ),
+    );
+  }
+  Widget _searchBar(){
+    return PreferredSize(
+      child:  TextField(
+        controller: controller,
+        decoration: new InputDecoration(
+            border: new OutlineInputBorder(
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(10.0),
+              ),
+            ),
+            filled: false,
+
+            hintStyle: new TextStyle(color: Colors.grey),
+            hintText: "Search Here",
+           ),
+      )
     );
   }
 
