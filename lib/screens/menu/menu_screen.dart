@@ -677,7 +677,7 @@ class _MenuScreenState extends State<MenuScreen> {
               contentPadding: EdgeInsets.all(16),
               filled: true,
               fillColor: Color(0xffF0F0F0),
-              hintStyle: new TextStyle(color: FriskyColor.colorTextLight),
+              hintStyle: new TextStyle( fontFamily: "Varela", fontSize: 16,color: FriskyColor.colorTextLight),
               hintText: "Enter Dish",
             ),
           ),
