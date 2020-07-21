@@ -38,7 +38,7 @@ class _MenuScreenState extends State<MenuScreen> {
   bool _isSearching = false;
   ScrollController _scrollController;
   Future _finalMenuList;
-  TextEditingController controller = new TextEditingController();
+  TextEditingController _searchBarController = new TextEditingController();
   String filter;
 
   Future getMenuData() async {
@@ -126,9 +126,9 @@ class _MenuScreenState extends State<MenuScreen> {
         _isLoading = false;
       });
     });
-    controller.addListener(() {
+    _searchBarController.addListener(() {
       setState(() {
-        filter = controller.text;
+        filter = _searchBarController.text;
       });
     });
 
@@ -209,7 +209,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   void dispose() {
-    controller.dispose();
+    _searchBarController.dispose();
     super.dispose();
   }
 
@@ -640,25 +640,26 @@ class _MenuScreenState extends State<MenuScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-
-           Expanded(
-
+            Expanded(
               child: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   _isSearching = false;
                   filter = "";
-                  controller.clear();
+                  _searchBarController.clear();
                   setState(() {});
-                },),
+                },
+              ),
             ),
-           const Spacer(),
+            const Spacer(),
             Text(
               'Search in Menu',
-             textAlign: TextAlign.center,
-             style: TextStyle(
-               fontFamily: "Varela", fontSize: 16, color:FriskyColor.colorPrimary,
-             ),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: "Varela",
+                fontSize: 16,
+                color: FriskyColor.colorPrimary,
+              ),
             ),
             const Spacer(flex: 2)
           ],
@@ -667,7 +668,7 @@ class _MenuScreenState extends State<MenuScreen> {
           padding: const EdgeInsets.all(16.0),
           child: TextField(
             cursorColor: FriskyColor.colorPrimary,
-            controller: controller,
+            controller: _searchBarController,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(
@@ -677,7 +678,10 @@ class _MenuScreenState extends State<MenuScreen> {
               contentPadding: EdgeInsets.all(16),
               filled: true,
               fillColor: Color(0xffF0F0F0),
-              hintStyle: new TextStyle( fontFamily: "Varela", fontSize: 16,color: FriskyColor.colorTextLight),
+              hintStyle: new TextStyle(
+                  fontFamily: "Varela",
+                  fontSize: 16,
+                  color: FriskyColor.colorTextLight),
               hintText: "Enter Dish",
             ),
           ),
