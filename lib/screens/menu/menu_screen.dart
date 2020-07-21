@@ -125,7 +125,6 @@ class _MenuScreenState extends State<MenuScreen> {
       setState(() {
         _isLoading = false;
       });
-
     });
     controller.addListener(() {
       setState(() {
@@ -149,31 +148,30 @@ class _MenuScreenState extends State<MenuScreen> {
       },
       child: !_isLoading
           ? Scaffold(
-            backgroundColor: Colors.white,
+              backgroundColor: Colors.white,
               body: Flex(
                 direction: Axis.vertical,
                 children: <Widget>[
-               !_isSearching?  AppBar(
-                    elevation: 0,
-                    iconTheme: IconThemeData(color: Colors.black),
-                    title: _appBarTitle(),
-                    backgroundColor: Colors.white,
-                    actions: <Widget>[
-                   IconButton(
-                        tooltip: "Search",
-                        icon: Icon(Icons.search),
-                        color: Colors.black,
-                        onPressed: () {
-                          //_cartProvider.clearCartAndOrders();
-                          _isSearching = true;
-                          setState(() {
-
-                          });
-                        },
-                      )
-                    ],
-                  )
-                 : _searchBar(),
+                  !_isSearching
+                      ? AppBar(
+                          elevation: 0,
+                          iconTheme: IconThemeData(color: Colors.black),
+                          title: _appBarTitle(),
+                          backgroundColor: Colors.white,
+                          actions: <Widget>[
+                            IconButton(
+                              tooltip: "Search",
+                              icon: Icon(Icons.search),
+                              color: Colors.black,
+                              onPressed: () {
+                                //_cartProvider.clearCartAndOrders();
+                                _isSearching = true;
+                                setState(() {});
+                              },
+                            )
+                          ],
+                        )
+                      : _searchBar(),
                   Center(
                     child: Container(
                       padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -271,123 +269,141 @@ class _MenuScreenState extends State<MenuScreen> {
                   itemBuilder: (context, index) {
                     if (_menuList[index] is MenuCategory) {
                       MenuCategory menuCategory = _menuList[index];
-                      return !_isSearching ? Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 4, 8, 4),
-                            child: Text(
-                              menuCategory.name,
-                              style: TextStyle(
-                                  fontFamily: "Varela",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )):SizedBox.shrink();
+                      return !_isSearching
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(24, 4, 8, 4),
+                                child: Text(
+                                  menuCategory.name,
+                                  style: TextStyle(
+                                      fontFamily: "Varela",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ))
+                          : SizedBox.shrink();
                     }
                     MenuItem menuItem = _menuList[index];
                     return menuItem.available
-                        ?
-                    filter == null || filter == ""? Padding(
-                            padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
-                            child: Row(
-                              children: <Widget>[
-                                Flexible(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
+                        ? filter == null || filter == ""
+                            ? Padding(
+                                padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+                                child: Row(
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Container(
-                                            height: 10,
-                                            width: 10,
-                                            child: _typeIcon(menuItem),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                height: 10,
+                                                width: 10,
+                                                child: _typeIcon(menuItem),
+                                              ),
+                                              Flexible(
+                                                child: Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      4, 2, 4, 2),
+                                                  child: FAText(
+                                                      menuItem.name,
+                                                      14,
+                                                      FriskyColor
+                                                          .colorTextDark),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          Flexible(
-                                            child: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  4, 2, 4, 2),
-                                              child: FAText(menuItem.name, 14,
-                                                  FriskyColor.colorTextDark),
-                                            ),
-                                          )
+                                          FAText(
+                                              "\u20B9 " +
+                                                  menuItem.price.toString(),
+                                              14,
+                                              FriskyColor.colorTextDark),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 2, right: 4, bottom: 2),
+                                            child: FAText(menuItem.description,
+                                                12, FriskyColor.colorTextLight),
+                                          ),
                                         ],
                                       ),
-                                      FAText(
-                                          "\u20B9 " + menuItem.price.toString(),
-                                          14,
-                                          FriskyColor.colorTextDark),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 2, right: 4, bottom: 2),
-                                        child: FAText(menuItem.description, 12,
-                                            FriskyColor.colorTextLight),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Center(
-                                  child:
-                                      _cartProvider.cartList.contains(menuItem)
+                                    ),
+                                    Center(
+                                      child: _cartProvider.cartList
+                                              .contains(menuItem)
                                           ? _cartButtons(menuItem)
                                           : _addButton(menuItem),
-                                )
-                              ],
-                            ),
-                          ):menuItem.name.toLowerCase().contains(filter.toLowerCase()) ?
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
-                      child: Row(
-                        children: <Widget>[
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 10,
-                                      width: 10,
-                                      child: _typeIcon(menuItem),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            4, 2, 4, 2),
-                                        child: FAText(menuItem.name, 14,
-                                            FriskyColor.colorTextDark),
-                                      ),
                                     )
                                   ],
                                 ),
-                                FAText(
-                                    "\u20B9 " + menuItem.price.toString(),
-                                    14,
-                                    FriskyColor.colorTextDark),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 2, right: 4, bottom: 2),
-                                  child: FAText(menuItem.description, 12,
-                                      FriskyColor.colorTextLight),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Center(
-                            child:
-                            _cartProvider.cartList.contains(menuItem)
-                                ? _cartButtons(menuItem)
-                                : _addButton(menuItem),
-                          )
-                        ],
-                      ),
-                    ):
-                    SizedBox.shrink()
+                              )
+                            : menuItem.name
+                                    .toLowerCase()
+                                    .contains(filter.toLowerCase())
+                                ? Padding(
+                                    padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Container(
+                                                    height: 10,
+                                                    width: 10,
+                                                    child: _typeIcon(menuItem),
+                                                  ),
+                                                  Flexible(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              4, 2, 4, 2),
+                                                      child: FAText(
+                                                          menuItem.name,
+                                                          14,
+                                                          FriskyColor
+                                                              .colorTextDark),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              FAText(
+                                                  "\u20B9 " +
+                                                      menuItem.price.toString(),
+                                                  14,
+                                                  FriskyColor.colorTextDark),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2,
+                                                    right: 4,
+                                                    bottom: 2),
+                                                child: FAText(
+                                                    menuItem.description,
+                                                    12,
+                                                    FriskyColor.colorTextLight),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Center(
+                                          child: _cartProvider.cartList
+                                                  .contains(menuItem)
+                                              ? _cartButtons(menuItem)
+                                              : _addButton(menuItem),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                : SizedBox.shrink()
                         : SizedBox.shrink();
                   }),
             );
@@ -521,6 +537,7 @@ class _MenuScreenState extends State<MenuScreen> {
       ],
     );
   }
+
   Widget _cartButtons(MenuItem menuItem) {
     var _cartProvider = Provider.of<Cart>(context, listen: false);
 
@@ -590,6 +607,7 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
     );
   }
+
   Widget _addButton(MenuItem menuItem) {
     return Center(
       child: Container(
@@ -609,7 +627,8 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
     );
   }
-  Widget _searchBar(){
+
+  Widget _searchBar() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -619,25 +638,29 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: (){
-                _isSearching = false;
-                filter="";
-                controller.clear();
-                setState(() {
 
-                });
-              },
+           Expanded(
+
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  _isSearching = false;
+                  filter = "";
+                  controller.clear();
+                  setState(() {});
+                },),
             ),
-            Spacer(),
-            FAText(
+           const Spacer(),
+            Text(
               'Search in Menu',
-              16,
-              FriskyColor.colorPrimary,
+             textAlign: TextAlign.center,
+             style: TextStyle(
+               fontFamily: "Varela", fontSize: 16, color:FriskyColor.colorPrimary,
+             ),
             ),
-            Spacer(),
+            const Spacer(flex: 2)
           ],
         ),
         Padding(
@@ -645,24 +668,24 @@ class _MenuScreenState extends State<MenuScreen> {
           child: TextField(
             cursorColor: FriskyColor.colorPrimary,
             controller: controller,
-            decoration:InputDecoration(
+            decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(50.0),
                   ),
-                  borderSide: BorderSide.none
-                ),
+                  borderSide: BorderSide.none),
               contentPadding: EdgeInsets.all(16),
               filled: true,
               fillColor: Color(0xffF0F0F0),
-                hintStyle: new TextStyle(color: FriskyColor.colorTextLight),
-                hintText: "Enter Dish",
-               ),
+              hintStyle: new TextStyle(color: FriskyColor.colorTextLight),
+              hintText: "Enter Dish",
+            ),
           ),
         ),
       ],
     );
   }
+
   _typeIcon(MenuItem menuItem) {
     if (menuItem.dietType == DietType.NONE) {
       return SvgPicture.asset("images/icons/veg.svg");
