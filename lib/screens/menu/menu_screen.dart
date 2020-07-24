@@ -319,7 +319,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     if(_isVEG||_isEGG){
-                      _sortedmenuList.clear();
+                      _sortedmenuList.removeRange(0, _sortedmenuList.length);
+                      print("Orignal list size before sorting = " + _menuList.length.toString());
+                      print("sorted list size before sorting = " + _sortedmenuList.length.toString());
                       _menuList.forEach((element) {
                         if(element is MenuCategory)
                           {
@@ -327,27 +329,29 @@ class _MenuScreenState extends State<MenuScreen> {
                           }
                         if(element is MenuItem){
                               MenuItem m = element;
-                              if(m.dietType == DietType.VEG && _isVEG){
+                              if((m.dietType == DietType.VEG && _isVEG )||(m.dietType == DietType.EGG && _isEGG)){
                                 _sortedmenuList.add(element);
-                                return;
                               }
-                             if(m.dietType == DietType.EGG && _isEGG){
-                                _sortedmenuList.add(element);
-                                return;
+                              else{
+                               _sortedmenuList.add("noItem");
                               }
-                              _sortedmenuList.add("noitem");
                         }
                       });
 
-                    }
-                    else{
-                      _sortedmenuList.clear();
-                       _menuList.forEach((element) {
-                         _sortedmenuList.add(element);
-                       });
+                      print("Orignal list size after sorting = " + _menuList.length.toString());
+                      print("sorted list size after sorting = " + _sortedmenuList.length.toString());
 
                     }
-                    if(_sortedmenuList[index]=="noitem"){
+                    else{
+                      _sortedmenuList.removeRange(0, _sortedmenuList.length);
+                      print("sorted list size before sorting in else= " + _sortedmenuList.length.toString());
+
+                      _menuList.forEach((element) {
+                         _sortedmenuList.add(element);
+                       });
+                      print("sorted list size after sorting in else= " + _sortedmenuList.length.toString());
+                    }
+                    if(_sortedmenuList[index]=="noItem"){
                       return SizedBox.shrink();
                     }
                     if (_sortedmenuList[index] is MenuCategory) {
