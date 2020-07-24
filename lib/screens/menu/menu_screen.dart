@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 
 import 'cart_screen.dart';
@@ -33,9 +34,12 @@ class _MenuScreenState extends State<MenuScreen> {
   HashMap<String, List<MenuItem>> _categoryItemListMap =
       new HashMap<String, List<MenuItem>>();
   List<dynamic> _menuList = List<dynamic>();
+  List<dynamic> _sortedmenuList = List<dynamic>();
   HashMap<String, int> _categoryOrderMap = HashMap<String, int>();
   bool _isLoading = true;
   bool _isSearching = false;
+  bool _isVEG = false;
+  bool _isEGG = false;
   ScrollController _scrollController;
   Future _finalMenuList;
   TextEditingController _searchBarController = new TextEditingController();
@@ -172,6 +176,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           ],
                         )
                       : _searchBar(),
+                  _dietOptions(),
                   Center(
                     child: Container(
                       padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -239,6 +244,52 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
+  Widget _dietOptions(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        FAText("Veg only",12,FriskyColor.colorTextLight),
+        SizedBox(width: 8,),
+        FlutterSwitch(
+          value: _isVEG,
+          activeColor: FriskyColor.colorPrimary,
+          padding:4,
+          height: 25,
+          width: 50,
+          onToggle: (val) {
+            setState(() {
+              _isVEG = val;
+            });
+            },
+        ),
+        Visibility(
+          visible: _isVEG,
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 16,),
+              FAText("Egg",12,FriskyColor.colorTextLight),
+              SizedBox(width: 8,),
+              FlutterSwitch(
+                value: _isEGG,
+                activeColor: FriskyColor.colorPrimary,
+                padding:4,
+                height: 25,
+                width: 50,
+                onToggle: (val) {
+                  setState(() {
+                    _isEGG = val;
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+        SizedBox(width: 20,),
+      ],
+    );
+  }
+
   Widget _menuItemsList() {
     var _cartProvider = Provider.of<Cart>(context, listen: true);
     var _ordersProvider = Provider.of<Orders>(context, listen: true);
@@ -267,8 +318,40 @@ class _MenuScreenState extends State<MenuScreen> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    if (_menuList[index] is MenuCategory) {
-                      MenuCategory menuCategory = _menuList[index];
+                    if(_isVEG||_isEGG){
+                      _sortedmenuList.clear();
+                      _menuList.forEach((element) {
+                        if(element is MenuCategory)
+                          {
+                            _sortedmenuList.add(element);
+                          }
+                        if(element is MenuItem){
+                              MenuItem m = element;
+                              if(m.dietType == DietType.VEG && _isVEG){
+                                _sortedmenuList.add(element);
+                                return;
+                              }
+                             if(m.dietType == DietType.EGG && _isEGG){
+                                _sortedmenuList.add(element);
+                                return;
+                              }
+                              _sortedmenuList.add("noitem");
+                        }
+                      });
+
+                    }
+                    else{
+                      _sortedmenuList.clear();
+                       _menuList.forEach((element) {
+                         _sortedmenuList.add(element);
+                       });
+
+                    }
+                    if(_sortedmenuList[index]=="noitem"){
+                      return SizedBox.shrink();
+                    }
+                    if (_sortedmenuList[index] is MenuCategory) {
+                      MenuCategory menuCategory = _sortedmenuList[index];
                       return !_isSearching
                           ? Align(
                               alignment: Alignment.centerLeft,
@@ -284,7 +367,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               ))
                           : SizedBox.shrink();
                     }
-                    MenuItem menuItem = _menuList[index];
+                    MenuItem menuItem = _sortedmenuList[index];
                     return menuItem.available
                         ? filter == null || filter == ""
                             ? Padding(
@@ -341,10 +424,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                   ],
                                 ),
                               )
-                            : menuItem.name
-                                    .toLowerCase()
-                                    .contains(filter.toLowerCase())
-                                ? Padding(
+                            : menuItem.name.toLowerCase().contains(filter.toLowerCase())
+                                ?Padding(
                                     padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
                                     child: Row(
                                       children: <Widget>[
@@ -403,8 +484,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                       ],
                                     ),
                                   )
-                                : SizedBox.shrink()
-                        : SizedBox.shrink();
+                                : SizedBox.shrink()///when item is not matched with filter black space
+                        : SizedBox.shrink(); ///when item is not available blank space
                   }),
             );
           }
