@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:friskyflutter/payment/dummy_payment.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -393,6 +394,17 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                   NavigationDrawerButton("Settings"),
                   NavigationDrawerButton("About"),
+        FlatButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DummyPayment()));
+        },
+        child: Container(
+        width: 200,
+        padding: EdgeInsets.fromLTRB(8, 16, 8, 16),
+        child: FAText("PAY NOW", 16, FriskyColor.colorTextDark),
+        ),
+        ),
                 ],
               ),
               FlatButton(
